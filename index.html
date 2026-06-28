@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garage Sale Route — Sat Jun 27</title>
+<title>Garage Sale Route — Sun Jun 28</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
   :root{
@@ -21,6 +21,8 @@
     background:var(--gold);color:#fff;text-decoration:none;text-align:center;
     font-size:17px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12)}
   .route-note{margin:0 18px 8px;color:var(--muted);font-size:12.5px}
+  .note-bar{margin:10px 18px 0;padding:11px 13px;border-radius:11px;background:#EFE7D7;
+    color:#5b5346;font-size:13px;border:1px solid var(--line)}
   .legend{margin:6px 18px 0;font-size:12.5px;color:var(--muted)}
   .legend b{color:var(--hit)}
   .legend i{color:var(--flag);font-style:normal}
@@ -58,206 +60,68 @@
 </head>
 <body>
 <header>
-  <h1>Saturday Garage Sale Route</h1>
-  <p class="sub">Sat, Jun 27, 2026 · starting in Lewisburg · Columbia · Spring Hill + corridor</p>
+  <h1>Sunday Garage Sale Route</h1>
+  <p class="sub">Sun, Jun 28, 2026 · Columbia → Thompsons Station</p>
 </header>
 
-<a class="route-btn" href="https://www.google.com/maps/dir/?api=1&origin=111+Public+Square,Lewisburg,TN+37091&destination=Culleoka,TN+38451&travelmode=driving&waypoints=1495+Wallace+Thompson+Rd,Lewisburg,TN+37091%7C1610+Cedar+Grove+Rd,Chapel+Hill,TN+37034%7CFischer+Park,Spring+Hill,TN%7C223+Stonewall+Dr,Columbia,TN+38401%7C1239+Hartsfield+Dr,Columbia,TN%7C401+Mockingbird+Dr,Mount+Pleasant,TN+38474%7C1133+N+Main+St,Mount+Pleasant,TN+38474">🗺️ Open Full Route in Google Maps</a>
-<p class="route-note">Route: Lewisburg → Chapel Hill → Spring Hill → Columbia → Mount Pleasant → home. Hit Lewisburg at open, run north to the fresher Spring Hill/Chapel Hill finds, sweep Columbia + Mount Pleasant on the way home.</p>
+<a class="route-btn" href="https://www.google.com/maps/dir/?api=1&origin=Culleoka,TN+38451&destination=Culleoka,TN+38451&travelmode=driving&waypoints=801+Running+Deer+Dr,Columbia,TN+38401%7C1239+Hartsfield+Dr,Columbia,TN+38401%7C3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179">🗺️ Open Full Route in Google Maps</a>
+<p class="route-note">Route: home → two Columbia stops (open 8am) → push north to the Thompsons Station tobacco barn for its 10am open + half-price final day → sweep home. The barn is the marquee stop and it's worth the drive; the two Columbia sales are en route.</p>
+
+<div class="note-bar"><b>Light Sunday.</b> Most weekend sales closed Saturday. Only one in-scope sale is firmly confirmed for today (the tobacco barn — final day, 50% off). The two Columbia stops are still listed but don't state Sunday hours — tap through and confirm before you drive.</div>
 
 <div id="map"></div>
-<p class="map-cap">Tap any pin for details + one-tap navigation. Numbers match the stops below. Green = fishing/workout gear · red = unverified.</p>
+<p class="map-cap">Tap any pin for details + one-tap navigation. Numbers match the stops below. Gold = confirmed · red = unverified date.</p>
 
 <p class="legend"><b>🎣 = fishing gear</b> · <b>🏋️ = workout gear</b> · <i>⚠ = unverified, confirm first</i></p>
 
-<div class="stop-head">① Start — Lewisburg</div>
+<div class="stop-head">① Columbia</div>
 
 <div class="card">
-  <h2><span class="num">1</span>Estate Sale on the Lewisburg Square</h2>
-  <p class="meta"><span class="badge">ESTATE</span> Sat 7am–3pm · $1+ · cash/check</p>
-  <p class="addr">📍 The 111 Venue, Public Square, Lewisburg 37091</p>
-  <p class="items">Indoors. Vintage lamps, baskets, china (Fiesta/Mikasa/Fire King), clocks, world globes, vintage toys, bowling case, glassware, framed art.</p>
+  <h2><span class="num flag">1</span>Multi-Family Community Yard Sales ⚠</h2>
+  <p class="meta"><span class="badge">MULTI-FAMILY</span> <span class="flag">listed Sat · "rain or shine" · no Sun hours stated — confirm</span></p>
+  <p class="addr">📍 801 Running Deer Dr, Columbia 38401 (GPS to 801, follow the signs)</p>
+  <p class="items">Several homes on Running Deer — community-wide. Seller: "treasures!" Listed Saturday with no end date, so it <span class="flag">may or may not run today</span>. Message before driving.</p>
   <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=111+Public+Square,Lewisburg,TN+37091">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/item/2506828123073173/">Facebook</a>
+    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=801+Running+Deer+Dr,Columbia,TN+38401">Navigate</a>
+    <a class="fb" href="https://www.facebook.com/marketplace/item/1464498278781135/">Facebook</a>
   </div>
 </div>
 
 <div class="card">
-  <h2><span class="num">2</span>5 Family Yard Sale</h2>
-  <p class="meta"><span class="badge">MULTI-FAMILY</span> Sat 8am–2pm · $25</p>
-  <p class="addr">📍 1495 Wallace Thompson Rd, Lewisburg 37091</p>
-  <p class="items">Toys, <span class="hit">music equipment</span>, household items, clothes, books.</p>
+  <h2><span class="num flag">2</span>Spring Garage Sale ⚠</h2>
+  <p class="meta"><span class="badge">GARAGE</span> <span class="flag">seller says "today 8am–4pm" · relisted daily — confirm</span></p>
+  <p class="addr">📍 1239 Hartsfield Dr, Columbia 38401</p>
+  <p class="items">New items, some "Eastern" items for $1. The post says "today 8am–4pm" but it's relisted most days, so the <span class="flag">date is soft</span> — verify it's running before you stop.</p>
   <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=1495+Wallace+Thompson+Rd,Lewisburg,TN+37091">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/item/1336040781390144/">Facebook</a>
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="num">3</span>Yard Sale (recurring Saturdays)</h2>
-  <p class="meta"><span class="badge">YARD</span> Sat morning</p>
-  <p class="addr">📍 2940 Franklin Pike, Lewisburg</p>
-  <p class="items">Runs most Saturdays — light details posted.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=2940+Franklin+Pike,Lewisburg,TN">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/columbia-tn/search?query=garage%20sale">Facebook</a>
-  </div>
-</div>
-
-<div class="stop-head">② Chapel Hill</div>
-
-<div class="card">
-  <h2><span class="num hit">4</span>Estate + Multiple Family Sale 🏋️</h2>
-  <p class="meta"><span class="badge">ESTATE</span> Fri & Sat 7am–3pm · cash only</p>
-  <p class="addr">📍 1610 Cedar Grove Rd, Chapel Hill 37034</p>
-  <p class="items">Antiques (100+ yrs), milk &amp; depression glass, cast iron, wood-burning stove, German &amp; Korean pieces, farm items, <span class="hit">exercise bike shown in the photos</span>, motorized chair.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=1610+Cedar+Grove+Rd,Chapel+Hill,TN+37034">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/item/1325398792434743/">Facebook</a>
-  </div>
-</div>
-
-<div class="stop-head">③ Spring Hill</div>
-
-<div class="card">
-  <h2><span class="num">5</span>Community Yard Sale (Deerfield)</h2>
-  <p class="meta"><span class="badge">COMMUNITY</span> Fri &amp; Sat · multiple homes</p>
-  <p class="addr">📍 Deerfield neighborhood, next to Fischer Park, Spring Hill</p>
-  <p class="items">Neighborhood-wide, multiple houses. Pin is at Fischer Park — head there and follow the signs.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=Fischer+Park,Spring+Hill,TN">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/item/1002004532693624/">Facebook</a>
-  </div>
-</div>
-
-<div class="stop-head">④ Columbia</div>
-
-<div class="card">
-  <h2><span class="num">6</span>GORGEOUS Columbia Estate Sale ★</h2>
-  <p class="meta"><span class="badge">ESTATE</span> Final day Sat · go before noon</p>
-  <p class="addr">📍 Columbia 38401 (exact address on the listing)</p>
-  <p class="items">Highest-signal estate today: Waterford, Fenton, pottery, Steiff, designer clothes, antiques, vintage, patio furniture, yard art. Pin is approximate (city center) — get the exact spot from the listing.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=Columbia,TN+38401">Navigate</a>
-    <a class="fb" href="https://gsalr.com/gorgeous-columbia-estate-sale-columbia-tn-38793895.html">Listing</a>
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="num">7</span>Garage Sale — 8:00 AM</h2>
-  <p class="meta"><span class="badge">GARAGE</span> Sat 8am</p>
-  <p class="addr">📍 223 Stonewall Dr, Columbia 38401</p>
-  <p class="items">General garage sale, exact address posted.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=223+Stonewall+Dr,Columbia,TN+38401">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/columbia-tn/search?query=garage%20sale">Facebook</a>
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="num">8</span>Spring Garage Sale</h2>
-  <p class="meta"><span class="badge">GARAGE</span> Today 8am–4pm</p>
-  <p class="addr">📍 1239 Hartsfield Dr, Columbia</p>
-  <p class="items">New items, lots of shoes/sandals, some $1 deals.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=1239+Hartsfield+Dr,Columbia,TN">Navigate</a>
+    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=1239+Hartsfield+Dr,Columbia,TN+38401">Navigate</a>
     <a class="fb" href="https://www.facebook.com/marketplace/item/2235831023898279/">Facebook</a>
   </div>
 </div>
 
-<div class="card">
-  <h2><span class="num">9</span>!! Yard Sale</h2>
-  <p class="meta"><span class="badge">YARD</span> Sat</p>
-  <p class="addr">📍 3013 McIntire Dr, Columbia</p>
-  <p class="items">Exact address posted, light details.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=3013+McIntire+Dr,Columbia,TN">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/columbia-tn/search?query=garage%20sale">Facebook</a>
-  </div>
-</div>
+<div class="stop-head">② Thompsons Station</div>
 
 <div class="card">
-  <h2><span class="num">10</span>Community Garage Sale</h2>
-  <p class="meta"><span class="badge">MULTI-FAMILY</span> Fri–Sat</p>
-  <p class="addr">📍 205 Boson Ct, Columbia 38401</p>
-  <p class="items">Multi-family — furniture, jewelry, antiques, tech, toys, clothes. Pin approximate (Columbia).</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=205+Boson+Ct,Columbia,TN+38401">Navigate</a>
-    <a class="fb" href="https://gsalr.com/community-garage-sale-columbia-tn-38817729.html">Listing</a>
-  </div>
-</div>
-
-<div class="stop-head">⑤ Mount Pleasant</div>
-
-<div class="card">
-  <h2><span class="num hit">11</span>Multi-Family Yard/Garage Sale 🎣</h2>
-  <p class="meta"><span class="badge">MULTI-FAMILY</span> Thu–Sat 7am–2pm</p>
-  <p class="addr">📍 401 Mockingbird Dr, Mount Pleasant 38474</p>
-  <p class="items"><span class="hit">Fishing gear + bait</span>, <span class="hit">softball equipment + bleacher chairs</span>, tools, tool boxes, chain saw, furniture, clothes, jewelry, prom dresses. "You name it — we most likely have it."</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=401+Mockingbird+Dr,Mount+Pleasant,TN+38474">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/item/1380568463922829/">Facebook</a>
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="num">12</span>Huge 6-Family Yard Sale</h2>
-  <p class="meta"><span class="badge">MULTI-FAMILY</span> Sat 7am–?</p>
-  <p class="addr">📍 1133 N Main St, Mount Pleasant</p>
-  <p class="items">6 families, kids items (Squishmallows, Need-Oh), general.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=1133+N+Main+St,Mount+Pleasant,TN+38474">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/columbia-tn/search?query=garage%20sale">Facebook</a>
-  </div>
-</div>
-
-<div class="stop-head">Optional — Thompsons Station (north end)</div>
-
-<div class="card">
-  <h2><span class="num">13</span>Tobacco Barn Full of Antiques</h2>
-  <p class="meta"><span class="badge">ESTATE</span> Fri–Sun · collector</p>
+  <h2><span class="num">3</span>Tobacco Barn Full of Antiques ★</h2>
+  <p class="meta"><span class="badge">ESTATE</span> Sun 10am–2pm · <span class="hit">50% OFF — final day</span> · cash</p>
   <p class="addr">📍 3976 Johnson Hollow Rd, Thompsons Station 37179</p>
-  <p class="items">Antiques inside an original Tennessee tobacco barn — best "treasure hunt" of the corridor if you push north.</p>
+  <p class="items">The marquee stop and the only firmly-confirmed sale today. Old-fashioned estate sale inside an original Tennessee tobacco barn, packed with antiques — furniture (some 100+ yrs), milk &amp; depression glass, cast iron, art, German &amp; Korean pieces, farm items, household décor. 140 photos posted. Half price on the final day in an affluent corridor — best value of the day.</p>
   <div class="btns">
     <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179">Navigate</a>
-    <a class="fb" href="https://gsalr.com/tobacco-barn-full-of-thompsons-station-tn-38817623.html">Listing</a>
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="num flag">14</span>Estate Sale ⚠</h2>
-  <p class="meta"><span class="badge">ESTATE</span> <span class="flag">date conflict — verify</span></p>
-  <p class="addr">📍 2117 Parliament Dr, Thompsons Station</p>
-  <p class="items">Title says June 27, 8am–2pm but the post body says <span class="flag">July 20</span>. Message the seller before driving.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=2117+Parliament+Dr,Thompsons+Station,TN">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/item/1302281084952867/">Facebook</a>
+    <a class="fb" href="https://gsalr.com/50-off-at-thompson-thompsons-station-tn-38817623.html">Listing</a>
   </div>
 </div>
 
 <footer>
-  Sources: Facebook Marketplace (logged-in), gsalr.com, EstateSales.org. Facebook addresses are seller-posted; "approximate" pins resolve to neighborhood center until you confirm. Sales can sell out or cancel without updating — tap Facebook/Listing to verify before you drive.
+  Sources: gsalr.com, EstateSales.org, Craigslist, Facebook Marketplace (logged-in). Sunday is a quiet day — most Fri/Sat sales have closed. Facebook addresses are seller-posted; "approximate"/community pins resolve to the listed address until you confirm. Sales can sell out or cancel without updating — tap Facebook/Listing to verify before you drive.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
   var GOLD="#B8893B", HIT="#2E6B4F", FLAG="#A23B2E", INK="#1C1A17";
   var stops=[
-    [1,"Estate Sale — Lewisburg Square",35.44890,-86.78711,GOLD,"111+Public+Square,Lewisburg,TN+37091"],
-    [2,"5 Family Yard Sale (music gear)",35.504607,-86.753473,GOLD,"1495+Wallace+Thompson+Rd,Lewisburg,TN+37091"],
-    [3,"Yard Sale — Franklin Pike",35.556190,-86.830921,GOLD,"2940+Franklin+Pike,Lewisburg,TN"],
-    [4,"Chapel Hill Estate (exercise bike)",35.661352,-86.598996,HIT,"1610+Cedar+Grove+Rd,Chapel+Hill,TN+37034"],
-    [5,"Spring Hill Community (Fischer Park)",35.757954,-86.882808,GOLD,"Fischer+Park,Spring+Hill,TN"],
-    [6,"GORGEOUS Columbia Estate (approx)",35.6151,-87.0353,GOLD,"Columbia,TN+38401"],
-    [7,"Garage Sale — 223 Stonewall Dr",35.589445,-87.105863,GOLD,"223+Stonewall+Dr,Columbia,TN+38401"],
-    [8,"Spring Garage Sale — 1239 Hartsfield Dr",35.625145,-86.982318,GOLD,"1239+Hartsfield+Dr,Columbia,TN"],
-    [9,"Yard Sale — 3013 McIntire Dr",35.598898,-87.090686,GOLD,"3013+McIntire+Dr,Columbia,TN"],
-    [10,"Community Garage Sale — Boson Ct (approx)",35.6151,-87.0353,GOLD,"205+Boson+Ct,Columbia,TN+38401"],
-    [11,"Multi-Family — 401 Mockingbird Dr (fishing)",35.548024,-87.201916,HIT,"401+Mockingbird+Dr,Mount+Pleasant,TN+38474"],
-    [12,"Huge 6-Family — 1133 N Main St",35.553089,-87.188336,GOLD,"1133+N+Main+St,Mount+Pleasant,TN+38474"],
-    [13,"Tobacco Barn Antiques",35.814337,-87.014713,GOLD,"3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179"],
-    [14,"Estate Sale — Parliament Dr (verify date)",35.767684,-86.899879,FLAG,"2117+Parliament+Dr,Thompsons+Station,TN"]
+    [1,"Multi-Family Community Yard Sales (verify date)",35.606451,-86.971568,FLAG,"801+Running+Deer+Dr,Columbia,TN+38401"],
+    [2,"Spring Garage Sale — 1239 Hartsfield Dr (verify date)",35.625145,-86.982318,FLAG,"1239+Hartsfield+Dr,Columbia,TN+38401"],
+    [3,"Tobacco Barn Antiques — 50% off final day",35.814337,-87.014713,GOLD,"3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179"]
   ];
   var HOME=[35.4548,-86.9036];
   var map=L.map('map',{scrollWheelZoom:false});
