@@ -23,10 +23,23 @@
   .route-note{margin:0 18px 8px;color:var(--muted);font-size:12.5px}
   .note-bar{margin:10px 18px 0;padding:11px 13px;border-radius:11px;background:#EFE7D7;
     color:#5b5346;font-size:13px;border:1px solid var(--line)}
+  /* search + filter */
+  .search-wrap{margin:14px 18px 0;position:relative}
+  #q{width:100%;padding:13px 38px 13px 14px;border-radius:12px;border:1px solid var(--line);
+    background:#fff;font-size:15px;font-family:inherit;color:var(--ink)}
+  #q:focus{outline:none;border-color:var(--gold)}
+  .clr{position:absolute;right:12px;top:50%;transform:translateY(-50%);border:none;background:none;
+    font-size:18px;color:var(--muted);cursor:pointer;display:none;line-height:1}
+  .chips{display:flex;gap:7px;overflow-x:auto;padding:11px 18px 2px;-webkit-overflow-scrolling:touch}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;padding:7px 13px;border-radius:20px;border:1px solid var(--line);
+    background:#fff;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .chip.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .count{margin:6px 18px 0;font-size:12.5px;color:var(--muted)}
   .legend{margin:6px 18px 0;font-size:12.5px;color:var(--muted)}
   .legend b{color:var(--hit)}
   .legend i{color:var(--flag);font-style:normal}
-  #map{height:360px;margin:14px 18px 4px;border-radius:14px;border:1px solid var(--line);
+  #map{height:340px;margin:12px 18px 4px;border-radius:14px;border:1px solid var(--line);
     box-shadow:0 1px 3px rgba(0,0,0,.06);z-index:0}
   .map-cap{margin:0 18px 10px;font-size:12px;color:var(--muted)}
   .pin{display:flex;align-items:center;justify-content:center;width:26px;height:26px;
@@ -42,16 +55,21 @@
     background:var(--gold);color:#fff;border-radius:50%;font-size:12px;font-weight:700;margin-right:7px}
   .num.hit{background:var(--hit)} .num.flag{background:var(--flag)}
   .meta{font-size:13px;color:var(--muted);margin:0 0 8px}
+  .meta.flag{color:var(--flag);font-weight:600} .meta.hit{color:var(--hit);font-weight:600}
   .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
     background:#EFE7D7;color:var(--gold);margin-right:6px;vertical-align:middle}
   .addr{font-size:14px;font-weight:600;margin:0 0 8px}
-  .items{font-size:13.5px;color:#3a352e;margin:0 0 12px}
-  .hit{color:var(--hit);font-weight:700}
-  .flag{color:var(--flag);font-weight:700}
-  .btns{display:flex;gap:8px}
-  .btns a{flex:1;text-align:center;padding:11px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600}
+  .items{font-size:13.5px;color:#3a352e;margin:0 0 10px}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 12px}
+  .tag{font-size:11px;padding:2px 8px;border-radius:6px;background:#F1EADC;color:#7a6f5c;font-weight:600}
+  .btns{display:flex;gap:7px;flex-wrap:wrap}
+  .btns a{flex:1 1 30%;min-width:92px;text-align:center;padding:11px 6px;border-radius:10px;
+    text-decoration:none;font-size:13.5px;font-weight:600}
   .map-btn{background:var(--ink);color:#fff}
+  .cal{background:var(--gold);color:#fff}
   .fb{background:#EDE6D9;color:var(--ink)}
+  .empty{margin:24px 18px;padding:22px;text-align:center;color:var(--muted);
+    background:var(--card);border:1px dashed var(--line);border-radius:14px;display:none}
   .leaflet-popup-content{font-family:inherit;font-size:13px;margin:10px 12px}
   .leaflet-popup-content b{font-size:13.5px}
   .leaflet-popup-content a{color:var(--gold);font-weight:700}
@@ -64,83 +82,156 @@
   <p class="sub">Sun, Jun 28, 2026 · Columbia → Thompsons Station</p>
 </header>
 
-<a class="route-btn" href="https://www.google.com/maps/dir/?api=1&origin=Culleoka,TN+38451&destination=Culleoka,TN+38451&travelmode=driving&waypoints=801+Running+Deer+Dr,Columbia,TN+38401%7C1239+Hartsfield+Dr,Columbia,TN+38401%7C3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179">🗺️ Open Full Route in Google Maps</a>
-<p class="route-note">Route: home → two Columbia stops (open 8am) → push north to the Thompsons Station tobacco barn for its 10am open + half-price final day → sweep home. The barn is the marquee stop and it's worth the drive; the two Columbia sales are en route.</p>
+<a class="route-btn" id="routeBtn" href="#">🗺️ Open Full Route in Google Maps</a>
+<p class="route-note">Route: home → two Columbia stops (open 8am) → push north to the Thompsons Station tobacco barn for its 10am open + half-price final day → sweep home. The barn is the marquee stop.</p>
 
-<div class="note-bar"><b>Light Sunday.</b> Most weekend sales closed Saturday. Only one in-scope sale is firmly confirmed for today (the tobacco barn — final day, 50% off). The two Columbia stops are still listed but don't state Sunday hours — tap through and confirm before you drive.</div>
+<div class="note-bar"><b>Light Sunday.</b> Most weekend sales closed Saturday. Only the tobacco barn is firmly confirmed today (final day, 50% off). The two Columbia stops are still listed but don't state Sunday hours — confirm before you drive.</div>
+
+<div class="search-wrap">
+  <input id="q" placeholder="Search items — golf, furniture, tools, fishing…" autocomplete="off">
+  <button class="clr" id="clr" aria-label="clear">✕</button>
+</div>
+<div class="chips" id="chips"></div>
+<p class="count" id="count"></p>
 
 <div id="map"></div>
-<p class="map-cap">Tap any pin for details + one-tap navigation. Numbers match the stops below. Gold = confirmed · red = unverified date.</p>
+<p class="map-cap">Tap any pin for details + one-tap navigation. Search/filter updates the pins too. Gold = confirmed · red = unverified date.</p>
 
 <p class="legend"><b>🎣 = fishing gear</b> · <b>🏋️ = workout gear</b> · <i>⚠ = unverified, confirm first</i></p>
 
-<div class="stop-head">① Columbia</div>
-
-<div class="card">
-  <h2><span class="num flag">1</span>Multi-Family Community Yard Sales ⚠</h2>
-  <p class="meta"><span class="badge">MULTI-FAMILY</span> <span class="flag">listed Sat · "rain or shine" · no Sun hours stated — confirm</span></p>
-  <p class="addr">📍 801 Running Deer Dr, Columbia 38401 (GPS to 801, follow the signs)</p>
-  <p class="items">Several homes on Running Deer — community-wide. Seller: "treasures!" Listed Saturday with no end date, so it <span class="flag">may or may not run today</span>. Message before driving.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=801+Running+Deer+Dr,Columbia,TN+38401">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/item/1464498278781135/">Facebook</a>
-  </div>
-</div>
-
-<div class="card">
-  <h2><span class="num flag">2</span>Spring Garage Sale ⚠</h2>
-  <p class="meta"><span class="badge">GARAGE</span> <span class="flag">seller says "today 8am–4pm" · relisted daily — confirm</span></p>
-  <p class="addr">📍 1239 Hartsfield Dr, Columbia 38401</p>
-  <p class="items">New items, some "Eastern" items for $1. The post says "today 8am–4pm" but it's relisted most days, so the <span class="flag">date is soft</span> — verify it's running before you stop.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=1239+Hartsfield+Dr,Columbia,TN+38401">Navigate</a>
-    <a class="fb" href="https://www.facebook.com/marketplace/item/2235831023898279/">Facebook</a>
-  </div>
-</div>
-
-<div class="stop-head">② Thompsons Station</div>
-
-<div class="card">
-  <h2><span class="num">3</span>Tobacco Barn Full of Antiques ★</h2>
-  <p class="meta"><span class="badge">ESTATE</span> Sun 10am–2pm · <span class="hit">50% OFF — final day</span> · cash</p>
-  <p class="addr">📍 3976 Johnson Hollow Rd, Thompsons Station 37179</p>
-  <p class="items">The marquee stop and the only firmly-confirmed sale today. Old-fashioned estate sale inside an original Tennessee tobacco barn, packed with antiques — furniture (some 100+ yrs), milk &amp; depression glass, cast iron, art, German &amp; Korean pieces, farm items, household décor. 140 photos posted. Half price on the final day in an affluent corridor — best value of the day.</p>
-  <div class="btns">
-    <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179">Navigate</a>
-    <a class="fb" href="https://gsalr.com/50-off-at-thompson-thompsons-station-tn-38817623.html">Listing</a>
-  </div>
-</div>
+<div id="cards"></div>
+<div class="empty" id="empty"></div>
 
 <footer>
-  Sources: gsalr.com, EstateSales.org, Craigslist, Facebook Marketplace (logged-in). Sunday is a quiet day — most Fri/Sat sales have closed. Facebook addresses are seller-posted; "approximate"/community pins resolve to the listed address until you confirm. Sales can sell out or cancel without updating — tap Facebook/Listing to verify before you drive.
+  Sources: gsalr.com, EstateSales.org, Craigslist, Facebook Marketplace (logged-in). Sunday is a quiet day — most Fri/Sat sales have closed. Facebook addresses are seller-posted; community pins resolve to the listed address until you confirm. Sales can sell out or cancel without updating — tap Facebook/Listing to verify before you drive.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-  var GOLD="#B8893B", HIT="#2E6B4F", FLAG="#A23B2E", INK="#1C1A17";
-  var stops=[
-    [1,"Multi-Family Community Yard Sales (verify date)",35.606451,-86.971568,FLAG,"801+Running+Deer+Dr,Columbia,TN+38401"],
-    [2,"Spring Garage Sale — 1239 Hartsfield Dr (verify date)",35.625145,-86.982318,FLAG,"1239+Hartsfield+Dr,Columbia,TN+38401"],
-    [3,"Tobacco Barn Antiques — 50% off final day",35.814337,-87.014713,GOLD,"3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179"]
-  ];
-  var HOME=[35.4548,-86.9036];
-  var map=L.map('map',{scrollWheelZoom:false});
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    maxZoom:19, attribution:'© OpenStreetMap'}).addTo(map);
-  function pin(n,color){
-    return L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'"><span>'+n+'</span></div>',
-      iconSize:[26,26], iconAnchor:[13,26], popupAnchor:[0,-24]});
+var GOLD="#B8893B", HIT="#2E6B4F", FLAG="#A23B2E", INK="#1C1A17";
+var TZ="America/Chicago";
+var HOME=[35.4548,-86.9036];
+
+// Single source of truth for today's sales.
+var sales=[
+ {id:1, name:"Multi-Family Community Yard Sales", type:"MULTI-FAMILY", section:"Columbia",
+  addr:"801 Running Deer Dr, Columbia 38401 (GPS to 801, follow the signs)",
+  q:"801+Running+Deer+Dr,Columbia,TN+38401", lat:35.606451, lon:-86.971568,
+  meta:"listed Sat · &quot;rain or shine&quot; · no Sun hours stated — confirm", metaCls:"flag",
+  start:"20260628T080000", end:"20260628T120000",
+  items:"Several homes on Running Deer — community-wide. Seller: &quot;treasures!&quot; Listed Saturday with no end date, so it may or may not run today. Message before driving.",
+  cats:["multi-family","household","mixed"], color:FLAG, hit:"",
+  link:"https://www.facebook.com/marketplace/item/1464498278781135/", linkLabel:"Facebook"},
+
+ {id:2, name:"Spring Garage Sale", type:"GARAGE", section:"Columbia",
+  addr:"1239 Hartsfield Dr, Columbia 38401",
+  q:"1239+Hartsfield+Dr,Columbia,TN+38401", lat:35.625145, lon:-86.982318,
+  meta:"seller says &quot;today 8am–4pm&quot; · relisted daily — confirm", metaCls:"flag",
+  start:"20260628T080000", end:"20260628T160000",
+  items:"New items, lots of shoes/sandals, some &quot;Eastern&quot; items for $1. Relisted most days, so the date is soft — verify before you stop.",
+  cats:["clothing","shoes","new goods"], color:FLAG, hit:"",
+  link:"https://www.facebook.com/marketplace/item/2235831023898279/", linkLabel:"Facebook"},
+
+ {id:3, name:"Tobacco Barn Full of Antiques ★", type:"ESTATE", section:"Thompsons Station",
+  addr:"3976 Johnson Hollow Rd, Thompsons Station 37179",
+  q:"3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179", lat:35.814337, lon:-87.014713,
+  meta:"Sun 10am–2pm · 50% OFF — final day · cash", metaCls:"hit",
+  start:"20260628T100000", end:"20260628T140000",
+  items:"Old-fashioned estate sale inside an original Tennessee tobacco barn, packed with antiques — furniture (some 100+ yrs), milk &amp; depression glass, cast iron, art, German &amp; Korean pieces, farm items, household décor. 140 photos posted. Half price on the final day in an affluent corridor — best value of the day.",
+  cats:["antiques","furniture","glassware","collectibles","tools","art","kitchen","farm"], color:GOLD, hit:"",
+  link:"https://gsalr.com/50-off-at-thompson-thompsons-station-tn-38817623.html", linkLabel:"Listing"}
+];
+
+function txt(html){var d=document.createElement('div');d.innerHTML=html;return (d.textContent||'').toLowerCase();}
+sales.forEach(function(s){ s.hay=(s.name+' '+s.type+' '+s.section+' '+txt(s.items)+' '+s.cats.join(' ')).toLowerCase(); });
+function nav(s){return "https://www.google.com/maps/dir/?api=1&destination="+s.q;}
+function gcal(s){
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE"
+    +"&text="+encodeURIComponent("Garage Sale: "+s.name.replace(' ★',''))
+    +"&dates="+s.start+"/"+s.end+"&ctz="+TZ
+    +"&location="+encodeURIComponent(s.addr.replace(/\s*\(.*\)$/,''))
+    +"&details="+encodeURIComponent(txt(s.items)+"\n\n"+nav(s)+"\n"+s.link);
+}
+function titleCase(t){return t.replace(/\b\w/g,function(c){return c.toUpperCase();});}
+
+// Route button (origin + dest = home Culleoka, waypoints = all sales in order)
+(function(){
+  var wp=sales.map(function(s){return s.q;}).join('%7C');
+  document.getElementById('routeBtn').href=
+    "https://www.google.com/maps/dir/?api=1&origin=Culleoka,TN+38451&destination=Culleoka,TN+38451&travelmode=driving&waypoints="+wp;
+})();
+
+// Map
+var map=L.map('map',{scrollWheelZoom:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+function pin(n,color){return L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'"><span>'+n+'</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]});}
+sales.forEach(function(s){
+  s.marker=L.marker([s.lat,s.lon],{icon:pin(s.id,s.color)});
+  s.marker.bindPopup('<b>'+s.id+'. '+s.name.replace(' ★','')+'</b><br>'+s.addr+'<br><a href="'+nav(s)+'">Navigate →</a> · <a href="'+gcal(s)+'">+ Calendar</a>');
+});
+var hm=L.marker(HOME,{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+INK+'"><span>🏠</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]})}).addTo(map);
+hm.bindPopup('<b>Home — Culleoka</b>');
+
+// Render cards
+var cardsEl=document.getElementById('cards'), lastSection=null;
+sales.forEach(function(s){
+  if(s.section!==lastSection){
+    var h=document.createElement('div'); h.className='stop-head'; h.dataset.section=s.section; h.textContent=s.section;
+    cardsEl.appendChild(h); lastSection=s.section;
   }
-  var pts=[];
-  stops.forEach(function(s){
-    var m=L.marker([s[2],s[3]],{icon:pin(s[0],s[4])}).addTo(map);
-    m.bindPopup('<b>'+s[0]+'. '+s[1]+'</b><br><a href="https://www.google.com/maps/dir/?api=1&destination='+s[5]+'">Navigate here →</a>');
-    pts.push([s[2],s[3]]);
+  var c=document.createElement('div'); c.className='card'; s.card=c;
+  var numCls = s.metaCls==='flag'?'num flag':(s.metaCls==='hit'?'num hit':'num');
+  var tags = s.cats.map(function(t){return '<span class="tag">'+titleCase(t)+'</span>';}).join('');
+  c.innerHTML =
+    '<h2><span class="'+numCls+'">'+s.id+'</span>'+s.name+(s.hit?' '+s.hit:'')+'</h2>'
+    +'<p class="meta '+(s.metaCls||'')+'"><span class="badge">'+s.type+'</span>'+s.meta+'</p>'
+    +'<p class="addr">📍 '+s.addr+'</p>'
+    +'<p class="items">'+s.items+'</p>'
+    +'<div class="tags">'+tags+'</div>'
+    +'<div class="btns">'
+    +'<a class="map-btn" href="'+nav(s)+'">Navigate</a>'
+    +'<a class="cal" href="'+gcal(s)+'" target="_blank" rel="noopener">+ Calendar</a>'
+    +'<a class="fb" href="'+s.link+'">'+s.linkLabel+'</a>'
+    +'</div>';
+  cardsEl.appendChild(c);
+});
+
+// Category chips
+var cats=['all']; sales.forEach(function(s){s.cats.forEach(function(c){if(cats.indexOf(c)<0)cats.push(c);});});
+var chipsEl=document.getElementById('chips'), activeCat='all';
+cats.forEach(function(c){
+  var b=document.createElement('button'); b.className='chip'+(c==='all'?' on':''); b.textContent=c==='all'?'All':titleCase(c);
+  b.onclick=function(){activeCat=c;[].forEach.call(chipsEl.children,function(x){x.classList.remove('on');});b.classList.add('on');apply();};
+  chipsEl.appendChild(b);
+});
+
+// Filter
+var qEl=document.getElementById('q'), clrEl=document.getElementById('clr'),
+    countEl=document.getElementById('count'), emptyEl=document.getElementById('empty');
+function apply(){
+  var q=qEl.value.trim().toLowerCase(); clrEl.style.display=q?'block':'none';
+  var shown=0, bounds=[HOME];
+  sales.forEach(function(s){
+    var ok=(activeCat==='all'||s.cats.indexOf(activeCat)>=0)&&(q===''||s.hay.indexOf(q)>=0);
+    s.card.style.display=ok?'':'none';
+    if(ok){ shown++; if(!map.hasLayer(s.marker))s.marker.addTo(map); bounds.push([s.lat,s.lon]); }
+    else if(map.hasLayer(s.marker)){ map.removeLayer(s.marker); }
   });
-  var hm=L.marker(HOME,{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+INK+'"><span>🏠</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]})}).addTo(map);
-  hm.bindPopup('<b>Home — Culleoka</b>');
-  pts.push(HOME);
-  map.fitBounds(pts,{padding:[30,30]});
+  // section headers: hide if no visible card under them
+  [].forEach.call(cardsEl.querySelectorAll('.stop-head'),function(h){
+    var n=h.nextElementSibling, any=false;
+    while(n&&!n.classList.contains('stop-head')){ if(n.classList.contains('card')&&n.style.display!=='none')any=true; n=n.nextElementSibling; }
+    h.style.display=any?'':'none';
+  });
+  if(bounds.length>1) map.fitBounds(bounds,{padding:[30,30]}); else map.setView(HOME,11);
+  var label=(activeCat==='all'?'':' in '+titleCase(activeCat))+(q?' matching “'+qEl.value.trim()+'”':'');
+  countEl.textContent=shown+' sale'+(shown===1?'':'s')+label;
+  emptyEl.style.display=shown?'none':'block';
+  emptyEl.textContent='No sales'+label+' today. Try another term, or check back tomorrow — the page refreshes daily.';
+}
+qEl.addEventListener('input',apply);
+clrEl.onclick=function(){qEl.value='';apply();qEl.focus();};
+apply();
 </script>
 </body>
 </html>
