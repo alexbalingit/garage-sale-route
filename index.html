@@ -18,6 +18,16 @@
   h1{font-size:22px;margin:0 0 2px}
   .sub{color:var(--muted);font-size:14px;margin:0}
 
+  /* home bar */
+  .homebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 18px 0;font-size:13px;color:var(--muted)}
+  .homebar b{color:var(--ink);font-weight:600}
+  .homebar button{background:none;border:none;color:var(--gold);font-weight:700;font-size:13px;cursor:pointer;padding:2px 2px;font-family:inherit}
+  .home-editor{display:flex;align-items:center;gap:6px;flex-wrap:wrap;width:100%;margin-top:4px}
+  .home-editor input{flex:1 1 180px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:inherit;color:var(--ink);background:#fff}
+  .home-editor input:focus{outline:none;border-color:var(--gold)}
+  .home-editor .set{background:var(--gold);color:#fff;border-radius:9px;padding:9px 14px}
+  .home-editor .cancel{color:var(--muted)}
+  .home-note{color:var(--flag);font-size:12px}
   /* view toggle */
   .toggle{display:flex;gap:6px;margin:14px 18px 0;background:#EAE1D1;padding:5px;border-radius:13px}
   .toggle button{flex:1 1 0;padding:11px 6px;border:none;border-radius:9px;background:transparent;
@@ -130,6 +140,17 @@
   <p class="sub" id="sub"></p>
 </header>
 
+<div class="homebar" id="homebar">
+  <span id="homeLabel"></span>
+  <button id="homeEdit" type="button">Change</button>
+  <div class="home-editor" id="homeEditor" hidden>
+    <input id="homeInput" placeholder="Your address, city, or ZIP" autocomplete="off">
+    <button class="set" id="homeSet" type="button">Set home</button>
+    <button class="cancel" id="homeCancel" type="button">Cancel</button>
+    <span class="home-note" id="homeNote"></span>
+  </div>
+</div>
+
 <div class="toggle" id="toggle">
   <button data-view="today">Today<span class="n" id="n-today"></span></button>
   <button data-view="weekend">Weekend<span class="n" id="n-weekend"></span></button>
@@ -166,8 +187,24 @@
 <script>
 var GOLD="#B8893B", HIT="#2E6B4F", FLAG="#A23B2E", INK="#1C1A17";
 var TZ="America/Chicago";
-var HOME=[35.4548,-86.9036];
-var HOME_Q="Culleoka,TN+38451";
+
+/* ---------- home base (user-settable, persisted) ---------- */
+var HOME_KEY='gsr_home_v1';
+var DEFAULT_HOME={label:"Culleoka, TN 38451", q:"Culleoka,TN+38451", lat:35.4548, lon:-86.9036};
+function loadHome(){try{var r=localStorage.getItem(HOME_KEY); if(r){var h=JSON.parse(r); if(h&&h.lat&&h.lon&&h.q)return h;}}catch(e){} return DEFAULT_HOME;}
+function saveHome(h){try{localStorage.setItem(HOME_KEY,JSON.stringify(h));}catch(e){}}
+var home=loadHome();
+var HOME=[home.lat,home.lon];
+var HOME_Q=home.q;
+function driveMinFromHome(lat,lon){
+  var R=3959, toR=Math.PI/180;
+  var dLat=(lat-HOME[0])*toR, dLon=(lon-HOME[1])*toR;
+  var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(HOME[0]*toR)*Math.cos(lat*toR)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  var mi=R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+  return Math.max(1,Math.round(mi*1.3/45*60)); // road factor 1.3, ~45mph
+}
+function scoreSale(s){ return s.affluence + (s.type==="ESTATE"?12:0) + (s.type==="MULTI-FAMILY"||s.type==="NEIGHBORHOOD"?8:0) - Math.max(0,(s.drive-30))*0.5; }
+function recomputeDrives(){ sales.forEach(function(s){ s.drive=driveMinFromHome(s.lat,s.lon); s.score=scoreSale(s); }); }
 
 /* ---- Single source of truth. Each sale lists every date it is open (ISO). ----
    Generated from gsalr (Columbia + Spring Hill feeds), this-week window, on 2026-06-29.
@@ -234,7 +271,35 @@ var sales=[
    start:"080000", end:"140000",
    items:"Loaded with collectibles. Sofa, recliner, dining table &amp; chairs, kitchen cabinet, vaseline glass, milk glass, bed with matching dresser &amp; chest of drawers, side tables. Address releases Thu 7/2.",
    cats:["furniture","glassware","antiques","household"],
-   link:"https://gsalr.com/great-shelbyville-estate-sale-shelbyville-tn-38791793.html"}
+   link:"https://gsalr.com/great-shelbyville-estate-sale-shelbyville-tn-38791793.html"},
+
+ /* ---- Corridor finds (Culleoka home turf) — Craigslist + Facebook Marketplace ---- */
+ {id:8, name:"Crutcher Rd Garage Sale — Antiques &amp; Vintage", type:"GARAGE", star:true,
+   addr:"2158 Crutcher Rd, Chapel Hill 37034", q:"2158+Crutcher+Rd,Chapel+Hill,TN+37034",
+   lat:35.655565, lon:-86.708112, approx:false, affluence:50, drive:22,
+   dates:["2026-07-03","2026-07-04"], time:"Fri–Sat · 8am–4pm",
+   start:"080000", end:"160000",
+   items:"The closest real corridor find — right here in Chapel Hill. Antiques, vintage cookbooks, a Wheel Horse riding mower, older wooden chairs, vintage Guardian Ware, pots &amp; pans, Pyrex, vintage bedspreads &amp; quilts, tablecloths, vintage clocks, and collectible plates.",
+   cats:["antiques","vintage","tools","kitchen","glassware","household","collectibles"],
+   link:"https://nashville.craigslist.org/gms/d/chapel-hill-garage-sale/7943837171.html"},
+
+ {id:9, name:"Lewisburg Yard Sale — Franklin Pike", type:"YARD", star:false,
+   addr:"2940 Franklin Pike, Lewisburg 37091", q:"2940+Franklin+Pike,Lewisburg,TN+37091",
+   lat:35.4700, lon:-86.7950, approx:true, affluence:45, drive:25,
+   dates:["2026-07-04"], time:"Sat (recurring)",
+   start:"080000", end:"140000",
+   items:"Recurring Saturday yard sale on Franklin Pike, Lewisburg (Facebook Marketplace). A corridor stop — confirm items &amp; hours on the listing before you drive.",
+   cats:["yard","household"],
+   link:"https://www.facebook.com/marketplace/columbia-tn-281/search?query=lewisburg%20yard%20sale"},
+
+ {id:10, name:"Lawrenceburg Yard Sale — Today", type:"YARD", star:false,
+   addr:"Lawrenceburg 38464", q:"Lawrenceburg,TN+38464",
+   lat:35.2423, lon:-87.3347, approx:true, affluence:42, drive:40,
+   dates:["2026-06-29"], time:"Mon · today",
+   start:"080000", end:"140000",
+   items:"“Yard sale today” posted on Facebook Marketplace in Lawrenceburg. Exact address shows on the listing — message to confirm.",
+   cats:["yard","household"],
+   link:"https://www.facebook.com/marketplace/columbia-tn-281/search?query=yard%20sale"}
 ];
 
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -254,8 +319,8 @@ function dayLabel(isoStr){var d=parseISO(isoStr);var base=DOW[d.getDay()]+", "+M
   return base;}
 
 function txt(html){var d=document.createElement('div');d.innerHTML=html;return (d.textContent||'').toLowerCase();}
-sales.forEach(function(s){ s.hay=(s.name+' '+s.type+' '+s.addr+' '+txt(s.items)+' '+s.cats.join(' ')).toLowerCase();
-  s.score=s.affluence + (s.type==="ESTATE"?12:0) + (s.type==="MULTI-FAMILY"?8:0) - Math.max(0,(s.drive-30))*0.5; });
+sales.forEach(function(s){ s.hay=(s.name+' '+s.type+' '+s.addr+' '+txt(s.items)+' '+s.cats.join(' ')).toLowerCase(); });
+recomputeDrives();
 
 function salesOn(isoStr){return sales.filter(function(s){return s.dates.indexOf(isoStr)>=0;})
   .sort(function(a,b){return b.score-a.score;});}
@@ -492,10 +557,46 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources: gsalr.com (Columbia feed, this-week window), cross-checked against Craigslist, EstateSales.org and Facebook Marketplace. Pulled 2026-06-29. '
-  +'Estate-company own-site feeds are scanned on the daily auto-refresh. '
-  +'Several estate addresses release the day before — and sales can sell out or cancel without updating the listing. '
+  'Sources: gsalr.com, EstateSales.org (Columbia), Craigslist, and Facebook Marketplace. Full pull 2026-06-29. '
+  +'Heads up — it’s the July 4th holiday week, and small-town corridor yard sales (Columbia, Spring Hill, Lewisburg, Pulaski) mostly post on Facebook Wed–Sat, so corridor volume fills in later in the week. '
+  +'Facebook stops show the city, not the exact address — message the seller to confirm. Estate addresses often release the day before, and sales can cancel without updating. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
+
+/* ---------- home-address picker ---------- */
+var homeLabelEl=document.getElementById('homeLabel'),
+    homeEditorEl=document.getElementById('homeEditor'),
+    homeInputEl=document.getElementById('homeInput'),
+    homeNoteEl=document.getElementById('homeNote'),
+    homeSetEl=document.getElementById('homeSet'),
+    homeEditBtn=document.getElementById('homeEdit');
+function updateHomeUI(){ homeLabelEl.innerHTML='📍 Home: <b>'+home.label+'</b>'; }
+function showHomeEditor(show){ homeEditorEl.hidden=!show; homeEditBtn.style.display=show?'none':'';
+  if(show){ homeNoteEl.textContent=''; homeInputEl.value=''; homeInputEl.focus(); } }
+function applyHome(h){
+  home=h; HOME=[h.lat,h.lon]; HOME_Q=h.q; saveHome(h);
+  if(hm)hm.setLatLng(HOME);
+  recomputeDrives(); updateHomeUI(); render(); showHomeEditor(false);
+}
+homeEditBtn.onclick=function(){ showHomeEditor(true); };
+document.getElementById('homeCancel').onclick=function(){ showHomeEditor(false); };
+homeSetEl.onclick=function(){
+  var v=homeInputEl.value.trim(); if(!v){ homeInputEl.focus(); return; }
+  homeNoteEl.textContent=''; homeSetEl.textContent='Finding…'; homeSetEl.disabled=true;
+  var q=encodeURIComponent(v).replace(/%20/g,'+');
+  fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q='+encodeURIComponent(v),{headers:{'Accept':'application/json'}})
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      homeSetEl.textContent='Set home'; homeSetEl.disabled=false;
+      if(j&&j.length){ applyHome({label:v, q:q, lat:parseFloat(j[0].lat), lon:parseFloat(j[0].lon)}); }
+      else { homeNoteEl.textContent='Couldn’t find that — try a ZIP or “City, ST”.'; }
+    })
+    .catch(function(){
+      homeSetEl.textContent='Set home'; homeSetEl.disabled=false;
+      homeNoteEl.textContent='Couldn’t reach the map service — check connection and try again.';
+    });
+};
+homeInputEl.addEventListener('keydown',function(e){ if(e.key==='Enter')homeSetEl.click(); });
+updateHomeUI();
 
 buildStrip();
 render();
