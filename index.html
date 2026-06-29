@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garage Sale Route — Mon Jun 29</title>
+<title>Garage Sale Route — Today &amp; This Week</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
   :root{
@@ -14,15 +14,37 @@
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     line-height:1.45;padding-bottom:40px}
-  header{padding:20px 18px 14px}
+  header{padding:20px 18px 10px}
   h1{font-size:22px;margin:0 0 2px}
   .sub{color:var(--muted);font-size:14px;margin:0}
-  .route-btn{display:block;margin:16px 18px 6px;padding:16px;border-radius:14px;
+
+  /* view toggle */
+  .toggle{display:flex;gap:6px;margin:14px 18px 0;background:#EAE1D1;padding:5px;border-radius:13px}
+  .toggle button{flex:1 1 0;padding:11px 6px;border:none;border-radius:9px;background:transparent;
+    color:var(--muted);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;line-height:1.1}
+  .toggle button .n{display:block;font-size:11px;font-weight:600;margin-top:2px;opacity:.7}
+  .toggle button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+  /* day strip */
+  .strip{display:flex;gap:6px;overflow-x:auto;padding:12px 18px 2px;-webkit-overflow-scrolling:touch}
+  .strip::-webkit-scrollbar{display:none}
+  .day{flex:0 0 auto;min-width:46px;padding:8px 8px;border-radius:11px;border:1px solid var(--line);
+    background:#fff;text-align:center;cursor:pointer}
+  .day.empty{opacity:.45}
+  .day.today{border-color:var(--gold)}
+  .day.on{background:var(--gold);border-color:var(--gold)}
+  .day.on .dn,.day.on .dd,.day.on .dc{color:#fff}
+  .day .dn{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .day .dd{font-size:16px;font-weight:700;color:var(--ink);line-height:1.1}
+  .day .dc{font-size:11px;font-weight:600;color:var(--gold);margin-top:1px}
+  .strip-cap{margin:6px 18px 0;font-size:11.5px;color:var(--muted)}
+
+  .route-btn{display:block;margin:14px 18px 6px;padding:15px;border-radius:14px;
     background:var(--gold);color:#fff;text-decoration:none;text-align:center;
-    font-size:17px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12)}
-  .route-note{margin:0 18px 8px;color:var(--muted);font-size:12.5px}
+    font-size:16px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12)}
   .note-bar{margin:10px 18px 0;padding:11px 13px;border-radius:11px;background:#EFE7D7;
     color:#5b5346;font-size:13px;border:1px solid var(--line)}
+
   /* search + filter */
   .search-wrap{margin:14px 18px 0;position:relative}
   #q{width:100%;padding:13px 38px 13px 14px;border-radius:12px;border:1px solid var(--line);
@@ -35,30 +57,40 @@
   .chip{flex:0 0 auto;padding:7px 13px;border-radius:20px;border:1px solid var(--line);
     background:#fff;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
   .chip.on{background:var(--gold);color:#fff;border-color:var(--gold)}
-  .count{margin:6px 18px 0;font-size:12.5px;color:var(--muted)}
-  .legend{margin:6px 18px 0;font-size:12.5px;color:var(--muted)}
-  .legend b{color:var(--hit)}
-  .legend i{color:var(--flag);font-style:normal}
-  #map{height:340px;margin:12px 18px 4px;border-radius:14px;border:1px solid var(--line);
+  .count{margin:8px 18px 0;font-size:12.5px;color:var(--muted)}
+
+  #map{height:330px;margin:12px 18px 4px;border-radius:14px;border:1px solid var(--line);
     box-shadow:0 1px 3px rgba(0,0,0,.06);z-index:0}
-  .map-cap{margin:0 18px 10px;font-size:12px;color:var(--muted)}
+  .map-cap{margin:0 18px 8px;font-size:12px;color:var(--muted)}
   .pin{display:flex;align-items:center;justify-content:center;width:26px;height:26px;
     border-radius:50% 50% 50% 0;transform:rotate(-45deg);color:#fff;font-weight:700;
     font-size:12.5px;box-shadow:0 1px 4px rgba(0,0,0,.35);border:1.5px solid #fff}
   .pin span{transform:rotate(45deg)}
-  .stop-head{margin:22px 18px 6px;font-size:13px;letter-spacing:.06em;
-    text-transform:uppercase;color:var(--gold);font-weight:700;border-bottom:1px solid var(--line);padding-bottom:5px}
+
+  /* day section */
+  .day-sec{margin-top:18px}
+  .day-head{display:flex;align-items:baseline;justify-content:space-between;
+    margin:0 18px 2px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+  .day-head .dh-l{font-size:16px;font-weight:800;color:var(--ink)}
+  .day-head .dh-l small{font-weight:600;color:var(--muted);font-size:13px;margin-left:6px}
+  .day-head .dh-r{font-size:12px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .day-route{display:inline-block;margin:8px 18px 0;font-size:13px;font-weight:700;color:var(--gold);
+    text-decoration:none;border:1px solid var(--gold);border-radius:9px;padding:7px 12px}
+  .day-empty{margin:8px 18px 0;color:var(--muted);font-size:13px;font-style:italic}
+
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
     margin:12px 18px;padding:14px 14px 12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-  .card h2{font-size:16.5px;margin:0 0 3px}
+  .card h2{font-size:16px;margin:0 0 3px}
   .num{display:inline-block;min-width:21px;height:21px;line-height:21px;text-align:center;
     background:var(--gold);color:#fff;border-radius:50%;font-size:12px;font-weight:700;margin-right:7px}
   .num.hit{background:var(--hit)} .num.flag{background:var(--flag)}
   .meta{font-size:13px;color:var(--muted);margin:0 0 8px}
-  .meta.flag{color:var(--flag);font-weight:600} .meta.hit{color:var(--hit);font-weight:600}
   .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
     background:#EFE7D7;color:var(--gold);margin-right:6px;vertical-align:middle}
+  .badge.nb{background:#E7EFE9;color:var(--hit)}
+  .star{color:var(--gold);font-weight:800}
   .addr{font-size:14px;font-weight:600;margin:0 0 8px}
+  .addr .approx{font-weight:600;color:var(--flag);font-size:12px}
   .items{font-size:13.5px;color:#3a352e;margin:0 0 10px}
   .tags{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 12px}
   .tag{font-size:11px;padding:2px 8px;border-radius:6px;background:#F1EADC;color:#7a6f5c;font-weight:600}
@@ -78,142 +110,339 @@
 </head>
 <body>
 <header>
-  <h1>Monday Garage Sale Route</h1>
-  <p class="sub">Mon, Jun 29, 2026 · Light weekday — one marquee blowout in Crieve Hall (south Nashville)</p>
+  <h1>Garage Sale Route</h1>
+  <p class="sub" id="sub"></p>
 </header>
 
-<a class="route-btn" id="routeBtn" href="#">🗺️ Open Full Route in Google Maps</a>
-<p class="route-note">Quiet Monday — a single stop. Straight shot up I-65 from home to Crieve Hall (~40 min), then back. The one sale worth the drive: a <b>75%-off final blowout</b> on a whole-house estate that's been running all weekend, open 9–3.</p>
+<div class="toggle" id="toggle">
+  <button data-view="today">Today<span class="n" id="n-today"></span></button>
+  <button data-view="weekend">Weekend<span class="n" id="n-weekend"></span></button>
+  <button data-view="week">Next 7 Days<span class="n" id="n-week"></span></button>
+</div>
 
-<div class="note-bar"><b>Light day — one strong sale.</b> Weekday, so the weekend rush is over. But today's lone listing is a marquee: the Crieve Hall estate drops to <b>75% off everything</b> on its final day (drum set, vintage furniture, power tools, Skil table saw, glassware, teapot &amp; jewelry lots). No 🎣 fishing or 🏋️ workout gear called out in today's blowout list. Facebook Marketplace was checked and showed only weekend leftovers — nothing confirmable for Monday.</div>
+<div class="strip" id="strip"></div>
+<p class="strip-cap">Tap a day to jump to it. Numbers = sales open that day. Affluent + neighborhood-wide sales rank first.</p>
+
+<a class="route-btn" id="routeBtn" href="#" target="_blank" rel="noopener">🗺️ Route the visible stops in Google Maps</a>
+<div class="note-bar" id="note"></div>
 
 <div class="search-wrap">
-  <input id="q" placeholder="Search items — furniture, tools, glass, jewelry…" autocomplete="off">
+  <input id="q" placeholder="Search items — furniture, tools, glass, kids, jewelry…" autocomplete="off">
   <button class="clr" id="clr" aria-label="clear">✕</button>
 </div>
 <div class="chips" id="chips"></div>
 <p class="count" id="count"></p>
 
 <div id="map"></div>
-<p class="map-cap">Tap the pin for details + one-tap navigation. Search/filter updates the pin too. Gold = confirmed · green = 🎣/🏋️ hit.</p>
-
-<p class="legend"><b>🎣 = fishing gear</b> · <b>🏋️ = workout gear</b> · <i>⚠ = unverified, confirm first</i></p>
+<p class="map-cap">Pins = currently visible sales. Tap a pin for details + one-tap navigation. 🏠 = home (Culleoka).</p>
 
 <div id="cards"></div>
 <div class="empty" id="empty"></div>
 
-<footer>
-  Sources: gsalr.com, EstateSales.org, Craigslist, Facebook Marketplace (logged-in). Monday is a quiet weekday — the aggregators carried a single in-scope sale open today, cross-checked to exact street address and confirmed 9am–3pm hours. Facebook Marketplace was reachable but listed only Saturday/Sunday leftovers with no confirmable Monday sale near home, so none were carried. Sales can still sell out or close early — tap Listing to double-check before the drive.
-</footer>
+<footer id="foot"></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 var GOLD="#B8893B", HIT="#2E6B4F", FLAG="#A23B2E", INK="#1C1A17";
 var TZ="America/Chicago";
 var HOME=[35.4548,-86.9036];
+var HOME_Q="Culleoka,TN+38451";
 
-// Single source of truth for today's sales.
+/* ---- Single source of truth. Each sale lists every date it is open (ISO). ----
+   Generated from gsalr (Columbia + Spring Hill feeds), this-week window, on 2026-06-29.
+   affluence 0-100 (zip tier) drives ranking; drive = est. minutes from Culleoka. */
 var sales=[
- {id:1, name:"75%-Off Blowout — Crieve Hall Estate ★", type:"ESTATE", section:"Nashville (Crieve Hall · I-65)",
-  addr:"509 Rochelle Dr, Nashville 37220",
-  q:"509+Rochelle+Dr,Nashville,TN+37220", lat:36.061559, lon:-86.758723,
-  meta:"Mon 9am–3pm · 75% OFF everything — final blowout · cash, card, Apple Pay", metaCls:"",
-  start:"20260629T090000", end:"20260629T150000",
-  items:"Final-day 75%-off blowout on a whole-house Crieve Hall estate — “if it's in the photos, it'll be there.” Furniture, vintage sofa &amp; wing-back chair, china hutch, curio cabinet, dresser with mirror, nightstands, drop-leaf tables; a drum set, Magnavox stereo/console, dolls, vintage toys, quilts &amp; linens; tools, power tools, Skil table saw, vacuum; blue Ball jars, art glass, teapot collection, Tupperware, pots &amp; pans, kitchen wares; books, cookbooks, jewelry, CDs, Christmas, vintage oil lamps; plus a wrought-iron patio set, outdoor swing, wicker and a garage fridge. Affluent south-Nashville pocket — half-off-again prices on the last day.",
-  cats:["furniture","antiques","vintage","tools","glassware","kitchen","collectibles","toys","jewelry","books","clothing","music","household"], color:GOLD, hit:"",
-  link:"https://gsalr.com/75-off-blowout-creive-nashville-tn-38828743.html", linkLabel:"Listing"}
+ {id:1, name:"75%-Off Final Blowout — Crieve Hall Estate", type:"ESTATE", star:true,
+   addr:"509 Rochelle Dr, Nashville 37220", q:"509+Rochelle+Dr,Nashville,TN+37220",
+   lat:36.061559, lon:-86.758723, approx:false, affluence:90, drive:40,
+   dates:["2026-06-29"], time:"9am–3pm · 75% OFF everything (final day)",
+   start:"090000", end:"150000",
+   items:"Final-day 75%-off blowout on a whole-house Crieve Hall estate — “if it's in the photos, it'll be there.” Furniture, drum set, rugs, dolls &amp; vintage toys, quilts &amp; linens, Magnavox console, tools &amp; power tools, Skil table saw, blue Ball jars, art glass, teapot collection, books, jewelry. Affluent south-Nashville pocket, half-off-again on the last day.",
+   cats:["furniture","antiques","vintage","tools","glassware","kitchen","collectibles","toys","jewelry","books","music","household"],
+   link:"https://gsalr.com/75-off-blowout-creive-nashville-tn-38828743.html"},
+
+ {id:2, name:"Sweet Crieve Hall Estate Sale", type:"ESTATE", star:false,
+   addr:"Nashville 37220", q:"Crieve+Hall,Nashville,TN+37220",
+   lat:36.0585, lon:-86.7558, approx:true, affluence:90, drive:40,
+   dates:["2026-07-01"], time:"Wed · midweek estate sale",
+   start:"080000", end:"140000",
+   items:"“Excellent mid-week sale” in the affluent Crieve Hall pocket — 109 photos already posted by the company. Full street address releases Tue 6/30; check the listing the night before.",
+   cats:["estate","furniture","household"],
+   link:"https://gsalr.com/sweet-crieve-hall-sale-nashville-tn-38827839.html"},
+
+ {id:3, name:"Nice One-Day Brentwood Estate Sale", type:"ESTATE", star:true,
+   addr:"Brentwood 37027", q:"Brentwood,TN+37027",
+   lat:36.0201, lon:-86.7828, approx:true, affluence:92, drive:38,
+   dates:["2026-07-03"], time:"Fri · one day only",
+   start:"080000", end:"140000",
+   items:"The week's most affluent zip. Dining room table &amp; chairs, china hutch, sofa, pair of chairs, side chair, bedroom suite, bookshelves, books &amp; cookbooks, china, crystal, linens, tools &amp; power tools, Christmas. One-day sale — go early. Address releases Thu 7/2.",
+   cats:["furniture","antiques","china","crystal","tools","books","household"],
+   link:"https://gsalr.com/nice-one-day-brentwood-brentwood-tn-38794029.html"},
+
+ {id:4, name:"4-Family Yard Sale", type:"MULTI-FAMILY", star:false,
+   addr:"160 Spring Valley Rd, Nashville 37214", q:"160+Spring+Valley+Rd,Nashville,TN+37214",
+   lat:36.1845, lon:-86.6655, approx:false, affluence:48, drive:52,
+   dates:["2026-07-03","2026-07-04"], time:"Fri–Sat",
+   start:"080000", end:"140000",
+   items:"Multi-family / neighborhood-style sale — four families in one stop. Furniture, bicycles, children's &amp; adult clothes, books, TV, and misc. Volume play: one stop, many driveways.",
+   cats:["furniture","clothing","kids","books","household"],
+   link:"https://gsalr.com/4-family-yard-sale-nashville-tn-38796497.html"},
+
+ {id:5, name:"South Nashville Estate — Fine Furniture &amp; Kids Items", type:"ESTATE", star:false,
+   addr:"1713 Bryce Ct, Nashville 37211", q:"1713+Bryce+Ct,Nashville,TN+37211",
+   lat:36.0632, lon:-86.7152, approx:false, affluence:55, drive:40,
+   dates:["2026-07-03","2026-07-04"], time:"Fri–Sat",
+   start:"080000", end:"140000",
+   items:"Modern furniture, home décor, and a big children's section — toys, cribs, baby gear and more. Run by Lewis Auction House &amp; Estates. 29 photos posted.",
+   cats:["furniture","kids","toys","household"],
+   link:"https://gsalr.com/south-nashville-estate-with-nashville-tn-38828779.html"},
+
+ {id:6, name:"Phase 2 — Donelson Estate Sale", type:"ESTATE", star:false,
+   addr:"Nashville 37214", q:"Donelson,Nashville,TN+37214",
+   lat:36.1740, lon:-86.6720, approx:true, affluence:48, drive:52,
+   dates:["2026-07-03","2026-07-04","2026-07-05"], time:"Fri–Sun",
+   start:"080000", end:"140000",
+   items:"Phase 2 — blue &amp; white collectibles, antiques and vintage treasures in a charming traditional home. Plenty still to discover. Address releases Thu 7/2.",
+   cats:["estate","antiques","vintage","collectibles"],
+   link:"https://gsalr.com/phase-2-donelson-estate-nashville-tn-38821633.html"},
+
+ {id:7, name:"Great Shelbyville Estate Sale", type:"ESTATE", star:false,
+   addr:"Shelbyville 37160", q:"Shelbyville,TN+37160",
+   lat:35.4834, lon:-86.4603, approx:true, affluence:45, drive:45,
+   dates:["2026-07-03","2026-07-04","2026-07-05"], time:"Fri–Sun",
+   start:"080000", end:"140000",
+   items:"Loaded with collectibles. Sofa, recliner, dining table &amp; chairs, kitchen cabinet, vaseline glass, milk glass, bed with matching dresser &amp; chest of drawers, side tables. Address releases Thu 7/2.",
+   cats:["furniture","glassware","antiques","household"],
+   link:"https://gsalr.com/great-shelbyville-estate-sale-shelbyville-tn-38791793.html"}
 ];
 
+/* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function parseISO(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+var DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var TODAY=new Date(); TODAY.setHours(0,0,0,0);
+var TODAY_ISO=iso(TODAY);
+// window = today .. today+7
+var WINDOW=[]; for(var i=0;i<=7;i++){var d=new Date(TODAY);d.setDate(d.getDate()+i);WINDOW.push(iso(d));}
+// weekend = the Fri/Sat/Sun that fall inside the window
+var WEEKEND=WINDOW.filter(function(s){var dw=parseISO(s).getDay();return dw===5||dw===6||dw===0;});
+
+function dayLabel(isoStr){var d=parseISO(isoStr);var base=DOW[d.getDay()]+", "+MON[d.getMonth()]+" "+d.getDate();
+  if(isoStr===TODAY_ISO)return "Today · "+base;
+  var t1=new Date(TODAY);t1.setDate(t1.getDate()+1);if(isoStr===iso(t1))return "Tomorrow · "+base;
+  return base;}
+
 function txt(html){var d=document.createElement('div');d.innerHTML=html;return (d.textContent||'').toLowerCase();}
-sales.forEach(function(s){ s.hay=(s.name+' '+s.type+' '+s.section+' '+txt(s.items)+' '+s.cats.join(' ')).toLowerCase(); });
+sales.forEach(function(s){ s.hay=(s.name+' '+s.type+' '+s.addr+' '+txt(s.items)+' '+s.cats.join(' ')).toLowerCase();
+  s.score=s.affluence + (s.type==="ESTATE"?12:0) + (s.type==="MULTI-FAMILY"?8:0) - Math.max(0,(s.drive-30))*0.5; });
+
+function salesOn(isoStr){return sales.filter(function(s){return s.dates.indexOf(isoStr)>=0;})
+  .sort(function(a,b){return b.score-a.score;});}
+function countOn(isoStr){return salesOn(isoStr).length;}
+
 function nav(s){return "https://www.google.com/maps/dir/?api=1&destination="+s.q;}
-function gcal(s){
+function gcal(s,isoStr){var dk=isoStr.replace(/-/g,"");
   return "https://calendar.google.com/calendar/render?action=TEMPLATE"
-    +"&text="+encodeURIComponent("Garage Sale: "+s.name.replace(' ★',''))
-    +"&dates="+s.start+"/"+s.end+"&ctz="+TZ
-    +"&location="+encodeURIComponent(s.addr.replace(/\s*\(.*\)$/,''))
-    +"&details="+encodeURIComponent(txt(s.items)+"\n\n"+nav(s)+"\n"+s.link);
-}
+    +"&text="+encodeURIComponent("Garage Sale: "+s.name)
+    +"&dates="+dk+"T"+s.start+"/"+dk+"T"+s.end+"&ctz="+TZ
+    +"&location="+encodeURIComponent(s.addr)
+    +"&details="+encodeURIComponent(txt(s.items)+"\n\n"+nav(s)+"\n"+s.link);}
 function titleCase(t){return t.replace(/\b\w/g,function(c){return c.toUpperCase();});}
+function routeUrl(list){if(!list.length)return "#";
+  var qs=list.map(function(s){return s.q;});
+  var dest=qs[qs.length-1], wp=qs.slice(0,-1).join('%7C');
+  var u="https://www.google.com/maps/dir/?api=1&origin="+HOME_Q+"&destination="+(qs.length>1?dest:HOME_Q)+"&travelmode=driving";
+  if(qs.length>1&&wp)u+="&waypoints="+wp; else u+="&waypoints="+qs[0];
+  return u;}
 
-// Route button (origin + dest = home Culleoka, waypoints = all sales in order)
-(function(){
-  var wp=sales.map(function(s){return s.q;}).join('%7C');
-  document.getElementById('routeBtn').href=
-    "https://www.google.com/maps/dir/?api=1&origin=Culleoka,TN+38451&destination=Culleoka,TN+38451&travelmode=driving&waypoints="+wp;
-})();
-
-// Map
+/* ---------- map ---------- */
 var map=L.map('map',{scrollWheelZoom:false});
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
-function pin(n,color){return L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'"><span>'+n+'</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]});}
+function pinIcon(n,color){return L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'"><span>'+n+'</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]});}
 sales.forEach(function(s){
-  s.marker=L.marker([s.lat,s.lon],{icon:pin(s.id,s.color)});
-  s.marker.bindPopup('<b>'+s.id+'. '+s.name.replace(' ★','')+'</b><br>'+s.addr+'<br><a href="'+nav(s)+'">Navigate →</a> · <a href="'+gcal(s)+'">+ Calendar</a>');
+  s.marker=L.marker([s.lat,s.lon],{icon:pinIcon(s.id, s.star?GOLD:INK)});
+  s.marker.bindPopup('<b>'+s.name+'</b><br>'+s.addr+(s.approx?' <i>(approx.)</i>':'')+'<br><a href="'+nav(s)+'">Navigate →</a>');
 });
 var hm=L.marker(HOME,{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+INK+'"><span>🏠</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]})}).addTo(map);
 hm.bindPopup('<b>Home — Culleoka</b>');
 
-// Render cards
-var cardsEl=document.getElementById('cards'), lastSection=null;
-sales.forEach(function(s){
-  if(s.section!==lastSection){
-    var h=document.createElement('div'); h.className='stop-head'; h.dataset.section=s.section; h.textContent=s.section;
-    cardsEl.appendChild(h); lastSection=s.section;
-  }
-  var c=document.createElement('div'); c.className='card'; s.card=c;
-  var numCls = s.metaCls==='flag'?'num flag':(s.metaCls==='hit'?'num hit':'num');
-  var tags = s.cats.map(function(t){return '<span class="tag">'+titleCase(t)+'</span>';}).join('');
-  c.innerHTML =
-    '<h2><span class="'+numCls+'">'+s.id+'</span>'+s.name+(s.hit?' '+s.hit:'')+'</h2>'
-    +'<p class="meta '+(s.metaCls||'')+'"><span class="badge">'+s.type+'</span>'+s.meta+'</p>'
-    +'<p class="addr">📍 '+s.addr+'</p>'
+/* ---------- state ---------- */
+var view='today', selectedDay=null, activeCat='all';
+function activeDays(){
+  if(view==='today')return [TODAY_ISO];
+  if(view==='weekend')return WEEKEND;
+  return selectedDay?[selectedDay]:WINDOW;
+}
+
+/* ---------- view toggle ---------- */
+var toggleEl=document.getElementById('toggle');
+function countView(v){
+  var days = v==='today'?[TODAY_ISO]:(v==='weekend'?WEEKEND:WINDOW);
+  var ids={}; days.forEach(function(d){salesOn(d).forEach(function(s){ids[s.id]=1;});});
+  return Object.keys(ids).length;
+}
+document.getElementById('n-today').textContent=countView('today')+' open';
+document.getElementById('n-weekend').textContent=countView('weekend')+' sales';
+document.getElementById('n-week').textContent=countView('week')+' sales';
+[].forEach.call(toggleEl.children,function(b){
+  if(b.dataset.view===view)b.classList.add('on');
+  b.onclick=function(){view=b.dataset.view; selectedDay=null;
+    [].forEach.call(toggleEl.children,function(x){x.classList.remove('on');}); b.classList.add('on');
+    buildStrip(); render();};
+});
+
+/* ---------- day strip ---------- */
+var stripEl=document.getElementById('strip');
+function buildStrip(){
+  stripEl.innerHTML='';
+  WINDOW.forEach(function(isoStr){
+    var d=parseISO(isoStr), c=countOn(isoStr);
+    var el=document.createElement('div');
+    el.className='day'+(c?'':' empty')+(isoStr===TODAY_ISO?' today':'')+(isoStr===selectedDay?' on':'');
+    el.innerHTML='<div class="dn">'+DOW[d.getDay()]+'</div><div class="dd">'+d.getDate()+'</div>'
+      +'<div class="dc">'+(c?c:'–')+'</div>';
+    el.onclick=function(){
+      if(!c)return;
+      view='week';
+      selectedDay=(selectedDay===isoStr?null:isoStr);
+      [].forEach.call(toggleEl.children,function(x){x.classList.toggle('on',x.dataset.view==='week');});
+      buildStrip(); render();
+      document.getElementById('cards').scrollIntoView({behavior:'smooth',block:'start'});
+    };
+    stripEl.appendChild(el);
+  });
+}
+
+/* ---------- render ---------- */
+var cardsEl=document.getElementById('cards'), countEl=document.getElementById('count'),
+    emptyEl=document.getElementById('empty'), qEl=document.getElementById('q'),
+    clrEl=document.getElementById('clr'), routeBtn=document.getElementById('routeBtn'),
+    noteEl=document.getElementById('note'), subEl=document.getElementById('sub');
+
+function passesFilter(s){
+  var q=qEl.value.trim().toLowerCase();
+  return (activeCat==='all'||s.cats.indexOf(activeCat)>=0)&&(q===''||s.hay.indexOf(q)>=0);
+}
+
+function render(){
+  var days=activeDays();
+  var grouped=(view!=='today');
+  var q=qEl.value.trim().toLowerCase(); clrEl.style.display=q?'block':'none';
+  cardsEl.innerHTML='';
+  var visibleIds={}, daysWithSales=0;
+
+  subEl.textContent = view==='today'
+    ? dayLabel(TODAY_ISO)+' — what’s open right now'
+    : (view==='weekend' ? 'This weekend — '+WEEKEND.map(function(d){return DOW[parseISO(d).getDay()];}).join(' · ')
+      : (selectedDay? dayLabel(selectedDay)+' — single day' : 'Next 7 days — plan your hunt'));
+
+  days.forEach(function(isoStr){
+    var open=salesOn(isoStr).filter(passesFilter);
+    if(grouped){
+      var sec=document.createElement('div'); sec.className='day-sec';
+      var head=document.createElement('div'); head.className='day-head';
+      head.innerHTML='<div class="dh-l">'+dayLabel(isoStr).replace('Today · ','Today — ').replace('Tomorrow · ','Tomorrow — ')+'</div>'
+        +'<div class="dh-r">'+(open.length?open.length+(open.length===1?' sale':' sales'):'—')+'</div>';
+      sec.appendChild(head); cardsEl.appendChild(sec);
+      if(!open.length){
+        var e=document.createElement('div'); e.className='day-empty';
+        e.textContent=(q||activeCat!=='all')?'No matching sales this day.':'Nothing posted yet — re-check closer to the date.';
+        cardsEl.appendChild(e); return;
+      }
+      daysWithSales++;
+      if(open.length>1) addDayRoute(open);
+      open.forEach(function(s){renderCard(s,isoStr); visibleIds[s.id]=s;});
+    } else {
+      open.forEach(function(s){renderCard(s,isoStr); visibleIds[s.id]=s;});
+    }
+  });
+
+  // map: show only currently-visible sales
+  var bounds=[HOME];
+  sales.forEach(function(s){
+    if(visibleIds[s.id]){ if(!map.hasLayer(s.marker))s.marker.addTo(map); bounds.push([s.lat,s.lon]); }
+    else if(map.hasLayer(s.marker)) map.removeLayer(s.marker);
+  });
+  if(bounds.length>1)map.fitBounds(bounds,{padding:[34,34],maxZoom:12}); else map.setView(HOME,10);
+
+  // route button: unique visible sales, ranked
+  var routeList=[]; Object.keys(visibleIds).forEach(function(k){routeList.push(visibleIds[k]);});
+  routeList.sort(function(a,b){return b.score-a.score;});
+  routeBtn.href=routeUrl(routeList);
+  routeBtn.style.display=routeList.length>1?'block':(routeList.length===1?'block':'none');
+  routeBtn.textContent=view==='today'?'🗺️ Open today’s route in Google Maps'
+    :'🗺️ Route all '+routeList.length+' visible stop'+(routeList.length===1?'':'s');
+
+  // count + empty
+  var uniq=routeList.length;
+  var scope=view==='today'?'today':(view==='weekend'?'this weekend':(selectedDay?dayLabel(selectedDay).toLowerCase():'the next 7 days'));
+  var label=(activeCat==='all'?'':' in '+titleCase(activeCat))+(q?' matching “'+qEl.value.trim()+'”':'');
+  countEl.textContent=uniq+' sale'+(uniq===1?'':'s')+label
+    +(grouped&&!selectedDay?' across '+daysWithSales+' day'+(daysWithSales===1?'':'s'):'')+' · '+scope;
+  emptyEl.style.display=uniq?'none':'block';
+  emptyEl.textContent='No sales'+label+' for '+scope+'. Try another term, switch the view, or check back — the page refreshes daily.';
+
+  // note bar
+  noteEl.innerHTML=noteFor();
+}
+
+function addDayRoute(open){
+  if(open.length<1)return;
+  var a=document.createElement('a'); a.className='day-route'; a.target='_blank'; a.rel='noopener';
+  a.href=routeUrl(open.slice().sort(function(x,y){return y.score-x.score;}));
+  a.textContent=open.length>1?'🗺️ Route these '+open.length:'🗺️ Navigate';
+  cardsEl.appendChild(a);
+}
+
+function renderCard(s,isoStr){
+  var c=document.createElement('div'); c.className='card';
+  var numCls=s.star?'num':'num';
+  var badge=s.type==="MULTI-FAMILY"?'<span class="badge nb">NEIGHBORHOOD</span>':'<span class="badge">'+s.type+'</span>';
+  var tags=s.cats.map(function(t){return '<span class="tag">'+titleCase(t)+'</span>';}).join('');
+  c.innerHTML=
+    '<h2><span class="'+numCls+'">'+s.id+'</span>'+s.name+(s.star?' <span class="star">★</span>':'')+'</h2>'
+    +'<p class="meta">'+badge+s.time+'</p>'
+    +'<p class="addr">📍 '+s.addr+(s.approx?' <span class="approx">— exact address releases day-of</span>':'')+'</p>'
     +'<p class="items">'+s.items+'</p>'
     +'<div class="tags">'+tags+'</div>'
     +'<div class="btns">'
-    +'<a class="map-btn" href="'+nav(s)+'">Navigate</a>'
-    +'<a class="cal" href="'+gcal(s)+'" target="_blank" rel="noopener">+ Calendar</a>'
-    +'<a class="fb" href="'+s.link+'">'+s.linkLabel+'</a>'
+    +'<a class="map-btn" href="'+nav(s)+'" target="_blank" rel="noopener">Navigate</a>'
+    +'<a class="cal" href="'+gcal(s,isoStr)+'" target="_blank" rel="noopener">+ Calendar</a>'
+    +'<a class="fb" href="'+s.link+'" target="_blank" rel="noopener">Listing</a>'
     +'</div>';
   cardsEl.appendChild(c);
-});
+}
 
-// Category chips
+function noteFor(){
+  if(view==='today'){
+    var t=salesOn(TODAY_ISO);
+    if(!t.length)return '<b>Nothing open today.</b> Weekdays are quiet in the corridor — tap <b>Weekend</b> or <b>Next 7 Days</b> to plan ahead.';
+    return '<b>'+t.length+' open today.</b> The marquee: the Crieve Hall estate drops to <b>75% off everything</b> on its final day, 9–3. Affluent south-Nashville pocket.';
+  }
+  if(view==='weekend')return '<b>July 4th weekend.</b> Friday 7/3 is the big day — 5 sales, led by a <b>Brentwood</b> estate (the week’s most affluent zip) and a <b>4-family neighborhood sale</b>. Expect some sellers to skip the holiday; confirm via Listing before driving.';
+  return '<b>Plan the week.</b> Volume clusters on <b>Fri 7/3</b>. Best two for your thesis: the <b>Brentwood</b> one-day estate (Fri) and the <b>Crieve Hall</b> midweek estate (Wed) — both affluent. Several addresses release the day before; the Listing link is how you confirm.';
+}
+
+/* ---------- category chips ---------- */
 var cats=['all']; sales.forEach(function(s){s.cats.forEach(function(c){if(cats.indexOf(c)<0)cats.push(c);});});
-var chipsEl=document.getElementById('chips'), activeCat='all';
+var chipsEl=document.getElementById('chips');
 cats.forEach(function(c){
   var b=document.createElement('button'); b.className='chip'+(c==='all'?' on':''); b.textContent=c==='all'?'All':titleCase(c);
-  b.onclick=function(){activeCat=c;[].forEach.call(chipsEl.children,function(x){x.classList.remove('on');});b.classList.add('on');apply();};
+  b.onclick=function(){activeCat=c;[].forEach.call(chipsEl.children,function(x){x.classList.remove('on');});b.classList.add('on');render();};
   chipsEl.appendChild(b);
 });
 
-// Filter
-var qEl=document.getElementById('q'), clrEl=document.getElementById('clr'),
-    countEl=document.getElementById('count'), emptyEl=document.getElementById('empty');
-function apply(){
-  var q=qEl.value.trim().toLowerCase(); clrEl.style.display=q?'block':'none';
-  var shown=0, bounds=[HOME];
-  sales.forEach(function(s){
-    var ok=(activeCat==='all'||s.cats.indexOf(activeCat)>=0)&&(q===''||s.hay.indexOf(q)>=0);
-    s.card.style.display=ok?'':'none';
-    if(ok){ shown++; if(!map.hasLayer(s.marker))s.marker.addTo(map); bounds.push([s.lat,s.lon]); }
-    else if(map.hasLayer(s.marker)){ map.removeLayer(s.marker); }
-  });
-  // section headers: hide if no visible card under them
-  [].forEach.call(cardsEl.querySelectorAll('.stop-head'),function(h){
-    var n=h.nextElementSibling, any=false;
-    while(n&&!n.classList.contains('stop-head')){ if(n.classList.contains('card')&&n.style.display!=='none')any=true; n=n.nextElementSibling; }
-    h.style.display=any?'':'none';
-  });
-  if(bounds.length>1) map.fitBounds(bounds,{padding:[30,30]}); else map.setView(HOME,11);
-  var label=(activeCat==='all'?'':' in '+titleCase(activeCat))+(q?' matching “'+qEl.value.trim()+'”':'');
-  countEl.textContent=shown+' sale'+(shown===1?'':'s')+label;
-  emptyEl.style.display=shown?'none':'block';
-  emptyEl.textContent='No sales'+label+' today. Try another term, or check back tomorrow — the page refreshes daily.';
-}
-qEl.addEventListener('input',apply);
-clrEl.onclick=function(){qEl.value='';apply();qEl.focus();};
-apply();
+qEl.addEventListener('input',render);
+clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
+
+document.getElementById('foot').innerHTML=
+  'Sources: gsalr.com (Columbia + Spring Hill feeds, this-week window). Pulled 2026-06-29. '
+  +'Estate-company own-site feeds, Craigslist, EstateSales.org and Facebook Marketplace are added on the daily auto-refresh. '
+  +'Several estate addresses release the day before — and sales can sell out or cancel without updating the listing. '
+  +'Always tap <b>Listing</b> to confirm before the drive.';
+
+buildStrip();
+render();
 </script>
 </body>
 </html>
