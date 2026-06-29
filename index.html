@@ -100,6 +100,22 @@
   .map-btn{background:var(--ink);color:#fff}
   .cal{background:var(--gold);color:#fff}
   .fb{background:#EDE6D9;color:var(--ink)}
+  /* select-to-route */
+  .card{position:relative}
+  .card h2{padding-right:40px}
+  .sel-toggle{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;
+    border:2px solid var(--line);background:#fff;cursor:pointer;display:flex;align-items:center;
+    justify-content:center;font-size:16px;font-weight:800;line-height:1;color:var(--muted);padding:0}
+  .card.sel{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,137,59,.30)}
+  .card.sel .sel-toggle{background:var(--gold);border-color:var(--gold);color:#fff}
+  .selbar{position:fixed;left:0;right:0;bottom:0;z-index:600;display:none;align-items:center;gap:10px;
+    padding:10px 14px calc(12px + env(safe-area-inset-bottom));
+    background:rgba(28,26,23,.96);box-shadow:0 -2px 12px rgba(0,0,0,.18)}
+  .selbar.on{display:flex}
+  .selbar .go{flex:1;text-align:center;padding:13px 10px;border-radius:12px;background:var(--gold);
+    color:#fff;text-decoration:none;font-weight:700;font-size:15px}
+  .selbar .clr2{color:#d8cfbe;font-size:13px;background:none;border:none;cursor:pointer;font-weight:600;padding:8px}
+  body.has-sel{padding-bottom:92px}
   .empty{margin:24px 18px;padding:22px;text-align:center;color:var(--muted);
     background:var(--card);border:1px dashed var(--line);border-radius:14px;display:none}
   .leaflet-popup-content{font-family:inherit;font-size:13px;margin:10px 12px}
@@ -140,6 +156,11 @@
 <div class="empty" id="empty"></div>
 
 <footer id="foot"></footer>
+
+<div class="selbar" id="selbar">
+  <a class="go" id="selGo" href="#" target="_blank" rel="noopener"></a>
+  <button class="clr2" id="selClr" type="button">Clear</button>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
@@ -384,6 +405,9 @@ function render(){
 
   // note bar
   noteEl.innerHTML=noteFor();
+
+  // keep the selected-route bar in sync after every re-render
+  updateSelBar();
 }
 
 function addDayRoute(open){
@@ -395,7 +419,7 @@ function addDayRoute(open){
 }
 
 function renderCard(s,isoStr){
-  var c=document.createElement('div'); c.className='card';
+  var c=document.createElement('div'); c.className='card'+(selected.has(s.id)?' sel':''); c.dataset.id=s.id;
   var numCls=s.star?'num':'num';
   var badge=s.type==="MULTI-FAMILY"?'<span class="badge nb">NEIGHBORHOOD</span>':'<span class="badge">'+s.type+'</span>';
   var tags=s.cats.map(function(t){return '<span class="tag">'+titleCase(t)+'</span>';}).join('');
@@ -410,6 +434,11 @@ function renderCard(s,isoStr){
     +'<a class="cal" href="'+gcal(s,isoStr)+'" target="_blank" rel="noopener">+ Calendar</a>'
     +'<a class="fb" href="'+s.link+'" target="_blank" rel="noopener">Listing</a>'
     +'</div>';
+  var st=document.createElement('button'); st.className='sel-toggle'; st.type='button';
+  st.setAttribute('aria-label','Add to route'); st.title='Add to route';
+  st.textContent=selected.has(s.id)?'✓':'+';
+  st.onclick=function(ev){ev.stopPropagation(); toggleSel(s.id);};
+  c.appendChild(st);
   cardsEl.appendChild(c);
 }
 
@@ -422,6 +451,33 @@ function noteFor(){
   if(view==='weekend')return '<b>July 4th weekend.</b> Friday 7/3 is the big day — 5 sales, led by a <b>Brentwood</b> estate (the week’s most affluent zip) and a <b>4-family neighborhood sale</b>. Expect some sellers to skip the holiday; confirm via Listing before driving.';
   return '<b>Plan the week.</b> Volume clusters on <b>Fri 7/3</b>. Best two for your thesis: the <b>Brentwood</b> one-day estate (Fri) and the <b>Crieve Hall</b> midweek estate (Wed) — both affluent. Several addresses release the day before; the Listing link is how you confirm.';
 }
+
+/* ---------- select-to-route ---------- */
+var SELKEY='gsr_selected_v1';
+var selected=new Set();
+try{var raw=localStorage.getItem(SELKEY); if(raw)JSON.parse(raw).forEach(function(x){selected.add(+x);});}catch(e){}
+function byId(id){for(var i=0;i<sales.length;i++)if(sales[i].id===id)return sales[i];return null;}
+function persistSel(){try{localStorage.setItem(SELKEY,JSON.stringify(Array.from(selected)));}catch(e){}}
+function toggleSel(id){ if(selected.has(id))selected.delete(id); else selected.add(id); persistSel(); reflectSel(); updateSelBar(); }
+function reflectSel(){
+  [].forEach.call(cardsEl.querySelectorAll('.card'),function(c){
+    var on=selected.has(+c.dataset.id); c.classList.toggle('sel',on);
+    var t=c.querySelector('.sel-toggle'); if(t)t.textContent=on?'✓':'+';
+  });
+}
+function selSalesRanked(){
+  var arr=[]; selected.forEach(function(id){var s=byId(id); if(s)arr.push(s);});
+  arr.sort(function(a,b){return b.score-a.score;}); return arr;
+}
+var selbarEl=document.getElementById('selbar'), selGoEl=document.getElementById('selGo');
+function updateSelBar(){
+  var arr=selSalesRanked();
+  if(!arr.length){ selbarEl.classList.remove('on'); document.body.classList.remove('has-sel'); return; }
+  selbarEl.classList.add('on'); document.body.classList.add('has-sel');
+  selGoEl.href=routeUrl(arr);
+  selGoEl.textContent='🗺️ Route '+arr.length+' selected stop'+(arr.length===1?'':'s');
+}
+document.getElementById('selClr').onclick=function(){ selected.clear(); persistSel(); reflectSel(); updateSelBar(); };
 
 /* ---------- category chips ---------- */
 var cats=['all']; sales.forEach(function(s){s.cats.forEach(function(c){if(cats.indexOf(c)<0)cats.push(c);});});
