@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garage Sale Route — Sun Jun 28</title>
+<title>Garage Sale Route — Mon Jun 29</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
   :root{
@@ -78,24 +78,24 @@
 </head>
 <body>
 <header>
-  <h1>Sunday Garage Sale Route</h1>
-  <p class="sub">Sun, Jun 28, 2026 · Thompsons Station → Brentwood → Nashville (I-65 corridor)</p>
+  <h1>Monday Garage Sale Route</h1>
+  <p class="sub">Mon, Jun 29, 2026 · Light weekday — one marquee blowout in Crieve Hall (south Nashville)</p>
 </header>
 
 <a class="route-btn" id="routeBtn" href="#">🗺️ Open Full Route in Google Maps</a>
-<p class="route-note">Loop runs south→north: home → Thompsons Station → Brentwood → south Nashville → Green Hills → home. Catch: the route <b>ends</b> in Green Hills, but the three Green Hills sales all close at <b>2pm</b> — hit those in late morning, then drop back to your afternoon anchors: <b>Crieve Hall</b> (50% off, open till 5), the <b>Vintage Reseller</b> (till 4), and the <b>Brentwood 75%-off estate</b> (noon–4).</p>
+<p class="route-note">Quiet Monday — a single stop. Straight shot up I-65 from home to Crieve Hall (~40 min), then back. The one sale worth the drive: a <b>75%-off final blowout</b> on a whole-house estate that's been running all weekend, open 9–3.</p>
 
-<div class="note-bar"><b>Strong, fully-confirmed day.</b> 7 sales — every stop has an exact address and Sunday hours (no soft listings). Three discount-day marquees: <b>Crieve Hall 50% off</b> (1,180+ photos, treadmill), the <b>Brentwood 75%-off whole-house estate</b> (BMW motorcycle, vintage sewing machines), and the <b>Tobacco Barn 50%-off final day</b>. Green flags: 🏋️ workout gear at Crieve Hall + Green Hills Moving; 🎣 fish decoys/lures at the Native American artifact estate.</div>
+<div class="note-bar"><b>Light day — one strong sale.</b> Weekday, so the weekend rush is over. But today's lone listing is a marquee: the Crieve Hall estate drops to <b>75% off everything</b> on its final day (drum set, vintage furniture, power tools, Skil table saw, glassware, teapot &amp; jewelry lots). No 🎣 fishing or 🏋️ workout gear called out in today's blowout list. Facebook Marketplace was checked and showed only weekend leftovers — nothing confirmable for Monday.</div>
 
 <div class="search-wrap">
-  <input id="q" placeholder="Search items — golf, furniture, tools, fishing…" autocomplete="off">
+  <input id="q" placeholder="Search items — furniture, tools, glass, jewelry…" autocomplete="off">
   <button class="clr" id="clr" aria-label="clear">✕</button>
 </div>
 <div class="chips" id="chips"></div>
 <p class="count" id="count"></p>
 
 <div id="map"></div>
-<p class="map-cap">Tap any pin for details + one-tap navigation. Search/filter updates the pins too. Gold = confirmed · green = 🎣/🏋️ hit.</p>
+<p class="map-cap">Tap the pin for details + one-tap navigation. Search/filter updates the pin too. Gold = confirmed · green = 🎣/🏋️ hit.</p>
 
 <p class="legend"><b>🎣 = fishing gear</b> · <b>🏋️ = workout gear</b> · <i>⚠ = unverified, confirm first</i></p>
 
@@ -103,7 +103,7 @@
 <div class="empty" id="empty"></div>
 
 <footer>
-  Sources: gsalr.com, EstateSales.org, Craigslist, Facebook Marketplace (logged-in). Search ran the I-65 corridor from home up through Brentwood and Nashville (Crieve Hall, Green Hills, south Nashville). All 7 stops were cross-checked to exact street address + confirmed Sunday hours. Facebook was reachable but showed mostly Saturday leftovers with no confirmable Sunday in-scope sale near home, so none were carried. Sales can still sell out or close early — tap Listing to double-check before a long drive.
+  Sources: gsalr.com, EstateSales.org, Craigslist, Facebook Marketplace (logged-in). Monday is a quiet weekday — the aggregators carried a single in-scope sale open today, cross-checked to exact street address and confirmed 9am–3pm hours. Facebook Marketplace was reachable but listed only Saturday/Sunday leftovers with no confirmable Monday sale near home, so none were carried. Sales can still sell out or close early — tap Listing to double-check before the drive.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -114,68 +114,14 @@ var HOME=[35.4548,-86.9036];
 
 // Single source of truth for today's sales.
 var sales=[
- {id:1, name:"Tobacco Barn Full of Antiques ★", type:"ESTATE", section:"Thompsons Station",
-  addr:"3976 Johnson Hollow Rd, Thompsons Station 37179",
-  q:"3976+Johnson+Hollow+Rd,Thompsons+Station,TN+37179", lat:35.814337, lon:-87.014713,
-  meta:"Sun 10am–2pm · 50% OFF — final day · cash", metaCls:"",
-  start:"20260628T100000", end:"20260628T140000",
-  items:"An old-fashioned estate sale inside an original Tennessee tobacco barn, packed wall-to-wall with antiques, art, and household décor. 140 photos posted. Final day at half price in an affluent corridor — the kind of barn where the good stuff hides in the back.",
-  cats:["antiques","furniture","art","collectibles","household","farm"], color:GOLD, hit:"",
-  link:"https://gsalr.com/50-off-at-thompson-thompsons-station-tn-38817623.html", linkLabel:"Listing"},
-
- {id:2, name:"Brentwood 75%-Off Whole-House Estate ★", type:"ESTATE", section:"Brentwood",
-  addr:"1313 Lipscomb Dr, Brentwood 37027",
-  q:"1313+Lipscomb+Dr,Brentwood,TN+37027", lat:35.987000, lon:-86.799400,
-  meta:"Sun 12pm–4pm · 75% OFF everything (except the motorcycle) — final day", metaCls:"",
-  start:"20260628T120000", end:"20260628T160000",
-  items:"Whole-house estate sale dropping to 75% off on the final afternoon. Furniture, kitchen equipment, artwork, loads of DVDs, great books, vintage sewing machines, and a BMW motorcycle (the one thing not discounted). Affluent Brentwood neighborhood — strong afternoon anchor.",
-  cats:["furniture","household","art","books","vintage","tools"], color:GOLD, hit:"",
-  link:"https://nashville.craigslist.org/gms/d/brentwood-estate-sale-75-discount/7943700182.html", linkLabel:"Listing"},
-
- {id:3, name:"Packed Vintage Reseller Moving Sale", type:"ESTATE", section:"Nashville (South · I-65)",
-  addr:"306 Shady Creek Ln, Nashville 37211",
-  q:"306+Shady+Creek+Ln,Nashville,TN+37211", lat:36.038364, lon:-86.746329,
-  meta:"Sun 10am–4pm", metaCls:"",
-  start:"20260628T100000", end:"20260628T160000",
-  items:"A reseller's dream — decades of vintage fashion. Gowns (1950s–2000s), fur coats, vintage wedding dress, hundreds of purses, vintage hats, designer shoes (Manolo Blahnik, Coach, Michael Kors), tons of jewelry and belts, hundreds of perfume bottles, vintage jewelry boxes, tea sets, lamps, wall art. 490 photos.",
-  cats:["vintage","clothing","designer","shoes","jewelry","collectibles"], color:GOLD, hit:"",
-  link:"https://gsalr.com/packed-vintage-reseller-moving-nashville-tn-38822095.html", linkLabel:"Listing"},
-
- {id:4, name:"Amazing Crieve Hall Estate Sale ★", type:"ESTATE", section:"Nashville (South · I-65)",
+ {id:1, name:"75%-Off Blowout — Crieve Hall Estate ★", type:"ESTATE", section:"Nashville (Crieve Hall · I-65)",
   addr:"509 Rochelle Dr, Nashville 37220",
   q:"509+Rochelle+Dr,Nashville,TN+37220", lat:36.061559, lon:-86.758723,
-  meta:"Sun 8am–5pm · 50% OFF · marquee · open latest", metaCls:"hit",
-  start:"20260628T080000", end:"20260628T170000",
-  items:"The big one — 1,180+ photos. A whole-house antique trove: pie safe, vintage sofas, drop-leaf tea cart, French Provincial dressers, Victorian settee, Ethan Allen, curio &amp; china hutches; Waterford, Fostoria, Jadeite, vaseline glass, Blue Willow, Limoges, huge teapot &amp; pitcher collections; cast iron, Pyrex, quilts, Christmas/Santa collection; tools, power &amp; garden tools; treadmill; books, dolls, toys, drum set; plus a 2004 Toyota Avalon &amp; Troy-Bilt riding mower (offers till ~1pm). Half price Sunday, open till 5 — your afternoon anchor.",
-  cats:["antiques","furniture","glassware","collectibles","tools","kitchen","art","jewelry","workout","toys"], color:HIT, hit:"🏋️",
-  link:"https://gsalr.com/50-off-sunday-amazing-nashville-tn-38739127.html", linkLabel:"Listing"},
-
- {id:5, name:"Extraordinary Estate — Native American Artifacts", type:"ESTATE", section:"Nashville (Green Hills)",
-  addr:"1417 Graybar Ln, Nashville 37215",
-  q:"1417+Graybar+Ln,Nashville,TN+37215", lat:36.109944, lon:-86.797014,
-  meta:"Sun 10am–2pm · closes early", metaCls:"hit",
-  start:"20260628T100000", end:"20260628T140000",
-  items:"A serious collector's estate — museum-quality Native American artifacts (flint/chert points, paleo blades, bannerstones, gorgets, stone axes), a labeled mineral &amp; rock collection, vintage curiosities (disc music box, skeleton keys, signed baseballs, fish decoys &amp; lures), antique maps and framed art, full closets of women's clothing + designer boots, large costume-jewelry lot, tools and garage items. 219 photos.",
-  cats:["antiques","collectibles","art","minerals","artifacts","fishing","clothing","jewelry","tools"], color:HIT, hit:"🎣",
-  link:"https://gsalr.com/extraordinary-nashville-estate-sale-nashville-tn-38743653.html", linkLabel:"Listing"},
-
- {id:6, name:"Color &amp; Whimsy — Green Hills East", type:"ESTATE", section:"Nashville (Green Hills)",
-  addr:"1720 N Observatory Dr, Nashville 37215",
-  q:"1720+N+Observatory+Dr,Nashville,TN+37215", lat:36.105636, lon:-86.803657,
-  meta:"Sun 8am–2pm · one weekend only · closes early", metaCls:"",
-  start:"20260628T080000", end:"20260628T140000",
-  items:"A 1920s home full of color and character — original artwork and artist-made pieces, antique/vintage toys, flamingo collectibles, Lu-Ray / Belleek / Blue Ridge pottery, a Duncan Phyfe–style dining set, upright piano, vintage décor, books, holiday décor, tools and garden gear.",
-  cats:["art","antiques","collectibles","toys","furniture","vintage","tools"], color:GOLD, hit:"",
-  link:"https://gsalr.com/color-and-whimsy-in-nashville-tn-38806295.html", linkLabel:"Listing"},
-
- {id:7, name:"Huge Green Hills Moving Sale", type:"MOVING", section:"Nashville (Green Hills)",
-  addr:"3818 Dartmouth Ave, Nashville 37215",
-  q:"3818+Dartmouth+Ave,Nashville,TN+37215", lat:36.115632, lon:-86.838897,
-  meta:"Sun 8am–2pm · closes early", metaCls:"hit",
-  start:"20260628T080000", end:"20260628T140000",
-  items:"20+ years downsizing — air compressor, pressure washer, wet/dry vac, hand tools, exercise bike, furniture, fireplace accessories; tons of baby/kids gear (Mamaroo, Halo bassinet, Britax jogging stroller, Pack &amp; Play, Power Wheels, Strider bike), toys &amp; games, kids' clothing (newborn–5T), boutique women's fashion, soccer/hockey goals, home décor.",
-  cats:["tools","workout","baby/kids","furniture","clothing","toys","household"], color:HIT, hit:"🏋️",
-  link:"https://gsalr.com/huge-green-hills-moving-nashville-tn-38821885.html", linkLabel:"Listing"}
+  meta:"Mon 9am–3pm · 75% OFF everything — final blowout · cash, card, Apple Pay", metaCls:"",
+  start:"20260629T090000", end:"20260629T150000",
+  items:"Final-day 75%-off blowout on a whole-house Crieve Hall estate — “if it's in the photos, it'll be there.” Furniture, vintage sofa &amp; wing-back chair, china hutch, curio cabinet, dresser with mirror, nightstands, drop-leaf tables; a drum set, Magnavox stereo/console, dolls, vintage toys, quilts &amp; linens; tools, power tools, Skil table saw, vacuum; blue Ball jars, art glass, teapot collection, Tupperware, pots &amp; pans, kitchen wares; books, cookbooks, jewelry, CDs, Christmas, vintage oil lamps; plus a wrought-iron patio set, outdoor swing, wicker and a garage fridge. Affluent south-Nashville pocket — half-off-again prices on the last day.",
+  cats:["furniture","antiques","vintage","tools","glassware","kitchen","collectibles","toys","jewelry","books","clothing","music","household"], color:GOLD, hit:"",
+  link:"https://gsalr.com/75-off-blowout-creive-nashville-tn-38828743.html", linkLabel:"Listing"}
 ];
 
 function txt(html){var d=document.createElement('div');d.innerHTML=html;return (d.textContent||'').toLowerCase();}
