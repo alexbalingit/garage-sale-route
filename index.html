@@ -244,43 +244,44 @@ function scoreSale(s){ return s.affluence + (s.type==="ESTATE"?12:0) + (s.type==
 function recomputeDrives(){ sales.forEach(function(s){ s.drive=driveMinFromHome(s.lat,s.lon); s.score=scoreSale(s); }); }
 
 /* ---- Single source of truth. Each sale lists every date it is open (ISO). ----
-   Generated from gsalr (Columbia feed) + Craigslist + Facebook Marketplace (logged-in Chrome,
-   click-into-listing) on 2026-07-01 (Wed), 7-day window Jul 1 – Jul 8. Addresses geocoded via
-   US Census. affluence 0-100 (zip tier) drives ranking; drive = est. minutes from home. */
+   Generated from gsalr (Columbia feed) + Craigslist + EstateSales.NET (primary estate feed)
+   + EstateSales.org (cross-check) + Facebook Marketplace (logged-in Chrome, click-into-listing)
+   on 2026-07-02 (Thu), 7-day window Jul 2 – Jul 9. Addresses geocoded via US Census.
+   affluence 0-100 (zip tier) drives ranking; drive = est. minutes from home. */
 var sales=[
- {id:1, name:"Sweet Crieve Hall Estate Sale", type:"ESTATE", star:true,
-   addr:"5365 Anchorage Ct, Nashville 37220", q:"5365+Anchorage+Ct,Nashville,TN+37220",
-   lat:36.056669, lon:-86.767989, approx:false, affluence:90, drive:42,
-   dates:["2026-07-01"], time:"Wed (today) · 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Today only — an estate sale in the affluent Crieve Hall pocket of south Nashville (300+ photos). Original art &amp; prints, vintage sofa, church pew, antique wall clock, antique wash stand, cherry drop-leaf table, corner china hutch, art glass, Fenton, Pyrex, Corning Ware, Hummels, quilts, crystal, silverplate. Address released: 5365 Anchorage Ct.",
-   cats:["estate","antiques","furniture","glassware","household","collectibles"],
-   link:"https://gsalr.com/sweet-crieve-hall-sale-nashville-tn-38827839.html"},
-
- {id:2, name:"Columbia Estate Sale — Everything Must Go", type:"ESTATE", star:false,
-   addr:"Columbia 38401", q:"Columbia,TN+38401",
-   lat:35.6151, lon:-87.0353, approx:true, affluence:48, drive:20,
-   dates:["2026-07-02","2026-07-04"], time:"Thu 10am–2pm · Sat 9am–12pm",
-   start:"100000", end:"140000",
-   items:"Corridor estate sale in Columbia (Facebook Marketplace). “Everything must go — bring your best offer.” First come, first served; cash/Venmo. Recurring Thu &amp; Sat. Exact address not in the post — message the seller to confirm before you drive.",
-   cats:["estate","furniture","household"],
-   link:"https://www.facebook.com/marketplace/item/1427145289173775/"},
-
  {id:3, name:"Nice Brentwood Estate Sale", type:"ESTATE", star:true,
    addr:"Brentwood 37027", q:"Brentwood,TN+37027",
    lat:35.97602, lon:-86.79641, approx:true, affluence:92, drive:38,
    dates:["2026-07-03","2026-07-05"], time:"Fri &amp; Sun · 8am–5pm",
    start:"080000", end:"170000",
-   items:"The week's most affluent zip. China hutch, sofa, pair of chairs, side chair, bedroom suite, bookshelves, books &amp; cookbooks, china, crystal, linens, tools &amp; power tools, Christmas &amp; holidays, wrought-iron patio furniture. A 6′×10′ trailer and a Cub Cadet riding mower are taking offers until Sunday ~1pm. Street address releases the day before (Thu) — check the listing.",
+   items:"The week's most affluent zip (533 photos). China hutch, sofa, pair of chairs, side chair, bedroom suite, bookshelves, books &amp; cookbooks, china, crystal, linens, tools &amp; power tools, Christmas &amp; holidays, wrought-iron patio furniture. A 6&prime;&times;10&prime; trailer and a Cub Cadet riding mower are taking offers until Sunday ~1pm. Street address releases Thu 9am — check the listing.",
    cats:["furniture","antiques","china","crystal","tools","books","household"],
    link:"https://gsalr.com/nice-one-day-brentwood-brentwood-tn-38794029.html"},
+
+ {id:8, name:"Franklin Moving Sale — Lewisburg Pike", type:"MOVING", star:true,
+   addr:"1308 Lewisburg Pike, Franklin 37064", q:"1308+Lewisburg+Pike,Franklin,TN+37064",
+   lat:35.866848, lon:-86.846473, approx:false, affluence:88, drive:33,
+   dates:["2026-07-03","2026-07-04"], time:"Fri–Sat · 7am–2pm",
+   start:"070000", end:"140000",
+   items:"New this run — a large moving sale on Lewisburg Pike in affluent Franklin, posted on both Craigslist and Facebook with the real street address. Furniture, home d&eacute;cor, tools, antiques, books and more. Early 7am start — a natural first stop on the way north.",
+   cats:["moving","furniture","antiques","tools","books","household"],
+   link:"https://nashville.craigslist.org/gms/d/franklin-moving-garage-sale/7944605881.html"},
+
+ {id:9, name:"Steeplechase Area Estate Sale — Vintage House", type:"ESTATE", star:false,
+   addr:"Nashville (Bellevue) 37221", q:"Nashville,TN+37221",
+   lat:36.048, lon:-86.943, approx:true, affluence:75, drive:48,
+   dates:["2026-07-03","2026-07-04","2026-07-05"], time:"Fri–Sat 9am–3pm · Sun 10am–3pm",
+   start:"090000", end:"150000",
+   items:"House chock-full of vintage (Blvd Estate Sales, 103 photos): vintage Christmas, Rosenthal china, Tell City double-pedestal dining set &amp; hutch, Chippendale-style bachelor's chest, vintage linens &amp; fabric, vintage toys, Stetson hats, new El Dorado cowboy boots, Cub Cadet XT1 riding mower, Craftsman tiller, tools, JVC turntable, Cerwin-Vega speakers. Address releases Thu 9am.",
+   cats:["estate","vintage","antiques","furniture","tools","collectibles"],
+   link:"https://www.estatesales.net/TN/Nashville/37221/4981614"},
 
  {id:4, name:"South Nashville Estate — Fine Furniture &amp; Kids Items", type:"ESTATE", star:false,
    addr:"1713 Bryce Ct, Nashville 37211", q:"1713+Bryce+Ct,Nashville,TN+37211",
    lat:36.0194769, lon:-86.7273555, approx:false, affluence:55, drive:40,
    dates:["2026-07-03","2026-07-04"], time:"Fri 9am–4pm · Sat 8am–3pm",
    start:"090000", end:"160000",
-   items:"Modern furniture, home décor, and a big children's section — toys, cribs, baby gear from baby through elementary age. Run by Lewis Auction House &amp; Estates. Real street address posted.",
+   items:"Modern furniture, home d&eacute;cor, and a big children's section — toys, cribs, baby gear from baby through elementary age. Run by Lewis Auction House &amp; Estates. Real street address posted.",
    cats:["furniture","kids","toys","household"],
    link:"https://gsalr.com/south-nashville-estate-with-nashville-tn-38828779.html"},
 
@@ -289,7 +290,7 @@ var sales=[
    lat:35.49519, lon:-86.43917, approx:true, affluence:45, drive:40,
    dates:["2026-07-03","2026-07-05"], time:"Fri &amp; Sun · 8am–5pm",
    start:"080000", end:"170000",
-   items:"Loaded with collectibles. Sofa, recliner, dining table &amp; chairs, kitchen cabinet, vaseline glass, milk glass, bed with matching dresser &amp; chest, side tables, side chairs, Christmas, tools &amp; power tools. Note: Fri and Sun only — no Saturday. Address releases the day before (Thu).",
+   items:"Loaded with collectibles (531 photos). Sofa, recliner, dining table &amp; chairs, kitchen cabinet, vaseline glass, milk glass, bed with matching dresser &amp; chest, side tables, side chairs, Christmas, tools &amp; power tools. Note: Fri and Sun only — no Saturday. Address releases Thu.",
    cats:["furniture","glassware","antiques","household"],
    link:"https://gsalr.com/great-shelbyville-estate-sale-shelbyville-tn-38791793.html"},
 
@@ -297,20 +298,74 @@ var sales=[
  {id:6, name:"Crutcher Rd Garage Sale — Antiques &amp; Vintage", type:"GARAGE", star:true,
    addr:"2158 Crutcher Rd, Chapel Hill 37034", q:"2158+Crutcher+Rd,Chapel+Hill,TN+37034",
    lat:35.655161, lon:-86.71217, approx:false, affluence:50, drive:22,
-   dates:["2026-07-03","2026-07-04"], time:"Fri–Sat · confirm hours on listing",
+   dates:["2026-07-03","2026-07-04"], time:"Fri–Sat · 8am–4pm",
    start:"080000", end:"160000",
-   items:"The closest real corridor find — right here in Chapel Hill (Craigslist, still live). Antiques, vintage cookbooks, a Wheel Horse riding mower, older wooden chairs, vintage Guardian Ware, pots &amp; pans, Pyrex, vintage bedspreads &amp; quilts, tablecloths, vintage clocks, collectible plates. The post doesn't state exact dates — placed on the holiday weekend; confirm on the listing before driving.",
+   items:"The closest real corridor find — right here in Chapel Hill. Dates now confirmed on the Craigslist post: Fri Jul 3 &amp; Sat Jul 4, 8am–4pm. Antiques, vintage cookbooks, a Wheel Horse riding mower, older wooden chairs, vintage Guardian Ware, pots &amp; pans, Pyrex, vintage bedspreads &amp; quilts, tablecloths, vintage clocks, collectible plates.",
    cats:["antiques","vintage","tools","kitchen","glassware","household","collectibles"],
    link:"https://nashville.craigslist.org/gms/d/chapel-hill-garage-sale/7943837171.html"},
+
+ {id:11, name:"Columbia Estate Sale — Glennridge Rd", type:"ESTATE", star:false,
+   addr:"2322 Glennridge Rd, Columbia 38401", q:"2322+Glennridge+Rd,Columbia,TN+38401",
+   lat:35.694356, lon:-86.996530, approx:false, affluence:50, drive:18,
+   dates:["2026-07-03","2026-07-04","2026-07-05"], time:"Fri &amp; Sat 8am–4pm · Sun 4–6pm",
+   start:"080000", end:"160000",
+   items:"Corridor estate sale now with the real street address in the post (upgraded from last week's approximate listing). &ldquo;Everything must go — bring your best offer.&rdquo; First come, first served; cash/Venmo; you load and haul. One of the closest stops to home.",
+   cats:["estate","furniture","household"],
+   link:"https://www.facebook.com/marketplace/item/1519015516515228/"},
+
+ {id:12, name:"Ethridge Country Yard Sale — Mt. Horeb Rd", type:"YARD", star:false,
+   addr:"102 Mount Horeb Rd, Ethridge 38456", q:"102+Mount+Horeb+Rd,Ethridge,TN+38456",
+   lat:35.358125, lon:-87.230866, approx:false, affluence:35, drive:35,
+   dates:["2026-07-02","2026-07-03"], time:"Wed–Fri · from 7am",
+   start:"070000", end:"140000",
+   items:"Open TODAY (Thu) and Friday — a country treasure hunt with the real address in the post. Tools, tools &amp; more tools, glassware, Fire King, Corning Ware, cast iron, milk glass, vintage doilies, Coke collector items, Star Trek collector plates, handcrafted woodwork, books, coffee table. No early birds.",
+   cats:["yard","tools","glassware","vintage","collectibles","cast iron"],
+   link:"https://www.facebook.com/marketplace/item/1957601371610508/"},
+
+ {id:10, name:"Spring Hill Two-Family Yard Sale", type:"MULTI-FAMILY", star:false,
+   addr:"Spring Hill 37174", q:"Spring+Hill,TN+37174",
+   lat:35.7512, lon:-86.93, approx:true, affluence:72, drive:25,
+   dates:["2026-07-03"], time:"Fri · hours not stated",
+   start:"080000", end:"140000",
+   items:"Two households combined, Friday only (posted 8 hours before this pull). Futon, TV, rowing machine, wooden desk &amp; nightstand, fire pit, clothes and more. No street address in the post — message the seller before driving.",
+   cats:["yard","furniture","household"],
+   link:"https://www.facebook.com/marketplace/item/1960151694705754/"},
 
  {id:7, name:"Lewisburg Yard Sale — Franklin Pike", type:"YARD", star:false,
    addr:"2940 Franklin Pike, Lewisburg 37091", q:"2940+Franklin+Pike,Lewisburg,TN+37091",
    lat:35.55619, lon:-86.830921, approx:false, affluence:45, drive:20,
    dates:["2026-07-04"], time:"Sat (recurring) · morning",
    start:"080000", end:"140000",
-   items:"Recurring Saturday yard sale at 2940 Franklin Pike, Lewisburg (Facebook Marketplace, listed by the seller). New &amp; used, wide variety. A close corridor stop — confirm items &amp; hours on the listing before you drive.",
+   items:"Recurring Saturday yard sale at 2940 Franklin Pike, Lewisburg (Facebook Marketplace, still live this week). New &amp; used, wide variety. A close corridor stop — confirm items &amp; hours on the listing before you drive.",
    cats:["yard","household"],
-   link:"https://www.facebook.com/marketplace/item/1661180155170731/"}
+   link:"https://www.facebook.com/marketplace/item/1661180155170731/"},
+
+ {id:14, name:"Amazing South Nashville Estate Sale", type:"ESTATE", star:false,
+   addr:"Nashville 37217", q:"Nashville,TN+37217",
+   lat:36.107, lon:-86.669, approx:true, affluence:40, drive:48,
+   dates:["2026-07-07","2026-07-08"], time:"Tue–Wed · 8am–5pm",
+   start:"080000", end:"170000",
+   items:"Back on the feed with firm dates — next Tue &amp; Wed. Homeowner moving out of state. A brand-new clear dome bubble tent in the box, sofa, recliner, china, crystal, kitchen wares, garden treasures, books &amp; cookbooks. Address releases Mon Jul 6.",
+   cats:["estate","furniture","china","garden","books","household"],
+   link:"https://gsalr.com/amazing-south-nashville-estate-nashville-tn-38807813.html"},
+
+ {id:13, name:"Columbia Estate Yard Sale — Ragsdale Rd", type:"ESTATE", star:false,
+   addr:"2529 Ragsdale Rd, Columbia 38401", q:"2529+Ragsdale+Rd,Columbia,TN+38401",
+   lat:35.735445, lon:-87.071174, approx:false, affluence:50, drive:20,
+   dates:["2026-07-09","2026-07-10","2026-07-11"], time:"Thu–Sat · 8am–3pm",
+   start:"080000", end:"150000",
+   items:"Next Thursday through Saturday, with the real street address in the post — a close corridor estate-yard sale on Ragsdale Rd. Uses the neighbor's driveway for parking (don't block the mailbox). Details filling in on the listing.",
+   cats:["estate","yard","household"],
+   link:"https://www.facebook.com/marketplace/item/977488168386563/"},
+
+ {id:15, name:"&ldquo;Vintage Soul, Modern Style&rdquo; Crieve Hall Estate Sale", type:"ESTATE", star:false,
+   addr:"Nashville (Crieve Hall) 37211", q:"Nashville,TN+37211",
+   lat:36.058, lon:-86.762, approx:true, affluence:60, drive:42,
+   dates:["2026-07-09","2026-07-10","2026-07-11"], time:"Thu–Fri 9am–3pm · Sat 10am–4pm",
+   start:"090000", end:"150000",
+   items:"For the modern/vintage/boho lover (156 photos) — quality furniture, rugs, MCM pieces, records, handmade pottery &amp; throwing supplies, art, coffee-table books, wool blankets, West Elm / CB2 / Opal House brands, kids toys, electronics, tools. Address releases Wed Jul 8.",
+   cats:["estate","vintage","furniture","art","records","tools"],
+   link:"https://gsalr.com/vintage-soul-modern-style-nashville-tn-38828943.html"}
 ];
 
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -581,9 +636,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: gsalr.com (Columbia feed, primary), Craigslist (35 mi), and Facebook Marketplace (logged-in, click-into-listing). Full pull 2026-07-01 (Wed). '
-  +'Heads up — it’s the July 4th holiday week, and small-town corridor yard sales (Columbia, Spring Hill, Lewisburg, Pulaski) mostly post on Facebook Wed–Sat, so corridor volume fills in later this week. A Tuesday pull legitimately looks light. '
-  +'Some Facebook stops show only the city, not the exact address — message the seller to confirm. Estate addresses often release the day before, and sales can cancel without updating. '
+  'Sources reached: gsalr.com (Columbia feed, primary), Craigslist (35 mi), EstateSales.NET (primary estate feed), EstateSales.org (cross-check), Facebook Marketplace (logged-in, click-into-listing), and the Bleu Estates registry check (nothing posted). Full pull 2026-07-02 (Thu). '
+  +'July 4th holiday weekend — the corridor has filled in: 9 sales open Friday. Several estate addresses release Thu 9am or the day before — tap the listing for the exact pin. '
+  +'Some Facebook stops show only the city, not the exact address — message the seller to confirm. Sales can cancel without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
