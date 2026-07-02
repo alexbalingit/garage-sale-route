@@ -64,7 +64,7 @@
   /* day strip */
   .strip{display:flex;gap:6px;overflow-x:auto;padding:12px 18px 2px;-webkit-overflow-scrolling:touch}
   .strip::-webkit-scrollbar{display:none}
-  .day{flex:0 0 auto;min-width:46px;padding:8px 8px;border-radius:11px;border:1px solid var(--line);
+  .day{flex:0 0 auto;min-width:58px;padding:8px 8px;border-radius:11px;border:1px solid var(--line);
     background:#fff;text-align:center;cursor:pointer;
     transition:background .15s ease,border-color .15s ease,transform .15s ease}
   .day:active{transform:scale(.95)}
@@ -126,7 +126,7 @@
   .card h2{font-size:16.5px;font-weight:700;letter-spacing:-.01em;margin:0 0 3px}
   .num{display:inline-block;min-width:21px;height:21px;line-height:21px;text-align:center;
     background:var(--gold);color:#fff;border-radius:50%;font-size:12px;font-weight:700;margin-right:7px}
-  .num.hit{background:var(--hit)} .num.flag{background:var(--flag)}
+  .num.hit{background:var(--hit)} .num.flag{background:var(--flag)} .num.ink{background:var(--ink)}
   .meta{font-size:13px;color:var(--muted);margin:0 0 8px}
   .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
     background:#EFE7D7;color:var(--gold);margin-right:6px;vertical-align:middle}
@@ -221,6 +221,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
+/* Trove — find the best deals in the best neighborhoods */
 var GOLD="#B8893B", HIT="#2E6B4F", FLAG="#A23B2E", INK="#1C1A17";
 var TZ="America/Chicago";
 
@@ -397,7 +398,7 @@ function buildStrip(){
     var el=document.createElement('div');
     el.className='day'+(c?'':' empty')+(isoStr===TODAY_ISO?' today':'')+(isoStr===selectedDay?' on':'');
     el.innerHTML='<div class="dn">'+DOW[d.getDay()]+'</div><div class="dd">'+d.getDate()+'</div>'
-      +'<div class="dc">'+(c?c:'–')+'</div>';
+      +'<div class="dc">'+(c?c+(c===1?' sale':' sales'):'—')+'</div>';
     el.onclick=function(){
       if(!c)return;
       view='week';
@@ -433,8 +434,20 @@ function render(){
     : (view==='weekend' ? 'This weekend — '+WEEKEND.map(function(d){return DOW[parseISO(d).getDay()];}).join(' · ')
       : (selectedDay? dayLabel(selectedDay)+' — single day' : 'Next 7 days — plan your hunt'));
 
+  // pass 1 — collect what's visible, then rank it ONCE (stop order, best first)
+  var dayLists={};
   days.forEach(function(isoStr){
     var open=salesOn(isoStr).filter(passesFilter);
+    dayLists[isoStr]=open;
+    open.forEach(function(s){visibleIds[s.id]=s;});
+  });
+  var routeList=[]; Object.keys(visibleIds).forEach(function(k){routeList.push(visibleIds[k]);});
+  routeList.sort(function(a,b){return b.score-a.score;});
+  var rank={}; routeList.forEach(function(s,i){rank[s.id]=i+1;});
+
+  // pass 2 — render; every card is numbered by its stop rank (matches map pins + route order)
+  days.forEach(function(isoStr){
+    var open=dayLists[isoStr];
     if(grouped){
       var sec=document.createElement('div'); sec.className='day-sec';
       var head=document.createElement('div'); head.className='day-head';
@@ -448,23 +461,22 @@ function render(){
       }
       daysWithSales++;
       if(open.length>1) addDayRoute(open);
-      open.forEach(function(s){renderCard(s,isoStr); visibleIds[s.id]=s;});
+      open.forEach(function(s){renderCard(s,isoStr,rank[s.id]);});
     } else {
-      open.forEach(function(s){renderCard(s,isoStr); visibleIds[s.id]=s;});
+      open.forEach(function(s){renderCard(s,isoStr,rank[s.id]);});
     }
   });
 
-  // map: show only currently-visible sales
+  // map: show only currently-visible sales, pins re-numbered by the SAME rank
   var bounds=[HOME];
   sales.forEach(function(s){
-    if(visibleIds[s.id]){ if(!map.hasLayer(s.marker))s.marker.addTo(map); bounds.push([s.lat,s.lon]); }
+    if(visibleIds[s.id]){ s.marker.setIcon(pinIcon(rank[s.id], s.star?GOLD:INK));
+      if(!map.hasLayer(s.marker))s.marker.addTo(map); bounds.push([s.lat,s.lon]); }
     else if(map.hasLayer(s.marker)) map.removeLayer(s.marker);
   });
   if(bounds.length>1)map.fitBounds(bounds,{padding:[34,34],maxZoom:12}); else map.setView(HOME,10);
 
-  // route button: unique visible sales, ranked
-  var routeList=[]; Object.keys(visibleIds).forEach(function(k){routeList.push(visibleIds[k]);});
-  routeList.sort(function(a,b){return b.score-a.score;});
+  // route button: same ranked list
   routeBtn.href=routeUrl(routeList);
   routeBtn.style.display=routeList.length>1?'block':(routeList.length===1?'block':'none');
   routeBtn.textContent=view==='today'?'Open today’s route in Google Maps'
@@ -475,7 +487,8 @@ function render(){
   var scope=view==='today'?'today':(view==='weekend'?'this weekend':(selectedDay?dayLabel(selectedDay).toLowerCase():'the next 7 days'));
   var label=(activeCat==='all'?'':' in '+titleCase(activeCat))+(q?' matching “'+qEl.value.trim()+'”':'');
   countEl.textContent=uniq+' sale'+(uniq===1?'':'s')+label
-    +(grouped&&!selectedDay?' across '+daysWithSales+' day'+(daysWithSales===1?'':'s'):'')+' · '+scope;
+    +(grouped&&!selectedDay?' across '+daysWithSales+' day'+(daysWithSales===1?'':'s'):'')+' · '+scope
+    +(uniq>1?' · numbered in stop order, best first':'');
   emptyEl.style.display=uniq?'none':'block';
   emptyEl.textContent='No sales'+label+' for '+scope+'. Try another term, switch the view, or check back — the page refreshes daily.';
 
@@ -494,13 +507,13 @@ function addDayRoute(open){
   cardsEl.appendChild(a);
 }
 
-function renderCard(s,isoStr){
+function renderCard(s,isoStr,n){
   var c=document.createElement('div'); c.className='card'+(selected.has(s.id)?' sel':''); c.dataset.id=s.id;
-  var numCls=s.star?'num':'num';
+  var numCls=s.star?'num':'num ink';
   var badge=s.type==="MULTI-FAMILY"?'<span class="badge nb">NEIGHBORHOOD</span>':'<span class="badge">'+s.type+'</span>';
   var tags=s.cats.map(function(t){return '<span class="tag">'+titleCase(t)+'</span>';}).join('');
   c.innerHTML=
-    '<h2><span class="'+numCls+'">'+s.id+'</span>'+s.name+(s.star?' <span class="star">★</span>':'')+'</h2>'
+    '<h2><span class="'+numCls+'" title="Stop order — best first">'+(n||s.id)+'</span>'+s.name+(s.star?' <span class="star">★</span>':'')+'</h2>'
     +'<p class="meta">'+badge+s.time+'</p>'
     +'<p class="addr pin-ico">'+s.addr+(s.approx?' <span class="approx">— exact address releases day-of</span>':'')+'</p>'
     +'<p class="items">'+s.items+'</p>'
