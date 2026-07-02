@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Garage Sale Route — Today &amp; This Week</title>
+<meta name="description" content="This week's best garage, yard &amp; estate sales around Middle Tennessee — ranked, mapped, and one-tap routed. Refreshed daily.">
+<meta name="theme-color" content="#F4EFE6">
+<meta property="og:title" content="Garage Sale Route">
+<meta property="og:description" content="This week's best garage, yard &amp; estate sales — ranked, mapped, and one-tap routed. Refreshed daily.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://garage-sale-route.vercel.app/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='20' fill='%231C1A17'/%3E%3Cg transform='translate(16.8 12) scale(0.065)' fill='%23B8893B'%3E%3Cpath d='M480 934q122-112 181-203.5T720 568q0-109-69.5-178.5T480 320q-101 0-170.5 69.5T240 568q0 71 59 162.5T480 934Zm0 106Q319 903 239.5 785.5T160 568q0-150 96.5-239T480 240q127 0 223.5 89T800 568q0 100-79.5 217.5T480 1040Z' transform='translate(0 -200)'/%3E%3Ccircle cx='480' cy='368' r='84'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
   :root{
@@ -11,12 +21,24 @@
     --gold:#B8893B; --line:#E4DBCB; --hit:#2E6B4F; --flag:#A23B2E;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   body{margin:0;background:var(--bg);color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     line-height:1.45;padding-bottom:40px}
-  header{padding:20px 18px 10px}
-  h1{font-size:22px;margin:0 0 2px}
-  .sub{color:var(--muted);font-size:14px;margin:0}
+  /* paper grain — felt, not flat */
+  body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+  header{padding:22px 18px 8px}
+  h1{font-size:26px;font-weight:800;letter-spacing:-.03em;margin:0 0 3px}
+  .sub{color:var(--muted);font-size:14px;font-weight:500;margin:0}
+
+  /* inline SVG icons (masked, inherit currentColor) */
+  .ico::before{content:"";display:inline-block;width:16px;height:16px;margin:0 8px -3px 0;
+    background:currentColor;-webkit-mask:var(--mi) center/contain no-repeat;mask:var(--mi) center/contain no-repeat}
+  .ico-route::before{--mi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M600-120l-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Z'/%3E%3C/svg%3E")}
+  .pin-ico::before{content:"";display:inline-block;width:14px;height:14px;margin:0 5px -2px 0;background:var(--gold);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z'/%3E%3C/svg%3E") center/contain no-repeat}
 
   /* home bar */
   .homebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 18px 0;font-size:13px;color:var(--muted)}
@@ -32,27 +54,32 @@
   /* view toggle */
   .toggle{display:flex;gap:6px;margin:14px 18px 0;background:#EAE1D1;padding:5px;border-radius:13px}
   .toggle button{flex:1 1 0;padding:11px 6px;border:none;border-radius:9px;background:transparent;
-    color:var(--muted);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;line-height:1.1}
-  .toggle button .n{display:block;font-size:11px;font-weight:600;margin-top:2px;opacity:.7}
-  .toggle button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+    color:var(--muted);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;line-height:1.1;
+    transition:background .18s ease,color .18s ease,box-shadow .18s ease}
+  .toggle button .n{display:block;font-size:11px;font-weight:600;margin-top:2px;opacity:.7;font-variant-numeric:tabular-nums}
+  .toggle button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(28,26,23,.10),0 3px 8px rgba(28,26,23,.08)}
 
   /* day strip */
   .strip{display:flex;gap:6px;overflow-x:auto;padding:12px 18px 2px;-webkit-overflow-scrolling:touch}
   .strip::-webkit-scrollbar{display:none}
   .day{flex:0 0 auto;min-width:46px;padding:8px 8px;border-radius:11px;border:1px solid var(--line);
-    background:#fff;text-align:center;cursor:pointer}
+    background:#fff;text-align:center;cursor:pointer;
+    transition:background .15s ease,border-color .15s ease,transform .15s ease}
+  .day:active{transform:scale(.95)}
   .day.empty{opacity:.45}
   .day.today{border-color:var(--gold)}
   .day.on{background:var(--gold);border-color:var(--gold)}
   .day.on .dn,.day.on .dd,.day.on .dc{color:#fff}
   .day .dn{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
-  .day .dd{font-size:16px;font-weight:700;color:var(--ink);line-height:1.1}
-  .day .dc{font-size:11px;font-weight:600;color:var(--gold);margin-top:1px}
-  .strip-cap{margin:6px 18px 0;font-size:11.5px;color:var(--muted)}
+  .day .dd{font-size:16px;font-weight:700;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+  .day .dc{font-size:11px;font-weight:600;color:var(--gold);margin-top:1px;font-variant-numeric:tabular-nums}
 
-  .route-btn{display:block;margin:14px 18px 6px;padding:15px;border-radius:14px;
+  .route-btn{display:block;margin:16px 18px 6px;padding:15px;border-radius:14px;
     background:var(--gold);color:#fff;text-decoration:none;text-align:center;
-    font-size:16px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+    font-size:16px;font-weight:700;letter-spacing:.01em;
+    box-shadow:0 2px 4px rgba(184,137,59,.28),0 8px 20px rgba(184,137,59,.22);
+    transition:filter .15s ease,transform .06s ease}
+  .route-btn:active{transform:scale(.985)}
   .note-bar{margin:10px 18px 0;padding:11px 13px;border-radius:11px;background:#EFE7D7;
     color:#5b5346;font-size:13px;border:1px solid var(--line)}
 
@@ -60,19 +87,20 @@
   .search-wrap{margin:14px 18px 0;position:relative}
   #q{width:100%;padding:13px 38px 13px 14px;border-radius:12px;border:1px solid var(--line);
     background:#fff;font-size:15px;font-family:inherit;color:var(--ink)}
-  #q:focus{outline:none;border-color:var(--gold)}
+  #q:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,137,59,.16)}
+  #q{transition:border-color .15s ease,box-shadow .15s ease}
   .clr{position:absolute;right:12px;top:50%;transform:translateY(-50%);border:none;background:none;
     font-size:18px;color:var(--muted);cursor:pointer;display:none;line-height:1}
   .chips{display:flex;gap:7px;overflow-x:auto;padding:11px 18px 2px;-webkit-overflow-scrolling:touch}
   .chips::-webkit-scrollbar{display:none}
   .chip{flex:0 0 auto;padding:7px 13px;border-radius:20px;border:1px solid var(--line);
-    background:#fff;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+    background:#fff;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;
+    transition:background .15s ease,color .15s ease,border-color .15s ease}
   .chip.on{background:var(--gold);color:#fff;border-color:var(--gold)}
   .count{margin:8px 18px 0;font-size:12.5px;color:var(--muted)}
 
-  #map{height:330px;margin:12px 18px 4px;border-radius:14px;border:1px solid var(--line);
-    box-shadow:0 1px 3px rgba(0,0,0,.06);z-index:0}
-  .map-cap{margin:0 18px 8px;font-size:12px;color:var(--muted)}
+  #map{height:330px;margin:14px 18px 10px;border-radius:16px;border:1px solid var(--line);
+    box-shadow:0 1px 2px rgba(28,26,23,.05),0 8px 22px rgba(28,26,23,.07);z-index:0}
   .pin{display:flex;align-items:center;justify-content:center;width:26px;height:26px;
     border-radius:50% 50% 50% 0;transform:rotate(-45deg);color:#fff;font-weight:700;
     font-size:12.5px;box-shadow:0 1px 4px rgba(0,0,0,.35);border:1.5px solid #fff}
@@ -89,9 +117,11 @@
     text-decoration:none;border:1px solid var(--gold);border-radius:9px;padding:7px 12px}
   .day-empty{margin:8px 18px 0;color:var(--muted);font-size:13px;font-style:italic}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-    margin:12px 18px;padding:14px 14px 12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-  .card h2{font-size:16px;margin:0 0 3px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    margin:12px 18px;padding:14px 14px 12px;
+    box-shadow:0 1px 2px rgba(28,26,23,.05),0 6px 18px rgba(28,26,23,.05);
+    transition:box-shadow .2s ease,border-color .2s ease}
+  .card h2{font-size:16.5px;font-weight:700;letter-spacing:-.01em;margin:0 0 3px}
   .num{display:inline-block;min-width:21px;height:21px;line-height:21px;text-align:center;
     background:var(--gold);color:#fff;border-radius:50%;font-size:12px;font-weight:700;margin-right:7px}
   .num.hit{background:var(--hit)} .num.flag{background:var(--flag)}
@@ -107,7 +137,8 @@
   .tag{font-size:11px;padding:2px 8px;border-radius:6px;background:#F1EADC;color:#7a6f5c;font-weight:600}
   .btns{display:flex;gap:7px;flex-wrap:wrap}
   .btns a{flex:1 1 30%;min-width:92px;text-align:center;padding:11px 6px;border-radius:10px;
-    text-decoration:none;font-size:13.5px;font-weight:600}
+    text-decoration:none;font-size:13.5px;font-weight:600;transition:filter .15s ease,transform .06s ease}
+  .btns a:active{transform:scale(.97)}
   .map-btn{background:var(--ink);color:#fff}
   .cal{background:var(--gold);color:#fff}
   .fb{background:#EDE6D9;color:var(--ink)}
@@ -116,12 +147,15 @@
   .card h2{padding-right:40px}
   .sel-toggle{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;
     border:2px solid var(--line);background:#fff;cursor:pointer;display:flex;align-items:center;
-    justify-content:center;font-size:16px;font-weight:800;line-height:1;color:var(--muted);padding:0}
-  .card.sel{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,137,59,.30)}
+    justify-content:center;font-size:16px;font-weight:800;line-height:1;color:var(--muted);padding:0;
+    transition:background .15s ease,border-color .15s ease,color .15s ease,transform .1s ease}
+  .sel-toggle:active{transform:scale(.9)}
+  .card.sel{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,137,59,.30),0 6px 18px rgba(184,137,59,.14)}
   .card.sel .sel-toggle{background:var(--gold);border-color:var(--gold);color:#fff}
   .selbar{position:fixed;left:0;right:0;bottom:0;z-index:600;display:none;align-items:center;gap:10px;
     padding:10px 14px calc(12px + env(safe-area-inset-bottom));
-    background:rgba(28,26,23,.96);box-shadow:0 -2px 12px rgba(0,0,0,.18)}
+    background:rgba(28,26,23,.80);backdrop-filter:blur(14px) saturate(150%);
+    -webkit-backdrop-filter:blur(14px) saturate(150%);box-shadow:0 -2px 12px rgba(0,0,0,.18)}
   .selbar.on{display:flex}
   .selbar .go{flex:1;text-align:center;padding:13px 10px;border-radius:12px;background:var(--gold);
     color:#fff;text-decoration:none;font-weight:700;font-size:15px}
@@ -142,7 +176,7 @@
 </header>
 
 <div class="homebar" id="homebar">
-  <span id="homeLabel"></span>
+  <span id="homeLabel" class="pin-ico"></span>
   <button id="homeEdit" type="button">Change</button>
   <div class="home-editor" id="homeEditor" hidden>
     <input id="homeInput" placeholder="Your address, city, or ZIP" autocomplete="off">
@@ -159,9 +193,8 @@
 </div>
 
 <div class="strip" id="strip"></div>
-<p class="strip-cap">Tap a day to jump to it. Numbers = sales open that day. Affluent + neighborhood-wide sales rank first.</p>
 
-<a class="route-btn" id="routeBtn" href="#" target="_blank" rel="noopener">🗺️ Route the visible stops in Google Maps</a>
+<a class="route-btn ico ico-route" id="routeBtn" href="#" target="_blank" rel="noopener">Route the visible stops in Google Maps</a>
 <div class="note-bar" id="note"></div>
 
 <div class="search-wrap">
@@ -172,7 +205,6 @@
 <p class="count" id="count"></p>
 
 <div id="map"></div>
-<p class="map-cap">Pins = currently visible sales. Tap a pin for details + one-tap navigation. 🏠 = home (Culleoka).</p>
 
 <div id="cards"></div>
 <div class="empty" id="empty"></div>
@@ -180,7 +212,7 @@
 <footer id="foot"></footer>
 
 <div class="selbar" id="selbar">
-  <a class="go" id="selGo" href="#" target="_blank" rel="noopener"></a>
+  <a class="go ico ico-route" id="selGo" href="#" target="_blank" rel="noopener"></a>
   <button class="clr2" id="selClr" type="button">Clear</button>
 </div>
 
@@ -318,14 +350,15 @@ function routeUrl(list){if(!list.length)return "#";
 
 /* ---------- map ---------- */
 var map=L.map('map',{scrollWheelZoom:false});
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'}).addTo(map);
 function pinIcon(n,color){return L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'"><span>'+n+'</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]});}
 sales.forEach(function(s){
   s.marker=L.marker([s.lat,s.lon],{icon:pinIcon(s.id, s.star?GOLD:INK)});
   s.marker.bindPopup('<b>'+s.name+'</b><br>'+s.addr+(s.approx?' <i>(approx.)</i>':'')+'<br><a href="'+nav(s)+'">Navigate →</a>');
 });
-var hm=L.marker(HOME,{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+INK+'"><span>🏠</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]})}).addTo(map);
-hm.bindPopup('<b>Home — Culleoka</b>');
+var HOME_SVG='<svg width="12" height="12" viewBox="0 -960 960 960" fill="#fff" style="display:block"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Z"/></svg>';
+var hm=L.marker(HOME,{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+INK+'"><span>'+HOME_SVG+'</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]})}).addTo(map);
+hm.bindPopup('<b>Home — '+home.label+'</b>');
 
 /* ---------- state ---------- */
 var view='today', selectedDay=null, activeCat='all';
@@ -431,8 +464,8 @@ function render(){
   routeList.sort(function(a,b){return b.score-a.score;});
   routeBtn.href=routeUrl(routeList);
   routeBtn.style.display=routeList.length>1?'block':(routeList.length===1?'block':'none');
-  routeBtn.textContent=view==='today'?'🗺️ Open today’s route in Google Maps'
-    :'🗺️ Route all '+routeList.length+' visible stop'+(routeList.length===1?'':'s');
+  routeBtn.textContent=view==='today'?'Open today’s route in Google Maps'
+    :'Route all '+routeList.length+' visible stop'+(routeList.length===1?'':'s');
 
   // count + empty
   var uniq=routeList.length;
@@ -452,9 +485,9 @@ function render(){
 
 function addDayRoute(open){
   if(open.length<1)return;
-  var a=document.createElement('a'); a.className='day-route'; a.target='_blank'; a.rel='noopener';
+  var a=document.createElement('a'); a.className='day-route ico ico-route'; a.target='_blank'; a.rel='noopener';
   a.href=routeUrl(open.slice().sort(function(x,y){return y.score-x.score;}));
-  a.textContent=open.length>1?'🗺️ Route these '+open.length:'🗺️ Navigate';
+  a.textContent=open.length>1?'Route these '+open.length:'Navigate';
   cardsEl.appendChild(a);
 }
 
@@ -466,7 +499,7 @@ function renderCard(s,isoStr){
   c.innerHTML=
     '<h2><span class="'+numCls+'">'+s.id+'</span>'+s.name+(s.star?' <span class="star">★</span>':'')+'</h2>'
     +'<p class="meta">'+badge+s.time+'</p>'
-    +'<p class="addr">📍 '+s.addr+(s.approx?' <span class="approx">— exact address releases day-of</span>':'')+'</p>'
+    +'<p class="addr pin-ico">'+s.addr+(s.approx?' <span class="approx">— exact address releases day-of</span>':'')+'</p>'
     +'<p class="items">'+s.items+'</p>'
     +'<div class="tags">'+tags+'</div>'
     +'<div class="btns">'
@@ -515,7 +548,7 @@ function updateSelBar(){
   if(!arr.length){ selbarEl.classList.remove('on'); document.body.classList.remove('has-sel'); return; }
   selbarEl.classList.add('on'); document.body.classList.add('has-sel');
   selGoEl.href=routeUrl(arr);
-  selGoEl.textContent='🗺️ Route '+arr.length+' selected stop'+(arr.length===1?'':'s');
+  selGoEl.textContent='Route '+arr.length+' selected stop'+(arr.length===1?'':'s');
 }
 document.getElementById('selClr').onclick=function(){ selected.clear(); persistSel(); reflectSel(); updateSelBar(); };
 
@@ -544,12 +577,12 @@ var homeLabelEl=document.getElementById('homeLabel'),
     homeNoteEl=document.getElementById('homeNote'),
     homeSetEl=document.getElementById('homeSet'),
     homeEditBtn=document.getElementById('homeEdit');
-function updateHomeUI(){ homeLabelEl.innerHTML='📍 Home: <b>'+home.label+'</b>'; }
+function updateHomeUI(){ homeLabelEl.innerHTML='Home: <b>'+home.label+'</b>'; }
 function showHomeEditor(show){ homeEditorEl.hidden=!show; homeEditBtn.style.display=show?'none':'';
   if(show){ homeNoteEl.textContent=''; homeInputEl.value=''; homeInputEl.focus(); } }
 function applyHome(h){
   home=h; HOME=[h.lat,h.lon]; HOME_Q=h.q; saveHome(h);
-  if(hm)hm.setLatLng(HOME);
+  if(hm){hm.setLatLng(HOME); hm.setPopupContent('<b>Home — '+h.label+'</b>');}
   recomputeDrives(); updateHomeUI(); render(); showHomeEditor(false);
 }
 homeEditBtn.onclick=function(){ showHomeEditor(true); };
