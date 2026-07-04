@@ -586,8 +586,17 @@ var cardsEl=document.getElementById('cards'), countEl=document.getElementById('c
 
 function passesFilter(s){
   var q=qEl.value.trim().toLowerCase();
-  var catOk=activeCats.length===0||activeCats.some(function(c){return s.cats.indexOf(c)>=0;});
+  var catOk=activeCats.length===0||activeCats.some(function(c){return hasCat(s,c);});
   return catOk&&(q===''||s.hay.indexOf(q)>=0);
+}
+
+/* cat match: tagged in s.cats OR mentioned in the sale's item text (stemmed, so "watches" finds "watch") */
+function hasCat(s,c){
+  if(s.cats.indexOf(c)>=0)return true;
+  var cands=[c];
+  if(c.length>4&&c.slice(-2)==='es')cands.push(c.slice(0,-2));
+  if(c.length>3&&c.slice(-1)==='s')cands.push(c.slice(0,-1));
+  return cands.some(function(w){return w.length>=4&&s.hay.indexOf(w)>=0;});
 }
 
 function render(){
@@ -738,6 +747,9 @@ document.getElementById('selClr').onclick=function(){ selected.clear(); persistS
 
 /* ---------- category chips ---------- */
 var cats=['all']; sales.forEach(function(s){s.cats.forEach(function(c){if(cats.indexOf(c)<0)cats.push(c);});});
+/* PINNED_CATS: always-available chips, even when no current sale lists them */
+var PINNED_CATS=['watches'];
+PINNED_CATS.forEach(function(p){if(cats.indexOf(p)<0)cats.push(p);});
 var chipsEl=document.getElementById('chips');
 function syncChips(){
   [].forEach.call(chipsEl.children,function(x){
