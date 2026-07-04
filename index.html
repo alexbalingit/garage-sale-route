@@ -532,7 +532,7 @@ var hm=L.marker(HOME,{icon:L.divIcon({className:'',html:'<div class="pin" style=
 hm.bindPopup('<b>Home — '+home.label+'</b>');
 
 /* ---------- state ---------- */
-var view='today', selectedDay=null, activeCat='all';
+var view='today', selectedDay=null, activeCats=[]; /* multi-select chips; empty = All */
 function activeDays(){
   if(view==='today')return [TODAY_ISO];
   if(view==='weekend')return WEEKEND;
@@ -586,7 +586,8 @@ var cardsEl=document.getElementById('cards'), countEl=document.getElementById('c
 
 function passesFilter(s){
   var q=qEl.value.trim().toLowerCase();
-  return (activeCat==='all'||s.cats.indexOf(activeCat)>=0)&&(q===''||s.hay.indexOf(q)>=0);
+  var catOk=activeCats.length===0||activeCats.some(function(c){return s.cats.indexOf(c)>=0;});
+  return catOk&&(q===''||s.hay.indexOf(q)>=0);
 }
 
 function render(){
@@ -623,7 +624,7 @@ function render(){
       sec.appendChild(head); cardsEl.appendChild(sec);
       if(!open.length){
         var e=document.createElement('div'); e.className='day-empty';
-        e.textContent=(q||activeCat!=='all')?'No matching sales this day.':'Nothing posted yet — re-check closer to the date.';
+        e.textContent=(q||activeCats.length)?'No matching sales this day.':'Nothing posted yet — re-check closer to the date.';
         cardsEl.appendChild(e); return;
       }
       daysWithSales++;
@@ -652,7 +653,7 @@ function render(){
   // count + empty
   var uniq=routeList.length;
   var scope=view==='today'?'today':(view==='weekend'?'this weekend':(selectedDay?dayLabel(selectedDay).toLowerCase():'the next 7 days'));
-  var label=(activeCat==='all'?'':' in '+titleCase(activeCat))+(q?' matching “'+qEl.value.trim()+'”':'');
+  var label=(activeCats.length===0?'':' with '+activeCats.map(titleCase).join(' or '))+(q?' matching “'+qEl.value.trim()+'”':'');
   countEl.textContent=uniq+' sale'+(uniq===1?'':'s')+label
     +(grouped&&!selectedDay?' across '+daysWithSales+' day'+(daysWithSales===1?'':'s'):'')+' · '+scope
     +(uniq>1?' · numbered in stop order, best first':'');
@@ -738,9 +739,23 @@ document.getElementById('selClr').onclick=function(){ selected.clear(); persistS
 /* ---------- category chips ---------- */
 var cats=['all']; sales.forEach(function(s){s.cats.forEach(function(c){if(cats.indexOf(c)<0)cats.push(c);});});
 var chipsEl=document.getElementById('chips');
+function syncChips(){
+  [].forEach.call(chipsEl.children,function(x){
+    var c=x.dataset.cat;
+    x.classList.toggle('on', c==='all' ? activeCats.length===0 : activeCats.indexOf(c)>=0);
+  });
+}
 cats.forEach(function(c){
   var b=document.createElement('button'); b.className='chip'+(c==='all'?' on':''); b.textContent=c==='all'?'All':titleCase(c);
-  b.onclick=function(){activeCat=c;[].forEach.call(chipsEl.children,function(x){x.classList.remove('on');});b.classList.add('on');render();};
+  b.dataset.cat=c;
+  b.onclick=function(){
+    if(c==='all'){ activeCats=[]; }
+    else{
+      var i=activeCats.indexOf(c);
+      if(i>=0)activeCats.splice(i,1); else activeCats.push(c);
+    }
+    syncChips(); render();
+  };
   chipsEl.appendChild(b);
 });
 
