@@ -337,9 +337,9 @@ var sales=[
    lat:35.9241, lon:-86.8762, approx:true, affluence:82, drive:42,
    dates:["2026-07-09","2026-07-10","2026-07-11","2026-07-12"], time:"Thu–Sun · 10am–4pm",
    start:"100000", end:"160000",
-   items:"A four-day run at a log-cabin property on Hwy 96 W (New Life Estate Sales) — furniture, d&eacute;cor, tools &amp; unique finds. The listing calls the exact address hidden until the day before, but the street is already confirmed on gsalr.",
-   cats:["estate","furniture","tools","household"],
-   link:"https://gsalr.com/western-charm-log-cabin-estate-sale-franklin-tn.html"},
+   items:"A four-day run at a log-cabin property on Hwy 96 W (New Life Estate Sales) — furniture, western d&eacute;cor, lots of tools, <b>fishing gear &amp; fishing poles</b>, outdoor equipment, horse tack, wheelbarrows, patio furniture. The listing calls the exact address hidden until the day before, but the street is already confirmed on gsalr.",
+   cats:["estate","furniture","tools","fishing","household"],
+   link:"https://gsalr.com/western-charm-log-cabin-franklin-tn-38833433.html"},
 
  /* ---- Fri–Sun (Jul 10–12) ---- */
  {id:16, name:"Big 3-Family Yard Sale — Ardmore", type:"MULTI-FAMILY", star:true,
@@ -551,6 +551,16 @@ function passesFilter(s){
   return catOk&&(q===''||s.hay.indexOf(q)>=0);
 }
 
+/* results mode: any active search/chip searches the WHOLE window, flat list (no per-day clicking) */
+function filterActive(){return qEl.value.trim()!==''||activeCats.length>0;}
+function firstOpen(s){for(var i=0;i<WINDOW.length;i++)if(s.dates.indexOf(WINDOW[i])>=0)return WINDOW[i];return s.dates[0];}
+function datesLabel(s){
+  var ds=s.dates.filter(function(d){return WINDOW.indexOf(d)>=0;}).sort();
+  if(!ds.length)return'';
+  function fmt(x){var d=parseISO(x);return DOW[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate();}
+  return ds.length>1?fmt(ds[0])+' – '+fmt(ds[ds.length-1]):fmt(ds[0]);
+}
+
 /* cat match: tagged in s.cats OR mentioned in the sale's item text (stemmed, so "watches" finds "watch") */
 function hasCat(s,c){
   if(s.cats.indexOf(c)>=0)return true;
@@ -561,16 +571,19 @@ function hasCat(s,c){
 }
 
 function render(){
-  var days=activeDays();
-  var grouped=(view!=='today');
+  var resultsMode=filterActive(); /* search/chips → whole-window flat results, regardless of view/day */
+  var days=resultsMode?WINDOW:activeDays();
+  var grouped=(view!=='today')&&!resultsMode;
   var q=qEl.value.trim().toLowerCase(); clrEl.style.display=q?'block':'none';
   cardsEl.innerHTML='';
   var visibleIds={}, daysWithSales=0;
 
-  subEl.textContent = view==='today'
+  subEl.textContent = resultsMode
+    ? 'Search results — every sale this week, all days'
+    : (view==='today'
     ? dayLabel(TODAY_ISO)+' — what’s open right now'
     : (view==='weekend' ? 'This weekend — '+WEEKEND.map(function(d){return DOW[parseISO(d).getDay()];}).join(' · ')
-      : (selectedDay? dayLabel(selectedDay)+' — single day' : 'Next 7 days — plan your hunt'));
+      : (selectedDay? dayLabel(selectedDay)+' — single day' : 'Next 7 days — plan your hunt')));
 
   // pass 1 — collect what's visible, then rank it ONCE (stop order, best first)
   var dayLists={};
@@ -584,6 +597,10 @@ function render(){
   var rank={}; routeList.forEach(function(s,i){rank[s.id]=i+1;});
 
   // pass 2 — render; every card is numbered by its stop rank (matches map pins + route order)
+  if(resultsMode){
+    /* flat, deduped, best-first; each card carries its own dates — no per-day clicking */
+    routeList.forEach(function(s){renderCard(s,firstOpen(s),rank[s.id],true);});
+  } else
   days.forEach(function(isoStr){
     var open=dayLists[isoStr];
     if(grouped){
@@ -617,12 +634,12 @@ function render(){
   // route button: same ranked list
   routeBtn.href=routeUrl(routeList);
   routeBtn.style.display=routeList.length>1?'block':(routeList.length===1?'block':'none');
-  routeBtn.textContent=view==='today'?'Open today’s route in Google Maps'
+  routeBtn.textContent=(view==='today'&&!resultsMode)?'Open today’s route in Google Maps'
     :'Route all '+routeList.length+' visible stop'+(routeList.length===1?'':'s');
 
   // count + empty
   var uniq=routeList.length;
-  var scope=view==='today'?'today':(view==='weekend'?'this weekend':(selectedDay?dayLabel(selectedDay).toLowerCase():'the next 7 days'));
+  var scope=resultsMode?'across all days this week':(view==='today'?'today':(view==='weekend'?'this weekend':(selectedDay?dayLabel(selectedDay).toLowerCase():'the next 7 days')));
   var label=(activeCats.length===0?'':' with '+activeCats.map(titleCase).join(' or '))+(q?' matching “'+qEl.value.trim()+'”':'');
   countEl.textContent=uniq+' sale'+(uniq===1?'':'s')+label
     +(grouped&&!selectedDay?' across '+daysWithSales+' day'+(daysWithSales===1?'':'s'):'')+' · '+scope
@@ -645,14 +662,15 @@ function addDayRoute(open){
   cardsEl.appendChild(a);
 }
 
-function renderCard(s,isoStr,n){
+function renderCard(s,isoStr,n,showDates){
   var c=document.createElement('div'); c.className='card'+(selected.has(s.id)?' sel':''); c.dataset.id=s.id;
   var numCls=s.star?'num':'num ink';
   var badge=s.type==="MULTI-FAMILY"?'<span class="badge nb">NEIGHBORHOOD</span>':'<span class="badge">'+s.type+'</span>';
   var tags=s.cats.map(function(t){return '<span class="tag">'+titleCase(t)+'</span>';}).join('');
+  var when=showDates?' · <b>'+datesLabel(s)+'</b>':'';
   c.innerHTML=
     '<h2><span class="'+numCls+'" title="Stop order — best first">'+(n||s.id)+'</span>'+s.name+(s.star?' <span class="star">★</span>':'')+'</h2>'
-    +'<p class="meta">'+badge+s.time+'</p>'
+    +'<p class="meta">'+badge+s.time+when+'</p>'
     +'<p class="addr pin-ico">'+s.addr+(s.approx?' <span class="approx">— exact address releases day-of</span>':'')+'</p>'
     +'<p class="items">'+s.items+'</p>'
     +'<div class="tags">'+tags+'</div>'
@@ -709,7 +727,7 @@ document.getElementById('selClr').onclick=function(){ selected.clear(); persistS
 /* ---------- category chips ---------- */
 var cats=['all']; sales.forEach(function(s){s.cats.forEach(function(c){if(cats.indexOf(c)<0)cats.push(c);});});
 /* PINNED_CATS: always-available chips, even when no current sale lists them */
-var PINNED_CATS=['watches'];
+var PINNED_CATS=['watches','fishing'];
 PINNED_CATS.forEach(function(p){if(cats.indexOf(p)<0)cats.push(p);});
 var chipsEl=document.getElementById('chips');
 function syncChips(){
