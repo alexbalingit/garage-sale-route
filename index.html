@@ -673,10 +673,10 @@ function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
     if(!t.length)return '<b>Nothing open today.</b> Weekdays are quiet in the corridor — tap <b>Weekend</b> or <b>Next 7 Days</b> to plan ahead.';
-    return '<b>'+t.length+' open today — Sunday mop-up with real discounts.</b> Final days: <b>Nice Brentwood</b> (most affluent zip, offers on the trailer &amp; mower until ~1pm), <b>Steeplechase</b> (50% off most items, 10–3), <b>Stone Run Dr</b> (9am–12pm only), and the <b>Shelbyville</b> estate. New this morning: a <b>Shelbyville garage sale on Equestrian Way</b> from 9am. <b>Ardmore</b> runs daylight-to-dark and <b>Petersburg</b> until dark.';
+    return '<b>'+t.length+' open today.</b> Check the cards below for times, then tap Navigate. Several addresses release the day before the sale — the Listing link is how you confirm before driving.';
   }
-  if(view==='weekend')return '<b>Sunday is mop-up day; the big wave lands Fri–Sat.</b> Today: 7 sales, mostly final days with discounts (<b>Nice Brentwood</b>, <b>Steeplechase</b> 50% off). Next <b>Fri 7/10</b> (11) and <b>Sat 7/11</b> (14): the Franklin double-header, the new <b>Gilded &amp; Gathered</b> Brentwood estate, the Eagleville barn sale, and the Crutcher Rd encore. Confirm via Listing before driving.';
-  return '<b>Plan the week.</b> Volume peaks <b>Fri 7/10</b> (11 sales) and <b>Sat 7/11</b> (14): the Franklin double-header (<b>Grasons Fieldstone Farms</b> + <b>Wonderful Franklin</b>), the NEW <b>&ldquo;Gilded &amp; Gathered&rdquo;</b> Brentwood estate (Swarovski, sterling, Thu–Sat), the <b>Eagleville barn sale</b> with a running &rsquo;52 Ford tractor (thru Sun), the <b>Crutcher Rd encore</b>, and an evenings-only <b>Rock &amp; Soul</b> Bellevue moving sale 4–7pm. Midweek: <b>Bellevue</b> Wed, <b>Sims</b> Shelbyville Wed–Fri 9–1, and the <b>Beth Berei</b> Lewisburg multi-family (confirm dates). Several addresses release the day before — the Listing link is how you confirm.';
+  if(view==='weekend')return '<b>Volume peaks Fri 7/10 (13 sales) and Sat 7/11 (18).</b> Top picks: the <b>Belle Meade estate</b> (the corridor’s most affluent zip, Thu–Sat), the Franklin double-header (<b>Grasons Fieldstone Farms</b> + <b>Wonderful Franklin</b>) plus a third Franklin estate on <b>Western Charm Log Cabin</b>, the <b>&ldquo;Gilded &amp; Gathered&rdquo;</b> Brentwood estate (Swarovski, sterling, Thu–Sat), the <b>Eagleville barn sale</b> with a running ’52 Ford tractor (thru Sun), the <b>Crutcher Rd encore</b> in Chapel Hill, and an evenings-only <b>Rock &amp; Soul</b> Bellevue moving sale 4–7pm. Confirm via Listing before driving — several addresses release the day before.';
+  return '<b>Plan the week.</b> Midweek starts light — <b>Wed 7/8</b> (3) and <b>Thu 7/9</b> (9) with Bellevue, Sims Shelbyville, Beth Berei Lewisburg, and the first wave of Thu–Sat estates (<b>Belle Meade</b>, <b>Gilded &amp; Gathered</b> Brentwood, <b>Vintage Soul</b> Crieve Hall). Volume peaks <b>Fri 7/10</b> (13) and <b>Sat 7/11</b> (18): the Franklin triple-header (<b>Grasons Fieldstone Farms</b>, <b>Wonderful Franklin</b>, <b>Western Charm Log Cabin</b>), the <b>Eagleville barn sale</b> with a running ’52 Ford tractor (thru Sun), the <b>Crutcher Rd encore</b>, and close corridor stops in Columbia and Lewisburg. Several addresses release the day before — the Listing link is how you confirm.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -736,8 +736,8 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: gsalr.com (Columbia feed, primary), Craigslist (35 mi), EstateSales.NET Columbia + Spring Hill (primary estate feed), EstateSales.org (cross-check), Facebook Marketplace (logged-in, click-into-listing), and the Bleu Estates + Great Scott registry checks (nothing posted). Full pull 2026-07-05 (Sun). '
-  +'Independence Day — 13 sales open today; several are final days with weekend discounts. Estate addresses for next week release the day before — tap the listing for the exact pin. '
+  'Sources reached: gsalr.com (Columbia feed, primary), Craigslist (35 mi), EstateSales.NET Columbia + Spring Hill (primary estate feed), Facebook Marketplace (logged-in, click-into-listing), and the Bleu Estates + Great Scott registry checks (nothing posted). Full pull 2026-07-06 (Mon). '
+  +'Monday is quiet as usual — nothing open today; the week builds through Wednesday and peaks Fri–Sat. Several estate addresses release the day before — tap the listing for the exact pin. '
   +'Some Facebook stops show only the city, not the exact address — message the seller to confirm. Sales can cancel without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
