@@ -91,6 +91,14 @@
     background:#fff;font-size:15px;font-family:inherit;color:var(--ink)}
   #q:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,137,59,.16)}
   #q{transition:border-color .15s ease,box-shadow .15s ease}
+  /* map pin popup card — what's available at the listing */
+  .leaflet-popup-content{margin:12px 14px;line-height:1.45;font-family:Inter,system-ui,sans-serif}
+  .pop b{font-size:14px;letter-spacing:-.01em}
+  .pop-meta{color:#8a7f6e;font-size:11px;margin:3px 0 4px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+  .pop-addr{font-size:12.5px;margin-bottom:6px}
+  .pop-items{font-size:12.5px;max-height:110px;overflow:auto;padding-right:4px;margin-bottom:8px;color:#4a443b}
+  .pop-btns{display:flex;gap:14px}
+  .pop-btns a{color:var(--gold);font-weight:600;text-decoration:none;font-size:12.5px}
   .clr{position:absolute;right:12px;top:50%;transform:translateY(-50%);border:none;background:none;
     font-size:18px;color:var(--muted);cursor:pointer;display:none;line-height:1}
   .chips{display:flex;gap:7px;overflow-x:auto;padding:11px 18px 2px;-webkit-overflow-scrolling:touch}
@@ -486,11 +494,21 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{ma
 function pinIcon(n,color){return L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'"><span>'+n+'</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]});}
 sales.forEach(function(s){
   s.marker=L.marker([s.lat,s.lon],{icon:pinIcon(s.id, s.star?GOLD:INK)});
-  s.marker.bindPopup('<b>'+s.name+'</b><br>'+s.addr+(s.approx?' <i>(approx.)</i>':'')+'<br><a href="'+nav(s)+'">Navigate →</a>');
+  s.marker.bindPopup(
+    '<div class="pop">'
+    +'<b>'+s.name+(s.star?' ★':'')+'</b>'
+    +'<div class="pop-meta">'+s.type+' · '+datesLabel(s)+' · '+s.time+'</div>'
+    +'<div class="pop-addr">'+s.addr+(s.approx?' <i>— exact address releases day-of</i>':'')+'</div>'
+    +'<div class="pop-items">'+s.items+'</div>'
+    +'<div class="pop-btns"><a href="'+nav(s)+'" target="_blank" rel="noopener">Navigate →</a><a href="'+s.link+'" target="_blank" rel="noopener">Listing →</a></div>'
+    +'</div>',{maxWidth:320});
 });
 var HOME_SVG='<svg width="12" height="12" viewBox="0 -960 960 960" fill="#fff" style="display:block"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Z"/></svg>';
 var hm=L.marker(HOME,{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+INK+'"><span>'+HOME_SVG+'</span></div>',iconSize:[26,26],iconAnchor:[13,26],popupAnchor:[0,-24]})}).addTo(map);
-hm.bindPopup('<b>Home — '+home.label+'</b>');
+hm.bindPopup('<b>Home — '+home.label+'</b><br>Gold circle ≈ a 30-minute drive.');
+/* 30-min drive ring — mirrors the fishing map (RADIUS_KM=28 ≈ 30 min on corridor roads) */
+var RING_KM=28;
+var ring=L.circle(HOME,{radius:RING_KM*1000,color:GOLD,weight:1.5,dashArray:'6,6',fillColor:GOLD,fillOpacity:.05,interactive:false}).addTo(map);
 
 /* ---------- state ---------- */
 var view='today', selectedDay=null, activeCats=[]; /* multi-select chips; empty = All */
@@ -771,7 +789,8 @@ function showHomeEditor(show){ homeEditorEl.hidden=!show; homeEditBtn.style.disp
   if(show){ homeNoteEl.textContent=''; homeInputEl.value=''; homeInputEl.focus(); } }
 function applyHome(h){
   home=h; HOME=[h.lat,h.lon]; HOME_Q=h.q; saveHome(h);
-  if(hm){hm.setLatLng(HOME); hm.setPopupContent('<b>Home — '+h.label+'</b>');}
+  if(hm){hm.setLatLng(HOME); hm.setPopupContent('<b>Home — '+h.label+'</b><br>Gold circle ≈ a 30-minute drive.');}
+  if(ring)ring.setLatLng(HOME);
   recomputeDrives(); updateHomeUI(); render(); showHomeEditor(false);
 }
 homeEditBtn.onclick=function(){ showHomeEditor(true); };
