@@ -252,10 +252,14 @@ function scoreSale(s){ return s.affluence + (s.type==="ESTATE"?12:0) + (s.type==
 function recomputeDrives(){ sales.forEach(function(s){ s.drive=driveMinFromHome(s.lat,s.lon); s.score=scoreSale(s); }); }
 
 /* ---- Single source of truth. Each sale lists every date it is open (ISO). ----
-   Generated from gsalr (Columbia feed) + Craigslist + EstateSales.NET (primary estate feed)
-   + EstateSales.org (cross-check) + Facebook Marketplace (logged-in Chrome, click-into-listing)
-   on 2026-07-03 (Fri), 7-day window Jul 3 – Jul 10. Addresses geocoded via US Census.
-   affluence 0-100 (zip tier) drives ranking; drive = est. minutes from home. */
+   Generated from gsalr (Columbia feed, live DOM extraction) + Craigslist + EstateSales.NET
+   (primary estate feed) + Facebook Marketplace (logged-in Chrome, click-into-listing)
+   on 2026-07-07 (Tue), 7-day window Jul 7 – Jul 14. Addresses geocoded via US Census / Nominatim.
+   affluence 0-100 (zip tier) drives ranking; drive = est. minutes from home.
+   NOTE: Sims Shelbyville, Belle Meade estate, Antique Prints Franklin, Brentwood Moving & Demo,
+   and Rock & Soul Bellevue evenings did not reconfirm on this live pull (gone from gsalr/EstateSales.NET
+   feeds) — dropped rather than carried forward stale. Ardmore 3-family's craigslist post now shows its
+   real dates as Jul 4-5 (past) — a prior run's "runs again this weekend" assumption was wrong; dropped. */
 var sales=[
  /* ---- Midweek (Jul 8–9) ---- */
  {id:28, name:"Great Bellevue Estate Sale — Wednesday", type:"ESTATE", star:false,
@@ -263,25 +267,16 @@ var sales=[
    lat:36.076, lon:-86.941, approx:true, affluence:75, drive:48,
    dates:["2026-07-08"], time:"Wed only · 8am–5pm",
    start:"080000", end:"170000",
-   items:"One-day Bellevue estate Wednesday (343 photos added) — eclectic treasures: signed prints, furniture, great books, rugs, kitchen wares, pots &amp; pans, patio furniture and more. Address releases Tue Jul 7 on the listing.",
+   items:"One-day Bellevue estate Wednesday — eclectic treasures: signed prints, furniture, great books, rugs, kitchen wares, pots &amp; pans, patio furniture and more. Address releases today (Tue Jul 7) on the listing.",
    cats:["estate","furniture","books","art","household"],
-   link:"https://www.estatesales.net/TN/Nashville/37221/4985442"},
+   link:"https://gsalr.com/great-bellevue-estate-sale-nashville-tn-38832301.html"},
 
- {id:30, name:"Sims Estate Sale — Shelbyville", type:"ESTATE", star:false,
-   addr:"Shelbyville 37160", q:"Shelbyville,TN+37160",
-   lat:35.4834, lon:-86.4603, approx:true, affluence:45, drive:40,
-   dates:["2026-07-08","2026-07-09","2026-07-10"], time:"Wed–Fri · 9am–1pm",
-   start:"090000", end:"130000",
-   items:"Midweek corridor estate in Shelbyville (184 photos) — home d&eacute;cor, barn supplies, car supplies, antiques, glassware and more. Mornings only, 9am&ndash;1pm. Exact address on the EstateSales.NET listing.",
-   cats:["estate","antiques","glassware","barn","household"],
-   link:"https://www.estatesales.net/TN/Shelbyville/37160/4982439"},
-
- {id:35, name:"Beth Berei Multi-Family Yard Sale — Lewisburg", type:"MULTI-FAMILY", star:false,
+ {id:35, name:"Bethbirei Rd Multi-Family Yard Sale — Lewisburg", type:"MULTI-FAMILY", star:false,
    addr:"2185 Bethbirei Rd, Lewisburg 37091", q:"2185+Bethbirei+Rd,Lewisburg,TN+37091",
    lat:35.511831, lon:-86.748195, approx:false, affluence:45, drive:18,
-   dates:["2026-07-08","2026-07-09"], time:"Wed–Thu (per post) · confirm before driving",
-   start:"080000", end:"160000",
-   items:"New corridor multi-family with the real address in the post — &ldquo;the 8th and 9th, everything priced to go.&rdquo; Collector cards (football, baseball, NASCAR, Pok&eacute;mon), toys, clothes, household d&eacute;cor, live plants, free stuffed animals. &#9888;&#65039; The post also says &ldquo;this Saturday&rdquo; — message the seller to confirm the dates before driving.",
+   dates:["2026-07-08","2026-07-09"], time:"Fri–Sat · 8am until dark",
+   start:"080000", end:"180000",
+   items:"CONFIRMED — the seller's post now spells out the dates directly: &ldquo;Friday the 8th and Saturday the 9th from 8am until dark.&rdquo; Collector cards (football, baseball, NASCAR, Pok&eacute;mon), toys, clothes, household d&eacute;cor, live plants, free stuffed animals, fresh farm eggs.",
    cats:["multi-family","collectibles","toys","clothes","household"],
    link:"https://www.facebook.com/marketplace/item/1671271637226511"},
 
@@ -289,20 +284,11 @@ var sales=[
  {id:32, name:"“Gilded &amp; Gathered” Elegant Brentwood Estate Sale", type:"ESTATE", star:true,
    addr:"Brentwood 37027", q:"Brentwood,TN+37027",
    lat:35.995, lon:-86.795, approx:true, affluence:92, drive:38,
-   dates:["2026-07-09","2026-07-10","2026-07-11"], time:"Thu–Sat · 9am–3pm",
+   dates:["2026-07-09","2026-07-10","2026-07-11"], time:"Thu–Fri 9am–3pm · Sat 10am–4pm",
    start:"090000", end:"150000",
-   items:"NEW thesis pick in the top Brentwood zip (Marigold Estate Sales, 103 photos) — tons of Swarovski crystal, brass accents, china sets, sterling &amp; silver-plate dishes, beautiful furniture, art, and &ldquo;tons of amazing lamps.&rdquo; Address releases Wed Jul 8 on the listing.",
+   items:"Reconfirmed live — the top Brentwood zip (Marigold Estate Sales, 198 photos) — tons of Swarovski crystal, brass accents, china sets, sterling &amp; silver-plate dishes, beautiful furniture, art, Waterford pineapple lamps, linens, holiday. Address releases Wed Jul 8 on the listing.",
    cats:["estate","crystal","silver","china","furniture","art"],
-   link:"https://www.estatesales.net/TN/Brentwood/37027/4981734"},
-
- {id:33, name:"Rock &amp; Soul Moving Sale — Bellevue (Evenings)", type:"MOVING", star:false,
-   addr:"Nashville (Bellevue) 37221", q:"Nashville,TN+37221",
-   lat:36.065, lon:-86.935, approx:true, affluence:75, drive:48,
-   dates:["2026-07-09","2026-07-10","2026-07-11"], time:"Thu–Sat · 4pm–7pm (evenings)",
-   start:"160000", end:"190000",
-   items:"An after-hours option — Mayberry Sales runs this Bellevue moving sale evenings only, 4&ndash;7pm (76 photos). Music &amp; rock-and-roll flavored household goods. Stack it after any Thu/Fri/Sat day route; address on the EstateSales.NET listing.",
-   cats:["moving","music","household","collectibles"],
-   link:"https://www.estatesales.net/TN/Nashville/37221/4986504"},
+   link:"https://gsalr.com/gilded-gathered-elegant-brentwood-brentwood-tn-38830327.html"},
 
  {id:11, name:"Columbia Estate Sale — Glennridge Rd", type:"ESTATE", star:false,
    addr:"2322 Glennridge Rd, Columbia 38401", q:"2322+Glennridge+Rd,Columbia,TN+38401",
@@ -331,43 +317,16 @@ var sales=[
    cats:["estate","vintage","furniture","art","records","tools"],
    link:"https://www.estatesales.net/TN/Nashville/37211/4968078"},
 
- {id:37, name:"Estate Sale With Decades Of Treasures — Belle Meade", type:"ESTATE", star:true,
-   addr:"Nashville (Belle Meade) 37205", q:"Belle+Meade,Nashville,TN+37205",
-   lat:36.0953, lon:-86.8618, approx:true, affluence:98, drive:50,
-   dates:["2026-07-09","2026-07-10","2026-07-11"], time:"Thu–Sat · 8am–3pm",
-   start:"080000", end:"150000",
-   items:"NEW thesis pick — Busy Bee Moving Sales runs this estate sale in Belle Meade, the corridor's single most affluent zip code. Walk-through photos posted so far with better ones promised closer to the date. Full address releases Wed Jul 8 at 9am on the listing.",
-   cats:["estate","household","furniture"],
-   link:"https://www.estatesales.net/TN/Nashville/37205/4938645"},
-
  {id:36, name:"Western Charm Log Cabin Estate Sale — Franklin", type:"ESTATE", star:false,
    addr:"3949 New Hwy 96 W, Franklin 37064", q:"3949+New+Hwy+96+W,Franklin,TN+37064",
    lat:35.9241, lon:-86.8762, approx:true, affluence:82, drive:42,
    dates:["2026-07-09","2026-07-10","2026-07-11","2026-07-12"], time:"Thu–Sun · 10am–4pm",
    start:"100000", end:"160000",
-   items:"A four-day run at a log-cabin property on Hwy 96 W (New Life Estate Sales) — furniture, western d&eacute;cor, lots of tools, <b>fishing gear &amp; fishing poles</b>, outdoor equipment, horse tack, wheelbarrows, patio furniture. The listing calls the exact address hidden until the day before, but the street is already confirmed on gsalr.",
+   items:"Reconfirmed live — a four-day run at a log-cabin property on Hwy 96 W (New Life Estate Sales) — furniture, western d&eacute;cor, lots of tools, <b>fishing gear &amp; fishing poles</b>, outdoor equipment, horse tack, wheelbarrows, patio furniture. The listing calls the exact address hidden until the day before, but the street is already confirmed on gsalr.",
    cats:["estate","furniture","tools","fishing","household"],
    link:"https://gsalr.com/western-charm-log-cabin-franklin-tn-38833433.html"},
 
  /* ---- Fri–Sun (Jul 10–12) ---- */
- {id:16, name:"Big 3-Family Yard Sale — Ardmore", type:"MULTI-FAMILY", star:true,
-   addr:"24865 Morrow Rd, Ardmore 38449", q:"24865+Morrow+Rd,Ardmore,TN+38449",
-   lat:35.004887, lon:-86.873648, approx:false, affluence:35, drive:45,
-   dates:["2026-07-10","2026-07-11","2026-07-12"], time:"Fri–Sun · daylight to dark",
-   start:"070000", end:"190000",
-   items:"Running again this Fri&ndash;Sun. A picker's list: fishing stuff, lures, rods &amp; reels, old tools, hand tools, cast iron, old glassware, knives, jewelry, cookware, sports stuff, toys, antiques, old iron wheels, signs, hardware. Behind the country club next to Dog Day Flea Market.",
-   cats:["multi-family","fishing","tools","cast iron","antiques","glassware","collectibles"],
-   link:"https://www.craigslist.org/view/d/elkton-big-family-yard-sale/rUwp48BDaKwgfnodtsUoEV"},
-
- {id:38, name:"Massive Garage Sale — Alteras Dr (Weather Reschedule)", type:"GARAGE", star:false,
-   addr:"2324 Alteras Dr, Nashville (Lenox Village) 37211", q:"2324+Alteras+Dr,Nashville,TN+37211",
-   lat:36.0229, lon:-86.7024, approx:false, affluence:55, drive:45,
-   dates:["2026-07-11"], time:"Sat",
-   start:"080000", end:"150000",
-   items:"Postponed from Jun 27 due to weather — the seller's fresh Facebook post gives the real Lenox Village address for the make-up date this Saturday.",
-   cats:["garage","household"],
-   link:"https://www.facebook.com/marketplace/item/1407222984572861"},
-
  {id:39, name:"Huge Bicycle Garage Sale — Santa Fe Pike, Columbia", type:"GARAGE", star:false,
    addr:"210 Santa Fe Pike, Columbia 38401", q:"210+Santa+Fe+Pike,Columbia,TN+38401",
    lat:35.6282, lon:-87.0384, approx:false, affluence:58, drive:15,
@@ -381,25 +340,25 @@ var sales=[
    lat:35.955, lon:-86.885, approx:true, affluence:88, drive:38,
    dates:["2026-07-10","2026-07-11"], time:"Fri–Sat · 10am–2pm",
    start:"100000", end:"140000",
-   items:"Friday's thesis pick — Grasons estate sale in Franklin's Fieldstone Farms (244+ photos). A neat and tidy downsizing home. Full address releases Fri Jul 10 — check the listing that morning.",
+   items:"Reconfirmed live — Grasons estate sale in Franklin's Fieldstone Farms. A neat and tidy downsizing home — lovely sofa, pair of chairs, china, dining room table &amp; chairs, sideboard, tea cart, rattan furniture, end tables, bedroom furniture. Full address releases Fri Jul 10.",
    cats:["estate","furniture","household","antiques"],
-   link:"https://www.estatesales.net/TN/Franklin/37064/4966455"},
+   link:"https://gsalr.com/grasons-of-nashville-fabulous-franklin-tn-38810829.html"},
 
  {id:22, name:"Wonderful Franklin Estate Sale — Antiques &amp; Crystal", type:"ESTATE", star:false,
    addr:"Franklin 37069", q:"Franklin,TN+37069",
    lat:35.945, lon:-86.870, approx:true, affluence:88, drive:38,
    dates:["2026-07-10","2026-07-11"], time:"Fri–Sat · 9am–3pm",
    start:"090000", end:"150000",
-   items:"Second affluent-Franklin estate the same day (Estate Greats, 139 photos) — antique furniture, crystal, whiskey decanters, tools &amp; more. Address releases Thu Jul 9. Pairs with the Grasons Fieldstone Farms sale for a two-stop Franklin morning.",
+   items:"Reconfirmed live — a well-rounded Franklin estate (139 photos): antique secretary/hutch, cherry china cabinet &amp; curio, mahogany dresser with mirror, drop-leaf side cabinet, French-style accent chair, ladder-back dining set, twin &amp; full bedroom sets, fine crystal, a jaw-dropping whiskey decanter collection, garage finds. Address releases Thu Jul 9.",
    cats:["estate","antiques","crystal","tools","furniture"],
-   link:"https://www.estatesales.net/TN/Franklin/37069/4984254"},
+   link:"https://gsalr.com/wonderful-franklin-tn-estate-franklin-tn-38831453.html"},
 
  {id:6, name:"Crutcher Rd Garage Sale — Antiques &amp; Vintage (Encore)", type:"GARAGE", star:true,
    addr:"2158 Crutcher Rd, Chapel Hill 37034", q:"2158+Crutcher+Rd,Chapel+Hill,TN+37034",
    lat:35.655161, lon:-86.71217, approx:false, affluence:50, drive:22,
    dates:["2026-07-10","2026-07-11"], time:"Fri–Sat · 8am–4pm",
    start:"080000", end:"160000",
-   items:"The Chapel Hill picker's stop is back — the seller re-posted with confirmed new dates (Fri Jul 10 + Sat Jul 11, 8am&ndash;4pm, updated ~10 hours ago). Antiques, vintage cookbooks, a Wheel Horse riding mower, older wooden chairs, vintage Guardian Ware, Pyrex, vintage bedspreads &amp; quilts, tablecloths, vintage clocks, collectible plates.",
+   items:"CONFIRMED firm on the Craigslist post — Fri Jul 10 &amp; Sat Jul 11, 8am&ndash;4pm. Antiques, vintage cookbooks, a Wheel Horse riding mower, older wooden chairs, vintage Guardian Ware, Pyrex, vintage bedspreads &amp; quilts, tablecloths, vintage clocks, collectible plates.",
    cats:["antiques","vintage","tools","kitchen","glassware","household","collectibles"],
    link:"https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"},
 
@@ -408,36 +367,18 @@ var sales=[
    lat:35.674, lon:-86.654, approx:true, affluence:50, drive:35,
    dates:["2026-07-10","2026-07-11","2026-07-12"], time:"Fri–Sun · 10am–4pm",
    start:"100000", end:"160000",
-   items:"Full house, garage, shed &amp; BARN (New Chapter Estates, 169 photos) — MCM furniture, a running 1952 Ford tractor, tools, d&eacute;cor and more. A true barn-sale find on the east corridor, Fri through Sun. Address on the listing closer to the date.",
+   items:"Reconfirmed live — full house, garage, shed &amp; BARN (New Chapter Estates) — MCM furniture, a running 1952 Ford tractor, tools, d&eacute;cor and more. A true barn-sale find on the east corridor, Fri through Sun. Address on the listing closer to the date.",
    cats:["estate","barn","MCM","tools","furniture","antiques"],
-   link:"https://www.estatesales.net/TN/Eagleville/37060/4979091"},
-
- {id:24, name:"Brentwood Moving &amp; Demo Sale", type:"MOVING", star:false,
-   addr:"Brentwood 37027", q:"Brentwood,TN+37027",
-   lat:35.983, lon:-86.783, approx:true, affluence:92, drive:38,
-   dates:["2026-07-10","2026-07-11"], time:"Fri–Sat · 8:30am–3pm",
-   start:"083000", end:"150000",
-   items:"Dogwood Estate Sales runs a moving-and-demo sale in Brentwood Fri&ndash;Sat — household goods plus fixtures &amp; materials from the demo side. Address releases on the listing closer to the date.",
-   cats:["moving","furniture","household","tools"],
-   link:"https://www.estatesales.net/TN/Brentwood/37027/4951374"},
+   link:"https://www.estatesales.net/TN/Eagleville/37060"},
 
  {id:29, name:"Great Bellevue Estate Sale — Weekend", type:"ESTATE", star:false,
    addr:"Nashville (Bellevue) 37221", q:"Nashville,TN+37221",
    lat:36.070, lon:-86.945, approx:true, affluence:75, drive:48,
    dates:["2026-07-11","2026-07-12"], time:"Sat–Sun · 8am–5pm",
    start:"080000", end:"170000",
-   items:"Bellevue estate for the weekend (Estate Sales By Sheila) — sofa, recliner, daybed with trundle, vintage desk, bookcases, a beautiful antique bed, antique &ldquo;chester&rdquo; drawers, dresser with mirror, standing jewelry case, kitchen table &amp; chairs. Address releases Fri Jul 10.",
+   items:"Reconfirmed live — sofa, recliner, pair of chairs, coffee table, end tables, daybed with trundle, vintage desk, bookcases, a beautiful antique bed, antique &ldquo;chester&rdquo; drawers. Address releases Fri Jul 10.",
    cats:["estate","antiques","furniture","household"],
-   link:"https://www.estatesales.net/TN/Nashville/37221/4985457"},
-
- {id:31, name:"Antique Prints, Maps &amp; Books — Franklin", type:"ESTATE", star:false,
-   addr:"Franklin 37069", q:"Franklin,TN+37069",
-   lat:35.953, lon:-86.869, approx:true, affluence:88, drive:40,
-   dates:["2026-07-11"], time:"Sat · from 9am",
-   start:"090000", end:"150000",
-   items:"The specialty print-and-book seller returns Saturday (Trillium, 126 photos) — antique prints, maps &amp; rare books. Exact address on the EstateSales.NET listing.",
-   cats:["antiques","books","art","collectibles"],
-   link:"https://www.estatesales.net/TN/Franklin/37069/4981953"},
+   link:"https://gsalr.com/great-bellevue-estate-sale-nashville-tn-38832311.html"},
 
  {id:7, name:"Lewisburg Yard Sale — Franklin Pike", type:"YARD", star:false,
    addr:"2940 Franklin Pike, Lewisburg 37091", q:"2940+Franklin+Pike,Lewisburg,TN+37091",
@@ -446,7 +387,17 @@ var sales=[
    start:"080000", end:"140000",
    items:"Recurring Saturday yard sale at 2940 Franklin Pike, Lewisburg (Facebook Marketplace, still live this week). New &amp; used, wide variety. A close corridor stop — confirm items &amp; hours on the listing before you drive.",
    cats:["yard","household"],
-   link:"https://www.facebook.com/marketplace/item/1661180155170731/"}
+   link:"https://www.facebook.com/marketplace/item/1661180155170731/"},
+
+ /* ---- Next week (Jul 14–15) ---- */
+ {id:40, name:"Glamorous Franklin Estate Sale — Designer &amp; Antique", type:"ESTATE", star:true,
+   addr:"Franklin 37067", q:"Franklin,TN+37067",
+   lat:35.9083, lon:-86.8228, approx:true, affluence:85, drive:40,
+   dates:["2026-07-14","2026-07-15"], time:"Tue–Wed · 8am–5pm",
+   start:"080000", end:"170000",
+   items:"NEW find — a genuinely upscale one: a raw-silk sectional like new, a 14th-century armoire hand-painted in Paris, a beautiful dining table &amp; chairs, designer jewelry, designer clothing &amp; purses &amp; shoes, original art &amp; prints, chandeliers (including silk chandeliers) — even a stuffed peacock. Address releases Mon Jul 13.",
+   cats:["estate","antiques","designer","art","furniture"],
+   link:"https://gsalr.com/glamorous-franklin-estate-sale-franklin-tn-38832315.html"}
 ];
 
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -711,8 +662,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Weekdays are quiet in the corridor — tap <b>Weekend</b> or <b>Next 7 Days</b> to plan ahead.';
     return '<b>'+t.length+' open today.</b> Check the cards below for times, then tap Navigate. Several addresses release the day before the sale — the Listing link is how you confirm before driving.';
   }
-  if(view==='weekend')return '<b>Volume peaks Fri 7/10 (13 sales) and Sat 7/11 (18).</b> Top picks: the <b>Belle Meade estate</b> (the corridor’s most affluent zip, Thu–Sat), the Franklin double-header (<b>Grasons Fieldstone Farms</b> + <b>Wonderful Franklin</b>) plus a third Franklin estate on <b>Western Charm Log Cabin</b>, the <b>&ldquo;Gilded &amp; Gathered&rdquo;</b> Brentwood estate (Swarovski, sterling, Thu–Sat), the <b>Eagleville barn sale</b> with a running ’52 Ford tractor (thru Sun), the <b>Crutcher Rd encore</b> in Chapel Hill, and an evenings-only <b>Rock &amp; Soul</b> Bellevue moving sale 4–7pm. Confirm via Listing before driving — several addresses release the day before.';
-  return '<b>Plan the week.</b> Midweek starts light — <b>Wed 7/8</b> (3) and <b>Thu 7/9</b> (9) with Bellevue, Sims Shelbyville, Beth Berei Lewisburg, and the first wave of Thu–Sat estates (<b>Belle Meade</b>, <b>Gilded &amp; Gathered</b> Brentwood, <b>Vintage Soul</b> Crieve Hall). Volume peaks <b>Fri 7/10</b> (13) and <b>Sat 7/11</b> (18): the Franklin triple-header (<b>Grasons Fieldstone Farms</b>, <b>Wonderful Franklin</b>, <b>Western Charm Log Cabin</b>), the <b>Eagleville barn sale</b> with a running ’52 Ford tractor (thru Sun), the <b>Crutcher Rd encore</b>, and close corridor stops in Columbia and Lewisburg. Several addresses release the day before — the Listing link is how you confirm.';
+  if(view==='weekend')return '<b>Volume peaks Fri 7/10 (8 sales) and Sat 7/11 (12).</b> Top picks: the Franklin triple-header (<b>Grasons Fieldstone Farms</b> + <b>Wonderful Franklin</b> + <b>Western Charm Log Cabin</b>), the <b>&ldquo;Gilded &amp; Gathered&rdquo;</b> Brentwood estate (Swarovski, sterling, Thu–Sat), the <b>Eagleville barn sale</b> with a running ’52 Ford tractor (thru Sun), the <b>Great Bellevue</b> weekend estate, and the <b>Crutcher Rd encore</b> in Chapel Hill. Confirm via Listing before driving — several addresses release the day before.';
+  return '<b>Plan the week.</b> Midweek starts light — <b>Wed 7/8</b> (2) with a one-day Bellevue estate and the Bethbirei Rd multi-family in Lewisburg, building to <b>Thu 7/9</b> (6) with the first wave of Thu–Sat estates (<b>Gilded &amp; Gathered</b> Brentwood, <b>Vintage Soul</b> Crieve Hall, <b>Western Charm</b>, the Columbia recurring estates). Volume peaks <b>Fri 7/10</b> (8) and <b>Sat 7/11</b> (12): the Franklin triple-header, the <b>Eagleville barn sale</b> with a running ’52 Ford tractor (thru Sun), the <b>Great Bellevue</b> weekend estate, and the <b>Crutcher Rd encore</b>. A new <b>Glamorous Franklin</b> designer estate (raw-silk sectional, a Paris-painted 14th-century armoire — per the listing) lands next Tue 7/14. Several addresses release the day before — the Listing link is how you confirm.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -772,9 +723,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: gsalr.com (Columbia feed, primary), Craigslist (35 mi), EstateSales.NET Columbia + Spring Hill (primary estate feed), Facebook Marketplace (logged-in, click-into-listing), and the Bleu Estates + Great Scott registry checks (nothing posted). Full pull 2026-07-06 (Mon). '
-  +'Monday is quiet as usual — nothing open today; the week builds through Wednesday and peaks Fri–Sat. Several estate addresses release the day before — tap the listing for the exact pin. '
-  +'Some Facebook stops show only the city, not the exact address — message the seller to confirm. Sales can cancel without updating the listing. '
+  'Sources reached: gsalr.com (Columbia feed, 44 listings scanned live via DOM extraction), Craigslist (30 mi, Chapel Hill confirmed), EstateSales.NET (Columbia/Nashville/Franklin — cross-confirmed Eagleville), Facebook Marketplace (logged-in, click-into-listing ×8). Full pull 2026-07-07 (Tue). '
+  +'Tuesday is quiet as usual — nothing open today; the week builds through Wednesday and peaks Fri–Sat. Dropped this run (didn’t reconfirm live): Sims Shelbyville, the Belle Meade estate, Antique Prints Franklin, Brentwood Moving &amp; Demo, and the Rock &amp; Soul Bellevue evening sale — all gone from the feeds rather than carried forward stale. The Ardmore 3-family’s real dates turned out to be Jul 4–5 (past), so it was dropped too. '
+  +'Several estate addresses release the day before — tap the listing for the exact pin. Some Facebook stops show only the city, not the exact address — message the seller to confirm. Sales can cancel without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
