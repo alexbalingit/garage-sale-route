@@ -252,379 +252,221 @@ function scoreSale(s){ return s.affluence + (s.type==="ESTATE"?12:0) + (s.type==
 function recomputeDrives(){ sales.forEach(function(s){ s.drive=driveMinFromHome(s.lat,s.lon); s.score=scoreSale(s); }); }
 
 /* ---- Single source of truth. Each sale lists every date it is open (ISO). ----
-   Generated from gsalr (Columbia feed, live DOM extraction, all 60 listings scanned/29 in-window) +
-   Craigslist (30mi) + EstateSales.NET (Columbia + Nashville feeds, PRIMARY) + EstateSales.org
-   (cross-check) + Facebook Marketplace (logged-in Chrome, click-into-listing x20+ across garage/
-   estate/yard/moving/fishing searches in Columbia + Spring Hill + Franklin) on 2026-07-11 (Sat),
-   7-day window Jul 11 – Jul 18. Addresses geocoded via the US Census geocoder (data-lat/lon straight
-   off gsalr cards where available). affluence 0-100 (zip tier) drives ranking; drive = est. minutes
-   from home (recomputed live on load / home-address change).
-   New record — 39 sales, Saturday itself carries 29 of them. One real-address upgrade: Great Bellevue
-   Estate Sale now has a confirmed street (900 General George Patton Rd). Nine new finds today: 502
-   Norman Park Ct Franklin, 9659 Boswell Ct Brentwood, 907 Sunset Rd Brentwood (closet clean-out), 7117
-   Still Spring Hollow Dr Nashville/Bellevue (fishing poles!), 7035 Sky Meadow Dr College Grove (Falls
-   Grove Subdivision), 2312 Sowell Mill Pike Columbia, 3132 Greens Mill Rd Spring Hill, and a Sunday
-   moving sale at 1267 Buckingham Cir Franklin. The Ardmore "BIG 3 FAMILY YARD SALE" (24865 Morrow Rd —
-   fishing lures, rods & reels, cast iron, antiques) is back with a fresh Craigslist post after being
-   dropped since 2026-07-07. The Flat Creek Rd Spring Hill yard sale (5316 Flat Creek Rd) also returns
-   after dropping off 2026-07-10, now dated for next Sat 7/18. Dropped/unconfirmed: 2612 Augusta Trace
-   Dr Columbia (listing pulled/private). Watch items not placed (never-fabricate, no date or address):
-   Amazing Nashville Estate 37211 ("more info coming soon"), 1239 Hartsfield Dr Columbia ("today," no
-   date), 113 Morningside Lane Columbia (real addr, no date). */
+   Generated from gsalr (Columbia feed, live DOM extraction, all 46 listings scanned/23 in-window) +
+   Craigslist (30mi) + EstateSales.NET (Columbia + Spring Hill feeds, PRIMARY) + EstateSales.org
+   (Columbia, cross-check) + Bleu Estates registry (Tier-1 Columbia-native, nothing posted) +
+   Facebook Marketplace (logged-in Chrome, click-into-listing across garage/estate/yard/moving/
+   multi-family/neighborhood searches in Columbia + Spring Hill) on 2026-07-12 (Sun), 7-day window
+   Jul 12 – Jul 19. Addresses geocoded via gsalr's own data-lat/lon where available; US Census +
+   Nominatim attempted for the rest (one address — 2612 Augusta Trace Dr Columbia — didn't resolve
+   in either geocoder; pin is a best-estimate placement within Columbia, address itself is real and
+   confirmed on the post). affluence 0-100 (zip tier) drives ranking; drive = est. minutes from home
+   (recomputed live on load / home-address change).
+   20 sales this run — a legitimately thinner Sunday-pull board vs Saturday's 39, as expected (most
+   Sat-only single-day sales from yesterday's board rolled off; multi-day estates carry the window).
+   Real-address upgrade retained: Great Bellevue Estate Sale (900 General George Patton Rd) — final
+   day today. New finds today: a real-address, real-dated Garage Sale at 2612 Augusta Trace Dr
+   Columbia (Facebook, confirmed for Mon 7/13 — previously dropped 7/11 as unconfirmed/private, now
+   back live with firm dates in the post body), a Franklin garage/moving sale at 5030 Crocker Dr
+   (Fri–Sat), and five EstateSales.NET-sourced Fri–Sat estate sales not seen on prior runs: Avalon
+   Community of Franklin (Berenice Denton Estate Sales), Fountainbrooke Brentwood (Dr. Holloway's —
+   Russian literature, art, designer pieces), Bellevue Downsizing Sale (Dogwood Estate Sales), Lovely
+   Nashville Estate — Bellevue (New Chapter Estates — premium cycling gear, tools, rugs, Maytag
+   washer/dryer), and Antique Prints/Maps/Books (Trillium Antique Prints & Rare Books, Sat only).
+   Dropped (did not reconfirm in today's live pull): Downsizing—Great Prices Marcasite Dr Brentwood
+   (off the gsalr feed entirely today — not carried forward per reconfirm-or-drop doctrine). Watch
+   items not placed (never-fabricate, no firm date or address): Amazing Nashville Estate 37211 (still
+   "more info coming soon," no address across multiple runs), 1239 Hartsfield Dr Columbia "Spring
+   Garage Sale" (post says "today" but is a chronic recurring listing with no reliable date), Taylor
+   Bend Rd Columbia "Garage sale! Taylor Landing" (real street, no date in post), 113 Morningside Lane
+   Columbia (listing now expired/removed). */
 var sales=[
- /* ---- Saturday Jul 11 (today) — peak day, 29 sales ---- */
- {id:1, name:"MASSIVE Vintage Barbie Collection Estate Sale", type:"ESTATE", star:true,
+ /* ---- Sunday Jul 12 (today) — final day for the multi-day Franklin/Bellevue/Ardmore estates ---- */
+ {id:1, name:"MASSIVE Vintage Barbie Collection Estate Sale", type:"ESTATE", star:false,
    addr:"110 Westfield Dr, Franklin 37064", q:"110+Westfield+Dr,Franklin,TN+37064",
-   lat:35.929825, lon:-86.886195, approx:false, affluence:82, drive:42,
-   dates:["2026-07-11","2026-07-12"], time:"Sat–Sun · 10am–4pm",
+   lat:35.930006, lon:-86.885858, approx:false, affluence:82, drive:42,
+   dates:["2026-07-12"], time:"Sun (final day) · 10am–4pm",
    start:"100000", end:"160000",
-   items:"Reconfirmed live — 512+ photos on gsalr/EstateSales.NET (New Life Estate Sales) — hundreds of vintage Barbie dolls, cases &amp; accessories, plus general estate furniture and household goods.",
+   items:"Reconfirmed live — 512+ photos on gsalr/EstateSales.NET (New Life Estate Sales) — hundreds of vintage Barbie dolls, cases &amp; accessories, plus general estate furniture and household goods. Final day.",
    cats:["estate","vintage","dolls","collectibles","furniture","household"],
    link:"https://gsalr.com/massive-vintage-barbie-collection-franklin-tn-38835039.html"},
 
  {id:2, name:"Western Charm Log Cabin Estate Sale — Franklin", type:"ESTATE", star:false,
    addr:"3949 New Hwy 96 W, Franklin 37064", q:"3949+New+Hwy+96+W,Franklin,TN+37064",
-   lat:35.971152, lon:-86.978688, approx:false, affluence:78, drive:44,
-   dates:["2026-07-11","2026-07-12"], time:"Sat–Sun · 10am–4pm",
+   lat:35.970500, lon:-86.981515, approx:false, affluence:82, drive:44,
+   dates:["2026-07-12"], time:"Sun (final day) · 10am–4pm",
    start:"100000", end:"160000",
-   items:"Reconfirmed live — a log-cabin property on Hwy 96 W (New Life Estate Sales) — western d&eacute;cor, lots of tools, <b>fishing gear &amp; fishing poles</b>, outdoor equipment, horse tack, wheelbarrows, patio furniture.",
+   items:"Reconfirmed live — a log-cabin property on Hwy 96 W (New Life Estate Sales) — western d&eacute;cor, lots of tools, <b>fishing gear &amp; fishing poles</b>, outdoor equipment, horse tack, wheelbarrows, patio furniture. Final day.",
    cats:["estate","furniture","tools","fishing","household"],
    link:"https://gsalr.com/western-charm-log-cabin-franklin-tn-38833433.html"},
 
- {id:3, name:"50% Off — Grasons Fabulous Franklin Estate Sale — Fieldstone Farms", type:"ESTATE", star:false,
-   addr:"39 Chadwell Ln, Franklin 37069", q:"39+Chadwell+Ln,Franklin,TN+37069",
-   lat:35.963095, lon:-86.882426, approx:false, affluence:86, drive:42,
-   dates:["2026-07-11"], time:"Sat only · 10am–2pm (50% off, final day)",
-   start:"100000", end:"140000",
-   items:"Reconfirmed live — Grasons of Nashville, Fieldstone Farms, 50% off today (final day). Sofa, pair of chairs, china, dining set, sideboard, tea cart, rattan furniture, bedroom furniture.",
-   cats:["estate","furniture","household","antiques"],
-   link:"https://gsalr.com/grasons-of-nashville-fabulous-franklin-tn-38810829.html"},
-
- {id:4, name:"Wonderful Franklin, TN Estate Sale — Antiques &amp; Crystal", type:"ESTATE", star:false,
+ {id:3, name:"75% Off Sunday — Wonderful Franklin, TN Estate Sale — Antiques &amp; Crystal", type:"ESTATE", star:false,
    addr:"1203 Montpier Dr, Franklin 37069", q:"1203+Montpier+Dr,Franklin,TN+37069",
-   lat:35.980013, lon:-86.942590, approx:false, affluence:85, drive:44,
-   dates:["2026-07-11","2026-07-12"], time:"Sat–Sun · 9am–3pm (confirm Sunday hours)",
-   start:"090000", end:"150000",
-   items:"Reconfirmed live, now extended through Sunday — Estate Greats — antique furniture, fine crystal, a whiskey decanter collection, tools &amp; more.",
+   lat:35.980013, lon:-86.942590, approx:false, affluence:88, drive:44,
+   dates:["2026-07-12"], time:"Sun (final day, 75% off) · 10am–2pm",
+   start:"100000", end:"140000",
+   items:"Reconfirmed live — Estate Greats, 75% off final day — antique furniture, fine crystal, a whiskey decanter collection, tools &amp; more.",
    cats:["estate","antiques","crystal","tools","furniture"],
    link:"https://gsalr.com/wonderful-franklin-tn-estate-franklin-tn-38831453.html"},
 
- {id:5, name:"50% Off — “Gilded &amp; Gathered” Elegant Brentwood Estate Sale", type:"ESTATE", star:true,
-   addr:"6308 Kingsbury Drive, Brentwood 37027", q:"6308+Kingsbury+Drive,Brentwood,TN+37027",
-   lat:36.041306, lon:-86.841528, approx:false, affluence:92, drive:56,
-   dates:["2026-07-11"], time:"Sat only · 10am–4pm (50% off, final day)",
-   start:"100000", end:"160000",
-   items:"Reconfirmed live (Marigold Estate Sales) — 50% off, final day. Swarovski crystal, sterling &amp; silver-plate, china sets, beautiful furniture, art, Waterford pineapple lamps, linens.",
-   cats:["estate","crystal","silver","china","furniture","art"],
-   link:"https://gsalr.com/gilded-gathered-elegant-brentwood-brentwood-tn-38830327.html"},
-
- {id:6, name:"Half Off — Estate Sale With Decades Of Treasures — Belle Meade", type:"ESTATE", star:true,
-   addr:"105 Mockingbird Rd, Nashville (Belle Meade) 37205", q:"105+Mockingbird+Rd,Nashville,TN+37205",
-   lat:36.131127, lon:-86.835765, approx:false, affluence:98, drive:66,
-   dates:["2026-07-11"], time:"Sat only · 8am–3pm (half off, final day)",
-   start:"080000", end:"150000",
-   items:"Reconfirmed live — Busy Bee Moving Sales (820+ photos), now half off on the final day. Belle Meade, the corridor's highest-affluence zip. Decades of accumulated treasures across a full estate.",
-   cats:["estate","antiques","furniture","household"],
-   link:"https://www.estatesales.net/TN/Nashville/37205/4938645"},
-
- {id:7, name:"&ldquo;Vintage Soul, Modern Style&rdquo; Crieve Hall Estate Sale", type:"ESTATE", star:false,
-   addr:"4830 Briarwood Drive, Nashville (Crieve Hall) 37211", q:"4830+Briarwood+Drive,Nashville,TN+37211",
-   lat:36.076291, lon:-86.751135, approx:false, affluence:58, drive:64,
-   dates:["2026-07-11"], time:"Sat only · 1pm–6pm",
-   start:"130000", end:"180000",
-   items:"Reconfirmed live (Marigold Estate Sales) — quality furniture, rugs, MCM pieces, records, art, coffee-table books, kids toys, electronics, tools.",
-   cats:["estate","vintage","furniture","art","records","tools"],
-   link:"https://gsalr.com/vintage-soul-modern-style-nashville-tn-38828943.html"},
-
- {id:8, name:"Columbia Estate Yard Sale — Ragsdale Rd", type:"ESTATE", star:false,
-   addr:"2529 Ragsdale Rd, Columbia 38401", q:"2529+Ragsdale+Rd,Columbia,TN+38401",
-   lat:35.735445, lon:-87.071174, approx:false, affluence:45, drive:15,
-   dates:["2026-07-11"], time:"Sat only · 8am–3pm",
-   start:"080000", end:"150000",
-   items:"Reconfirmed live on Facebook — final day, real street address in the post. Park via the neighbor's driveway (don't block the mailbox).",
-   cats:["estate","yard","household"],
-   link:"https://www.facebook.com/marketplace/item/977488168386563/"},
-
- {id:9, name:"Crutcher Rd Garage Sale — Antiques &amp; Vintage (Encore)", type:"GARAGE", star:true,
-   addr:"2158 Crutcher Rd, Chapel Hill 37034", q:"2158+Crutcher+Rd,Chapel+Hill,TN+37034",
-   lat:35.655161, lon:-86.712170, approx:false, affluence:42, drive:36,
-   dates:["2026-07-11"], time:"Sat only · 8am start",
-   start:"080000", end:"160000",
-   items:"CONFIRMED direct on the Craigslist post — 2158 Crutcher Rd, final day, starting 8am. Antiques, vintage cookbooks, a Wheel Horse riding mower, older wooden chairs, vintage Guardian Ware, Pyrex dishes, vintage quilts &amp; tablecloths, vintage clocks, collectible plates.",
-   cats:["antiques","vintage","tools","kitchen","glassware","household","collectibles"],
-   link:"https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"},
-
- {id:10, name:"Eagleville Full-House &amp; Barn Sale — MCM + '52 Ford Tractor", type:"ESTATE", star:false,
-   addr:"660 Allisona Road, Eagleville 37060", q:"660+Allisona+Road,Eagleville,TN+37060",
-   lat:35.743578, lon:-86.660559, approx:false, affluence:48, drive:44,
-   dates:["2026-07-11","2026-07-12"], time:"Sat–Sun · 10am–4pm",
-   start:"100000", end:"160000",
-   items:"Reconfirmed live — New Chapter Estates — full house, garage, shed &amp; BARN: MCM furniture, a running 1952 Ford tractor, tools, d&eacute;cor and more.",
-   cats:["estate","barn","MCM","tools","furniture","antiques"],
-   link:"https://www.estatesales.net/TN/Eagleville/37060/4979091"},
-
- {id:11, name:"Garage Sale — Rudder Drive, Wades Grove, Spring Hill", type:"GARAGE", star:false,
-   addr:"1026 Rudder Drive, Spring Hill 37174", q:"1026+Rudder+Drive,Spring+Hill,TN+37174",
-   lat:35.761690, lon:-86.868976, approx:false, affluence:60, drive:27,
-   dates:["2026-07-11"], time:"Sat only · 8am–1pm",
-   start:"080000", end:"130000",
-   items:"Reconfirmed live on gsalr — Wades Grove Subdivision. All clothing 25c a piece (girls/boys/women's/men's, all sizes), furniture $10&ndash;$50, kitchen appliances, a Tumble Track, sporting goods, dozens of coffee mugs. Cash or Venmo, no holds.",
-   cats:["garage","clothes","furniture","kitchen","sporting goods"],
-   link:"https://gsalr.com/garage-sale-tons-of-spring-hill-tn-38836663.html"},
-
- {id:12, name:"Big Ol Garage Sale — South Franklin", type:"GARAGE", star:false,
-   addr:"South Franklin (off Columbia Ave) 37064 — exact address posts day-of", q:"Franklin,TN+37064",
-   lat:35.880, lon:-86.920, approx:true, affluence:65, drive:36,
-   dates:["2026-07-11"], time:"Sat only · 8am–6pm",
-   start:"080000", end:"180000",
-   items:"Reconfirmed live on Facebook (rain or shine, 8am&ndash;6pm) — tools, crafts, fabric, clothes, shoes, toys, electronics, furniture, bikes and more.",
-   cats:["garage","tools","toys","clothes","furniture"],
-   link:"https://www.facebook.com/marketplace/item/1061918866224519/"},
-
- {id:13, name:"Family Garage Sale — Lincoln Rd, Spring Hill", type:"GARAGE", star:false,
-   addr:"2011 Lincoln Rd, Spring Hill 37174", q:"2011+Lincoln+Rd,Spring+Hill,TN+37174",
-   lat:35.702911, lon:-86.893609, approx:false, affluence:58, drive:21,
-   dates:["2026-07-11"], time:"Sat only · 8am–2pm",
-   start:"080000", end:"140000",
-   items:"Reconfirmed live — home d&eacute;cor, clothing, toys, TV, books &amp; more (gsalr, real street address).",
-   cats:["garage","clothes","toys","household"],
-   link:"https://gsalr.com/family-garage-sale-home-spring-hill-tn-38834921.html"},
-
- {id:14, name:"Great Bellevue Estate Sale", type:"ESTATE", star:false,
+ {id:4, name:"50% Off Sunday — Great Bellevue Estate Sale", type:"ESTATE", star:false,
    addr:"900 General George Patton Rd, Nashville (Bellevue) 37221", q:"900+General+George+Patton+Rd,Nashville,TN+37221",
-   lat:36.06592660, lon:-86.94584780, approx:false, affluence:70, drive:56,
-   dates:["2026-07-11","2026-07-12"], time:"Sat–Sun · 8am–5pm",
+   lat:36.065927, lon:-86.945848, approx:false, affluence:70, drive:56,
+   dates:["2026-07-12"], time:"Sun (final day, 50% off) · 8am–5pm",
    start:"080000", end:"170000",
-   items:"UPGRADED to a real street address this run — Estate Sales By Sheila (596+ photos). A 1999 Nissan Altima also for sale, taking offers until Sunday around 1; some rare WWII items.",
+   items:"Reconfirmed live — Estate Sales By Sheila (610+ photos), 50% off final day. A 1999 Nissan Altima also for sale, some rare WWII items.",
    cats:["estate","furniture","household","vehicle","antiques"],
-   link:"https://gsalr.com/great-bellevue-estate-sale-nashville-tn-38832311.html"},
+   link:"https://gsalr.com/50-off-sunday-great-nashville-tn-38832311.html"},
 
- {id:15, name:"Brentwood Moving And Demo Sale", type:"ESTATE", star:false,
-   addr:"1222 Haber Dr, Brentwood 37027", q:"1222+Haber+Dr,Brentwood,TN+37027",
-   lat:35.988771, lon:-86.791066, approx:false, affluence:90, drive:52,
-   dates:["2026-07-11"], time:"Sat only · 8:30am–3pm",
-   start:"083000", end:"150000",
-   items:"Reconfirmed live — Dogwood Estate Sales — a moving &amp; demo sale in Brentwood, final day.",
-   cats:["estate","furniture","household"],
-   link:"https://www.estatesales.net/TN/Brentwood/37027/4951374"},
-
- {id:16, name:"Garage Sale (Two Families) — London Drive, Columbia", type:"MULTI-FAMILY", star:false,
-   addr:"1636 London Drive, Columbia 38401", q:"1636+London+Drive,Columbia,TN+38401",
-   lat:35.611728, lon:-87.100702, approx:false, affluence:45, drive:15,
-   dates:["2026-07-11"], time:"Sat only · 8am–12pm",
-   start:"080000", end:"120000",
-   items:"Reconfirmed live on Facebook — a two-family garage sale, &ldquo;a little bit of everything,&rdquo; 8am&ndash;12pm, real street address in the post.",
-   cats:["garage","household"],
-   link:"https://www.facebook.com/marketplace/item/2864224137267686/"},
-
- {id:17, name:"Eagleville Estate Sale — Elmore Rd (B's Vintage Revival)", type:"ESTATE", star:false,
-   addr:"938 Elmore Road, Eagleville 37060", q:"938+Elmore+Road,Eagleville,TN+37060",
-   lat:35.757275, lon:-86.675596, approx:false, affluence:48, drive:44,
-   dates:["2026-07-11"], time:"Sat only · 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Reconfirmed live on Facebook (B's Vintage Revival &mdash; last sale of the year for this seller) — crocks, large milk cans, vintage brass, salt &amp; pepper shakers, vintage tea cup bird feeders, vintage glass, license plates, vintage toys &amp; books, arrowheads, antique furniture &amp; chairs, old cast iron skillets, train sets, <b>fly fishing stuff</b>.",
-   cats:["estate","vintage","antiques","collectibles","fishing","furniture"],
-   link:"https://www.facebook.com/marketplace/item/3912790412348188/"},
-
- {id:18, name:"Huge Tool Garage Sale — North Columbia", type:"GARAGE", star:false,
-   addr:"North Columbia, off Carters Creek Rd &amp; Beechcroft Rd, Columbia 38401", q:"Carters+Creek+Rd+%26+Beechcroft+Rd,Columbia,TN+38401",
-   lat:35.674790, lon:-87.007425, approx:true, affluence:50, drive:18,
-   dates:["2026-07-11"], time:"Sat · 8am start",
-   start:"080000", end:"140000",
-   items:"Reconfirmed live on Facebook — a shop clean-out: ladders, a large pull-behind yard cart, seed spreaders, power tools priced $1&ndash;$100.",
-   cats:["garage","tools"],
-   link:"https://www.facebook.com/marketplace/item/2122347471683590/"},
-
- {id:19, name:"Garage Sale — Spring Hill (Depot/Beechcroft)", type:"GARAGE", star:false,
-   addr:"Off Depot St &amp; Beechcroft Rd, Spring Hill 37174 — DM seller for exact address", q:"Depot+St,Spring+Hill,TN+37174",
-   lat:35.756004, lon:-86.935846, approx:true, affluence:58, drive:22,
-   dates:["2026-07-11"], time:"Sat only · 8am–12pm",
-   start:"080000", end:"120000",
-   items:"Reconfirmed live on Facebook — kitchen items, d&eacute;cor, small electronics, games, plus Pok&eacute;mon, Magic the Gathering, Yu-Gi-Oh!, Lorcana, Union Arena &amp; Dragon Ball trading cards.",
-   cats:["garage","collectibles","household"],
-   link:"https://www.facebook.com/marketplace/item/1553719749590272/"},
-
- {id:20, name:"Brand New To Used — Tallwood Dr, Nashville", type:"GARAGE", star:false,
-   addr:"110 Tallwood Dr, Nashville 37211", q:"110+Tallwood+Dr,Nashville,TN+37211",
-   lat:36.108608, lon:-86.723962, approx:false, affluence:55, drive:60,
-   dates:["2026-07-11"], time:"Sat only · confirm hours on listing",
-   start:"080000", end:"170000",
-   items:"Reconfirmed live (gsalr, real street address) — women's clothes, jewelry, dresses, purses, home d&eacute;cor, cooking supplies, toys, stuffed animals.",
-   cats:["garage","clothes","household","toys"],
-   link:"https://gsalr.com/brand-new-to-used-nashville-tn-38839063.html"},
-
- {id:21, name:"Yard Sale — Franklin Pike, Lewisburg (Recurring Saturday)", type:"YARD", star:false,
-   addr:"2940 Franklin Pike, Lewisburg 37091", q:"2940+Franklin+Pike,Lewisburg,TN+37091",
-   lat:35.556190, lon:-86.830921, approx:false, affluence:40, drive:20,
-   dates:["2026-07-11"], time:"Sat · confirm hours on listing",
-   start:"080000", end:"170000",
-   items:"Reconfirmed live on Facebook — the standing Saturday yard sale at 2940 Franklin Pike.",
-   cats:["yard","household"],
-   link:"https://www.facebook.com/marketplace/item/1661180155170731/"},
-
- {id:22, name:"Garage Sale — Norman Park Ct, Franklin", type:"GARAGE", star:false,
-   addr:"502 Norman Park Ct, Franklin 37067", q:"502+Norman+Park+Ct,Franklin,TN+37067",
-   lat:35.90483800, lon:-86.79848300, approx:false, affluence:85, drive:44,
-   dates:["2026-07-11"], time:"Sat only · 10am–2pm (after the rain)",
-   start:"100000", end:"140000",
-   items:"NEW find (gsalr, real street address) — miscellaneous items, lots of women's clothes (XS&ndash;2X), women's &amp; kids' shoes all sizes, $1 items, 25&cent; boxes.",
-   cats:["garage","clothes","household"],
-   link:"https://gsalr.com/garage-sale-franklin-tn-38840211.html"},
-
- {id:23, name:"Garage Sale — Boswell Ct, Brentwood", type:"GARAGE", star:false,
-   addr:"9659 Boswell Ct, Brentwood 37027", q:"9659+Boswell+Ct,Brentwood,TN+37027",
-   lat:35.96961800, lon:-86.71450200, approx:false, affluence:92, drive:50,
-   dates:["2026-07-11"], time:"Sat only · confirm hours on listing",
-   start:"080000", end:"140000",
-   items:"NEW find (gsalr, real street address) — toys for all ages, scooters, stroller, camping chairs, sports equipment, teaching supplies.",
-   cats:["garage","toys","household"],
-   link:"https://gsalr.com/garage-sale-brentwood-tn-38839981.html"},
-
- {id:24, name:"Massive Closet Clean Out — Sunset Rd, Brentwood", type:"GARAGE", star:false,
-   addr:"907 Sunset Rd, Brentwood 37027", q:"907+Sunset+Rd,Brentwood,TN+37027",
-   lat:36.00368190, lon:-86.73734650, approx:false, affluence:92, drive:52,
-   dates:["2026-07-11"], time:"Sat only · confirm hours on listing",
-   start:"080000", end:"140000",
-   items:"NEW find (gsalr, real street address) — hundreds of teen girls' &amp; women's clothing items, many with tags still on.",
-   cats:["garage","clothes"],
-   link:"https://gsalr.com/massive-closet-clean-out-brentwood-tn-38837795.html"},
-
- {id:25, name:"Huge Yardsale — Still Spring Hollow Dr, Nashville/Bellevue", type:"YARD", star:false,
-   addr:"7117 Still Spring Hollow Dr, Nashville (Bellevue) 37221", q:"7117+Still+Spring+Hollow+Dr,Nashville,TN+37221",
-   lat:36.08129200, lon:-86.92448600, approx:false, affluence:70, drive:56,
-   dates:["2026-07-11"], time:"Sat only · rain or shine",
-   start:"080000", end:"160000",
-   items:"NEW find (gsalr, real street address) — clothes, tools, <b>fishing poles</b>, housewares and much more.",
-   cats:["yard","tools","fishing","household"],
-   link:"https://gsalr.com/huge-yardsale-rain-or-nashville-tn-38840721.html"},
-
- {id:26, name:"Garage Sale — Sky Meadow Dr, College Grove (Falls Grove Subdivision)", type:"NEIGHBORHOOD", star:false,
-   addr:"7035 Sky Meadow Drive, College Grove 37046", q:"7035+Sky+Meadow+Drive,College+Grove,TN+37046",
-   lat:35.824585, lon:-86.707427, approx:false, affluence:78, drive:38,
-   dates:["2026-07-11"], time:"Sat only · 7am–1pm",
-   start:"070000", end:"130000",
-   items:"NEW find (Facebook, Falls Grove Subdivision) — furniture, wood plantation shutters, draperies w/ rods, garage refrigerator/freezer, tools, equipment, home &amp; holiday d&eacute;cor, 30 mystery puzzles, books, DVDs/CDs.",
-   cats:["neighborhood","furniture","tools","household"],
-   link:"https://www.facebook.com/marketplace/item/1545782023719353/"},
-
- {id:27, name:"Yard Sale — Sowell Mill Pike, Columbia", type:"YARD", star:false,
-   addr:"2312 Sowell Mill Pike, Columbia 38401", q:"2312+Sowell+Mill+Pike,Columbia,TN+38401",
-   lat:35.596071, lon:-86.933393, approx:false, affluence:58, drive:14,
-   dates:["2026-07-11"], time:"Sat only · confirm hours on listing",
-   start:"080000", end:"140000",
-   items:"NEW find (Facebook, real street address, listed fresh this run) — general household yard sale items.",
-   cats:["yard","household"],
-   link:"https://www.facebook.com/marketplace/item/2453828171783377/"},
-
- {id:28, name:"Garage Sale — Greens Mill Rd, Spring Hill", type:"GARAGE", star:false,
-   addr:"3132 Greens Mill Rd, Spring Hill 37174", q:"3132+Greens+Mill+Rd,Spring+Hill,TN+37174",
-   lat:35.690956, lon:-86.928155, approx:false, affluence:70, drive:24,
-   dates:["2026-07-11"], time:"Sat only · 9am–4pm",
-   start:"090000", end:"160000",
-   items:"NEW find (Facebook, real street address) — small kitchen appliances, clothes, shoes, games (Nintendo Switch, Xbox 360), Dragon Ball Z/GT/Super collectibles, assorted household items.",
-   cats:["garage","collectibles","household"],
-   link:"https://www.facebook.com/marketplace/item/1790942135677915/"},
-
- {id:29, name:"BIG 3 Family Yard Sale — Ardmore (Fishing, Cast Iron &amp; Antiques)", type:"MULTI-FAMILY", star:true,
+ {id:5, name:"BIG 3 Family Yard Sale — Ardmore (Fishing, Cast Iron &amp; Antiques)", type:"MULTI-FAMILY", star:true,
    addr:"24865 Morrow Rd, Ardmore 38449", q:"24865+Morrow+Rd,Ardmore,TN+38449",
    lat:35.004887, lon:-86.873648, approx:false, affluence:35, drive:54,
-   dates:["2026-07-11","2026-07-12"], time:"Sat–Sun · daylight to dark",
+   dates:["2026-07-12"], time:"Sun (final day) · daylight to dark",
    start:"080000", end:"200000",
-   items:"RETURNS this run with a fresh Craigslist post (dropped since 2026-07-07) — behind the Country Club, next to Dog Day Flea Market. Glassware, jewelry, cast iron, tools, yard &amp; hand tools, cookware, <b>fishing stuff, lures, rods &amp; reels</b>, old glassware, knives, sports stuff, toys, antiques, old iron wheels, signs, hardware, and more.",
+   items:"RECONFIRMED direct on the Craigslist post (same listing, still live) — behind the Country Club, next to Dog Day Flea Market. Glassware, jewelry, cast iron, tools, yard &amp; hand tools, cookware, <b>fishing stuff, lures, rods &amp; reels</b>, old glassware, knives, sports stuff, toys, antiques, old iron wheels, signs, hardware, and more.",
    cats:["multi-family","fishing","tools","antiques","vintage","collectibles"],
    link:"https://www.craigslist.org/view/d/elkton-big-family-yard-sale/6oMhK7L1tkhU3S5qFpS1jj"},
 
- /* ---- Sunday Jul 12 (new, single-day) ---- */
- {id:30, name:"Moving Sale — Everything Must Go — Buckingham Cir, Franklin", type:"GARAGE", star:false,
-   addr:"1267 Buckingham Cir, Franklin 37064", q:"1267+Buckingham+Cir,Franklin,TN+37064",
-   lat:35.926662, lon:-86.843862, approx:false, affluence:82, drive:42,
-   dates:["2026-07-12"], time:"Sun only · confirm hours on listing",
-   start:"090000", end:"150000",
-   items:"NEW find (gsalr, real street address) — champagne velvet sectional sofa, 60-inch round solid wood dining table, 7 upholstered sage-green chenille dining chairs, carved wood 6-drawer dresser &amp; matching nightstands, vintage pieces.",
-   cats:["furniture","household"],
-   link:"https://gsalr.com/moving-sale-everything-must-franklin-tn-38838455.html"},
+ /* ---- Monday Jul 13 ---- */
+ {id:6, name:"Garage Sale — Augusta Trace Drive, Columbia", type:"GARAGE", star:false,
+   addr:"2612 Augusta Trace Drive, Columbia 38401", q:"2612+Augusta+Trace+Dr,Columbia,TN+38401",
+   lat:35.598, lon:-87.045, approx:false, affluence:58, drive:16,
+   dates:["2026-07-13"], time:"Mon · 7:30am–1:00pm",
+   start:"073000", end:"130000",
+   items:"RETURNS this run (Facebook, real street address, firm dates now in the post — previously unconfirmed/private on 7/11) — everything must go, mixed new/like-new/used items, see photos for full inventory.",
+   cats:["garage","household"],
+   link:"https://www.facebook.com/marketplace/item/4461780774090185"},
 
- /* ---- Monday–next week (Jul 13–18) ---- */
- {id:31, name:"HUGE SALE! Event Venue Closing Sale — Sidco Dr, Nashville", type:"GARAGE", star:false,
-   addr:"4319 Sidco Dr, Nashville 37204", q:"4319+Sidco+Dr,Nashville,TN+37204",
-   lat:36.083514, lon:-86.761720, approx:false, affluence:55, drive:58,
-   dates:["2026-07-13"], time:"Mon only · 10am–4pm",
-   start:"100000", end:"160000",
-   items:"Reconfirmed live (Facebook, retitled since yesterday) — an event venue closing in Nashville: chairs, furniture, heaters, mirrors and more, everything in the photos for sale. Pickup only, message for prices.",
-   cats:["furniture","household"],
-   link:"https://www.facebook.com/marketplace/item/2102493220648822/"},
-
- {id:32, name:"Glamorous Franklin Estate Sale — Designer &amp; Antique", type:"ESTATE", star:true,
+ /* ---- Tue–Wed Jul 14–15 ---- */
+ {id:7, name:"Glamorous Franklin Estate Sale — Designer &amp; Antique", type:"ESTATE", star:true,
    addr:"Franklin 37067 — full address available Mon 7/13", q:"Franklin,TN+37067",
-   lat:35.9083, lon:-86.8228, approx:true, affluence:85, drive:40,
+   lat:35.95774, lon:-86.79984, approx:true, affluence:85, drive:40,
    dates:["2026-07-14","2026-07-15"], time:"Tue–Wed · 8am–5pm",
    start:"080000", end:"170000",
-   items:"Reconfirmed on EstateSales.NET + EstateSales.org (Estate Sales By Sheila) — a raw-silk sectional, designer jewelry &amp; clothing, original art, chandeliers, even a stuffed peacock. Address releases Mon Jul 13.",
+   items:"Reconfirmed live (EstateSales.NET + EstateSales.org, Estate Sales By Sheila) — a raw-silk sectional, designer jewelry &amp; clothing, original art, chandeliers, even a stuffed peacock. Address releases Mon Jul 13.",
    cats:["estate","antiques","designer","art","furniture"],
    link:"https://www.estatesales.net/TN/Franklin/37067/4985463"},
 
- {id:33, name:"Beautiful Franklin Estate Sale — Brentwood", type:"ESTATE", star:false,
-   addr:"Brentwood 37027 — full address available Wed 7/15", q:"Brentwood,TN+37027",
-   lat:36.032569, lon:-86.782524, approx:true, affluence:90, drive:52,
+ /* ---- Thu–Sat Jul 16–18 ---- */
+ {id:8, name:"Beautiful Franklin Estate Sale — Brentwood", type:"ESTATE", star:false,
+   addr:"Franklin 37067 — full address releases the day before", q:"Franklin,TN+37067",
+   lat:35.96348, lon:-86.82596, approx:true, affluence:85, drive:44,
    dates:["2026-07-16","2026-07-17"], time:"Thu–Fri · 8am–5pm",
    start:"080000", end:"170000",
-   items:"Reconfirmed live (Estate Sales By Sheila) — sofa, coffee table, end tables, dining room table &amp; chairs, buffet, bed, antiques, art glass, crystal, silverplate, jewelry, clothing, patio furniture.",
+   items:"Reconfirmed live (EstateSales.NET, Estate Sales By Sheila) — sofa, coffee table, end tables, dining room table &amp; chairs, buffet, bed, antiques, art glass, crystal, silverplate, jewelry, clothing, patio furniture.",
    cats:["estate","antiques","crystal","furniture","jewelry"],
    link:"https://gsalr.com/beautiful-franklin-estate-sale-brentwood-tn-38832321.html"},
 
- {id:34, name:"Nice West Meade Estate Sale", type:"ESTATE", star:false,
+ {id:9, name:"Nice West Meade Estate Sale", type:"ESTATE", star:true,
    addr:"Nashville (West Meade) 37205 — full address available Wed 7/15", q:"Nashville,TN+37205",
    lat:36.10579, lon:-86.8874, approx:true, affluence:98, drive:64,
-   dates:["2026-07-16"], time:"Thu only · confirm hours on listing",
-   start:"080000", end:"160000",
-   items:"NEW find (gsalr, Estate Sales By Sheila) — a pair of velvet barrel chairs, sofa, side chairs, entry hall table, linens, midcentury crystal, china, tools &amp; power tools.",
+   dates:["2026-07-16"], time:"Thu only · 8am–5pm",
+   start:"080000", end:"170000",
+   items:"Reconfirmed live (EstateSales.NET, Estate Sales By Sheila) — a pair of velvet barrel chairs, sofa, side chairs, entry hall table, linens, midcentury crystal, china, tools &amp; power tools.",
    cats:["estate","antiques","tools","furniture"],
    link:"https://gsalr.com/nice-west-meade-estate-nashville-tn-38832327.html"},
 
- {id:35, name:"Phase 2 Of Sneed Road Collector's Estate Sale", type:"ESTATE", star:false,
+ {id:10, name:"Phase 2 Of Sneed Road Collector's Estate Sale", type:"ESTATE", star:true,
    addr:"4106 Sneed Rd, Nashville (Green Hills) 37215", q:"4106+Sneed+Rd,Nashville,TN+37215",
-   lat:36.105153, lon:-86.836079, approx:false, affluence:93, drive:64,
-   dates:["2026-07-16","2026-07-17","2026-07-18"], time:"Thu–Sat (3-day sale) · 9am–5pm",
-   start:"090000", end:"170000",
-   items:"Reconfirmed live (Collector's Estate Sales) — Phase 2 of a Green Hills collector's estate, Jul 16&ndash;18, now confirmed for all three days. Please take extra care parking &mdash; neighbors have raised concerns about blocked drives.",
+   lat:36.104873, lon:-86.835704, approx:false, affluence:97, drive:64,
+   dates:["2026-07-16","2026-07-17","2026-07-18"], time:"Thu–Sat (3-day sale) · 9am–3pm",
+   start:"090000", end:"150000",
+   items:"Reconfirmed live (Collector's Estate Sales, 248+ photos, 44 added in the last 24 hrs) — Phase 2 of a Green Hills collector's estate. Please take extra care parking &mdash; neighbors have raised concerns about blocked drives.",
    cats:["estate","collectibles","furniture"],
    link:"https://gsalr.com/phase-2-of-sneed-nashville-tn-38833873.html"},
 
- {id:36, name:"3-Day Estate Sale — College Grove", type:"ESTATE", star:false,
+ /* ---- Fri–Sun Jul 17–19 ---- */
+ {id:11, name:"3-Day Estate Sale — College Grove", type:"ESTATE", star:false,
    addr:"College Grove 37046 — full address available Thu 7/16", q:"College+Grove,TN+37046",
-   lat:35.788399, lon:-86.674441, approx:true, affluence:78, drive:35,
-   dates:["2026-07-17","2026-07-18"], time:"Fri–Sat (of a 3-day sale) · 9am start",
-   start:"090000", end:"170000",
-   items:"Reconfirmed live (gsalr, Estate Greats) — a well-appointed College Grove home: quality furniture, major appliances, Thomas Kinkade artwork, outdoor items. This window covers the first two of three days.",
+   lat:35.7972, lon:-86.68601, approx:true, affluence:78, drive:35,
+   dates:["2026-07-17","2026-07-18","2026-07-19"], time:"Fri–Sun (all 3 days now confirmed) · 9am–3pm",
+   start:"090000", end:"150000",
+   items:"Reconfirmed live (EstateSales.NET, Estate Greats) — a well-appointed College Grove home: quality furniture, major appliances, Thomas Kinkade artwork, outdoor items.",
    cats:["estate","furniture","art","household"],
    link:"https://gsalr.com/3day-estate-sale-in-college-grove-tn-38836481.html"},
 
- {id:37, name:"Downsizing—Great Prices — Marcasite Dr, Brentwood", type:"GARAGE", star:false,
-   addr:"1469 Marcasite Dr, Brentwood 37027", q:"1469+Marcasite+Dr,Brentwood,TN+37027",
-   lat:35.972604, lon:-86.708401, approx:false, affluence:92, drive:50,
-   dates:["2026-07-18"], time:"Sat only · confirm hours on listing",
+ {id:12, name:"Garage/Moving Sale — Crocker Dr, Franklin", type:"GARAGE", star:false,
+   addr:"5030 Crocker Dr, Franklin 37067", q:"5030+Crocker+Dr,Franklin,TN+37067",
+   lat:35.957647, lon:-86.835231, approx:false, affluence:85, drive:44,
+   dates:["2026-07-17","2026-07-18"], time:"Fri–Sat · confirm hours on listing",
    start:"080000", end:"140000",
-   items:"NEW find (gsalr, real street address) — downsizing after 60 years of marriage: home goods, tools, bedding, toys, furniture, outdoor furniture.",
-   cats:["garage","tools","furniture","household"],
-   link:"https://gsalr.com/downsizinggreat-prices-brentwood-tn-38818331.html"},
+   items:"NEW find (gsalr, real street address) — moving/garage sale, general household goods.",
+   cats:["garage","household"],
+   link:"https://gsalr.com/movinggarage-sale-franklin-tn-38841917.html"},
 
- {id:38, name:"Amazing Brentwood Estate Sale", type:"ESTATE", star:false,
+ {id:13, name:"Beautiful Estate Sale In Avalon Community Of Franklin", type:"ESTATE", star:false,
+   addr:"Franklin 37067 (Avalon Community) — full address releases the day before", q:"Franklin,TN+37067",
+   lat:35.9083, lon:-86.8228, approx:true, affluence:85, drive:40,
+   dates:["2026-07-17","2026-07-18"], time:"Fri–Sat · 9am–4pm",
+   start:"090000", end:"160000",
+   items:"NEW find (EstateSales.NET, Berenice Denton Estate Sales) — Avalon Community of Franklin, address releases day before.",
+   cats:["estate","household","furniture"],
+   link:"https://www.estatesales.net/TN/Franklin/37067/4992912"},
+
+ {id:14, name:"Fine Furnishings In Fountainbrooke — Brentwood", type:"ESTATE", star:false,
+   addr:"Brentwood 37027 (Fountainbrooke) — full address releases the day before", q:"Brentwood,TN+37027",
+   lat:35.9908, lon:-86.7825, approx:true, affluence:92, drive:50,
+   dates:["2026-07-17","2026-07-18"], time:"Fri–Sat · 8:30am–2:30pm",
+   start:"083000", end:"143000",
+   items:"NEW find (EstateSales.NET, Dr. Holloway's Estate Sales, 160+ photos) — Russian literature, art, designer pieces in a Fountainbrooke Brentwood home.",
+   cats:["estate","art","designer","antiques"],
+   link:"https://www.estatesales.net/TN/Brentwood/37027/4991709"},
+
+ {id:15, name:"Bellevue Downsizing Sale", type:"ESTATE", star:false,
+   addr:"Nashville (Bellevue) 37221 — full address releases the day before", q:"Nashville,TN+37221",
+   lat:36.0659, lon:-86.9458, approx:true, affluence:70, drive:56,
+   dates:["2026-07-17","2026-07-18"], time:"Fri–Sat · 8:30am–3pm",
+   start:"083000", end:"150000",
+   items:"NEW find (EstateSales.NET, Dogwood Estate Sales) — a Bellevue downsizing sale, address releases day before.",
+   cats:["estate","household","furniture"],
+   link:"https://www.estatesales.net/TN/Nashville/37221/4982979"},
+
+ {id:16, name:"Lovely Nashville Estate — Bellevue", type:"ESTATE", star:false,
+   addr:"Nashville (Bellevue) 37221 — full address releases the day before", q:"Nashville,TN+37221",
+   lat:36.063, lon:-86.940, approx:true, affluence:70, drive:56,
+   dates:["2026-07-17","2026-07-18","2026-07-19"], time:"Fri–Sun · 10am–3pm",
+   start:"100000", end:"150000",
+   items:"NEW find (EstateSales.NET, New Chapter Estates, 187+ photos) — premium <b>cycling gear</b>, <b>tools</b>, rugs, a Maytag washer/dryer, gorgeous d&eacute;cor.",
+   cats:["estate","tools","household","furniture"],
+   link:"https://www.estatesales.net/TN/Nashville/37221/4989642"},
+
+ /* ---- Saturday Jul 18 ---- */
+ {id:17, name:"Antique Prints, Maps &amp; Books — Trillium", type:"ESTATE", star:false,
+   addr:"Franklin 37069 — full address available on listing", q:"Franklin,TN+37069",
+   lat:35.96, lon:-86.88, approx:true, affluence:88, drive:44,
+   dates:["2026-07-18"], time:"Sat · starts 9am",
+   start:"090000", end:"160000",
+   items:"NEW find (EstateSales.NET, Trillium Antique Prints &amp; Rare Books, 125+ photos) — antique prints, maps &amp; rare books.",
+   cats:["estate","antiques","vintage","collectibles"],
+   link:"https://www.estatesales.net/TN/Franklin/37069/4991076"},
+
+ /* ---- Sat–Sun Jul 18–19 ---- */
+ {id:18, name:"Amazing Brentwood Estate Sale", type:"ESTATE", star:false,
    addr:"Brentwood 37027 — full address available Fri 7/17", q:"Brentwood,TN+37027",
-   lat:36.03902, lon:-86.76716, approx:true, affluence:92, drive:50,
-   dates:["2026-07-18"], time:"Sat (of a Sat–Sun sale) · confirm hours on listing",
-   start:"090000", end:"170000",
-   items:"NEW find (gsalr) — historical books, dining room table &amp; chairs, plants, sofa, recliner, bookcases, side tables, side chairs, buffet, china hutch.",
+   lat:36.03978, lon:-86.76716, approx:true, affluence:92, drive:50,
+   dates:["2026-07-18","2026-07-19"], time:"Sat–Sun · 8am–5pm",
+   start:"080000", end:"170000",
+   items:"Reconfirmed live (gsalr/EstateSales.NET, Estate Sales By Sheila) — historical books, dining room table &amp; chairs, plants, sofa, recliner, bookcases, side tables, side chairs, buffet, china hutch.",
    cats:["estate","furniture","household"],
    link:"https://gsalr.com/amazing-brentwood-estate-sale-brentwood-tn-38832333.html"},
 
- {id:39, name:"Yard Sale — Flat Creek Rd, Spring Hill", type:"YARD", star:false,
+ {id:19, name:"Yard Sale — Flat Creek Rd, Spring Hill", type:"YARD", star:false,
    addr:"5316 Flat Creek Road, Spring Hill 37174", q:"5316+Flat+Creek+Road,Spring+Hill,TN+37174",
    lat:35.704630, lon:-86.830546, approx:false, affluence:70, drive:26,
-   dates:["2026-07-18"], time:"Sat (of a Sat–Sun sale) · 7am–2pm",
+   dates:["2026-07-18","2026-07-19"], time:"Sat–Sun · 7am–2pm",
    start:"070000", end:"140000",
-   items:"RETURNS this run (Facebook, real street address) — after dropping off the board 2026-07-10, back with a fresh weekend date next Sat&ndash;Sun.",
+   items:"RECONFIRMED live on Facebook — real street address, general household yard sale items.",
    cats:["yard","household"],
-   link:"https://www.facebook.com/marketplace/item/1701589714404116/"}
+   link:"https://www.facebook.com/marketplace/item/1701589714404116/"},
+
+ {id:20, name:"Yard Sale — Franklin Pike, Lewisburg (Recurring Saturday)", type:"YARD", star:false,
+   addr:"2940 Franklin Pike, Lewisburg 37091", q:"2940+Franklin+Pike,Lewisburg,TN+37091",
+   lat:35.556190, lon:-86.830921, approx:false, affluence:45, drive:20,
+   dates:["2026-07-18"], time:"Sat · confirm hours on listing",
+   start:"080000", end:"170000",
+   items:"RECONFIRMED live on Facebook — the standing Saturday yard sale at 2940 Franklin Pike.",
+   cats:["yard","household"],
+   link:"https://www.facebook.com/marketplace/item/1661180155170731/"}
 ];
 
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -887,10 +729,10 @@ function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
     if(!t.length)return '<b>Nothing open today.</b> Weekdays are quiet in the corridor — tap <b>Weekend</b> or <b>Next 7 Days</b> to plan ahead.';
-    return '<b>'+t.length+' open today — a new record.</b> Check the cards below for times, then tap Navigate. Several are on their final half-off/50%-off day (Belle Meade, Gilded &amp; Gathered, Grasons Fieldstone Farms) — the Listing link is how you confirm before driving.';
+    return '<b>'+t.length+' open today — the last day for four Franklin/Bellevue estates plus the Ardmore multi-family.</b> Check the cards below for times, then tap Navigate. Several are on final 50&ndash;75%-off pricing — the Listing link is how you confirm before driving.';
   }
-  if(view==='weekend')return '<b>Volume peaks today, Sat 7/11 (a record 29 sales), tapering to Sun 7/12 (7).</b> Top picks: the <b>Belle Meade</b> estate (the corridor\'s highest-affluence zip, half off today), <b>&ldquo;Gilded &amp; Gathered&rdquo;</b> Brentwood (Swarovski, sterling, 50% off today), the Franklin cluster (<b>Barbie</b>, <b>Western Charm</b>, <b>Grasons Fieldstone Farms</b>, <b>Wonderful Franklin</b>), two <b>Eagleville estates</b> (a barn sale with a running \'52 Ford tractor, plus vintage &amp; fly-fishing gear on Elmore Rd), the <b>Crutcher Rd encore</b> in Chapel Hill, and a returning <b>Ardmore 3-family</b> loaded with fishing lures, rods &amp; reels. Confirm via Listing before driving — several addresses release the day before.';
-  return '<b>Plan the week.</b> Today <b>Sat 7/11</b> opens with a record 29 sales — Belle Meade, Gilded &amp; Gathered Brentwood, the Barbie estate, Western Charm, Vintage Soul Crieve Hall, the Franklin/Fieldstone Farms cluster, several new Brentwood &amp; Spring Hill finds, and a returning Ardmore 3-family with fishing gear. <b>Sun 7/12</b> holds 7 sales as the multi-day estates carry over plus a new Buckingham Cir moving sale in Franklin. A Nashville event-venue liquidation lands <b>Mon 7/13</b>, a <b>Glamorous Franklin</b> designer estate (raw-silk sectional, a Paris-painted armoire — per the listing) opens <b>Tue 7/14</b>, a Brentwood estate + <b>Nice West Meade</b> + the Green Hills Sneed Rd sale (now confirmed all 3 days) open <b>Thu 7/16</b>, and <b>Sat 7/18</b> closes the window with 5 sales including a returning Flat Creek Rd yard sale in Spring Hill. Several addresses release the day before — the Listing link is how you confirm.';
+  if(view==='weekend')return '<b>A thinner Sunday-to-weekend stretch this run — 5 sales wrap up today, then volume rebuilds toward Sat 7/18 (8 sales).</b> Today\'s picks: <b>Western Charm</b> Log Cabin Franklin (fishing gear &amp; poles), the <b>Barbie Collection</b> estate, <b>Wonderful Franklin</b> (75% off), <b>Great Bellevue</b> (50% off), and the <b>Ardmore 3-family</b> (fishing lures, rods &amp; reels, cast iron). Next Saturday brings <b>Phase 2 Sneed Rd</b> Green Hills, <b>Amazing Brentwood</b>, and a fresh <b>Flat Creek Rd</b> yard sale in Spring Hill. Confirm via Listing before driving — several addresses release the day before.';
+  return '<b>Plan the week.</b> Today <b>Sun 7/12</b> closes out four multi-day Franklin/Bellevue estates (Barbie, Western Charm, Wonderful Franklin, Great Bellevue) plus the Ardmore 3-family — 5 sales total. A real-address <b>Augusta Trace Dr</b> garage sale in Columbia lands <b>Mon 7/13</b>. A <b>Glamorous Franklin</b> designer estate (raw-silk sectional, a stuffed peacock — per the listing) opens <b>Tue 7/14</b>. <b>Thu 7/16</b> brings a Franklin/Brentwood estate, <b>Nice West Meade</b>, and the Green Hills <b>Sneed Rd</b> collector\'s estate (3-day). <b>Fri 7/17</b> adds five more EstateSales.NET finds (Avalon Community Franklin, Fountainbrooke Brentwood, Bellevue Downsizing, a cycling-gear/tools Nashville estate) plus a Crocker Dr garage sale. <b>Sat 7/18</b> peaks the window at 8 sales — Amazing Brentwood, Trillium\'s antique prints &amp; books, a returning Flat Creek Rd yard sale, and the standing Lewisburg Franklin Pike Saturday sale. Several addresses release the day before — the Listing link is how you confirm.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -950,9 +792,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: gsalr.com (Columbia feed, all 60 listings scanned live via DOM extraction, 29 in-window), Craigslist (30 mi, Chapel Hill + a fresh Ardmore repost confirmed direct on the posts), EstateSales.NET (Columbia + Nashville feeds, PRIMARY), EstateSales.org (Columbia, cross-check), Facebook Marketplace (logged-in, click-into-listing ×20+ across garage/estate/yard/moving/fishing searches in Columbia, Spring Hill &amp; Franklin). Full pull 2026-07-11 (Sat). '
-  +'A new record — 39 sales, 29 of them open today alone. One upgrade to a real street address: Great Bellevue Estate Sale (900 General George Patton Rd). Nine new finds: Norman Park Ct &amp; Buckingham Cir Franklin, Boswell Ct &amp; Sunset Rd Brentwood, Still Spring Hollow Dr Nashville/Bellevue (fishing poles), Sky Meadow Dr College Grove (Falls Grove Subdivision), Sowell Mill Pike Columbia, and Greens Mill Rd Spring Hill. The Ardmore &ldquo;BIG 3 Family Yard Sale&rdquo; (fishing lures, rods &amp; reels, cast iron, antiques) returns with a fresh Craigslist post after dropping since 7/7, and the Flat Creek Rd Spring Hill yard sale returns for 7/18 after dropping 7/10. '
-  +'Dropped/unconfirmed: 2612 Augusta Trace Dr Columbia (listing pulled/private — not placed). Watch items not placed (never-fabricate): Amazing Nashville Estate 37211 (thin listing, no address yet), 1239 Hartsfield Dr Columbia (recurring post, no firm date), 113 Morningside Lane Columbia (real address, no date). '
+  'Sources reached: gsalr.com (Columbia feed, all 46 listings scanned live via DOM extraction, 23 in-window), Craigslist (30 mi, Ardmore reconfirmed direct on the post), EstateSales.NET (Columbia + Spring Hill feeds, PRIMARY — surfaced 5 new Fri&ndash;Sat finds), EstateSales.org (Columbia, cross-check, consistent), Bleu Estates registry (Tier-1 Columbia-native, nothing posted), Facebook Marketplace (logged-in, click-into-listing across garage/estate/yard/moving/multi-family/neighborhood searches in Columbia &amp; Spring Hill). Full pull 2026-07-12 (Sun). '
+  +'20 sales this run — legitimately thinner than Saturday\'s 39 as most single-day Sat-only sales rolled off; multi-day estates carry the window. Real find: <b>2612 Augusta Trace Dr Columbia</b> garage sale returns with firm dates (Mon 7/13) after being unconfirmed/private on 7/11. Five new EstateSales.NET finds for Fri&ndash;Sat 7/17&ndash;18: Avalon Community Franklin, Fountainbrooke Brentwood, Bellevue Downsizing, a Bellevue estate with cycling gear &amp; tools, and Trillium\'s antique prints &amp; books. Plus a new Crocker Dr Franklin garage/moving sale. '
+  +'Dropped (did not reconfirm live): Downsizing&mdash;Great Prices Marcasite Dr Brentwood (off the gsalr feed entirely today). Watch items not placed (never-fabricate): Amazing Nashville Estate 37211 (still no address across multiple runs), 1239 Hartsfield Dr Columbia &ldquo;Spring Garage Sale&rdquo; (chronic recurring post, no reliable date), Taylor Bend Rd Columbia &ldquo;Taylor Landing&rdquo; garage sale (real street, no date), 113 Morningside Lane Columbia (listing now expired). '
   +'Several estate addresses release the day before — tap the listing for the exact pin. Some stops show only the city, not the exact address — confirm before driving. Sales can cancel without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
