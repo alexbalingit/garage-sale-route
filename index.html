@@ -288,61 +288,24 @@ function recomputeDrives(){ sales.forEach(function(s){ s.drive=driveMinFromHome(
    (Marcasite Dr, Sunset Rd) could not be geocoded to an exact pin this run (Census/Nominatim both
    unreachable) — placed at an approximate Brentwood 37027 centroid and flagged approx:true. */
 var sales = [
- /* ---- Wednesday Jul 15 (today) ---- */
- {id:1, name:"Glamorous Franklin Estate Sale — Final Day 50% Off", type:"ESTATE", star:true,
-   addr:"108 Broadwell Cir, Franklin 37067", q:"108+Broadwell+Cir,Franklin,TN+37067",
-   lat:35.957076, lon:-86.800461, approx:false, affluence:85, drive:44,
-   dates:["2026-07-15"], time:"Wed only · 8am–12pm (50% off, final day)",
-   start:"080000", end:"120000",
-   items:"FINAL DAY, 50% off everything (Estate Sales By Sheila) — a raw-silk sectional, designer jewelry &amp; clothing, original art, chandeliers, even a stuffed peacock.",
-   cats:["estate","designer","antiques","art","furniture"],
-   link:"https://gsalr.com/glamorous-franklin-estate-sale-franklin-tn-38832315.html"},
-
- {id:27, name:"Garage Sale — Women's &amp; Teen Clothes, Sunset Rd Brentwood", type:"GARAGE", star:false,
-   addr:"907 Sunset Rd, Brentwood 37027", q:"907+Sunset+Rd,Brentwood,TN+37027",
-   lat:36.003284, lon:-86.739192, approx:false, affluence:92, drive:50,
-   dates:["2026-07-15"], time:"Wed only · confirm hours on listing",
-   start:"090000", end:"170000",
-   items:"NEW find (gsalr, real street address) — women's and teen clothing closet clean-out in Brentwood, today only, 25¢ each.",
-   cats:["garage","clothing"],
-   link:"https://gsalr.com/garage-sale-womens-teen-brentwood-tn-38842881.html"},
-
- {id:25, name:"Unique Collection of Multi Generational Art", type:"ESTATE", star:true,
-   addr:"Franklin 37064 — full address on listing", q:"Franklin,TN+37064",
-   lat:35.8500, lon:-86.8850, approx:true, affluence:82, drive:47,
-   dates:["2026-07-15","2026-07-18"], time:"Wed &amp; Sat · from 5am (going on now)",
-   start:"050000", end:"170000",
-   items:"NEW find (EstateSales.NET, Privately Listed) — a unique multi-generational art collection in Franklin, already &quot;Going On Now!&quot; (49 photos posted, unusually early 5am start).",
-   cats:["estate","art","antiques"],
-   link:"https://www.estatesales.net/TN/Franklin/37064/4994610"},
+ /* ---- Thursday Jul 16 (today) ---- */
+ {id:3, name:"Nice West Meade Estate Sale", type:"ESTATE", star:true,
+   addr:"6442 Currywood Dr, Nashville (West Meade) 37205", q:"6442+Currywood+Dr,Nashville,TN+37205",
+   lat:36.106409, lon:-86.892512, approx:false, affluence:98, drive:64,
+   dates:["2026-07-16"], time:"Thu only · 8am–5pm",
+   start:"080000", end:"170000",
+   items:"ADDRESS UPGRADE — Census-geocoded pin (gsalr's posted street number had a typo; EstateSales.NET's 6442 Currywood Dr resolves cleanly) — a pair of velvet barrel chairs, sofa, side chairs, entry hall table, linens, midcentury crystal, china, tools &amp; power tools.",
+   cats:["estate","antiques","tools","furniture"],
+   link:"https://gsalr.com/nice-west-meade-estate-nashville-tn-38832327.html"},
 
  {id:15, name:"Large Estate Sale — Ridgetop Rd, Hampshire", type:"ESTATE", star:false,
    addr:"4754 Ridgetop Rd, Hampshire 38461", q:"4754+Ridgetop+Rd,Hampshire,TN+38461",
    lat:35.569184, lon:-87.324945, approx:false, affluence:42, drive:43,
-   dates:["2026-07-15","2026-07-16","2026-07-17","2026-07-18","2026-07-19"], time:"Wed–Sun · until 2:30pm (open time unconfirmed, estimate 9am)",
+   dates:["2026-07-16","2026-07-17","2026-07-18","2026-07-19"], time:"Thu–Sun · until 2:30pm (open time unconfirmed, estimate 9am)",
    start:"090000", end:"143000",
-   items:"Reconfirmed live (Facebook, day 2 of a 6-day liquidation) — almost everything $1, everything must go: vintage beer steins, glassware, ceramic figurines, and more vintage collectibles.",
+   items:"Reconfirmed live (Facebook, day 4 of a 6-day liquidation) — almost everything $1, everything must go: vintage beer steins, glassware, ceramic figurines, and more vintage collectibles.",
    cats:["estate","vintage","collectibles","household"],
    link:"https://www.facebook.com/marketplace/item/1532557661139277/"},
-
- /* ---- Thursday Jul 16 ---- */
- {id:2, name:"Beautiful Franklin Estate Sale — Brentwood", type:"ESTATE", star:false,
-   addr:"Franklin 37067 — full address on listing", q:"Franklin,TN+37067",
-   lat:35.96348, lon:-86.82596, approx:true, affluence:85, drive:44,
-   dates:["2026-07-16","2026-07-17"], time:"Thu–Fri · 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Reconfirmed live (EstateSales.NET, Estate Sales By Sheila) — sofa, coffee table, end tables, dining room table &amp; chairs, buffet, bed, antiques, art glass, crystal, silverplate, jewelry, clothing, patio furniture.",
-   cats:["estate","antiques","crystal","furniture","jewelry"],
-   link:"https://gsalr.com/beautiful-franklin-estate-sale-brentwood-tn-38832321.html"},
-
- {id:3, name:"Nice West Meade Estate Sale", type:"ESTATE", star:true,
-   addr:"Nashville (West Meade) 37205 — full address on listing", q:"Nashville,TN+37205",
-   lat:36.10579, lon:-86.8874, approx:true, affluence:98, drive:64,
-   dates:["2026-07-16"], time:"Thu only · 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Reconfirmed live (EstateSales.NET, Estate Sales By Sheila) — a pair of velvet barrel chairs, sofa, side chairs, entry hall table, linens, midcentury crystal, china, tools &amp; power tools.",
-   cats:["estate","antiques","tools","furniture"],
-   link:"https://gsalr.com/nice-west-meade-estate-nashville-tn-38832327.html"},
 
  {id:11, name:"Garage Sale — Buffalo Rd, Ethridge", type:"GARAGE", star:false,
    addr:"3325 Buffalo Rd, Ethridge 38456", q:"3325+Buffalo+Rd,Ethridge,TN+38456",
@@ -428,10 +391,10 @@ var sales = [
 
  {id:16, name:"Antique Mall Store Closing", type:"ESTATE", star:false,
    addr:"7103 Highway 70 South, Nashville (Bellevue) 37221", q:"7103+Highway+70+South,Nashville,TN+37221",
-   lat:36.0648, lon:-86.9394, approx:true, affluence:70, drive:57,
+   lat:36.074136, lon:-86.921886, approx:false, affluence:70, drive:57,
    dates:["2026-07-17","2026-07-18","2026-07-19"], time:"Fri–Sun · 10am–5pm",
    start:"100000", end:"170000",
-   items:"NEW find (EstateSales.NET, Privately Listed) — an antique mall store closing sale off Highway 70 South in Bellevue; full inventory clear-out, specifics on listing (8 photos added in last 24 hrs).",
+   items:"ADDRESS UPGRADE — Census-geocoded to an exact pin (was approximate) — an antique mall store closing sale off Highway 70 South in Bellevue; full inventory clear-out, specifics on listing (8 photos added in last 24 hrs).",
    cats:["estate","antiques","household"],
    link:"https://www.estatesales.net/TN/Nashville/37221/4999257"},
 
@@ -539,11 +502,57 @@ var sales = [
  {id:28, name:"Grasons of Nashville — Brentwood Vintage Time Capsule Estate Sale", type:"ESTATE", star:true,
    addr:"Brentwood 37027 — full address releases Wed 7/22", q:"Brentwood,TN+37027",
    lat:36.0100, lon:-86.7700, approx:true, affluence:92, drive:50,
-   dates:["2026-07-22"], time:"Wed 7/22 · confirm hours on listing",
+   dates:["2026-07-22","2026-07-23"], time:"Wed–Thu (runs through Sat 7/25, window caps Thu) · confirm hours on listing",
    start:"090000", end:"170000",
-   items:"NEW find (gsalr, Grasons of Nashville) — a longtime Brentwood family home, a vintage time capsule: mid-century modern pieces, quilts &amp; more. Address releases the morning of.",
+   items:"Reconfirmed live (gsalr) — a longtime Brentwood family home, a vintage time capsule: mid-century modern pieces, quilts &amp; more. Address releases the morning of.",
    cats:["estate","vintage","collectibles","furniture"],
-   link:"https://gsalr.com/grasons-of-nashville-brentwood-brentwood-tn-38829345.html"}
+   link:"https://gsalr.com/grasons-of-nashville-brentwood-brentwood-tn-38829345.html"},
+
+ /* ---- New finds this run (Facebook + EstateSales.NET) ---- */
+ {id:29, name:"Yard Sale — Hayward Ln, Spring Hill (Wyngate Estates)", type:"YARD", star:false,
+   addr:"2224 Hayward Ln, Spring Hill 37174", q:"2224+Hayward+Ln,Spring+Hill,TN+37174",
+   lat:35.756529, lon:-86.896135, approx:false, affluence:70, drive:26,
+   dates:["2026-07-18"], time:"Sat only · starts 7am",
+   start:"070000", end:"120000",
+   items:"NEW find (Facebook, real address) — Wyngate Estates yard sale: adult &amp; kid clothes, shoes, household items, games, toys, books.",
+   cats:["yard","clothing","household","toys"],
+   link:"https://www.facebook.com/marketplace/item/898452099968899/"},
+
+ {id:30, name:"Garage Sale — &quot;Everything!&quot;, Thick Rd Chapel Hill", type:"GARAGE", star:true,
+   addr:"4396 Thick Rd, Chapel Hill 37034", q:"4396+Thick+Rd,Chapel+Hill,TN+37034",
+   lat:35.637345, lon:-86.736605, approx:false, affluence:50, drive:28,
+   dates:["2026-07-17","2026-07-18"], time:"Fri–Sat · 7am–3:30pm",
+   start:"070000", end:"153000",
+   items:"NEW find (Facebook, real address) — Alabama memorabilia, hall tree, curio cabinet, antique cedar chest, dining table &amp; chairs, silver tea set &amp; flatware, dishes, jewelry, home decor.",
+   cats:["garage","antiques","furniture","jewelry"],
+   link:"https://www.facebook.com/marketplace/item/1577689643952818/"},
+
+ {id:31, name:"Community Garage Sale — Ridgewood Place, Brentwood", type:"GARAGE", star:false,
+   addr:"Ridgewood Place, Brentwood 37027 — full address on listing", q:"Brentwood,TN+37027",
+   lat:35.9940, lon:-86.7828, approx:true, affluence:92, drive:50,
+   dates:["2026-07-18"], time:"Sat only · starts 8am",
+   start:"080000", end:"140000",
+   items:"NEW find (Facebook) — neighborhood-wide Ridgewood Place community garage sale: kids' stuff, home art pieces, games &amp; more.",
+   cats:["garage","neighborhood","household"],
+   link:"https://www.facebook.com/marketplace/item/1433467445272541/"},
+
+ {id:32, name:"Indoor, Air Conditioned Sale — Park Ave, Nashville", type:"GARAGE", star:false,
+   addr:"4805 Park Ave, Nashville 37209", q:"4805+Park+Ave,Nashville,TN+37209",
+   lat:36.150934, lon:-86.844792, approx:false, affluence:60, drive:55,
+   dates:["2026-07-18"], time:"Sat only · confirm hours on listing (indoor, rain or shine)",
+   start:"090000", end:"150000",
+   items:"NEW find (gsalr, real address) — REnaissance Center Thrift Store indoor sale: clothing, shoes, suits, dresses, purses, collectibles, lamps, housewares, cookbooks.",
+   cats:["garage","clothing","household"],
+   link:"https://gsalr.com/indoor-air-conditioned-sale-nashville-tn-38846037.html"},
+
+ {id:33, name:"So Much Vintage Packed Into One Small Sale — Franklin", type:"ESTATE", star:false,
+   addr:"Franklin 37064 — full address on listing", q:"Franklin,TN+37064",
+   lat:35.9251, lon:-86.8689, approx:true, affluence:82, drive:47,
+   dates:["2026-07-17","2026-07-18"], time:"Fri–Sat · 9am–2pm",
+   start:"090000", end:"140000",
+   items:"NEW find (EstateSales.NET, Privately Listed) — a small but tightly packed Franklin estate sale, close to town.",
+   cats:["estate","household"],
+   link:"https://www.estatesales.net/TN/Franklin/37064/5000049"}
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
 function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -805,10 +814,10 @@ function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
     if(!t.length)return '<b>Nothing open today.</b> Weekdays are quiet in the corridor — tap <b>Weekend</b> or <b>Next 7 Days</b> to plan ahead.';
-    return '<b>'+t.length+' open today</b> — the <b>Glamorous Franklin</b> designer estate sale\'s final day at 50% off (108 Broadwell Cir), a Sunset Rd Brentwood clothing closet clean-out, a Franklin multi-generational art collection (early 5am start), and day 2 of the 6-day Hampshire vintage liquidation. Tap the card for details, then Navigate.';
+    return '<b>'+t.length+' open today</b> — <b>Nice West Meade</b> Estate Sale (address-upgraded to 6442 Currywood Dr), the Green Hills <b>Sneed Rd</b> collector\'s estate (day 1 of 3), a new 4,000 sqft Franklin estate on Diamond Dr, the Buffalo Rd Ethridge garage sale, and day 4 of the 6-day Hampshire vintage liquidation. Tap the card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>Record volume this weekend — 24 sales span Fri 7/17 through Sun 7/19, peaking Saturday.</b> Fri is the biggest single day yet: the 3-day College Grove estate, a Crocker Dr garage/moving sale, a real-address Leipers Fork estate (Sweeney Hollow Rd), a Joe Peay Cemetery Rd Spring Hill estate sale (grandfather clock, jewelry, appliances), an address-upgraded Chapel Hill garage sale (Crutcher Rd — antiques, vintage Pyrex, collectible plates), a returning Marcasite Dr Brentwood downsizing sale, and a wave of new EstateSales.NET finds across Bellevue, Green Hills, Harding Place, and Brentwood\'s Fountainbrooke (Russian literature, art &amp; designer pieces). Sat adds <b>Amazing Brentwood</b> and the recurring <b>Flat Creek Rd</b> Spring Hill yard sale. Confirm via Listing before driving — several addresses release the day before.';
-  return '<b>Plan the week.</b> <b>Wed 7/15 (today)</b> is the last day for <b>Glamorous Franklin</b> at 50% off, plus a Sunset Rd Brentwood clothing sale and a Franklin art collection. <b>Thu 7/16</b> adds a Franklin/Brentwood estate, <b>Nice West Meade</b>, the Green Hills <b>Sneed Rd</b> collector\'s estate (3-day), and a new 4,000 sqft Franklin estate on Diamond Dr. <b>Fri 7/17</b> is the volume day — the 3-day College Grove estate, a real-address Leipers Fork estate, a Joe Peay Cemetery Rd Spring Hill estate sale, an address-upgraded Chapel Hill garage sale, a returning Marcasite Dr Brentwood downsizing sale, and a wave of new Bellevue/Green Hills/Fountainbrooke estate finds. <b>Sat 7/18</b> peaks the window, including <b>Amazing Brentwood</b> and the Flat Creek Rd Spring Hill yard sale. <b>Wed 7/22</b> closes the window with a new Grasons of Nashville vintage time-capsule estate in Brentwood (address releases that morning). Several addresses release the day before &mdash; the Listing link is how you confirm.';
+  if(view==='weekend')return '<b>26 sales span Fri 7/17 through Sun 7/19, peaking Saturday with 26 open.</b> Fri is stacked: the 3-day College Grove estate, a Crocker Dr garage/moving sale, a real-address Leipers Fork estate (Sweeney Hollow Rd), a Joe Peay Cemetery Rd Spring Hill estate sale (grandfather clock, jewelry, appliances), the address-confirmed Chapel Hill garage sale (Crutcher Rd), a returning Marcasite Dr Brentwood downsizing sale, a real-address Thick Rd Chapel Hill sale (antiques, silver tea set), a small Franklin estate sale, and a wave of EstateSales.NET finds across Bellevue, Green Hills, Harding Place, and Brentwood\'s Fountainbrooke. Sat adds <b>Amazing Brentwood</b>, the recurring <b>Flat Creek Rd</b> Spring Hill yard sale, a new Wyngate Estates yard sale (Hayward Ln), a Ridgewood Place Brentwood community garage sale, and an indoor air-conditioned thrift sale on Park Ave. Confirm via Listing before driving — several addresses release the day before.';
+  return '<b>Plan the week.</b> <b>Thu 7/16 (today)</b> has <b>Nice West Meade</b> (address-upgraded), the Green Hills <b>Sneed Rd</b> collector\'s estate, a new 4,000 sqft Franklin estate on Diamond Dr, the Buffalo Rd Ethridge garage sale, and the 6-day Hampshire vintage liquidation. <b>Fri 7/17</b> is the volume day — the 3-day College Grove estate, a real-address Leipers Fork estate, a Joe Peay Cemetery Rd Spring Hill estate sale, the Chapel Hill Crutcher Rd garage sale, a returning Marcasite Dr Brentwood downsizing sale, a new real-address Thick Rd Chapel Hill sale, a small Franklin estate sale, and a wave of Bellevue/Green Hills/Fountainbrooke estate finds. <b>Sat 7/18</b> peaks the window at 26 sales, including <b>Amazing Brentwood</b>, the Flat Creek Rd Spring Hill yard sale, a new Wyngate Estates yard sale, a Ridgewood Place community garage sale, and the Park Ave indoor thrift sale. <b>Wed–Thu 7/22–23</b> close the window with Grasons of Nashville\'s vintage time-capsule estate in Brentwood (address releases the morning of, sale itself runs through Sat 7/25). Several addresses release the day before &mdash; the Listing link is how you confirm.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -868,10 +877,10 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: gsalr.com (Columbia feed, full live DOM extraction, 44 listings scanned, 19 in-window before exclusions), Craigslist (Nashville gms search within 30mi, 1 corridor repost — Chapel Hill, address now confirmed), EstateSales.NET (Franklin 37064, PRIMARY this run — surfaced 10 new finds across Bellevue, Green Hills, Harding Place, Avalon Community Franklin, and Fountainbrooke Brentwood), Facebook Marketplace (logged-in Chrome, click-into-listing across garage/estate search terms in Columbia + Spring Hill). Full 7-day pull 2026-07-15 (Wed). '
-  +'28 sales this run — a new record. Real address upgrade: <b>Garage Sale — Crutcher Rd, Chapel Hill</b> finally restated its exact street address after weeks of repost-only listings. <b>Downsizing — Marcasite Dr Brentwood</b> also upgraded to a precise Census-geocoded pin (was approximate). Ten new EstateSales.NET finds: an Antique Mall Store Closing (Bellevue), Amazing Nashville Estate Sale (firm dates after weeks as a &ldquo;more info coming&rdquo; watch item), Harding Place Antiques, Beautiful Estate Sale in Avalon Community of Franklin, Great Green Hills &ldquo;Pop Up&rdquo; Estate Sale, Bellevue Downsizing Sale, Come And See (Bellevue), Lovely Nashville Estate (cycling gear/tools/rugs), Fine Furnishings in Fountainbrooke (Russian literature, art &amp; designer pieces), and Buy Saving Grace Estate Sale. Two new gsalr finds: a Sunset Rd Brentwood clothing closet clean-out (today only) and a Franklin multi-generational art collection already &ldquo;Going On Now.&rdquo; A new Wed 7/22 find closes the window: Grasons of Nashville&rsquo;s Brentwood vintage time-capsule estate (address releases that morning). '
-  +'Carried forward with reconfirmed live dates: Glamorous Franklin (now final day, 50% off), Nice West Meade, Phase 2 Sneed Rd, Gorgeous 4k sqft Franklin, 3-Day College Grove Estate, Crocker Dr garage/moving sale, Packed Leipers Fork Estate, Joe Peay Cemetery Rd Spring Hill, Buffalo Rd Ethridge garage sale, Amazing Brentwood Estate, Flat Creek Rd Spring Hill yard sale, and the 6-day Ridgetop Rd Hampshire vintage liquidation (now day 2 of 6). '
-  +'Excluded: online-only auctions/sales (Bon Aqua classic cars, Richardson online sale, SEC Sports Merch Blowout), Murfreesboro listings (beyond the corridor), and a Multi-Family Yard Sale on Elysian Fields Rd Nashville (~44mi, beyond practical range). '
+  'Sources reached: gsalr.com (Columbia feed, full live DOM extraction, 53 listings scanned, 25 in-window before exclusions), Craigslist (Nashville gms search within 30mi, 1 corridor repost — Chapel Hill, address confirmed), EstateSales.NET (Franklin 37064, 30mi/15-day filter — cross-confirmed most gsalr finds, no net-new beyond one small private Franklin listing), Facebook Marketplace (logged-in Chrome, click-into-listing across garage/yard/estate search terms in Columbia + Spring Hill). Full 7-day pull 2026-07-16 (Thu). '
+  +'29 sales this run. Two address upgrades via Census geocoding: <b>Nice West Meade</b> (gsalr’s posted street number had a typo — 6442 Currywood Dr resolves cleanly, not 5442) and <b>Antique Mall Store Closing</b> (Bellevue, now an exact pin on Highway 70 South). Five new finds: a real-address Wyngate Estates yard sale (2224 Hayward Ln, Spring Hill), a real-address Chapel Hill garage sale on Thick Rd (antiques, silver tea set, curio cabinet), a Ridgewood Place Brentwood neighborhood-wide community garage sale, an indoor air-conditioned thrift sale on Park Ave (Nashville), and a small privately-listed Franklin estate sale (EstateSales.NET). '
+  +'Carried forward with reconfirmed live dates: Phase 2 Sneed Rd, Gorgeous 4k sqft Franklin, 3-Day College Grove Estate, Crocker Dr garage/moving sale, Packed Leipers Fork Estate, Joe Peay Cemetery Rd Spring Hill, Buffalo Rd Ethridge garage sale, Amazing Brentwood Estate, Flat Creek Rd Spring Hill yard sale, Amazing Nashville Estate (37211), Harding Place Antiques, Avalon Community Franklin, Great Green Hills Pop Up, Bellevue Downsizing, Come And See (Bellevue), Lovely Nashville Estate (Bellevue), Fine Furnishings in Fountainbrooke, Buy Saving Grace (Green Hills), Grasons of Nashville Brentwood vintage time-capsule (now extended through Thu 7/23 in-window; sale itself runs to Sat 7/25), and day 4 of the 6-day Ridgetop Rd Hampshire vintage liquidation. Dropped (did not reconfirm in today’s live pull): Beautiful Franklin/Brentwood Estate Sale (37067) and yesterday’s single-day Wed 7/15 finds (Glamorous Franklin final day, Sunset Rd Brentwood, the Franklin multi-generational art collection) — all past their dates. '
+  +'Excluded: online-only auctions/sales (Bon Aqua classic cars, Richardson online sale Pulaski, SEC Sports Merch Blowout), Murfreesboro/Goodlettsville/Mount Juliet/Lebanon/Antioch/downtown-Nashville listings (beyond the practical corridor), and a Multi-Family Yard Sale on Elysian Fields Rd Nashville (~44mi, beyond practical range). '
   +'Several estate addresses release the day before — tap the listing for the exact pin. Some stops show only the city, not the exact address — confirm before driving. Sales can cancel without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
