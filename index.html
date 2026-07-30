@@ -251,58 +251,76 @@ function driveMinFromHome(lat,lon){
 function scoreSale(s){ return s.affluence + (s.type==="ESTATE"?12:0) + (s.type==="MULTI-FAMILY"||s.type==="NEIGHBORHOOD"?8:0) - Math.max(0,(s.drive-30))*0.5; }
 function recomputeDrives(){ sales.forEach(function(s){ s.drive=driveMinFromHome(s.lat,s.lon); s.score=scoreSale(s); }); }
 
-/* 5 sales this run — Monday pull, 7-day window Jul 27–Aug 2. Genuinely thin: today
-   (Mon 7/27) and the next two weekdays are empty across every source, as expected —
-   next Saturday (8/1) hasn't fully posted yet this early in the week. affluence 0-100
-   (zip tier, baked-in table) drives ranking; drive = est. minutes from home (haversine,
-   road-factor 1.3 @ ~45mph). Franklin-cap radius held at ~30mi with two reasonable
-   extensions into Brentwood/Nolensville territory (~35-37mi straight-line), consistent
-   with recent runs that included similar-distance Brentwood finds. */
+/* 7 sales this run — Thursday pull, 7-day window Jul 30–Aug 6. Front-loaded toward the
+   coming Saturday (6 of 7 sales open Aug 1); today (Thu 7/30) carries only the Franklin
+   Busy Bee moving/estate sale, which starts today. affluence 0-100 (zip tier, baked-in
+   table) drives ranking; drive = est. minutes from home (haversine, road-factor 1.3 @
+   ~45mph). Franklin-cap radius held at ~30mi with reasonable extensions into
+   Brentwood/Nolensville territory (~33-37mi straight-line) given the strength of those
+   finds, consistent with recent-run precedent. */
 var sales = [
 
  {id:1, name:"Spring Hill Designer Estate Sale — Hermès, LV, Antiques", type:"ESTATE", star:true,
    addr:"1402 Cannon Ln, Spring Hill 37174", q:"1402+Cannon+Ln,Spring+Hill,TN+37174",
-   lat:35.730995, lon:-86.940359, approx:false, affluence:78, drive:30,
+   lat:35.730995, lon:-86.940359, approx:false, affluence:70, drive:33,
    dates:["2026-08-01","2026-08-02"], time:"Sat–Sun · 8am–3pm",
    start:"080000", end:"150000",
-   items:"NEW FIND — gsalr/EstateSales.NET, two-day designer estate sale in the Southern Springs subdivision. Designer fashion including Hermès, Louis Vuitton, and Donald Pliner shoes, handbags & clothing. Fine furniture — Restoration Hardware and Cassard Chateau pieces, a mission oak desk, a flame mahogany dining room suite, a designer French Provincial bedroom set. Lenox & Minton china, pink Depression glass, crystal, a wrought iron patio set, an Apple computer, All-Clad and cast iron cookware.",
+   items:"RECONFIRMED CARRYOVER — gsalr, still live, same address and dates. Two-day designer estate sale in the Southern Springs subdivision. Designer fashion including Hermès, Louis Vuitton, and Donald Pliner shoes, handbags & clothing. Fine furniture — Restoration Hardware and Cassard Chateau pieces, a mission oak desk, a flame mahogany dining room suite, a designer French Provincial bedroom set. Lenox & Minton china, pink Depression glass, crystal, a wrought iron patio set, an Apple computer, All-Clad and cast iron cookware.",
    cats:["estate","designer","furniture","antiques","collectibles"],
    link:"https://gsalr.com/spring-hill-designer-estate-spring-hill-tn-38852967.html"},
 
- {id:2, name:"5 Families (2 Houses) Garage Sales — Brentwood", type:"MULTI-FAMILY", star:false,
+ {id:2, name:"Brentwood Estate Sale — Dogwood Estate Sales", type:"ESTATE", star:false,
+   addr:"Brentwood 37027 — full address releases Thu 7/30, 9am", q:"Brentwood,TN+37027",
+   lat:35.9940, lon:-86.7828, approx:true, affluence:92, drive:66,
+   dates:["2026-07-31","2026-08-01"], time:"Fri–Sat · 8:30am–3pm",
+   start:"083000", end:"150000",
+   items:"NEW FIND — EstateSales.NET. Large Brentwood home, furniture and decor; company notes the full inventory list is still pending — check back closer to the sale or tap Listing before driving.",
+   cats:["estate","furniture"],
+   link:"https://www.estatesales.net/TN/Brentwood/37027/4982991"},
+
+ {id:3, name:"5 Families (2 Houses) Garage Sales — Brentwood", type:"MULTI-FAMILY", star:true,
    addr:"1501 Pear Tree Cir & 8250 Frontier Ln, Brentwood 37027", q:"1501+Pear+Tree+Cir,Brentwood,TN+37027",
-   lat:35.974463, lon:-86.787846, approx:false, affluence:92, drive:62,
-   dates:["2026-08-01"], time:"Sat · 8am–2pm (rain or shine)",
-   start:"080000", end:"140000",
-   items:"NEW FIND — Craigslist, rescheduled from last weekend's rainout. Two houses, five families. Video games (Xbox, Xbox 360, PlayStation, PS2, PS4, Wii, GameCube), PC games/CDs/VHS/LPs/45s, camping & sports gear (6-person tent, Coleman stove, scuba equipment, bocce set), hunting clothes/waders/fishing vests, a hydraulic jack, games & puzzles, cooking appliances & cookware.",
-   cats:["garage","household","collectibles","sporting goods"],
+   lat:35.974463, lon:-86.787846, approx:false, affluence:92, drive:63,
+   dates:["2026-07-31"], time:"Fri · 7am–3pm",
+   start:"070000", end:"150000",
+   items:"CARRYOVER, date corrected — Craigslist listing updated yesterday, now posted for Friday (not Saturday). Two houses, five families. Video games (Xbox, Xbox 360, PlayStation, PS2/PS4, Wii, GameCube), PC games/CDs/VHS/LPs/45s, camping & sports gear incl. scuba equipment and a hydraulic jack, hunting clothes/waders/fishing vests, kitchen appliances & cookware, craft supplies, vintage dolls, linens & custom curtains, a futon, oak desk, a free piano, kids items, Coach/Brighton purses & jewelry.",
+   cats:["garage","household","collectibles","sporting goods","fishing","vintage"],
    link:"https://www.craigslist.org/view/d/brentwood-families-houses-garage-sales/48Z6NrMFr2aC5oZ2tPXmJf"},
 
- {id:3, name:"Fantastic Nolensville Estate Sale", type:"ESTATE", star:false,
-   addr:"Nolensville 37135 — full address releases Tue 7/28, 9am", q:"Nolensville,TN+37135",
-   lat:35.952285, lon:-86.669441, approx:true, affluence:80, drive:64,
-   dates:["2026-07-29"], time:"Wed · 8am–5pm",
-   start:"080000", end:"170000",
-   items:"NEW FIND — EstateSales.org. A sofa, dining room table & chairs, entry hall table, pair of contemporary chairs, rugs, an antique cabinet, china, crystal, linens, Christmas decor, tools & power tools, patio furniture.",
-   cats:["estate","furniture","antiques","tools"],
-   link:"https://estatesales.org/estate-sales/tn/nolensville/37135/fantastic-nolensville-estate-sale-2449794"},
+ {id:4, name:"Franklin Moving & Estate Sale — Busy Bee (3-Day)", type:"ESTATE", star:true,
+   addr:"3021 Blossom Trail Lane, Franklin 37064", q:"3021+Blossom+Trail+Lane,Franklin,TN+37064",
+   lat:35.938054, lon:-86.902380, approx:false, affluence:82, drive:58,
+   dates:["2026-07-30","2026-07-31","2026-08-01"], time:"Thu–Sat · 8am–3pm",
+   start:"080000", end:"150000",
+   items:"NEW FIND — EstateSales.NET, starts today. High-quality antique furniture — dressers, secretaries, sofa tables, drop-leaf tables, pottery, art, mirrors, lamps, benches, floor lamps and sofas, patio furniture and decor, a washer/dryer and small refrigerator, printers, yard tools, ladders, Kobalt/Task Force tool chests, horse bits, bridles and harness brasses.",
+   cats:["antique","furniture","tools"],
+   link:"https://www.estatesales.net/TN/Franklin/37064/4998879"},
 
- {id:4, name:"Garage Sale — Crutcher Rd, Chapel Hill", type:"GARAGE", star:false,
-   addr:"2158 Crutcher Rd, Chapel Hill 37034", q:"2158+Crutcher+Rd,Chapel+Hill,TN+37034",
-   lat:35.655161, lon:-86.712170, approx:false, affluence:62, drive:34,
-   dates:["2026-07-31","2026-08-01"], time:"Fri–Sat · 8am start",
+ {id:5, name:"Garage Sale — Buckingham Cir, Franklin", type:"GARAGE", star:false,
+   addr:"1168 Buckingham Cir, Franklin 37064", q:"1168+Buckingham+Cir,Franklin,TN+37064",
+   lat:35.921424, lon:-86.845798, approx:false, affluence:82, drive:56,
+   dates:["2026-08-01"], time:"Sat · 8am start",
    start:"080000", end:"140000",
-   items:"RECONFIRMED — chronic Craigslist carryover, live again this run (updated ~22 hours before pull). Quilts, tablecloths, vintage clocks, collectible plates, a wheel horse tractor, vintage Guardian Ware pans, an ice bucket, vintage dishes, a vintage iron white bed, a Road Runner dish set.",
-   cats:["garage","vintage","collectibles","antiques"],
-   link:"https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"},
+   items:"NEW FIND — Facebook Marketplace, full post body read for the address. Kids clothes & shoes, toys, sports cards, Pokémon cards, baby clothes & shoes, women's clothing & shoes.",
+   cats:["clothing","toys","collectibles"],
+   link:"https://www.facebook.com/marketplace/item/2153505118529344/"},
 
- {id:5, name:"Wonderful Chapel Hill Estate Sale", type:"ESTATE", star:false,
+ {id:6, name:"Yard Sale — York Rd, Nolensville", type:"YARD", star:false,
+   addr:"2521 York Rd, Nolensville 37135", q:"2521+York+Rd,Nolensville,TN+37135",
+   lat:35.938959, lon:-86.657488, approx:false, affluence:78, drive:63,
+   dates:["2026-08-01"], time:"Sat · 8am–2pm",
+   start:"080000", end:"140000",
+   items:"NEW FIND — Facebook Marketplace, full post body read for the address (affluence for Nolensville 37135 is an estimate — not in the baked-in zip table). Furniture, tools, toys, clothes, housewares — everything must go.",
+   cats:["furniture","tools","clothing"],
+   link:"https://www.facebook.com/marketplace/item/1375824174763166/"},
+
+ {id:7, name:"Wonderful Chapel Hill Estate Sale", type:"ESTATE", star:false,
    addr:"Chapel Hill 37034 — full address releases Fri 7/31, 9am", q:"Chapel+Hill,TN+37034",
-   lat:35.626458, lon:-86.693331, approx:true, affluence:62, drive:33,
+   lat:35.626458, lon:-86.693331, approx:true, affluence:50, drive:29,
    dates:["2026-08-01","2026-08-02"], time:"Sat–Sun · 8am–5pm",
    start:"080000", end:"170000",
-   items:"NEW FIND — EstateSales.org/gsalr. A sofa, recliner, side tables & chairs, dining room table & chairs, a china hutch, buffet, bedroom furniture, chest of drawers, dresser with mirror, coffee & end tables, lamps, mirrors, clocks, baskets, tools & power tools.",
-   cats:["estate","furniture","household"],
+   items:"CARRYOVER — EstateSales.org, address still on schedule to release Fri 7/31. A sofa, recliner, side tables & chairs, dining room table & chairs, a china hutch, buffet, bedroom furniture, chest of drawers, dresser with mirror.",
+   cats:["estate","furniture"],
    link:"https://estatesales.org/estate-sales/tn/chapel-hill/37034/wonderful-chapel-hill-estate-sale-2449800"}
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -567,8 +585,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Monday is the corridor\'s quiet point — this week\'s Saturday cluster hasn\'t fully posted yet. Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week.';
     return '<b>'+t.length+' open today'+(t.length===1?'':'s')+'.</b> Tap a card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>The weekend view spans Fri–Sun (7/31–8/2) — 4 of the board\'s 5 sales fall inside it.</b> Highlights: a two-day Spring Hill designer estate sale (Hermès, Louis Vuitton, Restoration Hardware furniture), a 5-family/2-house Brentwood garage sale rescheduled from last weekend\'s rainout, a reconfirmed Chapel Hill garage sale (vintage clocks, quilts, a wheel horse tractor), and the Wonderful Chapel Hill estate sale. Two of the five sales are still address-pending — confirm via Listing before driving.';
-  return '<b>Plan the week.</b> <b>Mon–Tue (7/27–28)</b> — nothing posted; the corridor\'s natural low point early in the week. <b>Wed 7/29</b> — the Fantastic Nolensville estate sale opens (address releases Tue 9am). <b>Thu 7/30</b> — quiet. <b>Fri 7/31</b> — the Chapel Hill Crutcher Rd garage sale opens (exact address, reconfirmed live this run). <b>Sat 8/1</b> is the volume day for this window — 4 of 5 sales open, including the Spring Hill designer estate sale, the Brentwood 5-family garage sale, and the Wonderful Chapel Hill estate sale (address releases Fri 9am), alongside Crutcher Rd\'s second day. <b>Sun 8/2</b> carries forward both two-day estate sales. Genuinely thin board for a Monday pull — check back as the week\'s Saturday cluster posts.';
+  if(view==='weekend')return '<b>The weekend view spans Fri–Sun (7/31–8/2) — all 7 of the board\'s sales fall inside it.</b> Highlights: the reconfirmed Spring Hill designer estate sale (Hermès, Louis Vuitton, Restoration Hardware furniture), a 5-family/2-house Brentwood garage sale (now posted for Friday), a large Brentwood estate sale whose address releases today, and the Wonderful Chapel Hill estate sale. Three of the seven sales are still address-pending — confirm via Listing before driving.';
+  return '<b>Plan the week.</b> <b>Thu 7/30 (today)</b> — the Franklin Busy Bee moving &amp; estate sale opens its first of three days (exact address). <b>Fri 7/31</b> is the ramp-up day — the Brentwood 5-family garage sale, the Brentwood Dogwood estate sale (address releases this morning), and Busy Bee\'s second day all open. <b>Sat 8/1</b> is the volume day for this window — 6 of 7 sales open, including the Spring Hill designer estate sale, a Franklin garage sale on Buckingham Cir, and a Nolensville yard sale on York Rd. <b>Sun 8/2</b> carries forward both two-day estate sales (Spring Hill and Wonderful Chapel Hill). <b>Mon–Wed (8/3–5)</b> — nothing posted yet; check back as next week\'s cluster loads.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -628,13 +646,13 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: gsalr.com (Columbia feed — DOM query worked this run, 30 cards read; mostly Nashville-proper/out-of-radius results plus 1 in-radius find), EstateSales.org (Columbia, 32 results, fresh), EstateSales.NET (Columbia, 104 results, fresh — page rendered but detail data needed a Nolensville/Chapel-Hill direct-page follow-up), Craigslist (Culleoka 30mi radius search — thin, 2 results, both the same reconfirmed Chapel Hill listing; a wider Franklin+moving-sale search surfaced the Brentwood 5-family find), Facebook Marketplace (logged-in Chrome, garage-sale search in Columbia — one promising Spring Hill lead had no posted date and was excluded per the never-fabricate rule). Estate Company Registry not separately re-scanned this run (time-boxed). Automated 6am daily-garage-sale-refresh run, 2026-07-27 (Mon). '
-  +'<b>5 sales in this run\'s window (Jul 27–Aug 2)</b> — genuinely thin, as expected for a Monday pull this early in the week (the coming Saturday\'s cluster hasn\'t fully posted). Held to the Franklin-cap radius with two reasonable extensions to Brentwood and Nolensville (~35–37mi straight-line) given the strength of those finds, consistent with recent runs. Nashville-proper zips, Murfreesboro, Mt. Juliet, Pegram, and Kingston Springs were seen on the aggregators but excluded as out-of-radius. '
-  +'<b>New finds:</b> a two-day Spring Hill designer estate sale (Hermès, Louis Vuitton, Restoration Hardware — gsalr, exact address, Census/Nominatim geocoded); a 5-family/2-house Brentwood garage sale rescheduled from a rained-out weekend (Craigslist, exact address, Census-geocoded); the Fantastic Nolensville estate sale (EstateSales.org, address releases Tue 7/28 — routed to the town centroid for now); the Wonderful Chapel Hill estate sale (EstateSales.org/gsalr, address releases Fri 7/31 — town centroid). '
-  +'<b>Reconfirmed carryover:</b> the chronic Crutcher Rd, Chapel Hill garage sale (Craigslist, exact address, listing updated ~22 hours before this pull). '
-  +'<b>Dropped:</b> the Fabulous Franklin estate sale (its posted dates, Jul 25–26, ended before this window opened). '
-  +'<b>Excluded as unconfirmed:</b> a Spring Hill "Moving/Downsizing" Facebook listing with a real address (3026 Havasu Dr) but no posted sale date — never-fabricate rule; flag for next run in case a date posts. '
-  +'Two of the five sales are still address-pending — tap Listing for the exact pin once it releases. Sales can cancel without updating the listing. '
+  'Sources reached: gsalr.com (Spring Hill feed, 34/42 cards read — reconfirmed the Spring Hill designer estate sale; Columbia feed rendered a shell with no cards, a known intermittent issue), EstateSales.NET (Columbia, 18 in-radius results, fresh — surfaced the Brentwood Dogwood and Franklin Busy Bee finds), EstateSales.org (Columbia, 32 results, fresh — reconfirmed Wonderful Chapel Hill), Craigslist (Culleoka 30mi radius search — surfaced the Brentwood 5-family listing with an updated date, the Chapel Hill Crutcher Rd listing whose posted dates had already lapsed, and a Nashville church rummage sale excluded as out-of-radius), Facebook Marketplace (logged-in Chrome, garage/estate/yard-sale searches in Columbia, Spring Hill, Franklin — full post-body reads on every promising card; 2 new real-address finds, plus 2 stale/undated listings excluded). Estate Company Registry not separately re-scanned this run (time-boxed). Automated 6am daily-garage-sale-refresh run, 2026-07-30 (Thu). '
+  +'<b>7 sales in this run\'s window (Jul 30–Aug 6)</b> — a thin Thursday pull as expected, front-loaded toward Saturday (6 of 7 sales open Aug 1). Held to the Franklin-cap radius with reasonable extensions to Brentwood and Nolensville (~33–37mi straight-line) given the strength of those finds, consistent with recent-run precedent. Nashville-proper and Bellevue estate sales (37205, 37215, 37204, 37221, 37013) and a Nashville church rummage sale were seen on the aggregators but excluded as out-of-radius (40+ miles). '
+  +'<b>New finds:</b> a large Brentwood estate sale from Dogwood Estate Sales (EstateSales.NET, address releases this morning — routed to the town centroid for now); a 3-day Franklin moving &amp; estate sale from Busy Bee, starting today, loaded with antique furniture and tools (EstateSales.NET, exact address, Census-geocoded); a Franklin garage sale on Buckingham Cir (Facebook Marketplace, exact address pulled from the full post body); a Nolensville yard sale on York Rd (Facebook Marketplace, exact address pulled from the full post body, ~36mi extension). '
+  +'<b>Reconfirmed carryovers:</b> the Spring Hill designer estate sale (Hermès, Louis Vuitton — gsalr, same address and dates, still live); the Wonderful Chapel Hill estate sale (EstateSales.org, address still on schedule to release Fri 7/31); the Brentwood 5-family garage sale (Craigslist, listing updated yesterday — date corrected from Saturday to Friday). '
+  +'<b>Dropped:</b> the Fantastic Nolensville estate sale (its single posted date, Jul 29, fell before this window opened); the Crutcher Rd, Chapel Hill garage sale (its posted dates, Jul 24–25, had already lapsed with no reconfirming update — may reappear if the listing refreshes). '
+  +'<b>Excluded as unconfirmed:</b> a Spring Hill "moving sale" Facebook listing with a real address (2007 Sunflower Drive) whose "last day Sunday" framing couldn\'t be confirmed as this coming Sunday rather than one already past; a Columbia "multi-family" Facebook listing dated for a Saturday in June, long since past — both dropped per the never-fabricate rule. '
+  +'Three of the seven sales are still address-pending — tap Listing for the exact pin once it releases. Sales can cancel without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
