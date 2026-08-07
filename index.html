@@ -251,32 +251,160 @@ function driveMinFromHome(lat,lon){
 function scoreSale(s){ return s.affluence + (s.type==="ESTATE"?12:0) + (s.type==="MULTI-FAMILY"||s.type==="NEIGHBORHOOD"?8:0) - Math.max(0,(s.drive-30))*0.5; }
 function recomputeDrives(){ sales.forEach(function(s){ s.drive=driveMinFromHome(s.lat,s.lon); s.score=scoreSale(s); }); }
 
-/* 2 sales this run — Monday pull, 7-day window Aug 3–10. Genuinely thin as expected for
-   a Monday (the corridor's quiet point); both finds are back-loaded toward next weekend
-   with neither address released yet. affluence 0-100 (zip tier, baked-in table) drives
-   ranking; drive = est. minutes from home (haversine, road-factor 1.3 @ ~45mph).
-   Franklin-cap radius held at ~30mi; the Franklin/Cool Springs find sits just past it
-   (~32mi straight-line) and is kept as a reasonable extension since it's one of only
-   two in-window finds this run, consistent with recent-run precedent. */
+/* 16 sales this run — Friday catch-up pull (scheduler fired daily but the sessions never
+   executed the work — see History note below), 7-day window Aug 7–14. affluence 0-100
+   (zip tier, baked-in table + reasonable estimates for zips not in the table) drives
+   ranking; drive is recomputed at runtime from lat/lon via recomputeDrives(). Franklin-cap
+   radius held at ~30mi with reasonable extensions to Brentwood (~36mi, real address) and
+   Shelbyville (~29mi) for strong finds, consistent with recent-run precedent. Excluded as
+   out-of-radius (40+mi straight-line from Culleoka despite showing closer from the Columbia
+   reference point EstateSales.NET uses): Belle Meade/Green Hills/Bellevue/West-Nashville
+   estate sales (37205/37215/37221) and two address-pending Brentwood estate sales. */
 var sales = [
 
- {id:1, name:"Great Chapel Hill Estate Sale — Barn & Antiques", type:"ESTATE", star:true,
-   addr:"Chapel Hill 37034 — full address releases Thu 8/6", q:"Chapel+Hill,TN+37034",
-   lat:35.626458, lon:-86.693331, approx:true, affluence:50, drive:29,
-   dates:["2026-08-07","2026-08-08","2026-08-09"], time:"Fri–Sun · 8am–5pm",
-   start:"080000", end:"170000",
-   items:"NEW FIND — cross-confirmed on gsalr and EstateSales.org (Estate Sales By Sheila). A huge barn and outbuilding packed with treasures: duck decoys, Christmas décor, blow molds, tools, power tools, wood, and furniture. Closest sale to home this run (~15mi) — worth the trip even with a thin board.",
-   cats:["estate","barn","tools","antique","collectibles"],
-   link:"https://gsalr.com/great-chapel-hill-estate-chapel-hill-tn-38794003.html"},
+ {id:1, name:"Spring Hill Estate Sale — Crafts & Sewing", type:"ESTATE", star:true,
+   addr:"7049 Lakota Dr, Spring Hill, TN 37174", q:"7049+Lakota+Dr,Spring+Hill,TN+37174",
+   lat:35.722354, lon:-86.884962, approx:false, affluence:70, drive:32,
+   dates:["2026-08-07","2026-08-08","2026-08-09"], time:"Fri–Sun · 10am–4pm",
+   start:"100000", end:"160000",
+   items:"422 photos posted. Crafts, sewing supplies, furniture and more from a full-house Spring Hill estate liquidation.",
+   cats:["estate","crafts","sewing","furniture"],
+   link:"https://gsalr.com/spring-hill-estate-sale-spring-hill-tn-38871113.html"},
 
  {id:2, name:"Wonderful Franklin Sale", type:"ESTATE", star:true,
-   addr:"Franklin 37067 (Cool Springs) — full address not yet released", q:"Franklin,TN+37067",
-   lat:35.907, lon:-86.822, approx:true, affluence:80, drive:55,
+   addr:"513 Barrington Dr, Franklin, TN 37067", q:"513+Barrington+Dr,Franklin,TN+37067",
+   lat:35.906942, lon:-86.792156, approx:false, affluence:82, drive:55,
+   dates:["2026-08-07","2026-08-08"], time:"Fri–Sat · 8am–5pm",
+   start:"080000", end:"170000",
+   items:"825 photos posted (Estate Sales By Sheila). Clocks, leather sofa, china hutch, dining room table and chairs, tools and power tools.",
+   cats:["estate","furniture","clocks","antique","tools"],
+   link:"https://gsalr.com/wonderful-franklin-sale-franklin-tn-38866313.html"},
+
+ {id:3, name:"Wonderful Chapel Hill Estate Sale", type:"ESTATE", star:false,
+   addr:"Chapel Hill, TN 37034 — full address not yet released", q:"Chapel+Hill,TN+37034",
+   lat:35.626458, lon:-86.693331, approx:true, affluence:50, drive:29,
    dates:["2026-08-08","2026-08-09"], time:"Sat–Sun · 8am–5pm",
    start:"080000", end:"170000",
-   items:"NEW FIND — EstateSales.org (Estate Sales By Sheila), 284 photos posted. Full-house estate liquidation — furniture, décor and collectibles; the listing hasn't itemized specifics yet, so check the photo gallery via Listing before driving. ~32mi from home — just past the usual Franklin cap but kept given the thin board this run.",
+   items:"233 photos posted (Estate Sales By Sheila). Sofa, recliner, side tables, dining room table and chairs, china hutch, buffet, bedroom furniture, dresser with mirror, clocks, tools and power tools.",
+   cats:["estate","furniture","tools","antique"],
+   link:"https://gsalr.com/wonderful-chapel-hill-estate-chapel-hill-tn-38832367.html"},
+
+ {id:4, name:"Antiques, Tool Chest & Miscellaneous — Lynnville", type:"YARD", star:false,
+   addr:"1867 Robertson Fork Rd, Lynnville, TN 38472", q:"1867+Robertson+Fork+Rd,Lynnville,TN+38472",
+   lat:35.369331, lon:-86.926429, approx:false, affluence:40, drive:10,
+   dates:["2026-08-07"], time:"Fri · last day, come anytime",
+   start:"090000", end:"170000",
+   items:"Antiques, a tool chest, and miscellaneous — running all week, today (Fri 8/7) is the last day, no set hours posted. Closest sale to home this run (~6mi).",
+   cats:["yard","antique","tools"],
+   link:"https://gsalr.com/antiques-tools-chest-miscellaneous-lynnville-tn-38871441.html"},
+
+ {id:5, name:"Resellers' Columbia Family Cottage Sale", type:"ESTATE", star:true,
+   addr:"1970 New Cut Rd, Columbia, TN 38401", q:"1970+New+Cut+Rd,Columbia,TN+38401",
+   lat:35.545627, lon:-86.928834, approx:false, affluence:58, drive:11,
+   dates:["2026-08-07","2026-08-08","2026-08-09"], time:"Fri–Sat 9am–5pm, Sun 11am–5pm",
+   start:"090000", end:"170000",
+   items:"Bleu Estates cottage sale, 126 photos. Vintage kitchenware, stoneware (Yourtowne), Fenton and McCoy pottery, crocks, cast iron, milk glass, dining table and chairs, wall art, books — less than 3mi from Culleoka.",
+   cats:["estate","vintage","kitchenware","furniture"],
+   link:"https://www.estatesales.net/TN/Columbia/38401/5006970"},
+
+ {id:6, name:"Condo→RV Transition Sale — MCM & Vinyl", type:"MOVING", star:false,
+   addr:"601 Boyd Mill Ave Unit B4, Franklin, TN 37064", q:"601+Boyd+Mill+Ave,Franklin,TN+37064",
+   lat:35.922913, lon:-86.884824, approx:false, affluence:82, drive:56,
+   dates:["2026-08-07","2026-08-08","2026-08-09"], time:"Fri–Sun · 10am–6pm",
+   start:"100000", end:"180000",
+   items:"MCM furniture and dinnerware, 100s of $1 items, 400+ vinyl records — weekend 3 of a condo-to-RV downsizing sale.",
+   cats:["moving","mid-century","furniture","vinyl"],
+   link:"https://www.estatesales.net/TN/Franklin/37064/5026290"},
+
+ {id:7, name:"Brentwood Estate Sale — Mooreland Blvd", type:"ESTATE", star:false,
+   addr:"1007 Mooreland Blvd, Brentwood, TN 37027", q:"1007+Mooreland+Blvd,Brentwood,TN+37027",
+   lat:35.973852, lon:-86.816805, approx:false, affluence:92, drive:63,
+   dates:["2026-08-07","2026-08-08","2026-08-09"], time:"Fri–Sun · 10am start",
+   start:"100000", end:"170000",
+   items:"Privately listed Brentwood estate sale, 11 photos. Furniture and household goods — farthest stop this run (~36mi) but exact address confirmed, kept as a reasonable extension.",
    cats:["estate","furniture"],
-   link:"https://estatesales.org/estate-sales/tn/franklin/37067/wonderful-franklin-sale-2454709"}
+   link:"https://www.estatesales.net/TN/Brentwood/37027/5020191"},
+
+ {id:8, name:"Franklin TN Estate Sale", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37064 — exact address not published", q:"Franklin,TN+37064",
+   lat:35.925206, lon:-86.868942, approx:true, affluence:82, drive:56,
+   dates:["2026-08-08","2026-08-09"], time:"Sat–Sun · 8am start",
+   start:"080000", end:"170000",
+   items:"Privately listed Franklin estate sale, 68 photos added in the last 24 hours — item list not yet posted, check the photo gallery via Listing before driving.",
+   cats:["estate"],
+   link:"https://www.estatesales.net/TN/Franklin/37064/5028885"},
+
+ {id:9, name:"Lovely Lewisburg Estate Sale — Vintiques & MCM", type:"ESTATE", star:false,
+   addr:"Lewisburg, TN 37091 — exact address not published", q:"Lewisburg,TN+37091",
+   lat:35.449240, lon:-86.788889, approx:true, affluence:45, drive:11,
+   dates:["2026-08-08","2026-08-09"], time:"Sat–Sun · 9am–4pm",
+   start:"090000", end:"160000",
+   items:"180 photos posted (Above and Beyond Estate Sales). Mid-century and vintage \"vintiques\" — closest MCM find this run.",
+   cats:["estate","mid-century","vintage"],
+   link:"https://www.estatesales.net/TN/Lewisburg/37091/5015667"},
+
+ {id:10, name:"Crutcher Rd Garage Sale — Chapel Hill", type:"GARAGE", star:false,
+   addr:"2158 Crutcher Rd, Chapel Hill, TN", q:"2158+Crutcher+Rd,Chapel+Hill,TN",
+   lat:35.655565, lon:-86.708112, approx:false, affluence:50, drive:31,
+   dates:["2026-08-07","2026-08-08"], time:"Fri–Sat · 8am start",
+   start:"080000", end:"170000",
+   items:"Quilts, tablecloths, vintage clocks, collectibles — recurring Crutcher Rd garage sale, listing updated the day before this pull.",
+   cats:["yard","vintage","quilts","clocks","collectibles"],
+   link:"https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"},
+
+ {id:11, name:"Estate Sale — Pebble Creek Rd, Franklin", type:"ESTATE", star:false,
+   addr:"135 Pebble Creek Rd, Franklin, TN 37064", q:"135+Pebble+Creek+Rd,Franklin,TN+37064",
+   lat:35.902441, lon:-86.828115, approx:false, affluence:82, drive:54,
+   dates:["2026-08-08","2026-08-09"], time:"Sat–Sun · 8am–4pm",
+   start:"080000", end:"160000",
+   items:"NEW FIND (Craigslist, posted 8/5). Antiques and household goods, estate liquidation in Franklin.",
+   cats:["estate","antique"],
+   link:"https://www.craigslist.org/view/d/franklin-estate-sale-franklin-tennessee/my222oahifx6ibFM79KVNz"},
+
+ {id:12, name:"Huge Multi-Family Estate Sale — Goose Creek Dr", type:"MULTI-FAMILY", star:true,
+   addr:"2024 Goose Creek Dr, Franklin, TN 37064 (across from Berry Farms)", q:"2024+Goose+Creek+Dr,Franklin,TN+37064",
+   lat:35.857855, lon:-86.843512, approx:false, affluence:82, drive:49,
+   dates:["2026-08-07","2026-08-08","2026-08-13","2026-08-14"], time:"Aug 7–8 & 13–14 · 9am–5pm",
+   start:"090000", end:"170000",
+   items:"NEW FIND (Facebook post body — full address in text). Vintage clothing, vintage furniture, vintage jewelry, outdoor equipment, tools, Bowflex, housewares, china, crystal, collectibles, camping gear, kitchen appliances, designer purses.",
+   cats:["estate","multi-family","vintage","designer","furniture","tools"],
+   link:"https://www.facebook.com/marketplace/item/1020271384127691/"},
+
+ {id:13, name:"Neighborhood Garage Sale — Callie Way Dr", type:"NEIGHBORHOOD", star:false,
+   addr:"Callie Way Dr, Franklin, TN — house numbers not posted", q:"Callie+Way+Dr,Franklin,TN",
+   lat:35.925206, lon:-86.868942, approx:true, affluence:82, drive:56,
+   dates:["2026-08-08"], time:"Sat · time TBD",
+   start:"080000", end:"140000",
+   items:"NEW FIND (Facebook). Whole-street neighborhood sale on Callie Way Drive — multiple driveways, exact time not posted, message seller to confirm before driving.",
+   cats:["neighborhood"],
+   link:"https://www.facebook.com/marketplace/item/1386423340200955/"},
+
+ {id:14, name:"Garage Sale — Augusta Trace Dr, Columbia", type:"GARAGE", star:false,
+   addr:"2612 Augusta Trace Dr, Columbia, TN 38401", q:"2612+Augusta+Trace+Dr,Columbia,TN+38401",
+   lat:35.614817, lon:-87.033846, approx:true, affluence:58, drive:23,
+   dates:["2026-08-08"], time:"Sat · 7:30am–1:00pm",
+   start:"073000", end:"130000",
+   items:"NEW FIND (Facebook post title — full address given). Rain or shine garage sale on Augusta Trace Drive; pin approximated to Columbia center since the subdivision isn't in mapping data yet.",
+   cats:["yard"],
+   link:"https://www.facebook.com/marketplace/item/1598519068287310/"},
+
+ {id:15, name:"40% Off Estate Yard Sale — Shelbyville", type:"ESTATE", star:false,
+   addr:"2324 US Hwy 41A, Shelbyville, TN 37160", q:"2324+US+Hwy+41A,Shelbyville,TN+37160",
+   lat:35.471046, lon:-86.387534, approx:false, affluence:48, drive:50,
+   dates:["2026-08-07","2026-08-08"], time:"Fri 11am, Sat 9am · 40% off",
+   start:"090000", end:"170000",
+   items:"NEW FIND (Facebook post title — full address given). 40% off estate yard sale on US-41A — Fri 11am start, Sat 9am start. Farthest east stop this run.",
+   cats:["estate","yard"],
+   link:"https://www.facebook.com/marketplace/item/1946993459299271/"},
+
+ {id:16, name:"Multi-Family Garage Sale — Norman Park Ct, Franklin", type:"MULTI-FAMILY", star:false,
+   addr:"502 Norman Park Ct, Franklin, TN 37067", q:"502+Norman+Park+Ct,Franklin,TN+37067",
+   lat:35.904366, lon:-86.798784, approx:false, affluence:82, drive:55,
+   dates:["2026-08-08"], time:"Sat · 8am–1pm",
+   start:"080000", end:"130000",
+   items:"Multi-family garage sale, all at one location — lots and lots of clothes plus household items.",
+   cats:["multi-family"],
+   link:"https://gsalr.com/garage-sale-multi-family-franklin-tn-38875243.html"}
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
 function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
