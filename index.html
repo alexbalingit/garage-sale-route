@@ -231,11 +231,20 @@
 <script>
 /* Trove — find the best deals in the best neighborhoods */
 /* Daily auto-refresh, 2026-08-27 (Thursday pull — 7-day window Aug 27-Sep 3).
-   4 sales committed this run — thin, typical for a Thursday pull (the
-   corridor hasn't re-posted for the coming weekend yet; volume lands
-   Fri-Sat). affluence 0-100 (zip tier, reasonable estimates) drives
-   ranking; drive is recomputed at runtime from lat/lon via
-   recomputeDrives().
+   9 sales after the same-day Facebook Marketplace supplement (4 from the
+   6am aggregator pull + 5 added mid-day once Alex's Claude-in-Chrome
+   session connected). affluence 0-100 (zip tier, reasonable estimates)
+   drives ranking; drive is recomputed at runtime from lat/lon via
+   recomputeDrives(). Facebook adds: 704 Taylor Bend Rd Columbia
+   multi-family (Sat 8/29), 316 7th Ave Columbia daily estate sale
+   (through 9/1), 107 Sunnyside Ln Columbia yard sale (Fri-Sat),
+   2324 US-41A Shelbyville clearance (Sat only), 2940 Franklin Pike
+   Lewisburg recurring Saturday — all real addresses read from the
+   full post bodies. Excluded from the FB sweep: Pulaski/Balletine
+   (2wks old, no date), Goose Creek Franklin (dates past), a Columbia
+   "upcoming late Aug/early Sept" estate post (no date, no address),
+   item-only moving-sale posts, Murfreesboro (out of corridor), and
+   all Aug 22 past-dated sales — never-fabricate rule throughout.
    Sources reached: EstateSales.org (Columbia, 50mi radius, PRIMARY —
    fresh and correctly dated present-tense this run, both result pages
    read, plus individual sale detail-page fetches for exact addresses/
@@ -321,6 +330,57 @@ var sales = [
    items:"Estate Sales By Sheila. Unique sofa/chair, Cable piano, vintage buffet, French Provincial hutch, leather wingback chairs, vintage desk, Bombay furniture, crystal, Lionel train set, Titans items. 59 photos.",
    cats:["estate","antique","vintage","furniture"],
    link:"https://estatesales.org/estate-sales/tn/nolensville/37135/nice-nolensville-estate-sale-2459705"},
+
+ {id:5, name:"Multi-Family Yard Sale — Taylor Bend Rd", type:"MULTI-FAMILY", star:false,
+   addr:"704 Taylor Bend Rd, Columbia, TN 38401",
+   q:"704+Taylor+Bend+Rd,+Columbia,+TN+38401",
+   lat:35.6000, lon:-87.0200, approx:false, affluence:58, drive:14,
+   dates:["2026-08-29"], time:"Sat 8am–2pm",
+   start:"080000", end:"140000",
+   items:"Facebook find, real address in post. Multi-family plus the next-door neighbor — most items $1: home decor, kitchen items, linens, rugs, toys, shoes, clothing all sizes, small furniture, lamps, baskets. More pulled out morning-of.",
+   cats:["garage","clothing","furniture"],
+   link:"https://www.facebook.com/marketplace/item/1420937559922778/"},
+
+ {id:6, name:"Huge Estate Sale — 7th Avenue Columbia", type:"ESTATE", star:false,
+   addr:"316 7th Avenue, Columbia, TN 38401",
+   q:"316+7th+Avenue,+Columbia,+TN+38401",
+   lat:35.6170, lon:-87.0450, approx:false, affluence:58, drive:15,
+   dates:["2026-08-27","2026-08-28","2026-08-29","2026-08-30","2026-08-31","2026-09-01"],
+   time:"Daily 8am–8pm through Tue 9/1",
+   start:"080000", end:"200000",
+   items:"Facebook find, real address in post. Long-running whole-house estate sale, open every day 8am–8pm through September 1 — the only weekday-evening stop on this board.",
+   cats:["estate"],
+   link:"https://www.facebook.com/marketplace/item/1573320940970108/"},
+
+ {id:7, name:"Yard Sale — Sunnyside Lane", type:"YARD", star:false,
+   addr:"107 Sunnyside Lane, Columbia, TN 38401",
+   q:"107+Sunnyside+Lane,+Columbia,+TN+38401",
+   lat:35.6000, lon:-87.0600, approx:false, affluence:58, drive:14,
+   dates:["2026-08-28","2026-08-29"], time:"Fri–Sat 8am–~1pm",
+   start:"080000", end:"130000",
+   items:"Facebook find, real address in post (listed today). Adult and children's clothing, books, toys, household items.",
+   cats:["yard","clothing","toys"],
+   link:"https://www.facebook.com/marketplace/item/1919750628984358/"},
+
+ {id:8, name:"Yard/Estate Clearance Sale — US-41A Shelbyville", type:"ESTATE", star:false,
+   addr:"2324 US-41A, Shelbyville, TN 37160",
+   q:"2324+US-41A,+Shelbyville,+TN+37160",
+   lat:35.5000, lon:-86.5100, approx:false, affluence:45, drive:35,
+   dates:["2026-08-29"], time:"Sat only 9am–3pm",
+   start:"090000", end:"150000",
+   items:"Facebook find, real address + date in listing title. Clearance pricing, make offers — final-weekend posture on the recurring US-41A estate yard sale seen in prior weeks. Affluence estimated (Shelbyville zip tier).",
+   cats:["estate","yard"],
+   link:"https://www.facebook.com/marketplace/item/1946993459299271/"},
+
+ {id:9, name:"Yard Sale — Franklin Pike Lewisburg (recurring Saturdays)", type:"YARD", star:false,
+   addr:"2940 Franklin Pike, Lewisburg, TN 37091",
+   q:"2940+Franklin+Pike,+Lewisburg,+TN+37091",
+   lat:35.4800, lon:-86.7900, approx:false, affluence:45, drive:16,
+   dates:["2026-08-29"], time:"Sat morning (recurring every Saturday)",
+   start:"080000", end:"120000",
+   items:"Facebook find, real address in post. Known recurring every-Saturday yard sale from prior weeks, still listed live this pull.",
+   cats:["yard"],
+   link:"https://www.facebook.com/marketplace/item/981534951387061/"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -616,8 +676,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week.';
     return '<b>'+t.length+' open today'+(t.length===1?'':'s')+'.</b> Tap a card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>The weekend view covers Fri–Sun (8/28–8/30) — 3 of this run\'s 4 finds fall inside it.</b> Friday opens 7 Decades Collector\'s Estate Sale in Columbia (real address, closest stop this run, home built 1955). Saturday adds the Fantastic Columbia Estate Sale (address releases Friday 9am) alongside 7 Decades continuing. Sunday is the busiest day — 7 Decades\' final day, Fantastic Columbia\'s final day, and the new Nice Nolensville Estate Sale opening (address releases Saturday 9am). Today\'s Nice Brentwood Estate Sale (this run\'s top-affluence stop) sits outside this window — it ends this afternoon, Thursday. Confirm every address-pending stop via Listing before driving.';
-  return '<b>Plan the week.</b> <b>Today, Thu 8/27</b> — the Nice Brentwood Estate Sale is live now through 5pm, this run\'s top-affluence find and a ~40mi reasonable extension past the Franklin cap. <b>Fri 8/28</b> — 7 Decades Collector\'s Estate Sale opens in Columbia (real address, close to home). <b>Sat 8/29</b> — the Fantastic Columbia Estate Sale opens (address releases that morning at 9am) alongside 7 Decades continuing. <b>Sun 8/30</b> — the busiest day: 7 Decades and Fantastic Columbia both run their final day, and the Nice Nolensville Estate Sale opens (address releases Saturday morning). <b>Mon–Wed (8/31–9/2)</b> — nothing posted yet, the corridor\'s usual start-of-week dead zone; check back as next weekend\'s cluster typically posts Wed–Fri.';
+  if(view==='weekend')return '<b>The weekend view covers Fri–Sun (8/28–8/30) — 8 of this run\'s 9 finds fall inside it.</b> Friday opens 7 Decades Collector\'s Estate Sale (1111 Manor Rd) and the Sunnyside Lane yard sale, with the daily 7th Avenue estate sale running all day. <b>Saturday is the volume day — 7 sales open at once:</b> both Friday openers continue, plus the Taylor Bend Rd multi-family (most items $1, next-door neighbor selling too), the Fantastic Columbia Estate Sale (address releases Fri 9am), the Shelbyville US-41A clearance (Sat only, make offers), and the recurring Franklin Pike Lewisburg Saturday sale. Sunday winds down with 7 Decades and Fantastic Columbia on their final day, 7th Avenue still open, and the Nice Nolensville Estate Sale opening (address releases Sat 9am). Only today\'s Nice Brentwood sale sits outside this window. Confirm every address-pending stop via Listing before driving.';
+  return '<b>Plan the week.</b> <b>Today, Thu 8/27</b> — the Nice Brentwood Estate Sale runs through 5pm (top-affluence find, ~40mi extension), and the 7th Avenue Columbia estate sale is open 8am–8pm daily through Sept 1. <b>Fri 8/28</b> — 7 Decades Collector\'s Estate Sale opens (1111 Manor Rd) plus the Sunnyside Lane yard sale. <b>Sat 8/29 — the volume day, 7 sales open:</b> Taylor Bend Rd multi-family, Fantastic Columbia (address releases Fri 9am), Shelbyville US-41A clearance (Sat only), Franklin Pike Lewisburg recurring, plus the Friday carryovers. <b>Sun 8/30</b> — final day for 7 Decades and Fantastic Columbia; Nice Nolensville opens (address releases Sat 9am). <b>Mon 8/31–Tue 9/1</b> — the 7th Avenue estate sale is the only stop still open, through Tuesday. <b>Wed–Thu (9/2–9/3)</b> — nothing posted yet; next weekend\'s cluster typically posts Wed–Fri.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -677,11 +737,11 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: EstateSales.org (Columbia, 50mi radius, PRIMARY — fresh and correctly dated this run, both result pages plus individual sale detail pages). EstateSales.NET was cross-checked but served a stale snapshot this run (dates 4+ days behind) — not used. gsalr.com returned a blank JS-rendered shell on every attempt — not used, consistent with its long-running outage. Craigslist (nashville.craigslist.org/search/gms + detail permalinks) surfaced only stale or dateless listings — nothing usable, not used. Facebook Marketplace was NOT reached this run — no live Claude-in-Chrome browser session available (list_connected_browsers returned empty); the cached fallback at Garage Sale Finder/_cache/fb-latest.md is dated 2026-07-03 (7+ weeks stale) and every entry in it is past-dated, so nothing from it was used (never-fabricate rule). Estate Company Registry\'s Bleu Estates channel checked directly — next sale is Sept 4–6, outside this window. '
-  +'<b>4 sales this run</b> — Thursday pull, thin as typical, 7-day window Aug 27–Sep 3. '
-  +'<b>Today only (ends 5pm):</b> Nice Brentwood Estate Sale (Estate Sales By Sheila, real address, this run\'s top-affluence stop). '
-  +'<b>This weekend (Fri 8/28–Sun 8/30):</b> 7 Decades Collector\'s Estate Sale in Columbia (real address, home built 1955), Fantastic Columbia Estate Sale (Estate Sales By Sheila, address releases Fri 9am), and Nice Nolensville Estate Sale (Estate Sales By Sheila, address releases Sat 9am). '
-  +'2 of this run\'s 4 sales remain address-pending. Two sales sit beyond the Franklin cap (~30mi) as reasonable extensions for marquee Estate Sales By Sheila finds, consistent with prior-run precedent. Sales can cancel or sell out without updating the listing. '
+  'Sources reached: EstateSales.org (Columbia, 50mi radius, PRIMARY — fresh and correctly dated this run, both result pages plus individual sale detail pages) and Facebook Marketplace (Alex\'s logged-in Chrome, connected mid-day — garage/estate/yard/moving searches with full post-body reads on every promising card, 5 real-address finds added). EstateSales.NET was cross-checked but served a stale snapshot (dates 4+ days behind) — not used. gsalr.com returned a blank JS-rendered shell on every attempt — not used. Craigslist surfaced only stale or dateless listings — not used. Estate Company Registry\'s Bleu Estates channel checked directly — next sale is Sept 4–6, outside this window. '
+  +'<b>9 sales this run</b> — Thursday pull + same-day Facebook supplement, 7-day window Aug 27–Sep 3. '
+  +'<b>Today (Thu):</b> Nice Brentwood Estate Sale ends 5pm (top-affluence stop) and the 7th Avenue Columbia estate sale is open daily 8am–8pm through Sept 1. '
+  +'<b>Saturday is the volume day — 7 sales open at once</b>, including the Taylor Bend Rd multi-family (most items $1), the Sunnyside Lane yard sale, the Shelbyville US-41A clearance, and the recurring Franklin Pike Lewisburg Saturday sale. '
+  +'2 of the 9 remain address-pending (both Estate Sales By Sheila releases). Two sit beyond the Franklin cap (~30mi) as reasonable extensions for marquee finds, consistent with prior-run precedent. Sales can cancel or sell out without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
