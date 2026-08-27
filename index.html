@@ -339,6 +339,37 @@ function dayLabel(isoStr){var d=parseISO(isoStr);var base=DOW[d.getDay()]+", "+M
   var t1=new Date(TODAY);t1.setDate(t1.getDate()+1);if(isoStr===iso(t1))return "Tomorrow · "+base;
   return base;}
 
+/* ---------- home + ranking setup (colors mirror the CSS custom properties; TZ drives calendar links) ----------
+   HOTFIX 2026-08-27: these were referenced throughout the script (HOME, HOME_Q, GOLD, INK, TZ, home,
+   recomputeDrives(), saveHome()) but the declarations themselves were missing from the deployed
+   template — every page load threw "recomputeDrives is not defined" before the map or any card ever
+   rendered, producing a blank page. Confirmed via `git show` that the prior commit (64da2d9) had the
+   same gap, so this predates today's data refresh; restored here rather than carried forward broken. */
+var GOLD='#B8893B', INK='#1C1A17';
+var TZ='America/Chicago';
+var HOME_KEY='gsr_home_v1';
+var DEFAULT_HOME={label:'Home — Culleoka, TN', q:'Culleoka,+TN+38451', lat:35.4548, lon:-86.9036};
+function loadHome(){
+  try{ var raw=localStorage.getItem(HOME_KEY); if(raw){ var h=JSON.parse(raw); if(h&&h.lat&&h.lon)return h; } }catch(e){}
+  return DEFAULT_HOME;
+}
+function saveHome(h){ try{ localStorage.setItem(HOME_KEY, JSON.stringify(h)); }catch(e){} }
+var home=loadHome();
+var HOME=[home.lat, home.lon], HOME_Q=home.q;
+function haversineMiles(lat1,lon1,lat2,lon2){
+  var R=3958.8, toRad=Math.PI/180;
+  var dLat=(lat2-lat1)*toRad, dLon=(lon2-lon1)*toRad;
+  var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*toRad)*Math.cos(lat2*toRad)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function recomputeDrives(){
+  sales.forEach(function(s){
+    var miles=haversineMiles(HOME[0],HOME[1],s.lat,s.lon)*1.3; // road-factor over straight-line
+    s.drive=Math.round(miles/45*60); // minutes @ ~45mph corridor average
+    s.score=s.affluence-s.drive*0.6; // nice-neighborhoods-first, distance-penalized
+  });
+}
+
 function txt(html){var d=document.createElement('div');d.innerHTML=html;return (d.textContent||'').toLowerCase();}
 sales.forEach(function(s){ s.hay=(s.name+' '+s.type+' '+s.addr+' '+txt(s.items)+' '+s.cats.join(' ')).toLowerCase(); });
 recomputeDrives();
