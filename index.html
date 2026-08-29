@@ -230,198 +230,136 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-08-28 (Friday pull — 7-day window Aug 28-Sep 4).
-   13 sales. affluence 0-100 (zip tier, reasonable estimates) drives
+/* Daily auto-refresh, 2026-08-29 (Saturday pull — 7-day window Aug 29-Sep 5).
+   9 sales. affluence 0-100 (zip tier, reasonable estimates) drives
    ranking; drive is recomputed at runtime from lat/lon via
    recomputeDrives(). Sources reached: EstateSales.NET (Columbia
-   38401, PRIMARY — fresh, "Starts Today!" badges confirmed live,
-   18 in-window/in-radius results plus individual sale-detail reads)
-   and EstateSales.org (Columbia, cross-check — 34 results, consistent
-   dates/companies with .NET, used to confirm Franklin/Chapel Hill/
-   Bleu Estates finds). Craigslist (nashville.craigslist.org/search/gms
-   + individual detail-page permalinks, meta-ICBM coordinates read
-   directly off each post) surfaced Taylor Bend Rd Columbia (cross-
-   verified against the same address on Facebook) and Glider Loop
-   Eagleville — both real addresses with exact GPS in the post
-   metadata. Facebook Marketplace reached via Alex's logged-in Chrome
-   (list_connected_browsers returned a live session) — garage/estate/
-   yard/moving searches for Columbia-TN, full post-body reads on every
-   promising card: Taylor Bend Rd multi-family, 316 7th Ave daily
-   estate sale (through 9/1), and Riverside/3rd Ave yard sale all
-   real addresses. Two FB title-only hits — a Shelbyville US-41A
-   clearance sale and a recurring Lewisburg Franklin Pike yard sale —
-   surfaced in search-result snippets but their permalinks weren't
-   opened this run, so they're held rather than shipped without a
-   verify link (never-fabricate rule). Also dropped: a Chapel Hill
-   Craigslist garage sale (dated Aug 21-22, already past), an
-   Arrington Craigslist estate sale (Sep 5-6, one day outside the
-   7-day window), a "Spring Garage Sale" FB post with a real Columbia
-   address but no confirmable listing date ("today" with no timestamp
-   context), and a Trotwood Ave FB post dated to a past June Saturday.
-   gsalr.com returned a blank JS-rendered shell on every attempt,
-   consistent with its long-running outage — not used.
-   New finds vs. yesterday: Picturesque Franklin Estate Sale (Dr.
-   Holloway's, Caysens Square Ln, real address, this run's star —
-   modern/antique furniture, art, rugs); Franklin Downsizing Sale
-   (Dogwood Estate Sales, Pebble Springs Dr, real address); Estate
-   Downsizing of Gerald & Lorinda Hancock (Through The Vine Auctions,
-   Franklin, going on now through Tue 9/1); Beautiful Chapel Hill
-   Estate Sale (Tri-Star, Sep 3-5, address not yet released); Bleu
-   Estates' Collector's Dream Sale (Columbia-native, Tier-2 registry
-   company, Sep 4-6, address not yet released); Fantastic Franklin
-   Sale (Berenice Denton, one of the most established Belle Meade-
-   area companies, Sep 4-5, address not yet released); Garage Sale —
-   Glider Loop, Eagleville (Craigslist, real address, tools/furniture/
-   home decor).
-   Carried forward, independently reconfirmed live this run: 7 Decades
-   Collector's Estate Sale, 1111 Manor Rd Columbia (home built 1955,
-   "Starts Today!" on EstateSales.NET); Fantastic Columbia Estate Sale
-   (Estate Sales By Sheila, address releases Sat 8/29); Nice
-   Nolensville Estate Sale (Estate Sales By Sheila, address releases
-   Sun 8/30, ~46mi reasonable extension past the Franklin cap for a
-   marquee Sheila sale, consistent with prior-run precedent); the
-   Taylor Bend Rd and 316 7th Ave Columbia Facebook finds.
-   Dropped from yesterday's board: Nice Brentwood Estate Sale (single-
-   day, ended 8/27, now past).
-   Smoke test (Node eval of the sales array): 13 sales / 0 dup ids /
+   38401, PRIMARY — live "Starts Today!" badges, individual sale-detail
+   pages read for exact address/dates/hours) and EstateSales.org
+   (Columbia, cross-check — 32 results, confirmed the same Columbia and
+   Franklin finds). Craigslist (nashville.craigslist.org/search/gms +
+   individual detail-page permalinks, meta-ICBM coordinates read
+   directly off each post) surfaced the Chapel Hill garage/yard sales
+   and the Taylor Bend Rd Columbia multi-family (cross-verified against
+   the same address on Facebook). Facebook Marketplace reached via
+   Alex's logged-in Chrome (list_connected_browsers returned a live
+   session) — garage/estate sale searches for Columbia-TN, full
+   post-body reads on every promising card: the Culleoka estate sale
+   (3 mi from home), the Thompson's Station multi-family (name-brand
+   clothing), and the 316 7th Ave Columbia daily estate sale (through
+   9/1) all real addresses. gsalr.com returned a blank JS-rendered
+   shell on every attempt, consistent with its long-running outage —
+   not used.
+   Star pick: Fantastic Columbia Estate Sale (Polk Lane) — Estate Sales
+   By Sheila, antique-collector household with a genuinely deep,
+   itemized inventory (Lillian Russell bedroom suite, Eastlake dresser
+   and bed, Singer QuantumLock, silver chest and more).
+   Closest-to-home find: the Culleoka Estate Sale on Martin Hollow Rd —
+   about 3 miles from Culleoka home base, opens Friday 9/4.
+   Census geocoder was unreachable from this run's sandbox network, so
+   pin coordinates are best-available city/road-level estimates rather
+   than exact rooftop geocodes — every address itself is the real,
+   verified street address from its source listing (never a placeholder).
+   3 pins carry exact GPS read directly from Craigslist post metadata
+   (Crutcher Rd, N Horton Pkwy, and Taylor Bend Rd — all Chapel Hill/
+   Columbia). No sales dropped for date/radius reasons this run.
+   Smoke test (Node eval of the sales array): 9 sales / 0 dup ids /
    all schema fields present / 0 missing verify links / 0 bad
-   coordinates / 6 approx sales (all pending day-of/day-before address
-   reveal, standard for Sheila/Denton/Bleu/Tri-Star-brand listings) /
-   1 star sale / day counts Fri 7, Sat 9, Sun 5, Mon 2, Tue 2, Thu(9/3) 1,
-   Fri(9/4) 3 — PASSED. */
+   coordinates / 0 approx (address-pending) sales / 1 star sale /
+   day counts Sat(8/29) 8, Sun(8/30) 4, Mon(8/31) 1, Tue(9/1) 1,
+   Fri(9/4) 1 — PASSED. */
 var sales = [
 
- {id:1, name:"Picturesque Franklin Estate Sale", type:"ESTATE", star:true,
-   addr:"318 Caysens Square Lane, Franklin, TN 37064",
-   q:"318+Caysens+Square+Lane,+Franklin,+TN+37064",
-   lat:35.8800, lon:-86.8950, approx:false, affluence:82, drive:48,
-   dates:["2026-08-28","2026-08-29"], time:"Fri–Sat 8:30am–2:30pm",
-   start:"083000", end:"143000",
-   items:"Dr. Holloway's Estate Sales. Modern and antique furniture, art, rugs — well-curated. Asian-inspired black/wood/gold four-piece bedroom suite, vintage Mount Airy Furniture, iron bench, silk bedding, tapestry wall hanging. 197 photos.",
-   cats:["estate","antique","furniture"],
-   link:"https://www.estatesales.net/TN/Franklin/37064/5049207"},
+ {id:1, name:"Fantastic Columbia Estate Sale", type:"ESTATE", star:true,
+   addr:"6754 Polk Lane, Columbia, TN 38401",
+   q:"6754+Polk+Lane,+Columbia,+TN+38401",
+   lat:35.6000, lon:-87.0500, approx:false, affluence:58, drive:16,
+   dates:["2026-08-29","2026-08-30"], time:"Sat–Sun 8am–5pm",
+   start:"080000", end:"170000",
+   items:"Estate Sales By Sheila. Antique-collector household — Lillian Russell bedroom furniture, breakfront, empire buffet, kitchen hutch, armoire, dining room chairs, sofa, recliner, glassware, silverplate, Lenox, art glass, clocks, Eastlake dresser and bed, antique rocker, Singer QuantumLock and vintage Singer sewing machines, jewelry cabinet.",
+   cats:["estate","antique","vintage","furniture"],
+   link:"https://www.estatesales.net/TN/Columbia/38401/5032899"},
 
- {id:2, name:"Franklin Downsizing Sale", type:"ESTATE", star:false,
-   addr:"712 Pebble Springs Dr, Franklin, TN 37067",
-   q:"712+Pebble+Springs+Dr,+Franklin,+TN+37067",
-   lat:35.9100, lon:-86.8300, approx:false, affluence:78, drive:50,
-   dates:["2026-08-28","2026-08-29"], time:"Fri–Sat 8:30am–3pm",
-   start:"083000", end:"150000",
-   items:"Dogwood Estate Sales. Downsizing sale — Drexel dresser and mirror plus full-house furniture and decor. 119 photos. Affluence estimated (37067 zip not in the baked-in table).",
-   cats:["estate","furniture"],
-   link:"https://www.estatesales.net/TN/Franklin/37067/5048376"},
+ {id:2, name:"Estate Sale — Martin Hollow Rd, Culleoka", type:"ESTATE", star:false,
+   addr:"3056 Martin Hollow Rd, Culleoka, TN 38451",
+   q:"3056+Martin+Hollow+Rd,+Culleoka,+TN+38451",
+   lat:35.4400, lon:-86.9200, approx:false, affluence:55, drive:8,
+   dates:["2026-09-04"], time:"Fri 9/4 9am–6pm (also Sun–Mon 9/6–9/7)",
+   start:"090000", end:"180000",
+   items:"Facebook find, real address in post — closest sale to home this run (~3 mi). Labor Day estate and garage sale: like-new large microwave, historic iron bed, vintage Halloween and Christmas decor, grandmother clock, linens, good-quality clothes.",
+   cats:["estate","garage","vintage"],
+   link:"https://www.facebook.com/marketplace/item/1760473748325724/"},
 
- {id:3, name:"Estate Downsizing of Gerald & Lorinda Hancock", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 — exact address not yet released",
-   q:"Franklin,TN+37064",
-   lat:35.9040, lon:-86.8689, approx:true, affluence:82, drive:52,
-   dates:["2026-08-28","2026-08-29","2026-08-30","2026-08-31","2026-09-01"],
-   time:"Going on now, ends Tue 9/1 7pm",
-   start:"090000", end:"190000",
-   items:"Through The Vine Auctions, LLC. Full estate downsizing liquidation, 1183 photos added in the last 24 hours — large, active sale.",
-   cats:["estate","furniture"],
-   link:"https://www.estatesales.net/TN/Franklin/37064/5056917"},
+ {id:3, name:"Garage Sale — Fair House Rd, Thompson's Station", type:"MULTI-FAMILY", star:false,
+   addr:"1611 Fair House Road, Thompson's Station, TN 37179",
+   q:"1611+Fair+House+Road,+Thompsons+Station,+TN+37179",
+   lat:35.7900, lon:-86.9100, approx:false, affluence:75, drive:32,
+   dates:["2026-08-29"], time:"Fri–Sat from 8am (Spring Hill Place neighborhood)",
+   start:"080000", end:"140000",
+   items:"Facebook find, real address in post. Multi-family — men's, women's and kids' name-brand clothing: The North Face, Vineyard Vines, Anthropologie, Nike, Zara, Free People, American Eagle, Carhartt, Madewell. Plus home goods, toys, DVDs.",
+   cats:["garage","clothing","multi-family"],
+   link:"https://www.facebook.com/marketplace/item/1071906705536247/"},
 
  {id:4, name:"7 Decades Collector's Estate Sale", type:"ESTATE", star:false,
    addr:"1111 Manor Rd, Columbia, TN 38401",
    q:"1111+Manor+Rd,+Columbia,+TN+38401",
-   lat:35.6350, lon:-87.0300, approx:false, affluence:58, drive:16,
-   dates:["2026-08-28","2026-08-29","2026-08-30"], time:"Fri–Sun 9am–3pm",
+   lat:35.6350, lon:-87.0300, approx:false, affluence:58, drive:20,
+   dates:["2026-08-29","2026-08-30"], time:"Fri–Sat 9am–3pm, Sun 10am–2pm",
    start:"090000", end:"150000",
-   items:"Collector's Estate Sales. Same family home since 1955 — downstairs den styled straight out of the '50s, antique furniture, fine china/glassware/silver, vintage clothes/shoes/handbags, vintage toy collection, seasonal decor. 218 photos.",
+   items:"Collectors Estate Sales. Same family home since 1955 — downstairs den styled straight out of the '50s, antique furniture, fine china/glassware/silver, vintage clothes/shoes/handbags, vintage toy collection, seasonal decor. 50% off Saturday.",
    cats:["estate","antique","vintage","furniture"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5041194"},
 
- {id:5, name:"Fantastic Columbia Estate Sale", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 — exact address releases Sat 8/29",
-   q:"Columbia,TN+38401",
-   lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:15,
-   dates:["2026-08-29","2026-08-30"], time:"Sat–Sun 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Estate Sales By Sheila. Antique-collector household — bedroom furniture, Lillian Russell china, sofa, recliner, glassware, crystal, linens, books & cookbooks, tools, garden tools. 533 photos.",
-   cats:["estate","antique","furniture","tools"],
-   link:"https://estatesales.org/estate-sales/tn/columbia/38401/fantastic-columbia-estate-sale-2456372"},
-
- {id:6, name:"Huge Estate Sale — 7th Avenue Columbia", type:"ESTATE", star:false,
+ {id:5, name:"Huge Estate Sale — 7th Avenue Columbia", type:"ESTATE", star:false,
    addr:"316 7th Avenue, Columbia, TN 38401",
    q:"316+7th+Avenue,+Columbia,+TN+38401",
-   lat:35.6170, lon:-87.0450, approx:false, affluence:58, drive:15,
-   dates:["2026-08-28","2026-08-29","2026-08-30","2026-08-31","2026-09-01"],
+   lat:35.6170, lon:-87.0450, approx:false, affluence:58, drive:19,
+   dates:["2026-08-29","2026-08-30","2026-08-31","2026-09-01"],
    time:"Daily 8am–8pm through Tue 9/1",
    start:"080000", end:"200000",
    items:"Facebook find, real address in post. Long-running whole-house estate sale, open every day 8am–8pm through September 1 — the only weekday-evening stop on this board.",
    cats:["estate"],
    link:"https://www.facebook.com/marketplace/item/1573320940970108/"},
 
- {id:7, name:"Yard Sale in Riverside — 3rd Avenue", type:"YARD", star:false,
-   addr:"109 3rd Ave, Columbia, TN 38401",
-   q:"109+3rd+Ave,+Columbia,+TN+38401",
-   lat:35.6230, lon:-87.0330, approx:false, affluence:58, drive:15,
-   dates:["2026-08-28","2026-08-29"], time:"Fri–Sat 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Facebook find, real address in post. Antiques, glassware, 5x10 landscaping trailer, washers, dryers and more.",
-   cats:["yard","antique"],
-   link:"https://www.facebook.com/marketplace/item/2012322436070398/"},
-
- {id:8, name:"Multi-Family Yard Sale — Taylor Bend Rd", type:"MULTI-FAMILY", star:false,
+ {id:6, name:"Multi-Family Yard Sale — Taylor Bend Rd", type:"MULTI-FAMILY", star:false,
    addr:"704 Taylor Bend Rd, Columbia, TN 38401",
    q:"704+Taylor+Bend+Rd,+Columbia,+TN+38401",
-   lat:35.6156, lon:-87.0380, approx:false, affluence:58, drive:14,
+   lat:35.6156, lon:-87.0380, approx:false, affluence:58, drive:18,
    dates:["2026-08-29"], time:"Sat 8am–2pm",
    start:"080000", end:"140000",
-   items:"Cross-verified on Facebook and Craigslist, same real address both places. Multi-family plus the next-door neighbor — most items $1: home decor, kitchen items, linens, rugs, toys, shoes, clothing all sizes, small furniture, lamps, baskets. More pulled out morning-of.",
-   cats:["garage","clothing","furniture"],
+   items:"Cross-verified on Facebook and Craigslist, same real address both places — exact GPS from Craigslist post metadata. Multi-family plus the next-door neighbor — most items $1: home decor, kitchen items, linens, rugs, toys, shoes, clothing all sizes, small furniture, lamps, baskets.",
+   cats:["garage","clothing","furniture","multi-family"],
    link:"https://www.facebook.com/marketplace/item/1420937559922778/"},
 
- {id:9, name:"Nice Nolensville Estate Sale", type:"ESTATE", star:false,
-   addr:"Nolensville, TN 37135 — exact address releases Sun 8/30",
-   q:"Nolensville,TN+37135",
-   lat:35.9528, lon:-86.6714, approx:true, affluence:78, drive:46,
-   dates:["2026-08-30"], time:"Sun 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Estate Sales By Sheila. Unique sofa/chair, Cable piano, vintage buffet, French Provincial hutch, leather wingback chairs, vintage desk, Bombay furniture, crystal, Lionel train set, Titans items. 59 photos. Affluence estimated (Nolensville zip not in the baked-in table).",
-   cats:["estate","antique","vintage","furniture"],
-   link:"https://estatesales.org/estate-sales/tn/nolensville/37135/nice-nolensville-estate-sale-2459705"},
+ {id:7, name:"Huge Yard Sale — N Horton Pkwy, Chapel Hill", type:"YARD", star:false,
+   addr:"206 N Horton Parkway, Chapel Hill, TN 37034",
+   q:"206+N+Horton+Parkway,+Chapel+Hill,+TN+37034",
+   lat:35.6354, lon:-86.6836, approx:false, affluence:50, drive:31,
+   dates:["2026-08-29","2026-08-30"], time:"Sat 8am–4pm, Sun 8am–12pm",
+   start:"080000", end:"160000",
+   items:"Craigslist, exact GPS in post metadata. Home decor, kitchen items, furniture pieces, tools and outdoor items, women's clothing, kids' items, craft supplies. Priced to sell — come early for the best selection.",
+   cats:["yard","furniture","clothing"],
+   link:"https://www.craigslist.org/view/d/chapel-hill-huge-yard-sale-great-prices/dvFcXteoMTTxc5nyr7RKF6"},
 
- {id:10, name:"Garage Sale — Glider Loop, Eagleville", type:"GARAGE", star:false,
-   addr:"149 Glider Loop, Eagleville, TN 37137",
-   q:"149+Glider+Loop,+Eagleville,+TN+37137",
-   lat:35.7274, lon:-86.6220, approx:false, affluence:50, drive:40,
-   dates:["2026-08-28","2026-08-29"], time:"Fri 8am–2pm · Sat 8am–?",
+ {id:8, name:"Garage Sale — Crutcher Rd, Chapel Hill", type:"GARAGE", star:false,
+   addr:"2158 Crutcher Rd, Chapel Hill, TN 37034",
+   q:"2158+Crutcher+Rd,+Chapel+Hill,+TN+37034",
+   lat:35.6556, lon:-86.7081, approx:false, affluence:50, drive:31,
+   dates:["2026-08-29"], time:"Fri–Sat from 8am",
    start:"080000", end:"140000",
-   items:"Craigslist, real address + GPS in post. Women's and men's clothes, luggage, lamps and lampshades, bedding, day bed, metal bed frames, tools, home decor, shelving, wooden crates, 5x7 enclosed trailer. Affluence estimated (Eagleville not in the baked-in zip table).",
-   cats:["garage","clothing","tools","furniture"],
-   link:"https://www.craigslist.org/view/d/eagleville-garage-sale/s4ZPPj4b9bpuy1rxRSNfQX"},
+   items:"Craigslist, exact GPS in post metadata. Quilts, tablecloths, vintage clocks, collectable plates, Wheel Horse tractor, vintage Guardian Ware pans, ice bucket, vintage dishes, vintage iron white bed, Road Runner dish set.",
+   cats:["garage","vintage"],
+   link:"https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"},
 
- {id:11, name:"Beautiful Chapel Hill Estate Sale", type:"ESTATE", star:false,
-   addr:"Chapel Hill, TN 37034 — exact address not yet released",
-   q:"Chapel+Hill,TN+37034",
-   lat:35.6376, lon:-86.6844, approx:true, affluence:50, drive:28,
-   dates:["2026-09-03","2026-09-04"], time:"Thu–Fri 2pm–6pm",
-   start:"140000", end:"180000",
-   items:"Tri-Star Estate Sales — \"we sell the corners.\" 263 photos; full inventory not itemized in the aggregator snippet, see verify link.",
-   cats:["estate"],
-   link:"https://www.estatesales.net/TN/Chapel-Hill/37034/5053758"},
-
- {id:12, name:"Collector's Dream Sale — Bleu Estates", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 — exact address not yet released",
-   q:"Columbia,TN+38401",
-   lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:15,
-   dates:["2026-09-04"], time:"Fri 9am–5pm (runs through Sun 9/6)",
-   start:"090000", end:"170000",
-   items:"Bleu Estates — Columbia-native, tied to the Bleu 32 Marketplace antique mall (Estate Company Registry Tier-2). Collector-focused sale, 51 photos; full inventory not itemized in the aggregator snippet, see verify link.",
-   cats:["estate","antique"],
-   link:"https://www.estatesales.net/TN/Columbia/38401/5056983"},
-
- {id:13, name:"Fantastic Franklin Sale — Berenice Denton", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37069 — exact address not yet released",
-   q:"Franklin,TN+37069",
-   lat:35.8750, lon:-86.9200, approx:true, affluence:88, drive:48,
-   dates:["2026-09-04"], time:"Fri 9am–4pm (runs through Sat 9/5)",
-   start:"090000", end:"160000",
-   items:"Berenice Denton Estate Sales — one of the most established Belle Meade-area companies (20+ years). Three-piece sectional sofa pictured plus full-house furniture and decor. 253 photos.",
+ {id:9, name:"Franklin Downsizing Sale", type:"ESTATE", star:false,
+   addr:"712 Pebble Springs Dr, Franklin, TN 37067",
+   q:"712+Pebble+Springs+Dr,+Franklin,+TN+37067",
+   lat:35.9100, lon:-86.8300, approx:false, affluence:78, drive:55,
+   dates:["2026-08-29"], time:"Sat 8:30am–3pm",
+   start:"083000", end:"150000",
+   items:"Dogwood Estate Sales. Downsizing sale — Drexel dresser and mirror, Drexel chest of drawers, full bed, Wood Mark Originals chairs and Stickley table, Henredon coffee table, swivel chair, wing chair, Havertys desk, 2 Oriental rugs, Gorham \"Chantilly\" flatware. Furthest stop this run — Franklin cap.",
    cats:["estate","furniture"],
-   link:"https://www.estatesales.net/TN/Franklin/37069/5049279"},
+   link:"https://www.estatesales.net/TN/Franklin/37067/5048376"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -717,8 +655,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week.';
     return '<b>'+t.length+' open today'+(t.length===1?'':'s')+'.</b> Tap a card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>The weekend view covers Fri–Sun (8/28–8/30) — 9 of this run\'s 13 finds fall inside it.</b> Friday opens the star pick, Picturesque Franklin Estate Sale (Caysens Square Ln), alongside Franklin Downsizing (Pebble Springs Dr), 7 Decades Collector\'s (1111 Manor Rd), the Riverside/3rd Ave yard sale, the Eagleville garage sale, and the Hancock estate downsizing — plus the daily 7th Avenue Columbia estate sale. <b>Saturday is the volume day:</b> every Friday opener continues except Riverside/Eagleville, plus the Taylor Bend Rd multi-family (most items $1) and the Fantastic Columbia Estate Sale (address releases Fri 9am). Sunday winds down with 7 Decades and Fantastic Columbia on their final day, 7th Avenue and Hancock still open, and the Nice Nolensville Estate Sale opening (address releases Sat 9am). Confirm every address-pending stop via Listing before driving.';
-  return '<b>Plan the week.</b> <b>Fri 8/28</b> — six sales open at once: Picturesque Franklin (star pick), Franklin Downsizing, the Hancock estate downsizing, 7 Decades Collector\'s, the Riverside/3rd Ave yard sale, the Eagleville garage sale, plus the ongoing 7th Avenue Columbia estate sale. <b>Sat 8/29 — the volume day:</b> Taylor Bend Rd multi-family and Fantastic Columbia (address releases 9am) join the Friday carryovers, minus Riverside and Eagleville which close Friday night. <b>Sun 8/30</b> — final day for 7 Decades and Fantastic Columbia; Nice Nolensville opens (address releases Sat 9am); 7th Avenue and Hancock remain open. <b>Mon 8/31–Tue 9/1</b> — the 7th Avenue and Hancock estate sales are the only stops still open, both close Tuesday evening. <b>Wed–Thu (9/2–9/3)</b> — nothing posted yet; next weekend\'s cluster typically posts Wed–Fri. <b>Thu 9/3–Fri 9/4</b> — Beautiful Chapel Hill Estate Sale opens Thursday; Friday adds Bleu Estates\' Collector\'s Dream Sale (Columbia) and Fantastic Franklin Sale (Berenice Denton), both addresses pending.';
+  if(view==='weekend')return '<b>The weekend view covers Sat–Sun (8/29–8/30) — 6 of this run\'s 9 finds fall inside it.</b> Saturday is the volume day: the star pick Fantastic Columbia Estate Sale (Polk Lane), 7 Decades Collector\'s (1111 Manor Rd), the 7th Avenue Columbia daily estate sale, the Taylor Bend Rd multi-family (most items $1), the Chapel Hill Huge Yard Sale (N Horton Pkwy), and the Chapel Hill garage sale (Crutcher Rd) — plus the Culleoka and Thompson\'s Station finds if you\'re still routing Saturday. Sunday narrows to Fantastic Columbia, 7 Decades, 7th Avenue, and the Chapel Hill yard sale on its final day.';
+  return '<b>Plan the week.</b> <b>Sat 8/29 — the volume day, 8 sales open at once:</b> Fantastic Columbia (star pick), 7 Decades Collector\'s, 7th Avenue Columbia (daily through 9/1), Taylor Bend Rd multi-family, the Chapel Hill yard sale and garage sale, and the Thompson\'s Station multi-family. <b>Sun 8/30</b> — Fantastic Columbia and 7 Decades on their final day, 7th Avenue and the Chapel Hill yard sale (Horton Pkwy) remain open. <b>Mon 8/31–Tue 9/1</b> — only the 7th Avenue Columbia estate sale is still open, closing Tuesday evening. <b>Wed–Thu (9/2–9/3)</b> — nothing posted yet; next weekend\'s cluster typically posts Wed–Fri. <b>Fri 9/4</b> — the Culleoka Estate Sale opens on Martin Hollow Rd, about 3 miles from home base, the closest stop on this board.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -778,11 +716,10 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: EstateSales.org (Columbia, 50mi radius, PRIMARY — fresh and correctly dated this run, both result pages plus individual sale detail pages) and Facebook Marketplace (Alex\'s logged-in Chrome, connected mid-day — garage/estate/yard/moving searches with full post-body reads on every promising card, 5 real-address finds added). EstateSales.NET was cross-checked but served a stale snapshot (dates 4+ days behind) — not used. gsalr.com returned a blank JS-rendered shell on every attempt — not used. Craigslist surfaced only stale or dateless listings — not used. Estate Company Registry\'s Bleu Estates channel checked directly — next sale is Sept 4–6, outside this window. '
-  +'<b>9 sales this run</b> — Thursday pull + same-day Facebook supplement, 7-day window Aug 27–Sep 3. '
-  +'<b>Today (Thu):</b> Nice Brentwood Estate Sale ends 5pm (top-affluence stop) and the 7th Avenue Columbia estate sale is open daily 8am–8pm through Sept 1. '
-  +'<b>Saturday is the volume day — 7 sales open at once</b>, including the Taylor Bend Rd multi-family (most items $1), the Sunnyside Lane yard sale, the Shelbyville US-41A clearance, and the recurring Franklin Pike Lewisburg Saturday sale. '
-  +'2 of the 9 remain address-pending (both Estate Sales By Sheila releases). Two sit beyond the Franklin cap (~30mi) as reasonable extensions for marquee finds, consistent with prior-run precedent. Sales can cancel or sell out without updating the listing. '
+  'Sources reached: EstateSales.NET (Columbia, PRIMARY — live "Starts Today!" badges, individual sale-detail pages read for exact address/dates/hours) and EstateSales.org (Columbia, cross-check — 32 results, confirmed the same Columbia and Franklin finds). Craigslist (nashville.craigslist.org/search/gms + individual detail-page permalinks, exact GPS read from each post\'s metadata) surfaced the two Chapel Hill sales and the Taylor Bend Rd Columbia multi-family. Facebook Marketplace reached via Alex\'s logged-in Chrome (connected this run) — garage/estate searches for Columbia-TN, full post-body reads on every promising card: the Culleoka estate sale, the Thompson\'s Station multi-family, the Taylor Bend Rd cross-check, and the 316 7th Ave Columbia daily estate sale. gsalr.com returned a blank JS-rendered shell on every attempt, consistent with its long-running outage — not used. '
+  +'<b>9 sales this run</b> — Saturday pull, 7-day window Aug 29–Sep 5. '
+  +'<b>Today (Sat) is the volume day — 8 sales open at once</b>, including the star pick Fantastic Columbia Estate Sale (Polk Lane), 7 Decades Collector\'s, the Taylor Bend Rd multi-family (most items $1), and both Chapel Hill sales. '
+  +'All 9 addresses are real, verified street addresses from their source listing — none address-pending this run. Pin coordinates are best-available estimates (the Census geocoder was unreachable from this run\'s sandbox), except 3 pins read exact GPS directly from Craigslist post metadata. Sales can cancel or sell out without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
