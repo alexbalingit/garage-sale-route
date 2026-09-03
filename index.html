@@ -230,145 +230,105 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-08-29 (Saturday pull — 7-day window Aug 29-Sep 5).
-   9 sales. affluence 0-100 (zip tier, reasonable estimates) drives
+/* Daily auto-refresh, 2026-09-03 (Thursday pull — 7-day window Sep 3-10).
+   6 sales. affluence 0-100 (zip tier, reasonable estimates) drives
    ranking; drive is recomputed at runtime from lat/lon via
-   recomputeDrives(). Sources reached: EstateSales.NET (Columbia
-   38401, PRIMARY — live "Starts Today!" badges, individual sale-detail
-   pages read for exact address/dates/hours) and EstateSales.org
-   (Columbia, cross-check — 32 results, confirmed the same Columbia and
-   Franklin finds). Craigslist (nashville.craigslist.org/search/gms +
-   individual detail-page permalinks, meta-ICBM coordinates read
-   directly off each post) surfaced the Chapel Hill garage/yard sales
-   and the Taylor Bend Rd Columbia multi-family (cross-verified against
-   the same address on Facebook). Facebook Marketplace reached via
-   Alex's logged-in Chrome (list_connected_browsers returned a live
-   session) — garage/estate sale searches for Columbia-TN, full
-   post-body reads on every promising card: the Culleoka estate sale
-   (3 mi from home), the Thompson's Station multi-family (name-brand
-   clothing), and the 316 7th Ave Columbia daily estate sale (through
-   9/1) all real addresses. gsalr.com returned a blank JS-rendered
-   shell on every attempt, consistent with its long-running outage —
-   not used.
-   Star pick: Fantastic Columbia Estate Sale (Polk Lane) — Estate Sales
-   By Sheila, antique-collector household with a genuinely deep,
-   itemized inventory (Lillian Russell bedroom suite, Eastlake dresser
-   and bed, Singer QuantumLock, silver chest and more).
-   Closest-to-home find: the Culleoka Estate Sale on Martin Hollow Rd —
-   about 3 miles from Culleoka home base, opens Friday 9/4.
-   Census geocoder was unreachable from this run's sandbox network, so
-   pin coordinates are best-available city/road-level estimates rather
-   than exact rooftop geocodes — every address itself is the real,
-   verified street address from its source listing (never a placeholder).
-   3 pins carry exact GPS read directly from Craigslist post metadata
-   (Crutcher Rd, N Horton Pkwy, and Taylor Bend Rd — all Chapel Hill/
-   Columbia). No sales dropped for date/radius reasons this run.
-   Smoke test (Node eval of the sales array): 9 sales / 0 dup ids /
+   recomputeDrives(). Sources reached: EstateSales.NET (Columbia 38401
+   + Franklin 37069, PRIMARY — individual sale-detail pages read for
+   dates/hours; 4 of this run's finds came from here) and
+   EstateSales.org (Columbia, cross-check — 27 results within 50 mi,
+   confirmed the same Columbia/Franklin finds, nothing new inside the
+   Franklin cap). Craigslist (nashville.craigslist.org/search/gms +
+   individual detail-page permalinks, exact GPS read from each post's
+   metadata) surfaced the Crutcher Rd Chapel Hill garage sale and the
+   Fieldstone Farms Franklin moving/estate sale. gsalr.com returned a
+   blank JS-rendered shell on every attempt, consistent with its
+   long-running outage — not used. Facebook Marketplace was not
+   reachable this run (no live Chrome session confirmed at this early
+   hour); the cached fallback at _cache/fb-latest.md was dated 2026-07-03
+   (nearly two months stale) so it was dropped rather than reused —
+   proceeding without Facebook this run.
+   Thin pull this run: this is a Thursday-morning window, and the
+   corridor's Facebook-heavy south end (Columbia → Pulaski) posts
+   Wed–Sat for the weekend, so several more sales likely surface by
+   Friday/Saturday re-pulls. Four of six addresses are still gated
+   (EstateSales.NET releases exact street addresses at 9am the morning
+   of, or the day before) — routed to city/zip centroid until then.
+   Star pick: Beautiful Chapel Hill Estate Sale (Tri-star Estate Sales)
+   — deepest itemized inventory this run: antiques, Fenton glass,
+   handmade quilts, vintage lamps, Early American/Colonial style
+   throughout, and it's already open today (Thu).
+   No Census geocoder access this run (sandbox network doesn't reach
+   geocoding.geo.census.gov) — pin coordinates are best-available
+   city/road-level estimates for the 4 gated addresses; every address
+   itself is the real, verified detail from its source listing. 2 pins
+   carry exact GPS read directly from source-post metadata (Crutcher Rd
+   from Craigslist meta-ICBM, Brixham Park Dr from Craigslist meta-ICBM).
+   Smoke test (manual review of the sales array): 6 sales / 0 dup ids /
    all schema fields present / 0 missing verify links / 0 bad
-   coordinates / 0 approx (address-pending) sales / 1 star sale /
-   day counts Sat(8/29) 8, Sun(8/30) 4, Mon(8/31) 1, Tue(9/1) 1,
-   Fri(9/4) 1 — PASSED. */
+   coordinates / 4 approx (address-pending) sales / 1 star sale /
+   day counts Thu(9/3) 1, Fri(9/4) 6, Sat(9/5) 6, Sun(9/6) 1 — PASSED. */
 var sales = [
 
- {id:1, name:"Huge Estate Sale — 7th Avenue Columbia", type:"ESTATE", star:false,
-   addr:"316 7th Avenue, Columbia, TN 38401",
-   q:"316+7th+Avenue,+Columbia,+TN+38401",
-   lat:35.6170, lon:-87.0450, approx:false, affluence:58, drive:19,
-   dates:["2026-09-01"], time:"Final day — Tue 9/1, 8am–8pm",
-   start:"080000", end:"200000",
-   items:"Facebook find, real address in post. Long-running whole-house estate sale — today (Tue 9/1) is the last day, 8am–8pm.",
-   cats:["estate"],
-   link:"https://www.facebook.com/marketplace/item/1573320940970108/"},
-
- {id:2, name:"Estate Sale — Martin Hollow Rd, Culleoka", type:"ESTATE", star:false,
-   addr:"3056 Martin Hollow Rd, Culleoka, TN 38451",
-   q:"3056+Martin+Hollow+Rd,+Culleoka,+TN+38451",
-   lat:35.4400, lon:-86.9200, approx:false, affluence:55, drive:8,
-   dates:["2026-09-04","2026-09-06","2026-09-07"], time:"Fri, Sun & Mon (9/4, 9/6, 9/7) 9am–6pm",
-   start:"090000", end:"180000",
-   items:"Facebook find, real address in post — closest sale to home this run (~8 mi). Labor Day estate and garage sale: like-new large microwave, historic iron bed, vintage Halloween and Christmas decor, grandmother clock, linens, good-quality clothes.",
-   cats:["estate","garage","vintage"],
-   link:"https://www.facebook.com/marketplace/item/1760473748325724/"},
-
- {id:3, name:"Collector's Dream Sale — Columbia", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 — exact address releases Thu 9/3, 9am",
-   q:"Columbia,+TN+38401",
-   lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:10,
-   dates:["2026-09-04","2026-09-05","2026-09-06"], time:"Fri–Sat 9am–5pm, Sun 11am–4pm",
-   start:"090000", end:"170000",
-   items:"Bleu Estates (EstateSales.NET, less than 3 mi from downtown Columbia). Collector's estate sale — collectibles, vintage finds, household goods and pottery, resale and decorator picks throughout the house.",
-   cats:["estate","vintage","collector"],
-   link:"https://www.estatesales.net/TN/Columbia/38401/5056983"},
-
- {id:4, name:"Beautiful Chapel Hill Estate Sale", type:"ESTATE", star:true,
-   addr:"Chapel Hill, TN 37034 — exact address releases Wed 9/2, 9am",
+ {id:1, name:"Beautiful Chapel Hill Estate Sale", type:"ESTATE", star:true,
+   addr:"Chapel Hill, TN 37034 — exact address released this morning",
    q:"Chapel+Hill,+TN+37034",
-   lat:35.6354, lon:-86.6836, approx:true, affluence:50, drive:31,
+   lat:35.6354, lon:-86.6836, approx:true, affluence:50, drive:18,
    dates:["2026-09-03","2026-09-04","2026-09-05"], time:"Thu 2–6pm, Fri 9am–2pm, Sat 9am–1pm",
-   start:"090000", end:"180000",
-   items:"Tri-star Estate Sales. House packed with antiques and quality furniture — collectible china, Fenton glass, glassware, handmade quilts, needlework, vintage lamps. Early American / Colonial / Grandmillennial style throughout — deepest inventory on this board.",
+   start:"140000", end:"180000",
+   items:"Tri-star Estate Sales. House packed with antiques and quality furniture — collectible china, Fenton glass, gorgeous glassware, handmade quilts, needlework, vintage lamps. Early American / Colonial / Grandmillennial style throughout — deepest inventory on this board, and already open today.",
    cats:["estate","antique","vintage","furniture"],
    link:"https://www.estatesales.net/TN/Chapel-Hill/37034/5053758"},
 
- {id:5, name:"Heading West! Franklin Sale — Vintage Antiques", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 — exact address releases Wed 9/2, 9am",
-   q:"Franklin,+TN+37064",
-   lat:35.9200, lon:-86.8600, approx:true, affluence:82, drive:45,
-   dates:["2026-09-03","2026-09-05"], time:"Thu & Sat only (not Fri) 8:30am–3:30pm",
-   start:"083000", end:"153000",
-   items:"Abracadabra Estate Sales. Whole-house sale — antique Jacobean buffet and extendable dining table with 5 chairs, Mid-Century Modern bedroom set, Jasper Cabinet Queen Anne secretary desk, antique early-1900s secretary desk, oak bedroom furniture, rustic sawhorse workbench, nearly-new washer.",
-   cats:["estate","antique","vintage","furniture"],
-   link:"https://www.estatesales.net/TN/Franklin/37064/5060583"},
+ {id:2, name:"Collector's Dream Sale — Columbia", type:"ESTATE", star:false,
+   addr:"Columbia, TN 38401 — exact address releases this morning (9am)",
+   q:"Columbia,+TN+38401",
+   lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:12,
+   dates:["2026-09-04","2026-09-05","2026-09-06"], time:"Fri–Sat 9am–5pm, Sun 11am–4pm",
+   start:"090000", end:"170000",
+   items:"Bleu Estates — corridor-native, tied to a 12,000 sq ft Columbia antique mall. Collector's estate sale — collectibles, vintage finds, household goods and pottery, resale and decorator picks throughout the house.",
+   cats:["estate","vintage","collector"],
+   link:"https://www.estatesales.net/TN/Columbia/38401/5056983"},
 
- {id:6, name:"Fantastic Franklin Sale", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37069 — exact address releases Thu 9/3, 9am",
+ {id:3, name:"Fantastic Franklin Sale", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37069 — exact address releases this morning (9am)",
    q:"Franklin,+TN+37069",
-   lat:35.9100, lon:-86.8300, approx:true, affluence:88, drive:55,
+   lat:35.9100, lon:-86.8300, approx:true, affluence:85, drive:44,
    dates:["2026-09-04","2026-09-05"], time:"Fri–Sat 9am–4pm",
    start:"090000", end:"160000",
-   items:"Berenice Denton Estate Sales. Highest-affluence zip on this board (37069). Three-piece sectional sofa, colorful rugs, abstract oil paintings, large TV, large ceramic vase lamps, modern metal-base table. Full item list posts after the address on Thursday.",
+   items:"Berenice Denton Estate Sales, one of the oldest/most established houses in the corridor. Three-piece sectional sofa, Haverty's king bedroom suite, children's bedroom furniture, daybed with trundle, office desk and bookcases, pearl acoustic drum set, outdoor wicker seating, exercise gym set. Full list posts after the address today.",
    cats:["estate","furniture"],
    link:"https://www.estatesales.net/TN/Franklin/37069/5049279"},
 
- {id:7, name:"Garage Sale — Crutcher Rd, Chapel Hill", type:"GARAGE", star:false,
+ {id:4, name:"Estate/Moving Sale — Franklin 37069", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37069 — exact address releases this morning (9am)",
+   q:"Franklin,+TN+37069",
+   lat:35.9100, lon:-86.8300, approx:true, affluence:85, drive:44,
+   dates:["2026-09-04","2026-09-05"], time:"Fri–Sat 9am–4pm",
+   start:"090000", end:"160000",
+   items:"Privately listed — first sale from this individual/company. Two Pottery Barn custom upholstered sofas, upholstered pieces and casegoods, chairs, lamps, wrought iron architectural pieces, china, kitchenware, linens, storage pieces — items throughout the house and garage. Cash or Venmo, bring help for large items.",
+   cats:["estate","moving","furniture"],
+   link:"https://www.estatesales.net/TN/Franklin/37069/5062899"},
+
+ {id:5, name:"Garage Sale — Crutcher Rd, Chapel Hill", type:"GARAGE", star:false,
    addr:"2158 Crutcher Rd, Chapel Hill, TN 37034",
    q:"2158+Crutcher+Rd,+Chapel+Hill,+TN+37034",
-   lat:35.655565, lon:-86.708112, approx:false, affluence:50, drive:31,
+   lat:35.655565, lon:-86.708112, approx:false, affluence:50, drive:18,
    dates:["2026-09-04","2026-09-05"], time:"Fri–Sat from 8am",
    start:"080000", end:"140000",
    items:"Craigslist, exact GPS in post metadata (recurring listing, refreshed to this weekend's dates). Quilts, tablecloths, vintage clocks, collectable plates, Wheel Horse tractor, vintage Guardian Ware pans, ice bucket, vintage dishes, vintage iron white bed, Road Runner dish set.",
    cats:["garage","vintage"],
    link:"https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"},
 
- {id:8, name:"Yard/Estate Sale — Section House Rd, Chapel Hill", type:"YARD", star:false,
-   addr:"5811 Section House Rd, Holts Corner, Chapel Hill, TN 37034",
-   q:"5811+Section+House+Rd,+Chapel+Hill,+TN+37034",
-   lat:35.6480, lon:-86.7300, approx:false, affluence:50, drive:33,
-   dates:["2026-09-05","2026-09-06"], time:"Sat–Sun 8am–3pm, cash only",
-   start:"080000", end:"150000",
-   items:"Facebook find, real address in post. Indoor yard/estate sale, everything must go — ceramic figurines, dolls, furniture, home interior pictures, kitchen supplies.",
-   cats:["yard","estate","furniture"],
-   link:"https://www.facebook.com/marketplace/item/2538280876690092/"},
-
- {id:9, name:"Large Garage Sale — Chapel Hill (Labor Day)", type:"GARAGE", star:false,
-   addr:"Chapel Hill, TN 37034 — exact address not given in listing",
-   q:"Chapel+Hill,+TN+37034",
-   lat:35.6354, lon:-86.6836, approx:true, affluence:50, drive:31,
-   dates:["2026-09-04","2026-09-05"], time:"Fri–Sat 8am–3pm",
-   start:"080000", end:"150000",
-   items:"Facebook find, no street address in post — routed to Chapel Hill centroid. Labor Day weekend sale: holiday and home decor, kids' books/toys/art supplies, baby gear including stroller wagon, maternity, boys'/women's/men's clothing newborn to men's, wall art, mirrors, golf cart, building supplies, RV.",
-   cats:["garage","clothing","furniture"],
-   link:"https://www.facebook.com/marketplace/item/1749731899236103/"},
-
- {id:10, name:"Multi-Family Estate Sale — Bunker Hill Dr, Arrington", type:"MULTI-FAMILY", star:false,
-   addr:"1020 Bunker Hill Dr, Arrington, TN 37014",
-   q:"1020+Bunker+Hill+Dr,+Arrington,+TN+37014",
-   lat:35.8566, lon:-86.6633, approx:false, affluence:80, drive:60,
-   dates:["2026-09-05","2026-09-06"], time:"Sat–Sun 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Craigslist, exact GPS in post metadata. Furthest stop this run — right at the edge of the Franklin-distance cap, affluent Arrington horse-country. Antiques, original artwork, furniture, dishes, luggage, plants, pottery, lighting, rugs.",
-   cats:["estate","antique","furniture","multi-family"],
-   link:"https://www.craigslist.org/view/d/arrington-day-multi-family-estate-sale/bUiwQNAm5RRqoWMJE8tkat"},
+ {id:6, name:"Franklin Moving/Estate Sale — Fieldstone Farms", type:"ESTATE", star:false,
+   addr:"568 Brixham Park Dr, Franklin, TN 37064",
+   q:"568+Brixham+Park+Dr,+Franklin,+TN+37064",
+   lat:35.962882, lon:-86.878189, approx:false, affluence:82, drive:48,
+   dates:["2026-09-04","2026-09-05"], time:"Fri–Sat, starts 9am",
+   start:"090000", end:"160000",
+   items:"Craigslist, exact GPS in post metadata. Downsizing after 27 years in the home — furniture, upholstered pieces, lamps, mirrors, artwork, decorative accessories, china, glassware, kitchen items, linens, outdoor items. Traditional, Southern and classic decor with some higher-end, name-brand pieces. Fieldstone Farms area — furthest stop this run, right at the edge of the Franklin cap.",
+   cats:["estate","moving","furniture"],
+   link:"https://www.craigslist.org/view/d/franklin-huge-franklin-estate-moving/8kjv9c1eRwScXZNgz8joMW"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -662,10 +622,10 @@ function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week.';
-    return '<b>'+t.length+' open today'+(t.length===1?'':'s')+' — the 7th Avenue Columbia estate sale, on its final day (8am–8pm).</b> Tap the card for details, then Navigate.';
+    return '<b>'+t.length+' open today'+(t.length===1?'':'s')+' — the star pick Beautiful Chapel Hill Estate Sale (2–6pm).</b> Tap the card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>The weekend view covers Fri–Sun (9/4–9/6) — 9 of this run\'s 10 finds fall inside it.</b> Saturday 9/5 is the volume day, 8 sales open at once: the star pick Beautiful Chapel Hill Estate Sale, the Collector\'s Dream Sale (Columbia), both Franklin sales (Heading West! and Fantastic Franklin), the Crutcher Rd and Section House Rd Chapel Hill sales, the Labor Day Chapel Hill garage sale, and the Bunker Hill Dr Arrington multi-family. Friday adds the Culleoka estate sale (closest to home); Sunday narrows to Culleoka, Collector\'s Dream, Section House Rd, and Bunker Hill Dr on their final day.';
-  return '<b>Plan the week.</b> <b>Tue 9/1 (today)</b> — only the 7th Avenue Columbia estate sale is open, its last day, 8am–8pm. <b>Wed 9/2</b> — nothing posted yet, but two addresses (Chapel Hill Tri-star, Franklin Abracadabra) release at 9am. <b>Thu 9/3</b> — those two open, plus the Bleu Estates and Berenice Denton addresses release at 9am. <b>Fri 9/4</b> — the volume ramps to 6 sales: Culleoka Estate Sale (closest to home, ~8 mi), Collector\'s Dream Sale, Beautiful Chapel Hill, Fantastic Franklin, Crutcher Rd, and the Labor Day Chapel Hill garage sale. <b>Sat 9/5 — the volume day, 8 sales open at once:</b> the star pick Beautiful Chapel Hill Estate Sale, Collector\'s Dream, Heading West! Franklin, Fantastic Franklin, Crutcher Rd, Section House Rd, the Labor Day garage sale, and the Bunker Hill Dr Arrington multi-family (right at the edge of the Franklin-distance cap). <b>Sun 9/6</b> — Culleoka, Collector\'s Dream, Section House Rd, and Bunker Hill Dr on their final day. <b>Mon 9/7</b> — only the Culleoka estate sale remains. <b>Tue 9/8</b> — nothing posted yet.';
+  if(view==='weekend')return '<b>The weekend view covers Fri–Sat (9/4–9/5) — all 6 of this run\'s finds fall inside it, plus Sun 9/6 for the Collector\'s Dream Sale.</b> Friday and Saturday are the volume days, all 6 sales open at once: the star pick Beautiful Chapel Hill Estate Sale, Collector\'s Dream Sale (Columbia), both Franklin 37069 sales (Fantastic Franklin and the privately-listed Estate/Moving Sale), the Crutcher Rd Chapel Hill garage sale, and the Fieldstone Farms Franklin moving/estate sale.';
+  return '<b>Plan the week.</b> <b>Thu 9/3 (today)</b> — only the star pick Beautiful Chapel Hill Estate Sale is open, 2–6pm. <b>Fri 9/4 &amp; Sat 9/5</b> — the volume day: all 6 sales open at once — Beautiful Chapel Hill, Collector\'s Dream Sale (Columbia), the two Franklin 37069 estate sales, Crutcher Rd Chapel Hill, and the Fieldstone Farms Franklin sale (furthest stop, edge of the Franklin cap). <b>Sun 9/6</b> — only the Collector\'s Dream Sale remains, on its final day. This is a thin Thursday-morning pull — the corridor posts new listings through the weekend, so re-check Friday and Saturday mornings for more.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -725,10 +685,10 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: EstateSales.NET (Columbia + Franklin, PRIMARY — individual sale-detail pages read for dates/hours; 5 of this run\'s finds came from here) — EstateSales.org (Columbia, cross-check — 23 results within 50 mi, confirmed the same Franklin/Nashville finds, nothing new inside the Franklin cap). Craigslist (nashville.craigslist.org/search/gms + individual detail-page permalinks, exact GPS read from each post\'s metadata) surfaced the Crutcher Rd Chapel Hill garage sale and the Bunker Hill Dr Arrington multi-family. Facebook Marketplace reached via Alex\'s logged-in Chrome (connected this run) — garage/estate/moving/neighborhood/barn searches for Columbia-TN and Culleoka-TN, full post-body reads on every promising card: the Culleoka estate sale (closest to home), the 7th Avenue Columbia estate sale on its final day, and the Section House Rd Chapel Hill yard sale (real address in post). gsalr.com returned a blank JS-rendered shell on every attempt, consistent with its long-running outage — not used. '
-  +'<b>10 sales this run</b> — 7-day window Sep 1–Sep 8. '
-  +'<b>4 addresses are pending</b> (Collector\'s Dream and Fantastic Franklin release Thu 9/3 at 9am; Beautiful Chapel Hill and Heading West! Franklin release Wed 9/2 at 9am) — routed to their city/zip centroid until then; re-check the Listing link on release day for the exact pin. '
-  +'The other 6 addresses are real, verified street addresses from their source listing; 2 pins (Crutcher Rd, Bunker Hill Dr) read exact GPS directly from Craigslist post metadata. Bunker Hill Dr sits right at the edge of the Franklin-distance cap — included on the same precedent as prior Franklin stops. Sales can cancel or sell out without updating the listing. '
+  'Sources reached: EstateSales.NET (Columbia 38401 + Franklin 37069, PRIMARY — individual sale-detail pages read for dates/hours; 4 of this run\'s finds came from here) — EstateSales.org (Columbia, cross-check — 27 results within 50 mi, confirmed the same Columbia/Franklin finds, nothing new inside the Franklin cap). Craigslist (nashville.craigslist.org/search/gms + individual detail-page permalinks, exact GPS read from each post\'s metadata) surfaced the Crutcher Rd Chapel Hill garage sale and the Fieldstone Farms Franklin moving/estate sale. gsalr.com returned a blank JS-rendered shell on every attempt, consistent with its long-running outage — not used. Facebook Marketplace was not reached this run (no live Chrome session at this early hour); the cached fallback was dated 2026-07-03 — too stale to reuse, so this run proceeds without Facebook. '
+  +'<b>6 sales this run</b> — 7-day window Sep 3–Sep 10. Thinner than a typical Saturday pull: this is a Thursday-morning snapshot, and the corridor\'s south end posts through Friday and Saturday for the weekend — re-check those mornings for more. '
+  +'<b>4 addresses are pending</b> (Chapel Hill, Columbia, and both Franklin 37069 sales all release their exact street address the morning of or day before) — routed to their city/zip centroid until then; re-check the Listing link on release day for the exact pin. '
+  +'The other 2 addresses (Crutcher Rd, Brixham Park Dr) are real, verified street addresses with exact GPS read directly from Craigslist post metadata. The Fieldstone Farms Franklin sale sits right at the edge of the Franklin-distance cap — included on the same precedent as prior Franklin stops. Sales can cancel or sell out without updating the listing. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
