@@ -230,71 +230,63 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-09-09 (Wednesday pull — 7-day window Sep 9-16).
-   5 sales. affluence 0-100 (zip tier, reasonable estimates) drives
+/* Daily auto-refresh, 2026-09-10 (Thursday pull — 7-day window Sep 10-17).
+   9 sales. affluence 0-100 (zip tier, reasonable estimates) drives
    ranking; drive is recomputed at runtime from lat/lon via
-   recomputeDrives(). Sources reached: EstateSales.org (Columbia, 50mi
-   radius, PRIMARY this run — 35 results scanned across 2 pages; surfaced
-   both Franklin estate sales). Craigslist (nashville.craigslist.org/search/gms
-   + individual detail-page permalinks, exact GPS read from each post's
-   meta-ICBM tag) surfaced the Westhaven 70+-family community garage sale,
-   the combined Retirement/Collectibles yard sale at Albany Pointe, and
-   the Holt Corner (College Grove) yard sale; also scanned but dropped as
-   out-of-window or out-of-cap: Chapel Hill (Crutcher Rd, dated 9/4-9/5,
-   already past), Brentwood/Green Hills/Old Hickory posts (outside the
-   Franklin cap). EstateSales.NET was fetched (84 Columbia-radius results)
-   but every specific listing on the page fell outside this run's 7-day
-   window or the Franklin cap. gsalr.com returned a blank page on both the
-   Columbia and Franklin city pages, consistent with its known JS-render
-   issue — not used. Facebook Marketplace was not reached this run (no
-   live Chrome session connected at this early hour); the cached fallback
-   at _cache/fb-latest.md is dated 2026-07-03 (over two months stale) —
-   dropped per never-fabricate rather than reused. No dedicated
-   estate-company registry file exists in the vault yet — Estate Sales By
-   Sheila and New Life Estate Sales (both corridor-active) were captured
-   directly via their EstateSales.org listings instead.
-   Star pick: Franklin Estate Sale — 4422 N Chapel Rd (New Life Estate
-   Sales) — deepest inventory this run at 339 photos: vintage toys,
-   motorsports/Elvis memorabilia, records, cameras, furniture, three-day
-   run Fri-Sun.
+   recomputeDrives(). Sources reached: Craigslist
+   (nashville.craigslist.org/search/gms + individual detail-page
+   permalinks, exact GPS read from each post's meta-ICBM tag) surfaced
+   the Westhaven 70+-family community garage sale, the combined
+   Retirement/Christmas/Collectibles sale at Albany Pointe (3 separate CL
+   posts, same address/date — merged into one card), the Chapel Hill
+   Broadview yard sale, and the Holt Corner (College Grove) yard sale.
+   EstateSales.NET (Columbia + Spring Hill radius pages, 30mi filter)
+   surfaced the Spring Hill estate sale on Aenon Circle, the Spring Hill
+   moving sale, the Carolyn Cromer estate sale in Columbia, the Franklin
+   estate sale (New Life Estate Sales, 37067), and Fun Franklin Estate
+   Sale (Estate Sales By Sheila, 37064) — cross-confirmed on
+   EstateSales.org. gsalr.com returned only web-search index snippets, no
+   live this-week listing data reachable this run — not used as a direct
+   source. Facebook Marketplace: a live Chrome session is connected, but
+   the browser-action request wasn't approved for this unattended run;
+   the cached fallback at _cache/fb-latest.md is dated 2026-07-03 (over
+   two months stale) — dropped per never-fabricate rather than reused.
+   No dedicated estate-company registry file exists in the vault yet —
+   Estate Sales By Sheila and New Life Estate Sales (both corridor-active)
+   were captured directly via their EstateSales.net/.org listings.
+   Star pick: Retirement & Collectibles Sale — Albany Pointe, Franklin —
+   highest neighborhood score once signal bonuses (antiques, collector
+   pieces, downsizing) are applied; three merged listings' worth of
+   inventory in one stop.
    No Census geocoder access this run (sandbox has no outbound network
-   reach to geocoding.geo.census.gov) — the 2 addresses sourced from
-   EstateSales.org (Fun Franklin Estate Sale — address not yet published;
-   Franklin Estate Sale/N Chapel Rd — real street address known but no
-   geocoder available) carry city/zip-centroid coordinate estimates
-   (approx:true). The 3 addresses sourced from Craigslist (Westhaven
-   pickup point, Retirement/Collectibles at Albany Pointe, Holt Corner)
-   carry exact GPS read directly from each post's meta-ICBM tag — Westhaven
-   is still flagged approx:true since the pin is the clubhouse pickup
-   point, not the individual selling addresses (released day-of); the
-   other two are approx:false.
-   Smoke test (Node eval of the extracted sales array): 5 sales / 0 dup
-   ids / all schema fields present / 0 missing verify links / 0 bad
-   coordinates / 3 approx sales / 1 star sale / day counts Wed-Thu(9/9-9/10)
-   0, Fri(9/11) 2, Sat(9/12) 5, Sun(9/13) 1, Mon-Wed(9/14-9/16) 0 — PASSED. */
+   reach to geocoding.geo.census.gov) — the 5 addresses sourced from
+   EstateSales.NET/.org (Spring Hill x2, Columbia, Franklin 37067, Franklin
+   37064/Fun Franklin) carry city/zip-centroid coordinate estimates
+   (approx:true) since no exact street pin could be computed. The 4
+   addresses sourced from Craigslist (Westhaven pickup point, Albany
+   Pointe, Chapel Hill Broadview, Holt Corner) carry exact GPS read
+   directly from each post's meta-ICBM tag — Westhaven is still flagged
+   approx:true since the pin is the clubhouse pickup point, not the
+   individual selling addresses (released day-of); the other three are
+   approx:false.
+   Smoke test (manual review of the extracted sales array): 9 sales / 0
+   dup ids / all schema fields present / 0 missing verify links / 0 bad
+   coordinates / 6 approx sales / 1 star sale / day counts Thu(9/10) 1,
+   Fri(9/11) 3, Sat(9/12) 8, Sun(9/13) 1, Mon-Wed(9/14-9/16) 0,
+   Thu(9/17) 1 — PASSED. */
 var sales = [
 
- {id:1, name:"Franklin Estate Sale — Vintage, Motorsports & Elvis", type:"ESTATE", star:true,
-   addr:"4422 N Chapel Rd, Franklin, TN 37067",
-   q:"4422+N+Chapel+Rd,+Franklin,+TN+37067",
-   lat:35.9180, lon:-86.8025, approx:true, affluence:80, drive:56,
-   dates:["2026-09-11","2026-09-12","2026-09-13"], time:"Fri–Sun 10am–4pm",
-   start:"100000", end:"160000",
-   items:"New Life Estate Sales (339 photos). Vintage toys, magazines, stuffed animals, trading cards, board games, Barbies, Cabbage Patch dolls, American Girl accessories, vintage ceramics, apothecary bottles — plus a strong motorsports/Elvis memorabilia and Coca-Cola collectibles run. Vinyl records, CDs, VHS, cassette players, Polaroid & film cameras, Fire-King mugs, silver dishware and silverware sets, solid-wood furniture, wall art, mirrors, wicker baskets, Halloween & Christmas décor, tools and garden supplies. Deepest inventory on this run's board.",
-   cats:["estate","vintage","antique","collector","furniture"],
-   link:"https://estatesales.org/estate-sales/tn/franklin/37067/franklin-estate-sale-2461521"},
+ {id:1, name:"Retirement & Collectibles Sale — Albany Pointe", type:"GARAGE", star:true,
+   addr:"2231 Avery Valley Dr, Franklin, TN 37064",
+   q:"2231+Avery+Valley+Dr,+Franklin,+TN+37064",
+   lat:35.895169, lon:-86.795082, approx:false, affluence:82, drive:52,
+   dates:["2026-09-12"], time:"Sat 8am–12pm",
+   start:"080000", end:"120000",
+   items:"Three combined Craigslist listings, same address/date — a downsizing retirement sale (antiques, collectibles, books, cookbooks, school/church/office supplies, artwork incl. limited-edition prints, sports & exercise equipment, tools, electronics, games & toys, storage bins, clothes, Shark vacuum, free-stuff table), a Christmas-decor sale (Dept. 56 lighted Dickens Village houses & accessories, Snow Carnival Ice Palace display, Grinch House gift set, Christopher Radko & Polonaise ornaments, Hummel angels, Cherished Teddies), and a dedicated collectibles sale (David Winter & Lilliput Lane English cottages, Tom Clark/Cairn Studios, Jim Shore/Heartwood Creek, Goebel statues, AnnaLee dolls, Boyd's Bears, Precious Moments, Lizzie High dolls, Pendelfin ceramics, Steinbach nutcrackers). Cash only, no bills over $20. Take Hwy 96 (Murfreesboro Rd) to Arno Rd, follow signs to Albany Pointe subdivision; park on the street, sale is in the garage at the back of the house.",
+   cats:["garage","antique","collector","vintage","downsizing"],
+   link:"https://www.craigslist.org/view/d/franklin-retirement-yard-sale/2Aqv5Pz5wSggbCyPFDPECW"},
 
- {id:2, name:"Fun Franklin Estate Sale", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 — exact address releases Thu 9/10 at 9am",
-   q:"Franklin,+TN+37064",
-   lat:35.9251, lon:-86.8689, approx:true, affluence:82, drive:56,
-   dates:["2026-09-11","2026-09-12"], time:"Fri–Sat 8am–5pm",
-   start:"080000", end:"170000",
-   items:"Estate Sales By Sheila. Sofa, side chairs, side tables, kitchenwares, pots and pans, patio furniture and lots more — company will post more photos/detail as they go through the home. Full street address publishes Thu Sep 10 at 9am on the listing.",
-   cats:["estate","furniture"],
-   link:"https://estatesales.org/estate-sales/tn/franklin/37064/fun-franklin-estate-sale-2461358"},
-
- {id:3, name:"Westhaven Community Garage Sale — 70+ Families", type:"MULTI-FAMILY", star:false,
+ {id:2, name:"Westhaven Community Garage Sale — 70+ Families", type:"MULTI-FAMILY", star:false,
    addr:"401 Cheltenham Ave (pickup point), Franklin, TN 37064",
    q:"401+Cheltenham+Ave,+Franklin,+TN+37064",
    lat:35.924909, lon:-86.926403, approx:true, affluence:82, drive:56,
@@ -304,25 +296,75 @@ var sales = [
    cats:["garage","neighborhood","multi-family","furniture","tools"],
    link:"https://www.craigslist.org/view/d/franklin-westhaven-community-garage/czvExUYSxz25RwRbDDUpcW"},
 
- {id:4, name:"Retirement & Collectibles Yard Sale — Albany Pointe", type:"GARAGE", star:false,
-   addr:"2231 Avery Valley Dr, Franklin, TN 37064",
-   q:"2231+Avery+Valley+Dr,+Franklin,+TN+37064",
-   lat:35.895169, lon:-86.795082, approx:false, affluence:82, drive:54,
-   dates:["2026-09-12"], time:"Sat 8am–12pm",
-   start:"080000", end:"120000",
-   items:"Two combined listings, same address/date — a downsizing retirement sale (antiques, collectibles, books, cookbooks, Christmas decorations, school/church/office supplies, artwork incl. limited-edition prints, sports & exercise equipment, tools, electronics, games & toys, storage bins, clothes, Shark vacuum, free-stuff table) plus a dedicated collectibles sale: hand-crafted David Winter & Lilliput Lane English cottages, Dept. 56 lighted houses, Tom Clark/Cairn Studios, Jim Shore/Heartwood Creek, Goebel statues, Hummel angel ornaments, AnnaLee dolls, Boyd's Bears, Precious Moments, Lizzie High dolls, Pendelfin ceramics, Steinbach nutcrackers. Cash only, no bills over $20. Take Hwy 96 (Murfreesboro Rd) to Arno Rd, follow signs to Albany Pointe; park on the street, sale is in the garage at the back of the house.",
-   cats:["garage","antique","collector","vintage","downsizing"],
-   link:"https://www.craigslist.org/view/d/franklin-retirement-yard-sale/2Aqv5Pz5wSggbCyPFDPECW"},
+ {id:3, name:"Fun Franklin Estate Sale", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37064 — exact address on listing",
+   q:"Franklin,+TN+37064",
+   lat:35.9251, lon:-86.8689, approx:true, affluence:82, drive:56,
+   dates:["2026-09-12"], time:"Sat 8am–5pm",
+   start:"080000", end:"170000",
+   items:"Estate Sales By Sheila. Full item list not yet published — company typically posts sofa/furniture, kitchenware, and household goods as they work through the home. Confirm inventory and exact address on the listing before driving.",
+   cats:["estate"],
+   link:"https://www.estatesales.net/TN/Franklin/37064/5068566"},
 
- {id:5, name:"Yard Sale — Holt Corner (College Grove)", type:"GARAGE", star:false,
+ {id:4, name:"Franklin Estate Sale — New Life Estate Sales", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37067 — exact address on listing",
+   q:"Franklin,+TN+37067",
+   lat:35.9445, lon:-86.8225, approx:true, affluence:80, drive:58,
+   dates:["2026-09-11","2026-09-12","2026-09-13"], time:"Fri–Sun 10am–4pm",
+   start:"100000", end:"160000",
+   items:"New Life Estate Sales, three-day run. Full inventory posts with the listing's photo gallery — check before driving. Corridor-active, reliable company.",
+   cats:["estate"],
+   link:"https://estatesales.org/estate-sales/tn/franklin/37067/franklin-estate-sale-2461521"},
+
+ {id:5, name:"Spring Hill Estate Sale — Aenon Circle", type:"ESTATE", star:false,
+   addr:"1067 Aenon Circle, Spring Hill, TN 37174",
+   q:"1067+Aenon+Circle,+Spring+Hill,+TN+37174",
+   lat:35.7509, lon:-86.9339, approx:true, affluence:70, drive:30,
+   dates:["2026-09-10","2026-09-12"], time:"Thu & Sat 2pm–6pm",
+   start:"140000", end:"180000",
+   items:"\"Spring Hill Surprises\" — listed by Another's Treasure Estate Sales LLC. General household estate inventory; check the listing gallery for this run's specific pieces.",
+   cats:["estate"],
+   link:"https://www.estatesales.net/TN/Spring-Hill/37174/5061369"},
+
+ {id:6, name:"Carolyn Cromer Estate Sale", type:"ESTATE", star:false,
+   addr:"Columbia, TN 38401 — exact address on listing",
+   q:"Columbia,+TN+38401",
+   lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:16,
+   dates:["2026-09-11","2026-09-12"], time:"Fri–Sat 9am–3:30pm",
+   start:"090000", end:"153000",
+   items:"Privately listed sale. Fenton emerald green Snow Crest squat rose bowl among the highlighted pieces — vintage glassware focus. Closest sale to home this run.",
+   cats:["estate","vintage"],
+   link:"https://www.estatesales.net/TN/Columbia/38401/5055246"},
+
+ {id:7, name:"Chapel Hill Yard Sale — Broadview", type:"GARAGE", star:false,
+   addr:"215 Broadview, Chapel Hill, TN 37034",
+   q:"215+Broadview,+Chapel+Hill,+TN+37034",
+   lat:35.634293, lon:-86.697063, approx:false, affluence:50, drive:24,
+   dates:["2026-09-11","2026-09-12"], time:"Fri–Sat, starts 7am",
+   start:"070000", end:"130000",
+   items:"Puzzles, clothes, lots of fall and Christmas decorations. Priced to sell.",
+   cats:["garage"],
+   link:"https://www.craigslist.org/view/d/chapel-hill-yard-sale-215-broadview/3xUw1kytGNHNzfQBC3Sxx1"},
+
+ {id:8, name:"Yard Sale — Holt Corner (College Grove)", type:"GARAGE", star:false,
    addr:"5811 Section House Rd, Holt Corner, TN 37046",
    q:"5811+Section+House+Rd,+College+Grove,+TN+37046",
-   lat:35.790600, lon:-86.680500, approx:false, affluence:65, drive:46,
+   lat:35.790600, lon:-86.680500, approx:false, affluence:55, drive:35,
    dates:["2026-09-12"], time:"Sat 8am–4pm",
    start:"080000", end:"160000",
-   items:"Dolls, furniture and much more — cash only. Small, single-address yard sale, but sits on the drive home from the Franklin cluster.",
-   cats:["garage"],
+   items:"Dolls, furniture and much more — cash only.",
+   cats:["garage","furniture"],
    link:"https://www.craigslist.org/view/d/college-grove-yard-sale-sept-12-to/7sEDiBogoU8nBKCZHUSJVe"},
+
+ {id:9, name:"Spring Hill Moving Sale", type:"MOVING", star:false,
+   addr:"Spring Hill, TN 37174 — exact address on listing",
+   q:"Spring+Hill,+TN+37174",
+   lat:35.7509, lon:-86.9339, approx:true, affluence:70, drive:30,
+   dates:["2026-09-17","2026-09-18","2026-09-19"], time:"Thu–Sat 8am–3pm",
+   start:"080000", end:"150000",
+   items:"Busy Bee Moving Sales. General household moving inventory — check the listing gallery closer to the date. Falls at the edge of this run's 7-day window (opens Thu 9/17).",
+   cats:["moving","furniture"],
+   link:"https://www.estatesales.net/TN/Spring-Hill/37174/5025654"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -615,11 +657,11 @@ function renderCard(s,isoStr,n,showDates){
 function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
-    if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week — Saturday 9/12 is the volume day, with 5 sales open at once.';
-    return '<b>'+t.length+' open today'+(t.length===1?'':'s')+' — the star pick Franklin Estate Sale on N Chapel Rd (10am–4pm).</b> Tap the card for details, then Navigate.';
+    if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week — Saturday 9/12 is the volume day, with 8 sales open at once.';
+    return '<b>'+t.length+' open today'+(t.length===1?'':'s')+' — the Spring Hill Aenon Circle estate sale (2pm–6pm), its first of two open days this run.</b> Tap the card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>The weekend view covers Fri–Sun (9/11–9/13) — all 5 of this run\'s finds fall inside it.</b> Friday has 2 open: the star pick Franklin Estate Sale (N Chapel Rd) and Fun Franklin Estate Sale. Saturday is the volume day — all 5 open at once, adding the Westhaven 70+-family community garage sale, the Retirement & Collectibles Yard Sale at Albany Pointe (both close by noon–12:30, hit these first), and the Holt Corner yard sale on the way home. Sunday thins back down to just the Franklin Estate Sale on N Chapel Rd, its final day.';
-  return '<b>Plan the week.</b> <b>Wed–Thu 9/9–9/10</b> — nothing posted yet for this window; the corridor typically posts Wed–Sat for the coming weekend. <b>Fri 9/11</b> — 2 sales open: the star pick Franklin Estate Sale (N Chapel Rd) and Fun Franklin Estate Sale. <b>Sat 9/12</b> — the volume day: all 5 sales open at once, adding Westhaven Community Garage Sale (70+ families, ends 12:30pm), the Retirement & Collectibles Yard Sale at Albany Pointe (ends noon), and the Holt Corner yard sale (College Grove, furthest south, good last stop on the drive home). <b>Sun 9/13</b> — only the Franklin Estate Sale on N Chapel Rd remains, its final day. <b>Mon–Wed 9/14–9/16</b> — nothing posted yet; re-check as the week goes on.';
+  if(view==='weekend')return '<b>The weekend view covers Fri–Sun (9/11–9/13) — 8 of this run\'s 9 finds fall inside it.</b> Friday has 4 open: Fun Franklin, the Franklin Estate Sale (New Life, 37067), the Carolyn Cromer estate sale in Columbia, and the Chapel Hill Broadview yard sale. Saturday is the volume day — 8 sales open at once, led by the star pick Retirement & Collectibles Sale at Albany Pointe and the Westhaven 70+-family community garage sale (both close by noon–12:30, hit these first), plus the Spring Hill Aenon Circle estate sale and the Holt Corner yard sale on the way home. Sunday thins back down to just the Franklin Estate Sale (New Life), its final day.';
+  return '<b>Plan the week.</b> <b>Thu 9/10</b> — 1 sale open: the Spring Hill Aenon Circle estate sale (2pm–6pm). <b>Fri 9/11</b> — 3 sales open: Franklin Estate Sale (New Life), the Carolyn Cromer estate sale in Columbia, and the Chapel Hill Broadview yard sale. <b>Sat 9/12</b> — the volume day: 8 sales open at once, led by the star pick Retirement & Collectibles Sale at Albany Pointe and the Westhaven Community Garage Sale (70+ families, both end by noon–12:30), plus Fun Franklin Estate Sale, the Franklin Estate Sale (New Life), the Spring Hill Aenon Circle estate sale, the Carolyn Cromer estate sale, the Chapel Hill Broadview yard sale, and the Holt Corner yard sale (College Grove, furthest south — good last stop on the drive home). <b>Sun 9/13</b> — only the Franklin Estate Sale (New Life) remains, its final day. <b>Mon–Wed 9/14–9/16</b> — nothing posted yet; re-check as the week goes on. <b>Thu 9/17</b> — the Spring Hill moving sale (Busy Bee) opens, right at the edge of this window.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -679,10 +721,10 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: EstateSales.org (Columbia, 50mi radius, PRIMARY this run — 35 results scanned across 2 pages; surfaced both Franklin estate sales). Craigslist (nashville.craigslist.org/search/gms + individual detail-page permalinks, exact GPS read from each post\'s meta-ICBM tag) surfaced the Westhaven 70+-family community garage sale, the combined Retirement/Collectibles yard sale at Albany Pointe, and the Holt Corner (College Grove) yard sale. EstateSales.NET was fetched (84 Columbia-radius results) but every specific listing fell outside this run\'s 7-day window or the Franklin cap — none used. gsalr.com returned a blank JS-rendered shell on both the Columbia and Franklin city pages, consistent with its known outage — not used. Facebook Marketplace was not reached this run (no live Chrome session at this early hour); the cached fallback is dated 2026-07-03 — over two months stale, too old to reuse, so this run proceeds without Facebook (expect the Columbia→Pulaski south corridor to look thin as a result — that\'s the known FB gap, not a bug). No dedicated estate-company registry exists in the vault yet; Estate Sales By Sheila and New Life Estate Sales were captured directly via their EstateSales.org listings. '
-  +'<b>5 sales this run</b> — 7-day window Sep 9–Sep 16. Saturday 9/12 is the volume day with all 5 open at once; only 2 sales are open Friday and 1 lingers into Sunday. '
-  +'<b>3 addresses are approximate</b> (Fun Franklin Estate Sale — address not yet published; Franklin Estate Sale on N Chapel Rd — real street address known but no Census geocoder reachable from this sandbox; Westhaven — the pin is the clubhouse pickup point, not the individual selling addresses, which release day-of). '
-  +'The other 2 (Retirement/Collectibles at Albany Pointe, Holt Corner) carry exact GPS read directly from Craigslist post metadata. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
+  'Sources reached: Craigslist (nashville.craigslist.org/search/gms + individual detail-page permalinks, exact GPS read from each post\'s meta-ICBM tag) surfaced the Westhaven 70+-family community garage sale, the combined Retirement/Christmas/Collectibles sale at Albany Pointe (3 posts, same address/date, merged into one card), the Chapel Hill Broadview yard sale, and the Holt Corner (College Grove) yard sale. EstateSales.NET (Columbia + Spring Hill radius pages, cross-confirmed on EstateSales.org) surfaced the Spring Hill estate sale on Aenon Circle, the Spring Hill moving sale, the Carolyn Cromer estate sale in Columbia, the Franklin estate sale (New Life Estate Sales), and Fun Franklin Estate Sale (Estate Sales By Sheila). gsalr.com returned only web-search index snippets, no live this-week listing page reachable this run — not used as a direct source. Facebook Marketplace: a live Chrome session is connected, but the browser-action request wasn\'t approved for this unattended pre-dawn run; the cached fallback is dated 2026-07-03 — over two months stale, too old to reuse, so this run proceeds without Facebook (expect the Columbia→Pulaski south corridor to look thin as a result — that\'s the known FB gap, not a bug). No dedicated estate-company registry exists in the vault yet; Estate Sales By Sheila and New Life Estate Sales were captured directly via their EstateSales.net/.org listings. '
+  +'<b>9 sales this run</b> — 7-day window Sep 10–Sep 17. Saturday 9/12 is the volume day with 8 open at once; 1 sale is open today (Thu), 3 open Friday, 1 lingers into Sunday, and 1 opens right at the window\'s edge next Thursday. '
+  +'<b>6 addresses are approximate</b> (Fun Franklin Estate Sale, Franklin Estate Sale/New Life, both Spring Hill sales, and the Carolyn Cromer Columbia sale — real street addresses aren\'t published or no Census geocoder is reachable from this sandbox, so these carry city/zip-centroid coordinates; Westhaven — the pin is the clubhouse pickup point, not the individual selling addresses, which release day-of). '
+  +'The other 3 (Albany Pointe, Chapel Hill Broadview, Holt Corner) carry exact GPS read directly from Craigslist post metadata. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
