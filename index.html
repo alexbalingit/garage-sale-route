@@ -230,71 +230,60 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-09-13 (Sunday pull — 7-day window Sep 13-20).
-   5 sales — a thin window: only 2 carry-over sales close out today, then
-   nothing new posts Mon-Wed, matching the corridor's known pattern (the
-   south end posts Wed-Sat for the coming weekend). Sources reached:
-   EstateSales.NET (Columbia 38401, Spring Hill 37174, and the Nashville
-   30-mile radius page, cross-confirmed on EstateSales.org's Columbia feed)
-   surfaced the PACKED Columbia Estate Sale (Bleu Estates), the Spring Hill
-   Moving Sale (Busy Bee), the Cool College Grove Estate Sale (Estate Sales
-   By Sheila), and confirmed the Fun Vintage Estate Sale (New Life Estate
-   Sales, 4422 Chapel Rd, Franklin 37067) is on its final day today.
-   Craigslist (nashville.craigslist.org/search/gms + individual detail-page
-   permalinks, exact GPS read from each post's meta-ICBM tag) re-confirmed
-   the Forest Hills Dr garage sale in Spring Hill on its final day, and
-   surfaced three other posts — Community Yard Sale (Bellevue/Avondale,
-   ~43mi), Multi-Family Yard Sale (Green Hills, ~45mi), Yard Sale & Sample
-   Sale (Franklin/Grassland, ~39mi) — all dropped as over the Franklin-cap
-   ~30-mile radius from Culleoka (haversine-checked). A handful of
-   Nashville-proper/Hendersonville/Murfreesboro estate sales surfaced on
-   the same EstateSales.NET pulls but were likewise dropped as out-of-radius
-   (30-40+ miles). gsalr.com's city pages (Columbia, Spring Hill, Franklin)
-   returned no static content this run even with the days=this_week&list=1
-   params (JS-rendered) — not used as a direct source. Facebook Marketplace:
-   no connected/logged-in Chrome session was available this unattended run
-   (tabs_context returned no active MCP tab group), and the cached fallback
-   at Garage Sale Finder/_cache/fb-latest.md is dated 2026-07-03 — over two
-   months stale — so it was skipped rather than reused; expect the
-   Columbia-Pulaski south corridor to under-represent as a result.
-   No Census geocoder access this run (geocoding.geo.census.gov not
-   reachable from this sandbox) — all 3 EstateSales.NET-sourced sales this
-   week carry city/zip-centroid coordinates (approx:true) since none of
-   the three have released a street address yet (standard practice — estate
-   companies post exact addresses 1-2 days before the sale). The 2
-   Craigslist-sourced carry-over sales (Fun Vintage Estate/Chapel Rd,
-   Forest Hills Dr) carry exact GPS read directly from source metadata
+/* Daily auto-refresh, 2026-09-14 (Monday pull — 7-day window Sep 14-21).
+   5 sales, all carrying forward or opening later this week — nothing posts
+   Mon-Wed 9/14-9/16, matching the corridor's known pattern (the south end
+   posts Wed-Sat for the coming weekend), then Thu-Sun 9/17-9/20 carries
+   the whole window, Sat 9/19 the volume day at 5 sales open at once.
+   Sources reached: gsalr.com (Columbia, Spring Hill city pages — rendered
+   via a live logged-in Chrome session this run, since the pages are
+   JS-rendered and the static days=this_week&list=1 params don't return
+   content over a plain fetch) surfaced the Garage Sale in Highgate
+   (Franklin 37069) and cross-confirmed the Cool College Grove Estate
+   Sale, Spring Hill Moving Sale, and PACKED Columbia Estate Sale.
+   EstateSales.NET (direct listing verification on all three carry-over
+   sales — Spring Hill Moving Sale/Busy Bee, PACKED Columbia Estate
+   Sale/Bleu Estates, Cool College Grove Estate Sale/Estate Sales By
+   Sheila — all confirmed still live and unchanged) — the Columbia 38401,
+   Spring Hill 37174, and College Grove 37046 zip-radius search pages
+   themselves returned 0 results this run (search-index lag), so listing
+   URLs were checked directly instead. Craigslist (nashville.craigslist.
+   org/search/gms?postal=38451&search_distance=30, which redirects to a
+   Culleoka-centered 30mi search) surfaced exactly one in-radius post — a
+   Chapel Hill garage sale (2158 Crutcher Rd) — with exact GPS read from
+   the listing's embedded map link. The gsalr Columbia/Spring Hill pulls
+   also surfaced a wide ring of Nashville/Brentwood/Murfreesboro/Antioch/
+   Nolensville estate and neighborhood sales, all dropped as 35-50+ miles
+   from Culleoka, over the Franklin-cap ~30-mile radius. EstateSales.org's
+   Columbia feed was not separately queried this run since EstateSales.NET
+   direct-listing checks already confirmed the same three sales live.
+   Facebook Marketplace: a live logged-in Chrome session WAS available
+   this run (unusual for the 6am window) — searched Columbia, TN
+   Marketplace directly, but the results were undated/stale (several
+   listings referenced 8/28-8/29, a prior month) with no reliable
+   address or date metadata extractable from the listing cards, so
+   nothing from FB was added rather than ship an unverifiable stop;
+   expect the Columbia-Pulaski south corridor to still under-represent
+   as a result, per the standing corridor caveat.
+   Census geocoder (geocoding.geo.census.gov) was reachable this run but
+   returned no match for 109 Century Oak Dr, Franklin — that sale carries
+   a Highgate-subdivision estimate (approx:true) rather than a TIGER-
+   verified point. The three EstateSales.NET-sourced sales carry
+   city/zip-centroid coordinates (approx:true) since none have released
+   a street address yet (standard practice — estate companies post exact
+   addresses 1-2 days before the sale). The Chapel Hill Craigslist sale
+   carries exact GPS read directly from the listing's Google Maps link
    (approx:false).
-   0 star sales this run — no standout signal-heavy listing surfaced; a
-   thin week by volume, not by miss.
+   1 star sale this run — the Highgate/Franklin 37069 garage sale, the
+   week's highest-affluence-zip pick (an otherwise thin week by volume).
    Smoke test (script run against the extracted sales array): 5 sales /
    0 dup ids / all schema fields present / 0 missing verify links / 0 bad
-   coordinates / 3 approx sales / 0 star sales / day counts Sun(9/13) 2,
-   Mon-Wed(9/14-9/16) 0, Thu(9/17) 1, Fri(9/18) 2, Sat(9/19) 3, Sun(9/20) 2
-   — PASSED. */
+   coordinates / 4 approx sales / 1 star sale / day counts Mon-Wed
+   (9/14-9/16) 0, Thu(9/17) 1, Fri(9/18) 3, Sat(9/19) 5, Sun(9/20) 2,
+   Mon(9/21) 0 — PASSED. */
 var sales = [
 
- {id:1, name:"Fun Vintage Estate Sale — New Life Estate Sales", type:"ESTATE", star:false,
-   addr:"4422 Chapel Rd, Franklin, TN 37067",
-   q:"4422+Chapel+Rd,+Franklin,+TN+37067",
-   lat:35.9028, lon:-86.8636, approx:false, affluence:80, drive:42,
-   dates:["2026-09-13"], time:"Sun, final day 10am–4pm",
-   start:"100000", end:"160000",
-   items:"New Life Estate Sales — vintage games and collectibles headline this three-day run, wrapping up today. Full inventory posted with the listing's photo gallery (339 photos) — check before driving. Corridor-active, reliable company.",
-   cats:["estate","vintage"],
-   link:"https://www.estatesales.net/TN/Franklin/37067/5069892"},
-
- {id:2, name:"Huge Garage Sale — Forest Hills Dr", type:"GARAGE", star:false,
-   addr:"8028 Forest Hills Dr, Spring Hill, TN 37174",
-   q:"8028+Forest+Hills+Dr,+Spring+Hill,+TN+37174",
-   lat:35.684452, lon:-86.993008, approx:false, affluence:70, drive:22,
-   dates:["2026-09-13"], time:"Sun, final day 7:30am–2:30pm",
-   start:"073000", end:"143000",
-   items:"End-of-summer garage sale, wrapping up today — seasonal & women's fashion and accessories, dog gear (cage, playpen), beach cruiser bike, fitness gear, fall/Halloween decor, home decor, crafting supplies, physical-therapy and wellness gear.",
-   cats:["garage","furniture"],
-   link:"https://www.craigslist.org/view/d/columbia-huge-garage-sale/8Mvt8jUUfhBRXjvqvtHEDU"},
-
- {id:3, name:"Spring Hill Moving Sale", type:"MOVING", star:false,
+ {id:1, name:"Spring Hill Moving Sale", type:"MOVING", star:false,
    addr:"Spring Hill, TN 37174 — exact address on listing after 9am Wed 9/16",
    q:"Spring+Hill,+TN+37174",
    lat:35.7480, lon:-86.9280, approx:true, affluence:70, drive:27,
@@ -304,7 +293,7 @@ var sales = [
    cats:["moving","furniture","antique"],
    link:"https://www.estatesales.net/TN/Spring-Hill/37174/5025654"},
 
- {id:4, name:"PACKED Columbia Estate Sale — Bleu Estates", type:"ESTATE", star:false,
+ {id:2, name:"PACKED Columbia Estate Sale — Bleu Estates", type:"ESTATE", star:false,
    addr:"Columbia, TN 38401 — exact address on listing after 9am Thu 9/17",
    q:"Columbia,+TN+38401",
    lat:35.6180, lon:-87.0300, approx:true, affluence:58, drive:20,
@@ -314,15 +303,35 @@ var sales = [
    cats:["estate","antique","collector"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5074665"},
 
- {id:5, name:"Cool College Grove Estate Sale", type:"ESTATE", star:false,
+ {id:3, name:"Cool College Grove Estate Sale", type:"ESTATE", star:false,
    addr:"College Grove, TN 37046 — exact address on listing after 9am Fri 9/18",
    q:"College+Grove,+TN+37046",
    lat:35.7987, lon:-86.8000, approx:true, affluence:62, drive:31,
    dates:["2026-09-19","2026-09-20"], time:"Sat–Sun 8am–5pm",
    start:"080000", end:"170000",
-   items:"Estate Sales By Sheila — a home packed with a sofa, recliner, coffee table, dining room table and chairs, china hutch, tools, power tools, riding lawnmower, blowmolds, vintage Christmas, vintage dishes, vintage toys, and garden treasures. Cash, credit cards, and Apple Pay accepted.",
+   items:"Estate Sales By Sheila — a home packed with a sofa, recliner, coffee table, dining room table and chairs, china hutch, tools, power tools, riding lawnmower, blowmolds, vintage Christmas, vintage dishes, whatnots, garden treasures, and vintage toys. Cash, credit cards, and Apple Pay accepted.",
    cats:["estate","vintage","tools"],
    link:"https://www.estatesales.net/TN/College-Grove/37046/5042412"},
+
+ {id:4, name:"Garage Sale in Highgate — Franklin", type:"GARAGE", star:true,
+   addr:"109 Century Oak Dr, Franklin, TN 37069",
+   q:"109+Century+Oak+Dr,+Franklin,+TN+37069",
+   lat:35.9515, lon:-86.8720, approx:true, affluence:85, drive:42,
+   dates:["2026-09-19"], time:"Sat 7am–2pm",
+   start:"070000", end:"140000",
+   items:"Household items, clothing, books (all ages), games and puzzles, toys, small furniture items, office supplies and electronics, garage supplies and tools, sporting goods, kitchen items including silverware, plus vintage/collector pieces — Lane Collectible mini-chests and vintage dolls.",
+   cats:["garage","vintage","tools"],
+   link:"https://gsalr.com/garage-sale-in-highgate-franklin-tn-38910341.html"},
+
+ {id:5, name:"Garage Sale — Chapel Hill", type:"GARAGE", star:false,
+   addr:"2158 Crutcher Rd, Chapel Hill, TN 37034",
+   q:"2158+Crutcher+Rd,+Chapel+Hill,+TN+37034",
+   lat:35.655565, lon:-86.708112, approx:false, affluence:45, drive:18,
+   dates:["2026-09-18","2026-09-19"], time:"Fri–Sat 8am–4pm",
+   start:"080000", end:"160000",
+   items:"Quilts, tablecloths, vintage clocks, and collectibles — a small corridor-local sale; full inventory on the listing.",
+   cats:["garage","vintage"],
+   link:"https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -615,11 +624,11 @@ function renderCard(s,isoStr,n,showDates){
 function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
-    if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week — Thursday 9/17 is when the next wave opens.';
-    return '<b>'+t.length+' open today, both on their final day.</b> Fun Vintage Estate Sale (New Life, Franklin 37067) and the Forest Hills Dr garage sale in Spring Hill both close this afternoon — this is a thin Sunday with nothing new starting until Thursday. Tap the card for details, then Navigate.';
+    if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week — Thursday 9/17 is when the Spring Hill Moving Sale opens, matching the corridor\'s known pattern of posting Wed–Sat for the coming weekend.';
+    return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>The weekend view covers Fri–Sun (9/18–9/20) — the window\'s second wave.</b> Today, Sun 9/13, closes out two carry-over sales (Fun Vintage Estate Sale and the Forest Hills Dr garage sale, both final day). Nothing new posts Mon–Wed. Fri 9/18 opens the PACKED Columbia Estate Sale (Bleu Estates) alongside the ongoing Spring Hill Moving Sale (Busy Bee, opened Thu). Sat 9/19 is the volume day — 3 sales open at once, adding the Cool College Grove Estate Sale (Estate Sales By Sheila). Sun 9/20 thins to 2 as the Columbia and College Grove estate sales run their final day.';
-  return '<b>Plan the week — a thin one.</b> <b>Sun 9/13 (today)</b> — 2 sales close out: Fun Vintage Estate Sale (New Life, Franklin 37067) and the Forest Hills Dr garage sale in Spring Hill, both on their final day. <b>Mon–Wed 9/14–9/16</b> — nothing posted yet, matching the corridor\'s known pattern (the south end typically posts Wed–Sat for the coming weekend); re-check as the week goes on. <b>Thu 9/17</b> — the Spring Hill Moving Sale (Busy Bee) opens. <b>Fri 9/18</b> — 2 sales open: the Spring Hill Moving Sale (day 2) and the PACKED Columbia Estate Sale (Bleu Estates, day 1). <b>Sat 9/19</b> — the window\'s volume day: 3 sales open at once — the Spring Hill Moving Sale (final day), the PACKED Columbia Estate Sale, and the Cool College Grove Estate Sale (Estate Sales By Sheila) opening. <b>Sun 9/20</b> — 2 sales run their final day: the PACKED Columbia Estate Sale and the Cool College Grove Estate Sale.';
+  if(view==='weekend')return '<b>The weekend view covers Fri–Sun (9/18–9/20) — where this whole window lives.</b> Fri 9/18 opens the PACKED Columbia Estate Sale (Bleu Estates) and the Chapel Hill garage sale, alongside the ongoing Spring Hill Moving Sale (Busy Bee, opened Thu). Sat 9/19 is the volume day — 5 sales open at once, adding the Cool College Grove Estate Sale (Estate Sales By Sheila) and the star pick, the Garage Sale in Highgate (Franklin 37069). Sun 9/20 thins to 2 as the Columbia and College Grove estate sales run their final day.';
+  return '<b>Plan the week.</b> <b>Mon–Wed 9/14–9/16</b> — nothing posted yet, matching the corridor\'s known pattern (the south end typically posts Wed–Sat for the coming weekend); re-check as the week goes on. <b>Thu 9/17</b> — the Spring Hill Moving Sale (Busy Bee) opens. <b>Fri 9/18</b> — 3 sales open: the Spring Hill Moving Sale (day 2), the PACKED Columbia Estate Sale (Bleu Estates, day 1), and the Chapel Hill garage sale (day 1). <b>Sat 9/19</b> — the window\'s volume day: 5 sales open at once — the Spring Hill Moving Sale (final day), the PACKED Columbia Estate Sale, the Cool College Grove Estate Sale (Estate Sales By Sheila) opening, the ★ Garage Sale in Highgate (Franklin 37069, the week\'s top affluence pick), and the Chapel Hill garage sale (final day). <b>Sun 9/20</b> — 2 sales run their final day: the PACKED Columbia Estate Sale and the Cool College Grove Estate Sale.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -679,10 +688,10 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: EstateSales.NET (Columbia 38401, Spring Hill 37174, and the Nashville 30-mile radius page, cross-confirmed on EstateSales.org\'s Columbia feed) surfaced the PACKED Columbia Estate Sale (Bleu Estates), the Spring Hill Moving Sale (Busy Bee), the Cool College Grove Estate Sale (Estate Sales By Sheila), and re-confirmed the Fun Vintage Estate Sale (New Life Estate Sales, 4422 Chapel Rd, Franklin 37067) is on its final day today. Craigslist (nashville.craigslist.org/search/gms + individual detail-page permalinks, exact GPS read from each post\'s meta-ICBM tag) re-confirmed the Forest Hills Dr garage sale in Spring Hill on its final day, and surfaced three other posts — a Bellevue/Avondale community yard sale, a Green Hills multi-family yard sale, and a Franklin/Grassland yard-and-sample sale — all dropped as 39–45 miles from Culleoka, over the Franklin-cap ~30-mile radius (haversine-checked). A handful of Nashville-proper, Hendersonville, and Murfreesboro estate sales surfaced on the same EstateSales.NET pulls but were likewise dropped as out-of-radius. gsalr.com\'s city pages (Columbia, Spring Hill, Franklin) returned no static content this run even with the days=this_week&list=1 params — JS-rendered, not used as a direct source. Facebook Marketplace: no connected/logged-in Chrome session was available this unattended run, and the cached fallback at Garage Sale Finder/_cache/fb-latest.md is dated 2026-07-03 — over two months stale — so it was skipped rather than reused (expect the Columbia→Pulaski south corridor to under-represent as a result). '
-  +'<b>5 sales this run</b> — a thin 7-day window Sep 13–Sep 20. Today closes out 2 carry-over sales; nothing new posts Mon–Wed (typical for this corridor); the Spring Hill Moving Sale opens Thursday 9/17; Friday–Sunday 9/18–9/20 carry the PACKED Columbia Estate Sale and the Cool College Grove Estate Sale, with Saturday 9/19 the window\'s volume day at 3 open at once. '
-  +'<b>3 addresses are approximate</b> (Spring Hill Moving Sale, PACKED Columbia Estate Sale, Cool College Grove Estate Sale — none of the three estate/moving companies have released a street address yet; standard practice is 1–2 days before the sale, so re-check the listing closer to the date). '
-  +'The other 2 (Fun Vintage Estate Sale, Forest Hills Dr garage sale) carry exact GPS read directly from source metadata. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
+  'Sources reached: gsalr.com (Columbia and Spring Hill city pages, rendered via a live logged-in Chrome session — the pages are JS-rendered so a plain fetch returns no content) surfaced the Garage Sale in Highgate (Franklin 37069) and cross-confirmed the corridor estate sales. EstateSales.NET — the Columbia 38401 / Spring Hill 37174 / College Grove 37046 zip-radius search pages returned 0 results this run (search-index lag), so all three known listings (Spring Hill Moving Sale/Busy Bee, PACKED Columbia Estate Sale/Bleu Estates, Cool College Grove Estate Sale/Estate Sales By Sheila) were verified live by checking each listing URL directly. Craigslist (nashville.craigslist.org/search/gms?postal=38451&search_distance=30, a Culleoka-centered 30-mile search) surfaced exactly one in-radius post — the Chapel Hill garage sale (2158 Crutcher Rd) — with exact GPS read from the listing\'s map link. The same gsalr pulls surfaced a wide ring of Nashville/Brentwood/Murfreesboro/Antioch/Nolensville sales, all dropped as 35+ miles from Culleoka, over the Franklin-cap ~30-mile radius. Facebook Marketplace: a logged-in Chrome session was available this run and Columbia, TN Marketplace was searched directly, but results were undated/stale with no reliable address or date on the listing cards — nothing from FB was added rather than ship an unverifiable stop (expect the Columbia→Pulaski south corridor to still under-represent as a result). '
+  +'<b>5 sales this run</b> — a 7-day window Sep 14–Sep 21. Nothing posts Mon–Wed (typical for this corridor); the Spring Hill Moving Sale opens Thursday 9/17; Friday–Sunday 9/18–9/20 carry the rest of the window, with Saturday 9/19 the volume day at 5 open at once, including the ★ star pick — the Garage Sale in Highgate (Franklin 37069, the week\'s highest-affluence zip). '
+  +'<b>4 addresses are approximate</b> (Spring Hill Moving Sale and PACKED Columbia Estate Sale and Cool College Grove Estate Sale — none of the three estate/moving companies have released a street address yet, standard practice is 1–2 days before the sale; and the Garage Sale in Highgate, whose full street address is known but which the Census geocoder could not match, so it carries a neighborhood-level estimate). '
+  +'The Chapel Hill garage sale carries exact GPS read directly from source metadata. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
