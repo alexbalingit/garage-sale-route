@@ -230,80 +230,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-09-20 (Sunday pull, unattended 6am run) — 7-day window Sep 20-26.
-   Sources reached: EstateSales.NET (Spring Hill 37174 + Franklin 37064 radius pages, PRIMARY —
-   surfaced the Upscale Franklin Estate Sale/New Life on its final day, the MEGA COOL College Grove
-   Estate Sale/Estate Sales By Sheila on its final day, the PACKED Columbia Estate Sale/Bleu Estates
-   on its final day, and a new upcoming multi-day Historic Harlin Farm Sale/David McGee starting
-   Thu 9/24). EstateSales.org (Franklin, 50-mile radius cross-check) independently confirmed the
-   same in-window set plus surfaced a new upcoming Fun Franklin Estate Sale/Estate Sales By Sheila
-   (Sat-Sun 9/26-27); its Spring Hill/37174 page returned stale cached July-dated results this run
-   (a known caching gap on that endpoint, not used). Craigslist (nashville.craigslist.org/search/gms
-   + individual detail permalink, exact GPS from the post's meta-ICBM) surfaced a new find, a Franklin
-   moving sale on Iron Horse Lane posted the morning of. gsalr.com (Columbia + Spring Hill city pages)
-   returned empty/JS-only responses this run, consistent with its long recurring outage — not used,
-   a known gap. Facebook Marketplace skipped — unattended run, no browser session available. The
-   Estate Company Registry's tier-1 corridor companies (New Life Estate Sales, Bleu Estates,
-   Estate Sales By Sheila, David McGee Estate Sales) were cross-checked against the listings above —
-   all four are already represented among today's sales.
-   6 sales this run — thin because it's Sunday: nearly everything still open is on its final day
-   (Upscale Franklin, MEGA COOL College Grove, PACKED Columbia, and the new Iron Horse Lane moving
-   sale all close today), and the corridor's known Mon-Wed posting gap means nothing new shows until
-   the Historic Harlin Farm Sale opens Thu 9/24 and the Fun Franklin Estate Sale opens Sat 9/26.
-   4 addresses are approximate (MEGA COOL College Grove, PACKED Columbia, Historic Harlin Farm Sale,
-   and Fun Franklin Estate Sale — all four release their exact street address day-of or day-before
-   per their own listings; city/zip-centroid coordinates used per never-fabricate). The Upscale
-   Franklin Estate Sale (128 Boxwood Dr) and the Iron Horse Lane moving sale carry exact GPS —
-   the latter read directly from the Craigslist post's meta-ICBM metadata.
-   1 star sale this run — the Upscale Franklin Estate Sale (37069, affluence 88) — the week's
-   highest-affluence pick, a real street address, and its final day today.
-   Smoke test (script run against the extracted sales array): 6 sales / 0 dup ids / all schema
-   fields present / 0 missing verify links / 0 bad coordinates / 4 approx sales / 1 star sale /
-   day counts Sun(9/20) 4, Mon-Wed(9/21-9/23) 0, Thu(9/24) 1, Fri(9/25) 1, Sat(9/26) 2, Sun(9/27) 1
+/* Daily auto-refresh, 2026-09-21 (Monday pull, unattended 6am run) — 7-day window Sep 21-28.
+   Sources reached: EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville, Franklin/37064,
+   Franklin/37069, Rockvale/37153, Lewisburg/37091, Pulaski/38478 detail pages, PRIMARY) and
+   EstateSales.org (Columbia, 50-mile radius, 2 pages) both reached cleanly and cross-checked.
+   gsalr.com (Columbia + Franklin city pages) returned empty/JS-only responses this run, consistent
+   with its long recurring outage — not used, a known gap. Craigslist (nashville.craigslist.org
+   search) returned a JS shell with no listing data this run — not used. Facebook Marketplace
+   (Columbia category + "garage sale" search, via Alex's logged-in Chrome) was reached but every
+   result was either past-dated (8/28, 9/19-20) or date-less/DM-style — nothing new in-window to
+   place. The Estate Company Registry's Bleu Estates own site (bleu32.com) was checked directly —
+   its "next sale" listing is still the Sep 18-20 PACKED Columbia sale, now past; nothing new posted.
+   3 sales this run — very thin, textbook Monday pull: this is the classic corridor Mon-Wed posting
+   gap (per standing doctrine, nothing new typically shows until Thu). Three real estate sales
+   land in-window and in-radius — the Historic Harlin Farm Sale (Franklin 37064, opens Thu 9/24),
+   the Fun Franklin Estate Sale (Franklin 37069, opens Sat 9/26), and a new find, the Eclectic
+   Eagleville Estate Sale (Rockvale 37153, opens Sat 9/26). Three more listings were found and
+   excluded from the routable set: an online-only antique-prints auction (Franklin 37069, Trillium),
+   an online-only vehicles/equipment auction (Lewisburg 37091, Van Massey), and an online-only
+   collectibles auction (Pulaski 38478, Through The Vine) — none has a physical walk-in sale to
+   route to, so none was placed.
+   All 3 addresses are approximate — every one of them explicitly releases its exact street address
+   day-before or day-of per the listing itself (standard practice for this corridor's estate
+   companies); city/zip-centroid coordinates used per never-fabricate until the addresses post.
+   0 star sales this run — no sale has a confirmed street address yet to justify a star pick;
+   re-check Wed evening (Harlin Farm) and Fri evening (Fun Franklin, Eclectic Eagleville) once
+   addresses release.
+   Smoke test (script run against the extracted sales array): 3 sales / 0 dup ids / all schema
+   fields present / 0 missing verify links / 0 bad coordinates / 3 approx sales / 0 star sales /
+   day counts Mon-Wed(9/21-9/23) 0, Thu(9/24) 1, Fri(9/25) 0, Sat(9/26) 3, Sun(9/27) 2, Mon(9/28) 0
    — PASSED. */
 var sales = [
 
- {id:1, name:"Upscale Franklin Estate Sale — New Life Estate Sales", type:"ESTATE", star:true,
-   addr:"128 Boxwood Dr, Franklin, TN 37069",
-   q:"128+Boxwood+Dr,+Franklin,+TN+37069",
-   lat:35.9500, lon:-86.9000, approx:false, affluence:88, drive:57,
-   dates:["2026-09-20"], time:"Sun 10am–4pm (final day)",
-   start:"100000", end:"160000",
-   items:"New Life Estate Sales — designer clothing and shoes (Gucci, Prada, Christian Louboutin, Michael Kors, Versace, Yves Saint Laurent, Y2K Juicy Couture velour sets), designer bags and purses (Coach, Michael Kors, Armani), luxury beauty and fragrance, and modern chic furniture — bedroom sets, accent mirrors, fine wall art, KitchenAid products. Carried forward from Friday/Saturday, today is the final day.",
-   cats:["estate","designer","upscale"],
-   link:"https://www.estatesales.net/TN/Franklin/37069/5079714"},
-
- {id:2, name:"MEGA COOL College Grove Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
-   addr:"College Grove, TN 37046 (exact address was released day-of via the listing)",
-   q:"College+Grove,+TN+37046",
-   lat:35.7987, lon:-86.8000, approx:true, affluence:62, drive:44,
-   dates:["2026-09-20"], time:"Sun 8am–5pm (50% off, final day)",
-   start:"080000", end:"170000",
-   items:"Estate Sales By Sheila — a home packed with sofa, recliner, coffee table, dining room table and chairs, china hutch, tools, power tools, riding lawnmower, blowmolds, vintage Christmas, vintage dishes, vintage toys, and garden treasures.",
-   cats:["estate","vintage","tools","collectibles"],
-   link:"https://www.estatesales.net/TN/College-Grove/37046/5042412"},
-
- {id:3, name:"PACKED Columbia Estate Sale — Bleu Estates", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 (address released day-of via the listing)",
-   q:"Columbia,+TN+38401",
-   lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:13,
-   dates:["2026-09-20"], time:"Sun 11am–4pm (final day)",
-   start:"110000", end:"160000",
-   items:"Bleu Estates (corridor-native, tied to a 12,000 sq ft antique mall) — a GARAGE FULL of books, craft supplies and projects, games, puzzles, toys, DVDs and media, electronics, Xbox 360 and gaming accessories, stereo/audio equipment, framed artwork, and home decor/collectibles.",
-   cats:["estate","books","collectibles","electronics"],
-   link:"https://www.estatesales.net/TN/Columbia/38401/5074665"},
-
- {id:4, name:"Huge Moving Sale — Iron Horse Lane, Franklin", type:"MOVING", star:false,
-   addr:"1000 Iron Horse Lane, Building 6000, Franklin, TN 37067",
-   q:"1000+Iron+Horse+Lane,+Franklin,+TN+37067",
-   lat:35.947162, lon:-86.846409, approx:false, affluence:70, drive:58,
-   dates:["2026-09-20"], time:"Sun, starts 11:30am",
-   start:"113000", end:"170000",
-   items:"Upholstered arm chair and ottoman, an antique wooden-framed patchwork quilt, an antique floral ceramic lamp, mid-century wishbone bar stools with woven seats, kitchen and Christmas dishware sets, fifty YA/faith-based books, and cleaning-supply lots. New find, posted this morning; message ahead per the listing.",
-   cats:["moving","antique","furniture","books"],
-   link:"https://www.craigslist.org/view/d/franklin-huge-moving-sale-photos-price/f54G8CfFtw5tLiSkCqfBWV"},
-
- {id:5, name:"Historic Harlin Farm Sale — David McGee Estate Sales", type:"ESTATE", star:false,
+ {id:1, name:"Historic Harlin Farm Sale — David McGee Estate Sales", type:"ESTATE", star:false,
    addr:"Franklin, TN 37064 (exact address releases Wed 9/23 via the listing)",
    q:"Franklin,+TN+37064",
    lat:35.9251, lon:-86.9689, approx:true, affluence:80, drive:52,
@@ -313,7 +272,7 @@ var sales = [
    cats:["estate","antique","furniture"],
    link:"https://www.estatesales.net/TN/Franklin/37064/5076555"},
 
- {id:6, name:"Fun Franklin Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
+ {id:2, name:"Fun Franklin Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
    addr:"Franklin, TN 37069 (exact address releases Fri 9/25 via the listing)",
    q:"Franklin,+TN+37069",
    lat:35.9500, lon:-86.9000, approx:true, affluence:75, drive:57,
@@ -322,6 +281,16 @@ var sales = [
    items:"Estate Sales By Sheila — sofa, recliner, loveseat, dining room table and chairs, bedroom suites, kitchen wares, books, cookbooks, tools, and power tools.",
    cats:["estate","furniture","tools","books"],
    link:"https://estatesales.org/estate-sales/tn/franklin/37069/fun-franklin-estate-sale-2461470"},
+
+ {id:3, name:"Eclectic Eagleville Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
+   addr:"Rockvale, TN 37153 (Eagleville area — exact address releases Fri 9/25 via the listing)",
+   q:"Rockvale,+TN+37153",
+   lat:35.6931, lon:-86.6417, approx:true, affluence:55, drive:66,
+   dates:["2026-09-26","2026-09-27"], time:"Sat–Sun 8am–5pm",
+   start:"080000", end:"170000",
+   items:"Estate Sales By Sheila — a home and huge shed packed with oak china hutch, dining room table and chairs, buffet and bedroom furniture, sofa, coffee table, side tables, lamps, mirrors, linens, crystal, china, kitchen wares, tools, power tools, yard art, patio furniture, and a 2003 Honda CRV (287k mi) taking offers through Sunday.",
+   cats:["estate","antique","furniture","tools"],
+   link:"https://www.estatesales.net/TN/Rockvale/37153/5042460"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -614,11 +583,11 @@ function renderCard(s,isoStr,n,showDates){
 function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
-    if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week.';
-    return '<b>'+t.length+' open today.</b> Today, Sun 9/20, is mostly final days: the ★ star pick — the Upscale Franklin Estate Sale (128 Boxwood Dr) — the MEGA COOL College Grove Estate Sale, and the PACKED Columbia Estate Sale all close today, alongside a new Franklin moving sale on Iron Horse Lane found this morning. Tap a card for details, then Navigate.';
+    if(!t.length)return '<b>Nothing open today.</b> Monday is the corridor\'s known dead zone — addresses for this weekend\'s sales haven\'t released yet. Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week.';
+    return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>The weekend view covers Sat–Sun (9/26–9/27), the next weekend inside this window.</b> The Historic Harlin Farm Sale (Franklin) opens Thu 9/24 and runs through Sat 9/26; the Fun Franklin Estate Sale opens Sat 9/26 and runs through Sun 9/27. Today\'s Sun 9/20 sales (the ★ star pick — Upscale Franklin — MEGA COOL College Grove, PACKED Columbia, and the Iron Horse Lane moving sale) are all final-day and won\'t carry into next weekend.';
-  return '<b>Plan the week.</b> <b>Sun 9/20</b> (today) — 4 sales, mostly final days: the ★ star pick — the Upscale Franklin Estate Sale (128 Boxwood Dr, final day) — the MEGA COOL College Grove Estate Sale (final day), the PACKED Columbia Estate Sale (final day), and a new Franklin moving sale on Iron Horse Lane. <b>Mon–Wed 9/21–9/23</b> — nothing posted yet, matching the corridor\'s known pattern. <b>Thu 9/24</b> — the Historic Harlin Farm Sale (Franklin) opens, running through Sat 9/26. <b>Sat 9/26–Sun 9/27</b> — the Fun Franklin Estate Sale opens Saturday and runs through Sunday, overlapping the Harlin Farm Sale\'s final day on the 26th.';
+  if(view==='weekend')return '<b>The weekend view covers Sat–Sun (9/26–9/27), the next weekend inside this window.</b> The Fun Franklin Estate Sale and the Eclectic Eagleville Estate Sale both open Sat 9/26 and run through Sun 9/27; the Historic Harlin Farm Sale (Franklin) closes out its run on Sat 9/26 as well, having opened Thu 9/24. All three still have approximate addresses — check back Wed/Fri evening as they release.';
+  return '<b>Plan the week.</b> <b>Mon–Wed 9/21–9/23</b> — nothing posted yet, the corridor\'s known dead zone. <b>Thu 9/24</b> — the Historic Harlin Farm Sale (Franklin) opens, running through Sat 9/26. <b>Sat 9/26–Sun 9/27</b> — the Fun Franklin Estate Sale and the Eclectic Eagleville Estate Sale both open Saturday and run through Sunday. A thin week — re-check Wednesday and Friday as addresses release and new sales post.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -678,10 +647,10 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached: EstateSales.NET (Franklin 37064 + Spring Hill 37174 radius pages, PRIMARY — surfaced the Upscale Franklin Estate Sale/New Life at 128 Boxwood Dr on its final day, the MEGA COOL College Grove Estate Sale/Estate Sales By Sheila on its final day, the PACKED Columbia Estate Sale/Bleu Estates on its final day, and a new upcoming Historic Harlin Farm Sale/David McGee Estate Sales starting Thu 9/24). EstateSales.org (Franklin, 50-mile radius cross-check, 42 sales listed) independently cross-confirmed the same in-window set and surfaced a new upcoming Fun Franklin Estate Sale/Estate Sales By Sheila (Sat\u2013Sun 9/26\u201327); its Spring Hill/37174 page returned stale, July-dated cached results this run \u2014 a caching gap on that endpoint, not used. Craigslist (nashville.craigslist.org/search/gms + individual detail permalink, exact GPS from the post\'s meta-ICBM) surfaced a new find, a Franklin moving sale on Iron Horse Lane posted the morning of. gsalr.com (Columbia + Spring Hill city pages) returned empty/JS-only responses this run, consistent with its long recurring outage \u2014 not used, a known gap. Facebook Marketplace skipped this run \u2014 unattended run, no browser session available. The Estate Company Registry\'s tier-1 corridor companies (New Life Estate Sales, Bleu Estates, Estate Sales By Sheila, David McGee Estate Sales) were cross-checked against today\'s listings \u2014 all four are already represented. '
-  +'<b>6 sales this run</b> \u2014 a 7-day window Sep 20\u2013Sep 27. Today, Sunday 9/20, is mostly final days: the \u2605 star pick \u2014 the Upscale Franklin Estate Sale (128 Boxwood Dr, 37069, this week\'s highest-affluence stop at 88) \u2014 the MEGA COOL College Grove Estate Sale, the PACKED Columbia Estate Sale, and a new Iron Horse Lane moving sale in Franklin all close today. Nothing is posted for Mon\u2013Wed 9/21\u20139/23, typical for this corridor. The Historic Harlin Farm Sale opens Thu 9/24 (through Sat 9/26) and the Fun Franklin Estate Sale opens Sat 9/26 (through Sun 9/27). '
-  +'<b>4 addresses are approximate</b> (MEGA COOL College Grove Estate Sale, PACKED Columbia Estate Sale, the Historic Harlin Farm Sale, and the Fun Franklin Estate Sale \u2014 each releases its exact street address day-of or day-before per its own listing; city/zip-centroid coordinates used per the never-fabricate rule). '
-  +'The Upscale Franklin Estate Sale and the Iron Horse Lane moving sale both carry exact GPS \u2014 the latter read directly from the Craigslist post\'s meta-ICBM metadata. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
+  'Sources reached: EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville, plus Franklin/37064, Franklin/37069, Rockvale/37153, Lewisburg/37091 and Pulaski/38478 detail pages, PRIMARY) and EstateSales.org (Columbia, 50-mile radius, 2 pages, cross-check) both reached cleanly and agreed on the in-window set \u2014 surfacing the Historic Harlin Farm Sale/David McGee (Franklin, opens Thu 9/24), the Fun Franklin Estate Sale/Estate Sales By Sheila (opens Sat 9/26), and a new find, the Eclectic Eagleville Estate Sale/Estate Sales By Sheila (Rockvale, opens Sat 9/26). gsalr.com (Columbia + Franklin city pages) returned empty/JS-only responses this run, consistent with its long recurring outage \u2014 not used, a known gap. Craigslist (nashville.craigslist.org/search/gms) returned a JS shell with no listing data this run \u2014 not used. Facebook Marketplace (Columbia category + garage-sale search, via Alex\'s logged-in Chrome) was reached but every result was past-dated or date-less \u2014 nothing new to place. Bleu Estates\' own site (bleu32.com) was checked directly \u2014 still showing its now-past Sep 18\u201320 sale, nothing new posted. '
+  +'<b>3 sales this run</b> \u2014 a 7-day window Sep 21\u2013Sep 28, a textbook thin Monday pull: this corridor\'s known Mon\u2013Wed posting gap means nothing new typically shows until Thursday. Three real, in-radius estate sales land in this window; three more (online-only auctions in Franklin, Lewisburg and Pulaski) were found and deliberately excluded \u2014 there\'s no physical sale to route to. '
+  +'<b>All 3 addresses are approximate</b> (Historic Harlin Farm Sale, Fun Franklin Estate Sale, Eclectic Eagleville Estate Sale \u2014 each releases its exact street address day-of or day-before per its own listing; city/zip-centroid coordinates used per the never-fabricate rule). '
+  +'Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
 /* ---------- home-address picker ---------- */
