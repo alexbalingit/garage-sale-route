@@ -230,72 +230,51 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-09-27 (Sunday pull, unattended 6am run) — 7-day window Sep 27-Oct 4.
-   Sources reached: EstateSales.NET (Columbia/38401, Spring Hill/37174 — PRIMARY) reached cleanly,
-   20 results pulled per city page; EstateSales.org (Columbia, cross-check) reached cleanly, 20
-   results. Six individual EstateSales.NET detail pages were opened to pull hours/items/address-
-   release dates. Three Estate Company Registry Tier-2 corridor-south own-sites were checked
-   (David Jent Realty, National Estate Company, Franklin Pickers, Cumberland Estate Sales) — none
-   had listable current-sale details on their homepages (calendars live behind JS-rendered sub-
-   pages this run couldn't reach); Bleu Estates' own upcoming-sales page returned a stale Sep 18-20
-   listing only. gsalr.com (all three corridor city pages) returned a 403 on every attempt this
-   run, consistent with its recurring bot-block — not used, a known gap. Craigslist
-   (craigslist.org/search/city/culleoka-tn) redirected correctly but the fetched page was mid-load
-   (JS-rendered results didn't resolve) — only one already-known listing came through; not treated
-   as a reliable pull this run. Facebook Marketplace was not reached — list_connected_browsers
-   returned no connected Chrome extension (normal for a dawn run); the standing cache at
-   Garage Sale Finder/_cache/fb-latest.md is dated 2026-07-03 (12+ weeks stale, all entries
-   past-dated) and was dropped per the never-fabricate/staleness rule rather than reused.
-   Three online-only equipment/business auctions in Lewisburg and Pulaski (Van Massey Auction &
-   Realty, Through The Vine Auctions) are open across this window but were excluded — pickup-by-
-   appointment format, nothing to walk through on a driveway hunt.
-   9 sales this run. TODAY (Sun 9/27) carries over two final-day 50%-off estate sales from the
-   Saturday cluster — Fun Franklin (Essex Park Cir, confirmed address) and Eclectic Eagleville
-   (Hwy 99, confirmed address, boat & car offers taken until ~1pm). Mon-Wed (9/28-9/30) is the
-   corridor's known dead zone — nothing posted yet. The next wave opens Thu 10/1 in Columbia, then
-   floods in Fri-Sun (10/2-10/4): three more Columbia sales (one a literal barn/warehouse estate
-   sale moved offsite, one a 14-acre farm sale with a barn full of tools, one vintage silver &
-   MCM furniture), a Spring Hill moving sale (Art Deco, taxidermy, a whaling harpoon), and four
-   Franklin estate/moving sales (Estate Greats' designer/Asian-antiques sale plus their companion
-   moving sale, and Estate Sales By Sheila's West Main sale) — Saturday 10/3 is the volume day
-   with 7 sales open, matching the corridor's known Saturday-heavy pattern.
-   7 of 9 addresses are still approximate — Columbia (x3) and Franklin (x3, all Estate Greats/
-   Sheila listings) haven't released their street address yet; each listing states its exact
-   release time (Wed 9/30 or Thu 10/1 or Fri 10/2, all at 9am) — re-check the Listing link that
-   morning for the real pin. Fun Franklin and Eclectic Eagleville both carry confirmed street
-   addresses reused from Saturday's geocoded pull (unchanged addresses, same company, same run of
-   dates).
+/* Daily auto-refresh, 2026-09-28 (Monday pull, unattended 6am run) — 7-day window Sep 28-Oct 5.
+   Sources reached: EstateSales.NET (Columbia/38401, Spring Hill/37174, Franklin/37064, Franklin/37067,
+   Nashville — PRIMARY) reached cleanly, ~20 results per city page; EstateSales.org (Columbia,
+   cross-check) reached cleanly, 20 results, corroborated the .net pull, surfaced the Fri Oct 2
+   release-date detail on both remaining Estate Sales By Sheila Franklin/37064 listings. 11
+   individual EstateSales.NET/.org detail pages opened to pull hours/items/address-release dates.
+   Estate Company Registry Tier-2 own-sites spot-checked — Bleu Estates' own upcoming-sales page
+   (Columbia) showed only a stale Sep 18-20 listing (dropped); Great Scott Estate Sales'
+   (Spring Hill) homepage listed no current sale. gsalr.com (Columbia, Spring Hill city pages)
+   returned a 403 on every attempt this run, consistent with its recurring bot-block — not used, a
+   known gap. Craigslist (craigslist.org/search/city/culleoka-tn, postal 38451, 30mi) redirected
+   correctly; the one Chapel Hill listing it surfaced was a stale June-posted, Sep 18-19 sale —
+   dropped as past-dated, outside this window. Facebook Marketplace was not reached —
+   list_connected_browsers returned no connected Chrome extension (normal for a dawn run); the
+   standing cache at Garage Sale Finder/_cache/fb-latest.md is dated 2026-07-03 (12+ weeks stale,
+   all entries past-dated) and was dropped per the never-fabricate/staleness rule rather than
+   reused. A Lewisburg equipment/vehicle auction (Van Massey Auction & Realty) closing today was
+   found and excluded — pickup-lot auction format, nothing to walk through on a driveway hunt. A
+   Brentwood moving sale (Busy Bee, 37027) was found and excluded — outside the ~30mi Franklin-cap
+   radius.
+   8 sales this run, all in the Thu 10/1 – Sun 10/4 stretch. TODAY (Mon 9/28) and Tue-Wed
+   (9/29-9/30) are the corridor's known dead zone — the weekend's final-day sales (Fun Franklin,
+   Eclectic Eagleville) wrapped up yesterday and nothing new has posted yet. The window opens Thu
+   10/1 in Columbia, then floods in Fri-Sun (10/2-10/4): three Columbia sales (a literal
+   barn/warehouse estate sale moved offsite, a 14-acre farm sale with a barn full of tools, and
+   vintage silver & MCM furniture), a Spring Hill moving sale (Art Deco, taxidermy, a whaling
+   harpoon), two Estate Greats Franklin sales (designer/Asian-antiques estate + companion moving
+   sale), and two Estate Sales By Sheila Franklin/37064 sales (West Main + a second Sheila estate a
+   few blocks over) — Saturday 10/3 is the volume day with all 8 sales open at once, matching the
+   corridor's known Saturday-heavy pattern.
+   All 8 addresses are still approximate — every listing this run is an estate sale that hasn't
+   released its street address yet; each states its own release time (Wed 9/30, Thu 10/1, or Fri
+   10/2, all at 9am) — re-check the Listing link that morning for the real pin. City/zip-centroid
+   coordinates are used until then, per the never-fabricate rule.
    Star pick: the Columbia Barn/Warehouse Estate Sale/Yard Sale (Oct 1-4) — closest sale in the
    set (~6 mi from home), literal barn-sale signal, and the widest item spread of the week
    (vintage, tools, furniture, glassware, jewelry, Batman collectibles) with a rare Thursday
    1-8pm evening window.
-   Smoke test (script run against the extracted sales array): 9 sales / 0 dup ids / all schema
-   fields present / 0 missing verify links / 0 bad coordinates / 7 approx sales / 1 star sale /
-   day counts Sun(9/27) 2, Mon(9/28) 0, Tue(9/29) 0, Wed(9/30) 0, Thu(10/1) 2, Fri(10/2) 6,
-   Sat(10/3) 7, Sun(10/4) 5 — PASSED. */
+   Smoke test (script run against the extracted sales array): 8 sales / 0 dup ids / all schema
+   fields present / 0 missing verify links / 0 bad coordinates / 8 approx sales / 1 star sale /
+   day counts Mon(9/28) 0, Tue(9/29) 0, Wed(9/30) 0, Thu(10/1) 2, Fri(10/2) 6,
+   Sat(10/3) 8, Sun(10/4) 6, Mon(10/5) 0 — PASSED. */
 var sales = [
 
- {id:1, name:"Fun Franklin Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
-   addr:"453 Essex Park Cir, Franklin, TN 37069",
-   q:"453+Essex+Park+Cir,+Franklin,+TN+37069",
-   lat:35.963469, lon:-86.897793, approx:false, affluence:88, drive:0,
-   dates:["2026-09-26","2026-09-27"], time:"Sat–Sun 8am–5pm (final day today, 50% off)",
-   start:"080000", end:"170000",
-   items:"Sofa, nice side tables, leather sectional, signed prints, dining room table and chairs, china hutch, kitchen hutch, Apple screen, drop-leaf table, buffet, curio cabinet, Grandfather clock, mantle clock, thimble collection, Fenton, Davis Cabinet “Cumberland Valley” bedroom suite, futon, jewelry chest.",
-   cats:["estate", "antique", "furniture"],
-   link:"https://www.estatesales.net/TN/Franklin/37069/5069349"},
-
- {id:2, name:"Eclectic Eagleville Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
-   addr:"13556 Hwy 99, Eagleville, TN 37060",
-   q:"13556+Hwy+99,+Eagleville,+TN+37060",
-   lat:35.733456, lon:-86.599887, approx:false, affluence:50, drive:0,
-   dates:["2026-09-25","2026-09-26","2026-09-27"], time:"Fri–Sun 8am–5pm (final day today, 50% off)",
-   start:"080000", end:"170000",
-   items:"Home on Hwy 99 with a log home to the rear and a huge shed — oak china hutch, dining table and chairs, buffet and bedroom furniture, sofa, lamps, mirrors, linens, crystal, china, tools, power tools, yard art, patio furniture. A 2003 Honda CRV (287k mi, clean title) and a Boston Whaler fishing boat are being offered — offers taken until ~1pm today.",
-   cats:["estate", "antique", "furniture", "tools"],
-   link:"https://www.estatesales.net/TN/Eagleville/37060/5042460"},
-
- {id:3, name:"Columbia — Barn/Warehouse Estate Sale / Yard Sale", type:"ESTATE", star:true,
+ {id:1, name:"Columbia — Barn/Warehouse Estate Sale / Yard Sale", type:"ESTATE", star:true,
    addr:"Columbia, TN 38401 (moved offsite to warehouse; exact address releases Wed Sep 30 at 9am)",
    q:"Columbia,+TN+38401",
    lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:0,
@@ -305,7 +284,7 @@ var sales = [
    cats:["estate", "barn", "vintage", "furniture", "tools"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5095122"},
 
- {id:4, name:"Amazing Tools and Home Decor Estate Sale — Columbia", type:"ESTATE", star:false,
+ {id:2, name:"Amazing Tools and Home Decor Estate Sale — Columbia", type:"ESTATE", star:false,
    addr:"Columbia, TN 38401 (14-acre farm property; exact address releases Thu Oct 1 at 9am)",
    q:"Columbia,+TN+38401",
    lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:0,
@@ -315,7 +294,7 @@ var sales = [
    cats:["estate", "tools", "barn"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5093922"},
 
- {id:5, name:"Handsome Vintage Silver Plate Service — Columbia", type:"ESTATE", star:false,
+ {id:3, name:"Handsome Vintage Silver Plate Service — Columbia", type:"ESTATE", star:false,
    addr:"Columbia, TN 38401 (exact address releases Wed Sep 30 at 9am)",
    q:"Columbia,+TN+38401",
    lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:0,
@@ -325,7 +304,7 @@ var sales = [
    cats:["estate", "vintage", "antique", "furniture"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5091072"},
 
- {id:6, name:"Fabulous Spring Hill Moving Sale — Everything Must Go", type:"ESTATE", star:false,
+ {id:4, name:"Fabulous Spring Hill Moving Sale — Everything Must Go", type:"ESTATE", star:false,
    addr:"Spring Hill, TN 37174 (exact address releases Thu Oct 1 at 9am)",
    q:"Spring+Hill,+TN+37174",
    lat:35.754562, lon:-86.902943, approx:true, affluence:70, drive:0,
@@ -335,7 +314,7 @@ var sales = [
    cats:["antique", "furniture"],
    link:"https://www.estatesales.net/TN/Spring-Hill/37174/5094165"},
 
- {id:7, name:"Elegant Franklin Estate Sale — Estate Greats (Designer Clothing, Asian Antiques, Fine Furniture)", type:"ESTATE", star:false,
+ {id:5, name:"Elegant Franklin Estate Sale — Estate Greats (Designer Clothing, Asian Antiques, Fine Furniture)", type:"ESTATE", star:false,
    addr:"Franklin, TN 37067 (exact address releases Thu Oct 1 at 9am)",
    q:"Franklin,+TN+37067",
    lat:35.90187, lon:-86.840798, approx:true, affluence:85, drive:0,
@@ -345,7 +324,7 @@ var sales = [
    cats:["estate", "antique", "furniture", "designer"],
    link:"https://www.estatesales.net/TN/Franklin/37067/5040747"},
 
- {id:8, name:"Fabulous Franklin Moving Sale — Estate Greats", type:"ESTATE", star:false,
+ {id:6, name:"Fabulous Franklin Moving Sale — Estate Greats", type:"ESTATE", star:false,
    addr:"Franklin, TN 37067 (exact address releases Thu Oct 1 at 9am)",
    q:"Franklin,+TN+37067",
    lat:35.90187, lon:-86.840798, approx:true, affluence:85, drive:0,
@@ -355,7 +334,7 @@ var sales = [
    cats:["furniture", "vintage"],
    link:"https://www.estatesales.net/TN/Franklin/37067/5067453"},
 
- {id:9, name:"Fabulous Franklin Estate Sale on West Main — Estate Sales By Sheila", type:"ESTATE", star:false,
+ {id:7, name:"Fabulous Franklin Estate Sale on West Main — Estate Sales By Sheila", type:"ESTATE", star:false,
    addr:"Franklin, TN 37064 (West Main area; exact address releases Fri Oct 2 at 9am)",
    q:"Franklin,+TN+37064",
    lat:35.907, lon:-86.868, approx:true, affluence:82, drive:0,
@@ -363,7 +342,17 @@ var sales = [
    start:"080000", end:"170000",
    items:"Homeowner clearing out decor, children's items, planters, nice clothing, shoes, linens, crystal, china, tools, power tools, Christmas and lots more.",
    cats:["estate", "furniture", "tools"],
-   link:"https://www.estatesales.net/TN/Franklin/37064/5083029"},
+   link:"https://estatesales.org/estate-sales/tn/franklin/37064/fabulous-franklin-estate-sale-on-2463327"},
+
+ {id:8, name:"Fabulous Franklin Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37064 (exact address releases Fri Oct 2 at 9am)",
+   q:"Franklin,+TN+37064",
+   lat:35.907, lon:-86.868, approx:true, affluence:82, drive:0,
+   dates:["2026-10-03","2026-10-04"], time:"Sat–Sun 8am–5pm",
+   start:"080000", end:"170000",
+   items:"Great sofa, recliner, side tables, coffee table, dining room table and chairs, buffet, china hutch, bedroom furniture, rugs, linens, china, crystal, hand and electric tools, power tools, seasonal Christmas decor and lots more.",
+   cats:["estate", "furniture", "tools"],
+   link:"https://estatesales.org/estate-sales/tn/franklin/37064/fabulous-franklin-estate-sale-2461475"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -657,10 +646,10 @@ function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
     if(!t.length)return '<b>Nothing open today.</b> Monday is the corridor\'s known dead zone — addresses for this week\'s sales haven\'t released yet. Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week.';
-    return '<b>'+t.length+' open today — both final-day, 50% off.</b> Fun Franklin Estate Sale (Essex Park Cir) and the Eclectic Eagleville Estate Sale wrap up this afternoon; the Eagleville sale is also taking offers on a boat and a car until ~1pm. Tap a card for details, then Navigate.';
+    return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>This window straddles two weekend edges: today, Sun 9/27, and next Fri–Sun 10/2–10/4.</b> Today — Fun Franklin and Eclectic Eagleville run their final, 50%-off day. Then a dead stretch Mon–Wed. Next weekend opens big: the Columbia Barn/Warehouse sale (star pick, Fri–Sun), the Amazing Tools farm sale and Handsome Vintage Silver Plate sale both in Columbia, the Fabulous Spring Hill Moving Sale, and four Franklin estate/moving sales from Estate Greats and Estate Sales By Sheila — Saturday 10/3 alone carries 7 sales.';
-  return '<b>Plan the week.</b> <b>Today, Sun 9/27</b> — 2 sales, both wrapping up: Fun Franklin Estate Sale and the Eclectic Eagleville Estate Sale, final day, 50% off. <b>Mon–Wed 9/28–9/30</b> — nothing posted yet, the corridor\'s known dead zone; the Wed 9/30 morning is also when two Columbia addresses release. <b>Thu 10/1</b> — the Columbia Barn/Warehouse sale opens (star pick, 1–8pm) alongside the Handsome Vintage Silver Plate sale; Franklin and Spring Hill addresses release this morning too. <b>Fri 10/2</b> — 6 sales open: all three Columbia sales, the Spring Hill moving sale, and both Estate Greats Franklin sales (designer/Asian-antiques estate + companion moving sale). <b>Sat 10/3</b> — the volume day, 7 sales, adding Estate Sales By Sheila\'s West Main Franklin sale. <b>Sun 10/4</b> — 5 sales carry into their final day. Re-check the Columbia and Franklin approximate pins as they release (Wed 9/30, Thu 10/1, and Fri 10/2 mornings).';
+  if(view==='weekend')return '<b>This window straddles two weekend edges: this coming Fri–Sun 10/2–10/4, plus a possible Sat 10/10 carryover once next week posts.</b> Mon–Wed 9/28–9/30 is a dead stretch — nothing posted yet. This weekend opens big: the Columbia Barn/Warehouse sale (star pick, Thu–Sun), the Amazing Tools farm sale and Handsome Vintage Silver Plate sale both in Columbia, the Fabulous Spring Hill Moving Sale, and four Franklin estate/moving sales from Estate Greats and Estate Sales By Sheila — Saturday 10/3 alone carries all 8 sales.';
+  return '<b>Plan the week.</b> <b>Mon–Wed 9/28–9/30</b> — nothing posted yet, the corridor\'s known dead zone; Wed 9/30 morning is also when two Columbia addresses release. <b>Thu 10/1</b> — the Columbia Barn/Warehouse sale opens (star pick, 1–8pm) alongside the Handsome Vintage Silver Plate sale; Franklin and Spring Hill addresses release this morning too. <b>Fri 10/2</b> — 6 sales open: all three Columbia sales, the Spring Hill moving sale, and both Estate Greats Franklin sales (designer/Asian-antiques estate + companion moving sale). <b>Sat 10/3</b> — the volume day, all 8 sales open, adding both Estate Sales By Sheila Franklin/37064 sales. <b>Sun 10/4</b> — 6 sales carry into their final day. <b>Mon 10/5</b> — nothing open, back to the dead zone. Re-check the Columbia and Franklin approximate pins as they release (Wed 9/30, Thu 10/1, and Fri 10/2 mornings).';
 }
 
 /* ---------- select-to-route ---------- */
@@ -720,9 +709,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached (7-day window, 9/27\u201310/4): EstateSales.NET (Columbia/38401, Spring Hill/37174 \u2014 PRIMARY) reached cleanly, 20 results per city page, 6 detail pages opened individually for hours/items/address-release dates; EstateSales.org (Columbia, cross-check) reached cleanly, 20 results, corroborated the .net pull. gsalr.com (all three corridor city pages: Columbia, Spring Hill, Franklin) returned a 403 on every attempt \u2014 not used this run, a known recurring block. Craigslist (craigslist.org/search/city/culleoka-tn, postal 38451, 30mi) redirected correctly but the fetched page was mid-JS-load and only surfaced one already-known listing \u2014 not treated as a reliable pull. Facebook Marketplace was not reached \u2014 list_connected_browsers returned no connected Chrome extension (normal for a dawn run); the standing cache at _cache/fb-latest.md is dated 7/3 (12+ weeks stale, all entries past-dated) and was dropped per the never-fabricate/staleness rule. Estate Company Registry Tier-1/Tier-2 own-sites spot-checked \u2014 David Jent Realty, National Estate Company, Franklin Pickers, and Cumberland Estate Sales had no listable current-sale details on their homepages this run (calendars live behind pages this pull couldn\u2019t reach); Bleu Estates\u2019 own page showed only a stale 9/18\u20139/20 listing. Three online-only equipment/business auctions (Lewisburg, Pulaski) were found and excluded \u2014 pickup-by-appointment format, not a walk-through driveway sale. Standing caveats: some estate addresses release the day before or later in the week (7 of 9 addresses below are still approximate, each with its own stated release time); sales can sell out or cancel without updating the listing \u2014 use the Listing link to confirm before driving. '
-  +'<b>9 sales this run</b> \u2014 the Sep 27\u2013Oct 4 window. Today carries over Fun Franklin and Eclectic Eagleville from the weekend, both on their final, 50%-off day. Mon\u2013Wed is the corridor\u2019s known dead zone. Thursday through the following weekend brings a strong Columbia cluster (three sales, including the barn/warehouse star pick and a 14-acre farm sale with a barn full of tools) plus a Spring Hill moving sale and four Franklin estate/moving sales \u2014 Saturday 10/3 alone carries 7 sales, the volume day. '
-  +'<b>7 of 9 addresses are still approximate</b> (all three Columbia sales, all three Franklin Estate Greats/Sheila sales \u2014 Wed 9/30, Thu 10/1, or Fri 10/2 at 9am release times are stated on each listing; city/zip-centroid coordinates used per the never-fabricate rule until then). Fun Franklin and Eclectic Eagleville keep their confirmed street addresses from the weekend pull. '
+  'Sources reached (7-day window, 9/28\u201310/5): EstateSales.NET (Columbia/38401, Spring Hill/37174, Franklin/37064, Franklin/37067, Nashville \u2014 PRIMARY) reached cleanly, ~20 results per city page; EstateSales.org (Columbia, cross-check) reached cleanly, 20 results, corroborated the .net pull. 11 individual detail pages opened for hours/items/address-release dates. gsalr.com (Columbia, Spring Hill city pages) returned a 403 on every attempt \u2014 not used this run, a known recurring block. Craigslist (craigslist.org/search/city/culleoka-tn, postal 38451, 30mi) redirected correctly; the one listing it surfaced (Chapel Hill) was a stale June-posted, Sep 18\u201319 sale \u2014 dropped as past-dated. Facebook Marketplace was not reached \u2014 list_connected_browsers returned no connected Chrome extension (normal for a dawn run); the standing cache at _cache/fb-latest.md is dated 7/3 (12+ weeks stale, all entries past-dated) and was dropped per the never-fabricate/staleness rule. Estate Company Registry Tier-2 own-sites spot-checked \u2014 Bleu Estates (Columbia) showed only a stale 9/18\u20139/20 listing; Great Scott (Spring Hill) listed no current sale. A Lewisburg equipment/vehicle auction closing today and a Brentwood moving sale (outside the ~30mi Franklin-cap radius) were found and excluded. Standing caveats: some estate addresses release the day before or later in the week (all 8 addresses below are still approximate, each with its own stated release time); sales can sell out or cancel without updating the listing \u2014 use the Listing link to confirm before driving. '
+  +'<b>8 sales this run</b> \u2014 the Sep 28\u2013Oct 5 window. Mon\u2013Wed (9/28\u20139/30) is the corridor\u2019s known dead zone \u2014 nothing posted yet. Thursday through the weekend brings a strong Columbia cluster (three sales, including the barn/warehouse star pick and a 14-acre farm sale with a barn full of tools) plus a Spring Hill moving sale and four Franklin estate/moving sales \u2014 Saturday 10/3 alone carries all 8 sales, the volume day. '
+  +'<b>All 8 addresses are still approximate</b> (three Columbia sales, two Spring Hill/Franklin Estate Greats sales, two Franklin/37064 Estate Sales By Sheila sales \u2014 Wed 9/30, Thu 10/1, or Fri 10/2 at 9am release times are stated on each listing; city/zip-centroid coordinates used per the never-fabricate rule until then). '
   +'Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
