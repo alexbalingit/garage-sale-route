@@ -230,138 +230,173 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-09-29 (Tuesday pull, unattended 6am run) — 7-day window Sep 29-Oct 6.
+/* Daily auto-refresh, 2026-09-30 (Wednesday pull, unattended 6am run) — 7-day window Sep 30-Oct 7.
    Sources reached: EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville — PRIMARY)
    reached cleanly, ~18-20 results per city page; EstateSales.org (Columbia, cross-check) reached
-   cleanly, 22 results, corroborated the .net pull. 2 individual detail pages opened (Columbia Barn/
-   Warehouse + Vintage Silver Plate) to confirm per-day hours and address-release times. gsalr.com
-   (Columbia city page) returned a 403 on the only attempt — not used, the known recurring block.
-   Craigslist (craigslist.org/search/city/culleoka-tn, postal 38451, 30mi) redirected correctly and
-   returned 2 listings: the Spring Hill moving sale (cross-confirms this run's id 4) and a vague,
-   undated "garage sale" in Chapel Hill — dropped, no date given. Facebook Marketplace WAS
-   reached this run (Chrome connected) — searched garage/yard/multi-family/neighborhood terms in
-   Columbia; opened 5 promising permalinks. One new find with a real street address and a firm date
-   in the post body: a whole-neighborhood "Sportsmans Garage Sale" across Fieldstone Farms in
-   Franklin (109 Greystone Drive, Sat 10/3 7am-3pm) — this run's ★ star pick per the
-   neighborhood-wide/affluent-zip thesis. Three other FB candidates were opened and dropped:
-   "Neighborhood garage sale Saturday!!" (Callie Way Dr, Franklin) still carries no month/day two
-   runs running — never-fabricate; "Neighborhood Yard Sale/Multi Family" (McEwen/Wilson Pike,
-   Franklin) was dated Sat Sep 19 — already past; "Multi family yard sale" (4622 Haley Lane,
-   Columbia) has a real address but no date, just a price-drop update — watch-only. A
-   three-neighborhood Bellevue/Nashville yard sale (Poplar Creek Estates/Traceside/Stonemeade, Sat
-   10/3) was found and excluded — outside the ~30mi Franklin-cap radius. Estate Company Registry
-   Tier-1 spot-checked (Bleu Estates, Great Scott) — no current listings beyond what's already
-   in the set, consistent with recent runs.
-   9 sales this run, spanning Thu 10/1 – Sat 10/3. TODAY (Tue 9/29) and Wed 9/30 are the
-   corridor's known dead zone — nothing posted yet. Thursday opens the window in Columbia
-   (barn/warehouse + vintage silver, both still address-pending), Friday adds the Spring Hill
-   moving sale and both Estate Greats Franklin sales, and Saturday 10/3 is the volume day — all
-   9 sales open at once, including the new Fieldstone Farms neighborhood sale and both Estate Sales
-   By Sheila Franklin/37064 sales. Sunday 10/4 carries 6 of the 9 into their final day; Monday 10/5
-   nothing is open yet.
-   8 of 9 addresses are still approximate — every estate-sale listing this run hasn't released
-   its street address yet (Wed 9/30 or Fri 10/2 at 9am release times stated on each listing);
-   city/zip-centroid coordinates are used until then, per the never-fabricate rule. The Fieldstone
-   Farms neighborhood sale is the lone exact-address sale (109 Greystone Drive, from the Facebook
-   post body) — Navigate routes to the real address; only the map pin uses a Franklin-centroid
-   estimate since the Census geocoder wasn't reachable from this session this run.
-   Star pick: Sportsmans Garage Sale — Fieldstone Farms neighborhood, Franklin (Sat 10/3,
-   7am-3pm) — a whole-subdivision multi-house sale in an 85-affluence Franklin zip, the highest
-   neighborhood score in this run's set and Alex's top-thesis sale type.
-   Smoke test (script run against the extracted sales array): 9 sales / 0 dup ids / all schema
-   fields present / 0 missing verify links / 0 bad coordinates / 8 approx sales / 1 star sale /
-   day counts Tue(9/29) 0, Wed(9/30) 0, Thu(10/1) 2, Fri(10/2) 6, Sat(10/3) 9, Sun(10/4) 6,
-   Mon(10/5) 0, Tue(10/6) 0 — PASSED. */
+   cleanly, 20+ results, corroborated the .net pull, and supplied one detail page (Franklin/37064
+   "Fabulous Franklin Estate Sale") with its full item list. gsalr.com (Columbia, Spring Hill,
+   Franklin city pages) 403'd on every attempt this run — not used, a known recurring block.
+   Craigslist (postal 38451, 30mi) redirected correctly and returned 2 listings; one (a Spring Hill
+   moving-sale post) led to its own listing at 2110 Burgess Lane, which cross-confirmed and upgraded
+   this run's id 4 from a zip-approximate pin to an exact address. AuctionZip (tn.html) 403'd, and
+   two Tier-2 registry own-sites were checked directly — Bleu Estates showed only a past-dated
+   (Sept 18-20) sale, and Great Scott's own domain resolved to an out-of-state (Metro Detroit)
+   business, not the Spring Hill company the registry describes — both dropped as
+   stale/mismatched. David Jent Realty's own site pointed only to an external county auction
+   calendar with no individual listings. Facebook Marketplace WAS reached this run (Chrome
+   connected, logged in) — searched garage/yard/estate/neighborhood/multi-family/community terms
+   across the corridor and opened 10 promising permalinks into their full post bodies. Two
+   confirmed new sales with real street addresses and firm dates: a 1-day antiques estate sale at
+   2062 N. Amber Drive, Spring Hill (Fri 10/2) and a neighborhood-wide Community Yard Sale at The
+   Villas at Port Royal, Spring Hill (Fri-Sat 10/2-10/3). A third find from a prior run — the
+   Fieldstone Farms "Sportsmans Garage Sale" in Franklin (109 Greystone Drive, Sat 10/3) — was
+   re-opened and re-verified still live with the same date and address; kept as this run's star
+   pick (whole-neighborhood, exact address, fishing/hunting gear). Seven other FB candidates were
+   opened and dropped, all either past-dated (Sept 18-26 posts still surfacing in-radius searches)
+   or carrying no month/day at all (never-fabricate) — including a Pulaski estate sale with a
+   street address in its own title but no date, and a Columbia multi-family sale with a real
+   address but only a "prices dropped" update and no date given anywhere. The small-town corridor
+   (Pulaski, Lewisburg, Chapel Hill) again turned up nothing dated inside this window — consistent
+   with the standing caveat that it runs mostly on Facebook + AuctionZip and posts late in the
+   week. Estate Company Registry Tier-1/Tier-2 spot-checked — nothing new beyond the set above.
+   11 sales this run, spanning Thu 10/1 – Sun 10/4. TODAY (Wed 9/30) is empty — nothing posted for
+   today itself yet, consistent with the corridor's known dead-zone pattern. Thursday opens the
+   window in Columbia (barn/warehouse + vintage silver) and Franklin (Estate Greats rifles/
+   antiques). Friday is the big jump to 8 sales — both new Spring Hill Facebook finds, the Spring
+   Hill moving sale (now an exact address), the Columbia tools sale, and the second Estate Greats
+   Franklin sale all open. Saturday 10/3 is the volume day at 10 sales, led by the star Fieldstone
+   Farms neighborhood sale and joined by both Estate Sales By Sheila Franklin/37064 sales. Sunday
+   10/4 carries 6 sales into their final day. Monday 10/5 through Wednesday 10/7 are empty —
+   nothing posted that far out yet; re-check closer to those dates.
+   8 of 11 addresses are still approximate — the three Columbia estate-sale listings and all four
+   Estate Greats/Sheila Franklin listings have not released a street address in their public
+   listing view (estatesales.net/.org convention releases addresses day-of or the morning before);
+   city/zip-centroid coordinates are used until then, per the never-fabricate rule. Three sales
+   carry exact, Census-geocoded addresses pulled straight from source posts: the Spring Hill
+   moving sale (2110 Burgess Lane, cross-confirmed via Craigslist), the new Spring Hill antiques
+   estate sale (2062 N. Amber Drive, from Facebook), and the star Fieldstone Farms neighborhood
+   sale (109 Greystone Drive, Franklin 37069, from Facebook — re-verified this run; the Census
+   geocoder was reachable this run so its map pin now uses its real coordinates rather than a
+   Franklin centroid).
+   Star pick: Sportsmans Garage Sale — Fieldstone Farms neighborhood, Franklin (Sat 10/3, 7am-3pm)
+   — a whole-subdivision multi-house sale in an 88-affluence Franklin zip, exact address, camo/
+   hunting apparel plus a strong fishing-gear lot (St Croix, Shimano, Pfleuger rods and reels) —
+   the highest-signal sale in this run's set and a direct hit on Alex's fishing item-watch
+   category.
+   Smoke test (script run against the extracted sales array): 11 sales / 0 dup ids / all schema
+   fields present / 0 missing verify links / 0 bad coordinates / 8 approx sales / 3 exact-address
+   sales / 1 star sale / day counts Wed(9/30) 0, Thu(10/1) 3, Fri(10/2) 8, Sat(10/3) 10, Sun(10/4) 6,
+   Mon(10/5) 0, Tue(10/6) 0, Wed(10/7) 0 — PASSED. */
 var sales = [
 
  {id:1, name:"Columbia — Barn/Warehouse Estate Sale / Yard Sale", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 (moved offsite to warehouse; exact address releases Wed Sep 30 at 9am)",
+   addr:"Columbia, TN 38401 (moved offsite to warehouse; exact address not yet in the public listing — releases day-of per estatesales.net convention)",
    q:"Columbia,+TN+38401",
    lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:0,
-   dates:["2026-10-01","2026-10-02","2026-10-03","2026-10-04"], time:"Thu 1–8pm · Fri 9am–5pm · Sat 8am–5pm · Sun 11am–5pm",
+   dates:["2026-10-01","2026-10-02","2026-10-03","2026-10-04"], time:"Thu 1–8pm · Fri–Sun hours vary — see listing",
    start:"130000", end:"200000",
-   items:"Vintage items, pictures, lamps, home decor, linens, artwork, furniture, tools, glassware, outdoor items, new decor items, clothing (new and old), dolls, Batman collectables, jewelry, store displays, and new Christmas decor.",
+   items:"Vintage items, pictures, lamps, home decor, linens, artwork, furniture, tools, glassware, outdoor items, new decor items, clothing (new and old), dolls, collectables, jewelry, store displays, and new Christmas decor.",
    cats:["estate", "barn", "vintage", "furniture", "tools"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5095122"},
 
  {id:2, name:"Amazing Tools and Home Decor Estate Sale — Columbia", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 (14-acre farm property; exact address releases Thu Oct 1 at 9am)",
+   addr:"Columbia, TN 38401 (exact address not yet in the public listing — releases day-of)",
    q:"Columbia,+TN+38401",
    lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:0,
-   dates:["2026-10-02","2026-10-03"], time:"Fri 8am–4pm · Sat 8am–4pm (50% off Sat)",
+   dates:["2026-10-02","2026-10-03"], time:"Fri–Sat 8am–4pm",
    start:"080000", end:"160000",
-   items:"A barn FILLED with tools on a 14-acre farm property — power tools, farm tools, bins of bolts and screws, electrical items, farm equipment, furniture and home decor, tool benches, shelves, Christmas decor, exercise equipment, gardening items.",
-   cats:["estate", "tools", "barn"],
+   items:"Tools and home décor — full inventory not itemized in the listing summary; see photos via the Listing link before driving.",
+   cats:["estate", "tools"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5093922"},
 
  {id:3, name:"Handsome Vintage Silver Plate Service — Columbia", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 (exact address releases Wed Sep 30 at 9am)",
+   addr:"Columbia, TN 38401 (exact address not yet in the public listing — releases day-of)",
    q:"Columbia,+TN+38401",
    lat:35.6151, lon:-87.0353, approx:true, affluence:58, drive:0,
-   dates:["2026-10-01","2026-10-02","2026-10-03"], time:"Thu–Fri 9am–2pm · Sat 9am–12pm",
+   dates:["2026-10-01","2026-10-02","2026-10-03"], time:"Thu–Sat 9am–2pm",
    start:"090000", end:"140000",
-   items:"Vintage silver plate service, floral tea cups, framed artwork, mid-century furniture, vintage kitchen mixer, hardback and paperback books, occasional chairs, handbags, china, antique collectibles, glassware, vases, planters, high-end women's clothing (XS, S), belts, hats.",
-   cats:["estate", "vintage", "antique", "furniture"],
+   items:"Vintage silver plate service, plus general estate items per the listing photos — see the Listing link for the full inventory.",
+   cats:["estate", "vintage", "antique"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5091072"},
 
- {id:4, name:"Fabulous Spring Hill Moving Sale — Everything Must Go", type:"ESTATE", star:false,
-   addr:"Spring Hill, TN 37174 (exact address releases Thu Oct 1 at 9am)",
-   q:"Spring+Hill,+TN+37174",
-   lat:35.754562, lon:-86.902943, approx:true, affluence:70, drive:0,
-   dates:["2026-10-02","2026-10-03","2026-10-04"], time:"Fri–Sat 9am–3pm · Sun 10am–3pm",
+ {id:4, name:"Spring Hill Moving Sale — Everything Must Go", type:"ESTATE", star:false,
+   addr:"2110 Burgess Lane, Spring Hill, TN 37174",
+   q:"2110+Burgess+Ln,+Spring+Hill,+TN+37174",
+   lat:35.763524, lon:-86.902172, approx:false, affluence:70, drive:0,
+   dates:["2026-10-02","2026-10-03","2026-10-04"], time:"Fri–Sun 9am–3pm",
    start:"090000", end:"150000",
-   items:"Everything must go — Art Deco cabinets, antique furniture, a whaling harpoon, taxidermy pieces, tea cart, fossil shark teeth, outdoor furniture, lingerie chest, foosball table, large cast iron candlesticks, Superman memorabilia, artwork, bicycles.",
-   cats:["antique", "furniture"],
+   items:"Everything must go — Art Deco cabinets, antique furniture, a whaling harpoon, taxidermy pieces, fossil shark teeth, outdoor furniture, a foosball table, bicycles, sporting goods, knives, and lighting including lamps and chandeliers. All sales final.",
+   cats:["estate", "antique", "furniture"],
    link:"https://www.estatesales.net/TN/Spring-Hill/37174/5094165"},
 
- {id:5, name:"Elegant Franklin Estate Sale — Estate Greats (Designer Clothing, Asian Antiques, Fine Furniture)", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37067 (exact address releases Fri Oct 2 at 9am)",
+ {id:5, name:"Estate Sale — Antiques, Spring Hill (1 Day Only)", type:"ESTATE", star:false,
+   addr:"2062 N. Amber Drive, Spring Hill, TN 37174",
+   q:"2062+N+Amber+Dr,+Spring+Hill,+TN+37174",
+   lat:35.775427, lon:-86.906863, approx:false, affluence:70, drive:0,
+   dates:["2026-10-02"], time:"Fri, all day (hours not stated in the post)",
+   start:"090000", end:"170000",
+   items:"Antiques included — 1-day-only sale; full inventory not itemized in the Facebook post, see the Listing link.",
+   cats:["estate", "antique"],
+   link:"https://www.facebook.com/marketplace/item/1561850492358909/"},
+
+ {id:6, name:"Community Yard Sale — The Villas at Port Royal, Spring Hill", type:"MULTI-FAMILY", star:false,
+   addr:"The Villas at Port Royal, Spring Hill, TN 37174 (across from Fischer Park/Splash Pad, behind Dollar General — exact driveway varies by house)",
+   q:"Fischer+Park,+Spring+Hill,+TN+37174",
+   lat:35.727834, lon:-86.894841, approx:true, affluence:70, drive:0,
+   dates:["2026-10-02","2026-10-03"], time:"Fri–Sat 7am–2pm, rain or shine",
+   start:"070000", end:"140000",
+   items:"Whole-neighborhood, multi-house yard sale across The Villas at Port Royal — treasure-hunt variety expected across multiple driveways; specific inventory not itemized in the Facebook post.",
+   cats:["neighborhood", "multi-family"],
+   link:"https://www.facebook.com/marketplace/item/1644827423710255/"},
+
+ {id:7, name:"Elegant Franklin Estate Sale — Estate Greats (Designer Clothing, Asian Antiques, Fine Furniture)", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37067 (exact address not yet in the public listing — releases day-of)",
    q:"Franklin,+TN+37067",
    lat:35.90187, lon:-86.840798, approx:true, affluence:85, drive:0,
-   dates:["2026-10-02","2026-10-03","2026-10-04"], time:"Fri–Sat 9am–3pm · Sun 10am–2pm",
+   dates:["2026-10-01","2026-10-02","2026-10-03","2026-10-04"], time:"Thu–Sun 9am–3pm",
    start:"090000", end:"150000",
-   items:"Designer closets and stunning Asian decorative pieces, fine traditional furniture, original artwork, a Cadillac. Extensive wardrobe with designer suits, blazers, dresses, full shoe wall. Vintage rifles and shotguns (single shot and bolt action, wood stocks), Asian antiques and decorative arts, men's clothing, handbags and accessories.",
+   items:"Designer closets and Asian decorative pieces, fine traditional furniture, original artwork. Extensive wardrobe with designer suits, blazers, dresses, full shoe wall. Vintage rifles and shotguns (single shot and bolt action, wood stocks), Asian antiques and decorative arts, men's clothing, handbags and accessories.",
    cats:["estate", "antique", "furniture", "designer"],
    link:"https://www.estatesales.net/TN/Franklin/37067/5040747"},
 
- {id:6, name:"Fabulous Franklin Moving Sale — Estate Greats", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37067 (exact address releases Fri Oct 2 at 9am)",
+ {id:8, name:"Fabulous Franklin Moving Sale — Estate Greats", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37067 (exact address not yet in the public listing — releases day-of)",
    q:"Franklin,+TN+37067",
    lat:35.90187, lon:-86.840798, approx:true, affluence:85, drive:0,
-   dates:["2026-10-02","2026-10-03","2026-10-04"], time:"Fri–Sat 9am–3pm · Sun 10am–2pm",
+   dates:["2026-10-02","2026-10-03","2026-10-04"], time:"Fri–Sun 9am–3pm",
    start:"090000", end:"150000",
-   items:"Executive wood desk with hutch, tall ship model, Tiffany-style lamp, dining room set, office suite, bedroom suites, vintage cameras, vintage wall clocks, collectibles, books, John Deere riding mower, and lots more.",
+   items:"Executive wood desk with hutch, tall ship model, Tiffany-style lamp, dining room set, office suite, bedroom suites, vintage cameras, vintage wall clocks, collectibles, books, and a John Deere riding mower.",
    cats:["furniture", "vintage"],
    link:"https://www.estatesales.net/TN/Franklin/37067/5067453"},
 
- {id:7, name:"Fabulous Franklin Estate Sale on West Main — Estate Sales By Sheila", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 (West Main area; exact address releases Fri Oct 2 at 9am)",
+ {id:9, name:"Fabulous Franklin Estate Sale on West Main — Estate Sales By Sheila", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37064 (West Main area; exact address not yet in the public listing — releases day-of)",
    q:"Franklin,+TN+37064",
    lat:35.907, lon:-86.868, approx:true, affluence:82, drive:0,
    dates:["2026-10-03","2026-10-04"], time:"Sat–Sun 8am–5pm",
    start:"080000", end:"170000",
-   items:"Homeowner clearing out decor, children's items, planters, nice clothing, shoes, linens, crystal, china, tools, power tools, Christmas and lots more.",
-   cats:["estate", "furniture", "tools"],
+   items:"Full-home estate sale on West Main — inventory not itemized in the listing; see photos via the Listing link before driving.",
+   cats:["estate"],
    link:"https://www.estatesales.net/TN/Franklin/37064/5083029"},
 
- {id:8, name:"Fabulous Franklin Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 (exact address releases Fri Oct 2 at 9am)",
+ {id:10, name:"Fabulous Franklin Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37064 (exact address not yet in the public listing — releases day-of)",
    q:"Franklin,+TN+37064",
    lat:35.907, lon:-86.868, approx:true, affluence:82, drive:0,
    dates:["2026-10-03","2026-10-04"], time:"Sat–Sun 8am–5pm",
    start:"080000", end:"170000",
-   items:"Great sofa, recliner, side tables, coffee table, dining room table and chairs, buffet, china hutch, bedroom furniture, rugs, linens, china, crystal, hand and electric tools, power tools, seasonal Christmas decor and lots more.",
+   items:"Great sofa, recliner, side tables, coffee table, dining room table and chairs, buffet, china hutch, bedroom furniture, rugs, linens, china, crystal, hand and electric tools, power tools, and seasonal Christmas decor.",
    cats:["estate", "furniture", "tools"],
    link:"https://estatesales.org/estate-sales/tn/franklin/37064/fabulous-franklin-estate-sale-2461475"},
 
- {id:9, name:"Sportsmans Garage Sale — Fieldstone Farms Neighborhood, Franklin", type:"MULTI-FAMILY", star:true,
-   addr:"109 Greystone Drive, Franklin, TN 37067 (Fieldstone Farms community-wide sale)",
-   q:"109+Greystone+Dr,+Franklin,+TN+37067",
-   lat:35.90187, lon:-86.840798, approx:false, affluence:85, drive:0,
+ {id:11, name:"Sportsmans Garage Sale — Fieldstone Farms Neighborhood, Franklin", type:"MULTI-FAMILY", star:true,
+   addr:"109 Greystone Drive, Franklin, TN 37069 (Fieldstone Farms community-wide sale)",
+   q:"109+Greystone+Dr,+Franklin,+TN+37069",
+   lat:35.957289, lon:-86.877883, approx:false, affluence:88, drive:0,
    dates:["2026-10-03"], time:"Sat 7am–3pm",
    start:"070000", end:"150000",
-   items:"Whole-neighborhood, multi-house sale across the Fieldstone Farms community — typical yard-sale variety expected across multiple driveways (household goods, furniture, kids' items, tools); specific inventory not itemized in the Facebook post.",
-   cats:["neighborhood", "multi-family"],
+   items:"Camo jackets, coats, shirts and overalls (Mossy Oak, RedHead, RealTree). Fishing gear — St Croix, Skeet Reese, Pfleuger, HMG, Kistler and Cabelas trolling/baitcasting/spinning rods and reels, including St Croix Heavy Musky/Cat rods and a Shimano TR1000 lever-drag levelwind reel. SKG padded rod travel case, BassPro XPS 2-battery onboard charger, hunting waistpacks, camo gloves/face covers/scarves/hats, and large travel duffels from Cabelas and Gander Mountain.",
+   cats:["neighborhood", "multi-family", "fishing", "hunting"],
    link:"https://www.facebook.com/marketplace/item/1466001542243052/"},
 
 ];
@@ -655,11 +690,11 @@ function renderCard(s,isoStr,n,showDates){
 function noteFor(){
   if(view==='today'){
     var t=salesOn(TODAY_ISO);
-    if(!t.length)return '<b>Nothing open today.</b> Tue\u2013Wed 9/29\u20139/30 is the corridor\'s known dead zone \u2014 addresses for this week\'s sales haven\'t released yet. Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what\'s loading in later this week.';
+    if(!t.length)return '<b>Nothing open today.</b> Wed 9/30 is empty \u2014 nothing posted for today itself yet. Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
     return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-  if(view==='weekend')return '<b>This coming Fri\u2013Sun (10/2\u201310/4) is where the window opens up.</b> Tue\u2013Wed 9/29\u20139/30 is a dead stretch \u2014 nothing posted yet. Saturday 10/3 is the volume day with all 9 sales open at once, led by a new find: a whole-neighborhood sale across Fieldstone Farms in Franklin (\u2605 star pick, exact address already posted). Also open: three Columbia estate sales (barn/warehouse, tools/farm, vintage silver), the Spring Hill moving sale, and four Franklin estate/moving sales from Estate Greats and Estate Sales By Sheila.';
-  return '<b>Plan the week.</b> <b>Tue\u2013Wed 9/29\u20139/30</b> \u2014 nothing posted yet, the corridor\'s known dead zone; Wed 9/30 morning is also when two Columbia addresses release. <b>Thu 10/1</b> \u2014 the Columbia Barn/Warehouse sale opens (1\u20138pm) alongside the Handsome Vintage Silver Plate sale. <b>Fri 10/2</b> \u2014 6 sales open: all three Columbia sales, the Spring Hill moving sale, and both Estate Greats Franklin sales; Franklin/37064 and 37067 addresses release this morning too. <b>Sat 10/3</b> \u2014 the volume day, all 9 sales open, adding the \u2605 Fieldstone Farms neighborhood sale (Franklin, exact address already known) and both Estate Sales By Sheila Franklin/37064 sales. <b>Sun 10/4</b> \u2014 6 sales carry into their final day. <b>Mon 10/5</b> \u2014 nothing open, back to the dead zone. Re-check the Columbia and Franklin approximate pins as they release (Wed 9/30 and Fri 10/2 mornings).';
+  if(view==='weekend')return '<b>This coming Fri\u2013Sun (10/2\u201310/4) is where the window opens up.</b> Friday jumps to 8 sales \u2014 two brand-new Spring Hill Facebook finds (a 1-day antiques estate sale and a whole-neighborhood yard sale at The Villas at Port Royal), the Spring Hill moving sale (now an exact address), three Columbia estate sales, and two Franklin Estate Greats sales. Saturday 10/3 is the volume day with all 10 weekend sales open at once, led by a repeat find: a whole-neighborhood sale across Fieldstone Farms in Franklin (\u2605 star pick, exact address, strong fishing-gear lot). Also open Saturday: both Estate Sales By Sheila Franklin/37064 sales. Sunday 10/4 carries 6 sales into their final day.';
+  return '<b>Plan the week.</b> <b>Wed 9/30 (today)</b> \u2014 nothing posted yet for today itself. <b>Thu 10/1</b> \u2014 the Columbia Barn/Warehouse sale opens (1\u20138pm) alongside the Vintage Silver Plate sale and the Estate Greats Franklin rifles/antiques sale. <b>Fri 10/2</b> \u2014 the big jump to 8 sales: both new Spring Hill Facebook finds (antiques estate sale + neighborhood yard sale at The Villas at Port Royal), the Spring Hill moving sale, the Columbia tools sale, and the second Estate Greats Franklin sale. <b>Sat 10/3</b> \u2014 the volume day, all 10 sales open, headlined by the \u2605 Fieldstone Farms neighborhood sale (Franklin, exact address, fishing gear) and both Estate Sales By Sheila Franklin/37064 sales. <b>Sun 10/4</b> \u2014 6 sales carry into their final day. <b>Mon 10/5 \u2013 Wed 10/7</b> \u2014 nothing posted that far out yet; re-check closer to those dates.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -719,9 +754,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached (7-day window, 9/29\u201310/6): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville \u2014 PRIMARY) reached cleanly; EstateSales.org (Columbia, cross-check) reached cleanly, 22 results, corroborated the .net pull. 2 detail pages opened for per-day hours and address-release times. gsalr.com (Columbia) 403\'d on the only attempt \u2014 not used, a known recurring block. Craigslist (postal 38451, 30mi) redirected correctly \u2014 2 listings, one cross-confirming the Spring Hill moving sale already in this set, one vague undated Chapel Hill post dropped for lack of a date. Facebook Marketplace WAS reached this run (logged-in Chrome) \u2014 searched garage/yard/neighborhood/multi-family terms in Columbia, opened 5 promising permalinks into their full post bodies. One confirmed new sale with a real address and firm date: the Fieldstone Farms neighborhood sale in Franklin (this run\'s star pick). Three more were checked and dropped \u2014 two undated/past-dated, one (a 3-neighborhood Bellevue/Nashville sale) outside the ~30mi Franklin-cap radius. Estate Company Registry Tier-1 spot-checked (Bleu Estates, Great Scott) \u2014 nothing new beyond the set above. Standing caveats: 8 of 9 addresses are still approximate \u2014 estate-sale listings release Wed 9/30 or Fri 10/2 at 9am; sales can sell out or cancel without updating the listing \u2014 use the Listing link to confirm before driving. '
-  +'<b>9 sales this run</b> \u2014 the Sep 29\u2013Oct 6 window. Tue\u2013Wed (9/29\u20139/30) is the corridor\'s known dead zone \u2014 nothing posted yet. Thursday through the weekend brings a strong Columbia cluster (three sales) plus a Spring Hill moving sale, four Franklin estate/moving sales, and a new whole-neighborhood sale across Fieldstone Farms in Franklin \u2014 Saturday 10/3 alone carries all 9 sales, the volume day. '
-  +'<b>8 of 9 addresses are still approximate</b> (all three Columbia sales, the Spring Hill sale, and all four Estate Greats/Sheila Franklin sales \u2014 Wed 9/30 or Fri 10/2 at 9am release times are stated on each listing; city/zip-centroid coordinates used per the never-fabricate rule until then). The Fieldstone Farms neighborhood sale is the one exact-address exception, pulled from its Facebook post body. '
+  'Sources reached (7-day window, 9/30\u201310/7): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville \u2014 PRIMARY) reached cleanly; EstateSales.org (Columbia, cross-check) reached cleanly, 20+ results, corroborated the .net pull and supplied one full item list (Franklin/37064 \u201cFabulous Franklin Estate Sale\u201d). gsalr.com 403\'d on every attempt (Columbia, Spring Hill, Franklin) \u2014 not used, a known recurring block. Craigslist (postal 38451, 30mi) redirected correctly \u2014 2 listings; one led to its own post that upgraded the Spring Hill moving sale to an exact address (2110 Burgess Lane), the other (an undated Chapel Hill post, since found past-dated on inspection) was dropped. AuctionZip 403\'d; two Tier-2 registry own-sites checked (Bleu Estates \u2014 only a past-dated sale; Great Scott\u2019s own domain resolved to an unrelated out-of-state business) \u2014 both dropped as stale/mismatched. Facebook Marketplace WAS reached this run (logged-in Chrome) \u2014 searched garage/yard/estate/neighborhood/multi-family/community terms across the corridor, opened 10 promising permalinks into their full post bodies. Two confirmed new sales with real addresses and firm dates (Spring Hill antiques estate sale, Spring Hill neighborhood yard sale); one prior find (Fieldstone Farms, Franklin) re-verified still live. Seven other FB candidates were opened and dropped \u2014 all past-dated or carrying no date at all (never-fabricate). The small-town corridor (Pulaski, Lewisburg, Chapel Hill) again turned up nothing dated inside this window \u2014 consistent with the standing caveat that it runs mostly on Facebook + AuctionZip and posts late in the week. '
+  +'<b>11 sales this run</b> \u2014 the Sep 30\u2013Oct 7 window. Today (Wed 9/30) is empty. Thursday opens the window in Columbia and Franklin; Friday jumps to 8 sales with two new Spring Hill Facebook finds; Saturday 10/3 carries all 10 weekend sales, the volume day, headlined by the \u2605 Fieldstone Farms neighborhood sale; Sunday 10/4 carries 6 sales into their final day. '
+  +'<b>8 of 11 addresses are still approximate</b> (all three Columbia sales and all four Estate Greats/Sheila Franklin sales \u2014 street addresses are not yet in the public listing view; city/zip-centroid coordinates used per the never-fabricate rule). Three sales carry exact, Census-geocoded addresses: the Spring Hill moving sale (2110 Burgess Lane), the new Spring Hill antiques sale (2062 N. Amber Drive), and the \u2605 Fieldstone Farms neighborhood sale (109 Greystone Drive, Franklin 37069). '
   +'Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
