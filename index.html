@@ -230,37 +230,41 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-10-07 (Wednesday dawn pull, unattended 6am scheduled task) — 7-day window Oct 7-Oct 14.
-   Day counts: Wed 10/7 (today) 1 · Thu 10/8 2 · Fri 10/9 4 · Sat 10/10 6 (volume day) · Sun 10/11 2 ·
-   Mon 10/12 1 · Tue 10/13 0 · Wed 10/14 1.
+/* Daily auto-refresh, 2026-10-08 (Thursday dawn pull, unattended 6am scheduled task) — 7-day window Oct 8-Oct 15.
+   Day counts: Thu 10/8 (today) 2 · Fri 10/9 6 · Sat 10/10 7 (volume day) · Sun 10/11 2 ·
+   Mon 10/12 1 · Tue 10/13 0 · Wed 10/14 1 · Thu 10/15 2.
    Star pick: the Busy Bee Franklin Estate Sale (37069, 88-affluence zip) — dining/breakfast tables,
    sofas, adjustable beds, patio furniture, tools, bikes, yard equipment, Thu-Sat 10/8-10/10. Highest
-   combined affluence/signal score this run. Three carried-forward Franklin estate-company sales
-   (Clovercroft/Dogwood, West Main/Sheila, now joined by a new 489-style Berenice Denton piano sale
-   and a new Blk Dog "Mr. Gregg's Executive Transition Sale") anchor the back half of the week, all in
-   80-88 affluence Franklin zips from top-tier corridor companies. Two new Facebook finds this run:
-   a 2-house multi-family garage sale on Fernwood Lane (Columbia, Sat 10/10 only) and a moving sale on
-   Saddle Springs Drive (Thompson's Station, Fri-Sat 10/9-10/10 — truck, motorcycle, antiques, man-cave
-   items). The window's final day (Wed 10/14) opens with Grasons' "Collector's Dream" estate sale in
-   Columbia — a lifetime of collecting from a custom home — continuing past the window through 10/17.
-   5 of 8 addresses are still approximate (Clovercroft, Busy Bee, Berenice Denton's piano sale, and
-   Mr. Gregg's Transition Sale all release their street address 1-2 days ahead per estatesales.net/
-   Sheila/Blk Dog convention; Grasons releases 7am the morning it opens, 10/14). 3 of 8 sales carry
-   exact addresses pulled directly from the listing: 911 West Main St (Franklin, Estate Sales By
-   Sheila), 3028 & 3029 Fernwood Lane (Columbia, Facebook), and 1151 Saddle Springs Drive (Thompson's
-   Station, Facebook).
-   Held out, outside the Franklin-cap radius this run: Holt Woods Fall Community Yard Sale, 171 Holt
-   Hills Road, Nashville 37211 (whole-subdivision + neighboring Bradford Hills, Sat 10/10) — a genuinely
-   excellent neighborhood-wide find but roughly 39mi / 65min from Culleoka, outside the ~30mi cap this
-   run specified. Flagged in the Sources footer for Alex's awareness; not routed.
-   Smoke test (Node script run against the extracted sales array): 8 sales / 0 dup ids / all schema
-   fields present / 0 missing verify links / 0 bad coordinates / 5 approx sales / 3 exact-address
-   sales / 1 star sale / day counts Wed(10/7) 1, Thu(10/8) 2, Fri(10/9) 4, Sat(10/10) 6, Sun(10/11) 2,
-   Mon(10/12) 1, Tue(10/13) 0, Wed(10/14) 1 — PASSED. */
+   affluence score this run, carried forward unchanged. Four carried-forward Franklin estate-company
+   sales (Clovercroft/Dogwood, Busy Bee, Berenice Denton's piano sale, and Blk Dog's "Mr. Gregg's
+   Executive Transition Sale") anchor the back half of the week, all in 82-88 affluence Franklin zips
+   from top-tier corridor companies. The one-day West Main/Sheila sale from the prior run wrapped on
+   10/7 and was dropped. One new Facebook find this run, Census-geocoded: a garage sale on Durham
+   Manor Drive (Franklin, Fri-Sat 10/9-10/10 — home decor, Rae Dunn, holiday decorations). Two
+   carryover Facebook finds — the Fernwood Lane multi-family garage sale (Columbia, Sat 10/10) and
+   the Saddle Springs Drive moving sale (Thompson's Station, Fri-Sat 10/9-10/10 — truck, motorcycle,
+   antiques, man-cave items) — were re-confirmed live and upgraded from estimated to exact
+   Census-geocoded coordinates (the geocoder was reachable this run). One new EstateSales.org find:
+   the Fabulous Fayetteville Estate Sale (Estate Sales By Sheila, Fri 10/9). The window's final two
+   days bring new finds that continue past this window: Grasons' "Collector's Dream" estate sale in
+   Columbia (Wed-Thu 10/14-10/15, continuing through 10/17) and the Eclectic Collector's Sale in
+   College Grove (Dogwood Estate Sales, Thu 10/15, continuing through 10/17).
+   Held out, beyond the Franklin-cap radius this run: two Brentwood 37027 estate sales (Estate Sales
+   By Sheila's architectural-salvage teardown sale and Marigold's "General Store" sale) — roughly
+   40mi from Culleoka, versus Franklin's own ~32mi. Flagged in the Sources footer for Alex's
+   awareness; not routed. Held out per the never-fabricate rule: a Sportsmans Garage Sale repost
+   (Franklin, dated Sat 10/3 — already past), 619 Maynard Lane (Columbia, no month/day given), a
+   Hardison Hills community/fall-craft sale (Franklin, "today" with no date given), a Neighborhood
+   Yard Sale/Multi Family post (Franklin, dated Sept 19 — already past), and a Community Garage Sale
+   at Adams Preserve (Fairview — no date given, also outside the radius).
+   Smoke test (Node script run against the extracted sales array): 10 sales / 0 dup ids / all schema
+   fields present / 0 missing verify links / 0 bad coordinates / 7 approx sales / 3 exact-address
+   sales / 1 star sale / day counts Thu(10/8) 2, Fri(10/9) 6, Sat(10/10) 7, Sun(10/11) 2, Mon(10/12) 1,
+   Tue(10/13) 0, Wed(10/14) 1, Thu(10/15) 2 — PASSED. */
 var sales = [
 
  {id:1, name:"Franklin Estate Sale — Busy Bee Moving & Estate Sales", type:"ESTATE", star:true,
-   addr:"Franklin, TN 37069 (exact address not yet in the public listing — releases after 9am Wed 10/7)",
+   addr:"Franklin, TN 37069 (exact address not yet in the public listing)",
    q:"Franklin,+TN+37069",
    lat:35.957289, lon:-86.877883, approx:true, affluence:88, drive:0,
    dates:["2026-10-08","2026-10-09","2026-10-10"], time:"Thu–Sat 8am–3pm",
@@ -270,7 +274,7 @@ var sales = [
    link:"https://www.estatesales.net/TN/Franklin/37069/5091534"},
 
  {id:2, name:"Clovercroft Estate Sale — Dogwood Estate Sales, Franklin", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37067 (Clovercroft area; exact address not yet in the public listing — releases after 9am Wed 10/7)",
+   addr:"Franklin, TN 37067 (Clovercroft area; exact address not yet in the public listing)",
    q:"Franklin,+TN+37067",
    lat:35.942659, lon:-86.805067, approx:true, affluence:85, drive:0,
    dates:["2026-10-08","2026-10-09","2026-10-10"], time:"Thu–Sat 8:30am–3pm",
@@ -289,27 +293,17 @@ var sales = [
    cats:["estate","furniture","antique"],
    link:"https://www.estatesales.net/TN/Franklin/37067/5063418"},
 
- {id:4, name:"Huge Moving Sale — Saddle Springs Drive, Thompson's Station", type:"MOVING", star:false,
-   addr:"1151 Saddle Springs Drive, Thompson's Station, TN 37179",
-   q:"1151+Saddle+Springs+Drive,+Thompsons+Station,+TN+37179",
-   lat:35.795000, lon:-86.910000, approx:false, affluence:75, drive:0,
-   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat from 9am (times vary by day — more items out Saturday)",
-   start:"090000", end:"160000",
-   items:"2008 Chevy Silverado truck, 2023 Yamaha R7 motorcycle, riding mower with jack, antiques, furniture, collectibles, man-cave items, men's (XL/2XL) and women's clothing, shoes, handbags.",
-   cats:["moving","antique","furniture","vehicles"],
-   link:"https://www.facebook.com/marketplace/item/4783559011880035/"},
+ {id:4, name:"Garage Sale — Durham Manor Drive, Franklin", type:"YARD", star:false,
+   addr:"2437 Durham Manor Dr, Franklin, TN 37064",
+   q:"2437+Durham+Manor+Dr,+Franklin,+TN+37064",
+   lat:35.877783, lon:-86.858274, approx:false, affluence:82, drive:0,
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8am–2pm",
+   start:"080000", end:"140000",
+   items:"Home decor, holiday decorations, Tupperware, glassware, dishes, Rae Dunn pieces, and women's clothing — set up inside the garage. No early birds; starts sharp at 8am.",
+   cats:["decor","kitchen","clothing"],
+   link:"https://www.facebook.com/marketplace/item/1137901355472679/"},
 
- {id:5, name:"Multi-Family Garage Sale — Fernwood Lane, Columbia", type:"YARD", star:false,
-   addr:"3028 & 3029 Fernwood Lane, Columbia, TN 38401",
-   q:"3028+Fernwood+Lane,+Columbia,+TN+38401",
-   lat:35.630000, lon:-87.020000, approx:false, affluence:58, drive:0,
-   dates:["2026-10-10"], time:"Sat 8am–12pm",
-   start:"080000", end:"120000",
-   items:"Diecast collector cars, framed artwork and prints, poker chip sets, shop vac, computer monitors, surround-sound speakers, badminton set, camp chairs, portable A/C unit, ladder, moving blankets, nursery gate, end tables, china set, yard blower, boys' and girls' clothes.",
-   cats:["multi-family","collectibles","furniture","electronics"],
-   link:"https://www.facebook.com/marketplace/item/1353284816679269/"},
-
- {id:6, name:"Mr. Gregg's Executive Transition Sale — Blk Dog Estate Sales, Franklin", type:"ESTATE", star:false,
+ {id:5, name:"Mr. Gregg's Executive Transition Sale — Blk Dog Estate Sales, Franklin", type:"ESTATE", star:false,
    addr:"Franklin, TN 37064 (exact address not yet in the public listing — releases after 9am Fri 10/9)",
    q:"Franklin,+TN+37064",
    lat:35.907000, lon:-86.868000, approx:true, affluence:82, drive:0,
@@ -319,25 +313,55 @@ var sales = [
    cats:["estate","furniture","electronics"],
    link:"https://www.estatesales.net/TN/Franklin/37064/5087646"},
 
- {id:7, name:"West Main Estate Sale — Estate Sales By Sheila, Franklin", type:"ESTATE", star:false,
-   addr:"911 West Main St, Franklin, TN 37064",
-   q:"911+West+Main+St,+Franklin,+TN+37064",
-   lat:35.925100, lon:-86.870200, approx:false, affluence:82, drive:0,
-   dates:["2026-10-07"], time:"Wed 9am–3pm (1-day sale)",
-   start:"090000", end:"150000",
-   items:"Home decor, children's things, planters, nice clothing, shoes, linens, and numerous Disney toys suitable for holiday gifts and Halloween costumes. Priced to help the family downsize.",
-   cats:["estate","furniture"],
-   link:"https://estatesales.net/TN/Franklin/37064/5083029"},
+ {id:6, name:"Huge Moving Sale — Saddle Springs Drive, Thompson's Station", type:"MOVING", star:false,
+   addr:"1151 Saddle Springs Drive, Thompson's Station, TN 37179",
+   q:"1151+Saddle+Springs+Drive,+Thompsons+Station,+TN+37179",
+   lat:35.796538, lon:-86.756808, approx:false, affluence:75, drive:0,
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat from 9am (times vary by day — more items out Saturday)",
+   start:"090000", end:"160000",
+   items:"2008 Chevy Silverado truck, 2023 Yamaha R7 motorcycle, riding mower with jack, antiques, furniture, collectibles, man-cave items, men's (XL/2XL) and women's clothing, shoes, handbags.",
+   cats:["moving","antique","furniture","vehicles"],
+   link:"https://www.facebook.com/marketplace/item/4783559011880035/"},
 
- {id:8, name:"Collector's Dream Estate Sale — Grasons of Nashville, Columbia", type:"ESTATE", star:false,
+ {id:7, name:"Multi-Family Garage Sale — Fernwood Lane, Columbia", type:"YARD", star:false,
+   addr:"3028 & 3029 Fernwood Lane, Columbia, TN 38401",
+   q:"3028+Fernwood+Lane,+Columbia,+TN+38401",
+   lat:35.714614, lon:-86.982579, approx:false, affluence:58, drive:0,
+   dates:["2026-10-10"], time:"Sat 8am–12pm",
+   start:"080000", end:"120000",
+   items:"Diecast collector cars, framed artwork and prints, poker chip sets, shop vac, computer monitors, surround-sound speakers, badminton set, camp chairs, portable A/C unit, ladder, moving blankets, nursery gate, end tables, china set, yard blower, boys' and girls' clothes.",
+   cats:["multi-family","collectibles","furniture","electronics"],
+   link:"https://www.facebook.com/marketplace/item/1353284816679269/"},
+
+ {id:8, name:"Fabulous Fayetteville Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
+   addr:"Fayetteville, TN 37334 (exact address not yet in the public listing)",
+   q:"Fayetteville,+TN+37334",
+   lat:35.149500, lon:-86.573600, approx:true, affluence:42, drive:0,
+   dates:["2026-10-09"], time:"Fri 8am–3pm (hours estimated — verify via listing)",
+   start:"080000", end:"150000",
+   items:"General estate contents from a Fayetteville home — 1,246 photos on the listing; specific items not yet itemized in the public listing.",
+   cats:["estate"],
+   link:"https://estatesales.org/estate-sales/tn/fayetteville/37334/fabulous-fayetteville-estate-sale-2465634"},
+
+ {id:9, name:"Collector's Dream Estate Sale — Grasons of Nashville, Columbia", type:"ESTATE", star:false,
    addr:"Columbia, TN 38401 (exact address not public until 7am Wed 10/14 — a custom-home sale continuing through Sat 10/17, beyond this window)",
    q:"Columbia,+TN+38401",
    lat:35.615100, lon:-87.035300, approx:true, affluence:58, drive:0,
-   dates:["2026-10-14"], time:"Wed 10am–3pm (continues through Sat 10/17)",
+   dates:["2026-10-14","2026-10-15"], time:"Wed–Thu 10am–3pm (continues through Sat 10/17)",
    start:"100000", end:"150000",
    items:"\"A lifetime of collecting\" — artwork, vintage rugs, fine furniture, and unique collector pieces from a custom home. 552 photos on the listing.",
    cats:["estate","antique","vintage","furniture"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5072139"},
+
+ {id:10, name:"Eclectic Collector's Sale — Dogwood Estate Sales, College Grove", type:"ESTATE", star:false,
+   addr:"College Grove, TN 37046 (exact address not yet in the public listing — sale continues through Sat 10/17, beyond this window)",
+   q:"College+Grove,+TN+37046",
+   lat:35.763700, lon:-86.811600, approx:true, affluence:72, drive:0,
+   dates:["2026-10-15"], time:"Thu 8:30am–3pm (continues through Sat 10/17)",
+   start:"083000", end:"150000",
+   items:"Eclectic collectibles from Dogwood Estate Sales — 213 photos on the listing; specific items not yet itemized in the public listing.",
+   cats:["estate","collectibles"],
+   link:"https://www.estatesales.net/TN/College-Grove/37046/5069718"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -633,8 +657,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
     return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-    if(view==='weekend')return '<b>This weekend (10/9-10/11) is the volume stretch.</b> Friday 10/9 opens with the Saddle Springs Drive moving sale in Thompson\'s Station (truck, motorcycle, antiques, man-cave items) and the new Berenice Denton piano sale in Franklin, alongside the continuing Dogwood Clovercroft and star Busy Bee Franklin estate sales. Saturday 10/10 is the biggest day of the run -- all four carry over, joined by a new Fernwood Lane multi-family garage sale in Columbia and Mr. Gregg\'s Executive Transition Sale in Franklin -- six sales open at once. Sunday 10/11 holds the final day for the Berenice Denton piano sale, while Mr. Gregg\'s continues into Monday.';
-    return '<b>Plan the week.</b> <b>Wed 10/7 (today)</b> -- the Sheila West Main Franklin estate sale, a one-day-only sale (9am-3pm). <b>Thu 10/8</b> -- West Main wraps, joined by the Dogwood Clovercroft estate and the star Busy Bee Franklin estate sale. <b>Fri 10/9</b> -- Clovercroft and Busy Bee continue, joined by the new Berenice Denton piano sale (Franklin) and the new Saddle Springs Drive moving sale (Thompson\'s Station). <b>Sat 10/10</b> -- the biggest day: all four Friday sales wrap or continue, joined by a new Fernwood Lane multi-family garage sale (Columbia) and Mr. Gregg\'s Executive Transition Sale (Franklin) -- six sales open at once. <b>Sun 10/11</b> -- the Berenice Denton piano sale closes out; Mr. Gregg\'s continues. <b>Mon 10/12</b> -- Mr. Gregg\'s final day (9am-noon). <b>Tue 10/13</b> -- thin, nothing posted yet. <b>Wed 10/14</b> -- the window\'s edge opens with Grasons\' Collector\'s Dream estate sale in Columbia, a lifetime-of-collecting sale from a custom home that continues through Sat 10/17.';
+    if(view==='weekend')return '<b>This weekend (10/9-10/11) is the volume stretch.</b> Friday 10/9 opens with six sales at once -- the star Busy Bee Franklin and Dogwood Clovercroft estate sales continuing from Thursday, joined by the new Berenice Denton piano sale, a new garage sale on Durham Manor Drive in Franklin, the Saddle Springs Drive moving sale in Thompson\'s Station, and the Fabulous Fayetteville estate sale. Saturday 10/10 is the biggest day of the run -- seven sales open at once, adding Mr. Gregg\'s Executive Transition Sale and a new Fernwood Lane multi-family garage sale in Columbia. Sunday 10/11 holds the Berenice Denton piano sale\'s final day, while Mr. Gregg\'s continues into Monday.';
+    return '<b>Plan the week.</b> <b>Thu 10/8 (today)</b> -- the Dogwood Clovercroft estate sale and the star Busy Bee Franklin estate sale, both continuing. <b>Fri 10/9</b> -- six sales at once: Clovercroft and Busy Bee continue, joined by the new Berenice Denton piano sale (Franklin), a new garage sale on Durham Manor Drive (Franklin), the Saddle Springs Drive moving sale (Thompson\'s Station), and the Fabulous Fayetteville estate sale. <b>Sat 10/10</b> -- the biggest day: seven sales open, adding Mr. Gregg\'s Executive Transition Sale (Franklin) and a new Fernwood Lane multi-family garage sale (Columbia). <b>Sun 10/11</b> -- the Berenice Denton piano sale closes out; Mr. Gregg\'s continues. <b>Mon 10/12</b> -- Mr. Gregg\'s final day (9am-noon). <b>Tue 10/13</b> -- thin, nothing posted yet. <b>Wed 10/14</b> -- Grasons\' Collector\'s Dream estate sale opens in Columbia, a lifetime-of-collecting sale from a custom home. <b>Thu 10/15</b> -- Grasons continues, joined by the new Eclectic Collector\'s Sale in College Grove (both continue past this window through 10/17).';
 }
 
 /* ---------- select-to-route ---------- */
@@ -694,9 +718,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached (7-day window, 10/7-10/14): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) reached cleanly on all three pages -- surfaced West Main, Clovercroft, Busy Bee, the Berenice Denton piano sale, Mr. Gregg\'s Executive Transition Sale, and the Grasons Collector\'s Dream sale (window-edge, 10/14). EstateSales.org (Columbia cross-check) reached cleanly and corroborated the .net pull. gsalr.com returned a 403 on every fetch attempt this run (persistent bot-block) -- no gsalr-sourced listings this run. Craigslist (postal 38451, 30mi) redirected correctly but rendered only a single thin, no-date Chapel Hill listing -- not used. Facebook Marketplace WAS reached this run (Alex\'s logged-in Chrome, confirmed connected) -- searched garage/estate/yard/moving/barn/neighborhood/community-sale terms across Columbia, and opened every promising permalink into its full post body. Two strong in-window finds: the Fernwood Lane multi-family garage sale (Columbia, Sat 10/10) and the Saddle Springs Drive moving sale (Thompson\'s Station, Fri-Sat 10/9-10/10 -- truck, motorcycle, antiques). A genuinely excellent neighborhood-wide find -- the Holt Woods Fall Community Yard Sale, 171 Holt Hills Road, Nashville 37211 (whole-subdivision event plus the neighboring Bradford Hills area, Sat 10/10) -- surfaced but sits well outside the Franklin-cap radius (roughly 39mi / 65min from Culleoka) and was held out of this run\'s routed set; flagging it here for awareness. Several other Facebook candidates were past-dated and held out (Belmont Farms/Man O War Dr, 619 Maynard Lane, 319 Ballentine St in Pulaski, Poplar Creek Estates, Nashboro Woods, the Callie Way neighborhood sale). The cached fb-latest.md file (dated 2026-07-03) was too stale to reuse. The estate company registry\'s Tier-1 companies were covered via the EstateSales.NET pull itself (Dogwood, Busy Bee, Berenice Denton, Blk Dog, Grasons, and Estate Sales By Sheila all appeared there). '
-  +'<b>8 sales this run</b> -- the Oct 7-14 window. Wednesday 10/7 (today) is thin, just the one-day Sheila West Main estate sale. The week builds through Thursday-Friday to Saturday 10/10, the volume day with 6 sales open at once -- led by the star Busy Bee Franklin Estate Sale (88-affluence zip). The window\'s final day, Wednesday 10/14, opens with the new Grasons Collector\'s Dream estate sale in Columbia. '
-  +'<b>5 of 8 addresses are still approximate</b> (Clovercroft, Busy Bee, the Berenice Denton piano sale, and Mr. Gregg\'s Transition Sale all release their street address 1-2 days ahead per estatesales.net/Sheila/Blk Dog convention; Grasons releases 7am the morning it opens). <b>3 of 8 sales carry exact addresses pulled directly from the listing</b> -- 911 West Main St (Franklin), 3028 & 3029 Fernwood Lane (Columbia), and 1151 Saddle Springs Drive (Thompson\'s Station). '
+  'Sources reached (7-day window, 10/8-10/15): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) reached cleanly on all three pages -- surfaced Clovercroft, Busy Bee, the Berenice Denton piano sale, Mr. Gregg\'s Executive Transition Sale, the Grasons Collector\'s Dream sale, and the new Eclectic Collector\'s Sale in College Grove. EstateSales.org (Columbia cross-check) reached cleanly and corroborated the .net pull, also surfacing the Fabulous Fayetteville Estate Sale (Estate Sales By Sheila). gsalr.com returned a 403 on every fetch attempt this run (persistent bot-block) -- no gsalr-sourced listings. Craigslist (postal 38451, 30mi) redirected correctly but rendered only a single thin, no-date Chapel Hill listing -- not used. Two Tier-2 registry own-sites checked directly -- Bleu Estates (Columbia) showed only a past-dated (9/18-9/20) sale, and Great Scott Estate Sales\' own domain resolved to an unrelated Michigan business -- both held out as stale/mismatched. Facebook Marketplace WAS reached this run (Alex\'s logged-in Chrome, confirmed connected) -- searched garage/estate/yard/moving/neighborhood/community-sale terms across Columbia, Franklin, Spring Hill, and Thompson\'s Station, and opened every promising permalink into its full post body. One genuinely new find with a real street address, Census-geocoded: a garage sale on Durham Manor Drive in Franklin (Fri-Sat 10/9-10/10). Two carryovers were re-confirmed live and upgraded from estimated to exact Census-geocoded coordinates -- the Fernwood Lane multi-family garage sale (Columbia) and the Saddle Springs Drive moving sale (Thompson\'s Station). Several other Facebook candidates were held out per the never-fabricate rule: a Sportsmans Garage Sale repost (Franklin, dated Saturday Oct 3 -- already past), 619 Maynard Lane (Columbia, "Saturday/Sunday" with no month or day given), a Hardison Hills community/fall-craft sale (Franklin, "today" with no date given), a Neighborhood Yard Sale/Multi Family post (Franklin, dated Sept 19 -- already past), and a Community Garage Sale at Adams Preserve (Fairview -- no date given, and outside the Franklin-cap radius regardless). Two Brentwood estate sales (Estate Sales By Sheila\'s architectural-salvage teardown sale and Marigold\'s "General Store" sale, both Brentwood 37027) surfaced on EstateSales.NET but were held out as beyond the Franklin-cap radius this run (roughly 40mi from Culleoka, versus Franklin\'s own ~32mi) -- flagging them here for awareness, not routed. The cached fb-latest.md file (dated 2026-07-03) remains too stale to reuse. The estate company registry\'s Tier-1 companies were covered via the EstateSales.NET pull itself (Dogwood, Busy Bee, Berenice Denton, Blk Dog, Grasons, and Estate Sales By Sheila all appeared there). '
+  +'<b>10 sales this run</b> -- the Oct 8-15 window. Thursday 10/8 (today) is light, just two carryovers -- the star Busy Bee Franklin Estate Sale (88-affluence zip) and the Dogwood Clovercroft estate sale. The week builds through Friday to Saturday 10/10, the volume day with 7 sales open at once. The window\'s final days bring two new finds, both continuing past 10/15: Grasons\' Collector\'s Dream estate sale in Columbia (Wed 10/14) and the Eclectic Collector\'s Sale in College Grove (Thu 10/15). '
+  +'<b>7 of 10 addresses are still approximate</b> (Clovercroft, Busy Bee, the Berenice Denton piano sale, Mr. Gregg\'s Transition Sale, the Fabulous Fayetteville estate sale, Grasons, and the Eclectic Collector\'s Sale all release their street address closer to or on the day of the sale). <b>3 of 10 sales carry exact, Census-geocoded addresses</b> -- 2437 Durham Manor Dr (Franklin), 3028 & 3029 Fernwood Lane (Columbia), and 1151 Saddle Springs Drive (Thompson\'s Station). '
   +'Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
