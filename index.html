@@ -264,29 +264,29 @@
 var sales = [
 
  {id:1, name:"Franklin Estate Sale — Busy Bee Moving & Estate Sales", type:"ESTATE", star:true,
-   addr:"Franklin, TN 37069 (exact address not yet in the public listing)",
-   q:"Franklin,+TN+37069",
-   lat:35.957289, lon:-86.877883, approx:true, affluence:88, drive:0,
-   dates:["2026-10-08","2026-10-09","2026-10-10"], time:"Thu–Sat 8am–3pm",
+   addr:"120 Broadley Ct, Franklin, TN 37069",
+   q:"120+Broadley+Ct,+Franklin,+TN+37069",
+   lat:35.950198, lon:-86.869262, approx:false, affluence:88, drive:0,
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8am–3pm",
    start:"080000", end:"150000",
-   items:"Dining room table, breakfast table, sofas, adjustable beds, dressers, nightstands, end tables, mirrors, lamps, art, patio furniture, kitchen electronics, dishes, stereo equipment, TVs, men's and women's clothing, wicker furniture, tools, bikes, and yard equipment.",
+   items:"Dining room table, breakfast table, sofas, adjustable beds, dressers, nightstands, end tables, mirrors, lamps, art, patio furniture, kitchen electronics, dishes, stereo equipment, TVs, men's and women's clothing, wicker furniture, tools, bikes, and yard equipment. 690 photos on the listing.",
    cats:["estate","furniture","tools"],
    link:"https://www.estatesales.net/TN/Franklin/37069/5091534"},
 
  {id:2, name:"Clovercroft Estate Sale — Dogwood Estate Sales, Franklin", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37067 (Clovercroft area; exact address not yet in the public listing)",
-   q:"Franklin,+TN+37067",
-   lat:35.942659, lon:-86.805067, approx:true, affluence:85, drive:0,
-   dates:["2026-10-08","2026-10-09","2026-10-10"], time:"Thu–Sat 8:30am–3pm",
+   addr:"4088 Clovercroft Rd, Franklin, TN 37067",
+   q:"4088+Clovercroft+Rd,+Franklin,+TN+37067",
+   lat:35.917509, lon:-86.788748, approx:false, affluence:85, drive:0,
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8:30am–3pm",
    start:"083000", end:"150000",
    items:"A farmhouse and guest house full of furniture, glassware, china, household items, and lots of women's clothes. Dogwood Estate Sales — 20+ years, antiques depth, Belle Meade-tenured company reaching into Franklin's affluent Clovercroft area.",
    cats:["estate","furniture","antique"],
    link:"https://www.estatesales.net/TN/Franklin/37067/5069691"},
 
  {id:3, name:"Fabulous Franklin Sale — 1930s Baby Grand Piano (Berenice Denton Estate Sales)", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37067 (exact address not yet in the public listing — releases after 9am Thu 10/8)",
-   q:"Franklin,+TN+37067",
-   lat:35.942659, lon:-86.805067, approx:true, affluence:85, drive:0,
+   addr:"500 Eden Park Drive, Franklin, TN 37067",
+   q:"500+Eden+Park+Drive,+Franklin,+TN+37067",
+   lat:35.938423, lon:-86.797398, approx:false, affluence:85, drive:0,
    dates:["2026-10-09","2026-10-10","2026-10-11"], time:"Fri–Sat 9am–4pm, Sun 11am–3pm",
    start:"090000", end:"160000",
    items:"A 1930s butterfly-style baby grand piano headlines the sale, alongside a guitar, Lazy Boy recliners and a sofa, and Ethan Allen nesting tables. Berenice Denton Estate Sales — one of Nashville's oldest and most established estate companies (since 2004), Belle Meade-based.",
@@ -304,7 +304,7 @@ var sales = [
    link:"https://www.facebook.com/marketplace/item/1137901355472679/"},
 
  {id:5, name:"Mr. Gregg's Executive Transition Sale — Blk Dog Estate Sales, Franklin", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 (exact address not yet in the public listing — releases after 9am Fri 10/9)",
+   addr:"Franklin, TN 37064 (exact address not yet in the public listing — releases day-of)",
    q:"Franklin,+TN+37064",
    lat:35.907000, lon:-86.868000, approx:true, affluence:82, drive:0,
    dates:["2026-10-10","2026-10-11","2026-10-12"], time:"Sat–Sun 9am–4pm, Mon 9am–12pm",
@@ -334,12 +334,12 @@ var sales = [
    link:"https://www.facebook.com/marketplace/item/1353284816679269/"},
 
  {id:8, name:"Fabulous Fayetteville Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:false,
-   addr:"Fayetteville, TN 37334 (exact address not yet in the public listing)",
-   q:"Fayetteville,+TN+37334",
-   lat:35.149500, lon:-86.573600, approx:true, affluence:42, drive:0,
-   dates:["2026-10-09"], time:"Fri 8am–3pm (hours estimated — verify via listing)",
-   start:"080000", end:"150000",
-   items:"General estate contents from a Fayetteville home — 1,246 photos on the listing; specific items not yet itemized in the public listing.",
+   addr:"210 Bright Ave, Fayetteville, TN 37334",
+   q:"210+Bright+Ave,+Fayetteville,+TN+37334",
+   lat:35.157896, lon:-86.572107, approx:false, affluence:44, drive:0,
+   dates:["2026-10-09","2026-10-10","2026-10-11"], time:"Fri–Sun 8am–5pm",
+   start:"080000", end:"170000",
+   items:"General estate contents from a Fayetteville home — 1,335+ photos on the listing. Estate Sales By Sheila runs a Columbia-resident team member south of the Franklin cluster, deep in the corridor.",
    cats:["estate"],
    link:"https://estatesales.org/estate-sales/tn/fayetteville/37334/fabulous-fayetteville-estate-sale-2465634"},
 
@@ -349,19 +349,59 @@ var sales = [
    lat:35.615100, lon:-87.035300, approx:true, affluence:58, drive:0,
    dates:["2026-10-14","2026-10-15"], time:"Wed–Thu 10am–3pm (continues through Sat 10/17)",
    start:"100000", end:"150000",
-   items:"\"A lifetime of collecting\" — artwork, vintage rugs, fine furniture, and unique collector pieces from a custom home. 552 photos on the listing.",
+   items:"\"A lifetime of collecting\" — artwork, vintage rugs, fine furniture, and unique collector pieces from a custom home. 597 photos on the listing.",
    cats:["estate","antique","vintage","furniture"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5072139"},
 
  {id:10, name:"Eclectic Collector's Sale — Dogwood Estate Sales, College Grove", type:"ESTATE", star:false,
    addr:"College Grove, TN 37046 (exact address not yet in the public listing — sale continues through Sat 10/17, beyond this window)",
    q:"College+Grove,+TN+37046",
-   lat:35.763700, lon:-86.811600, approx:true, affluence:72, drive:0,
+   lat:35.763700, lon:-86.811600, approx:true, affluence:70, drive:0,
    dates:["2026-10-15"], time:"Thu 8:30am–3pm (continues through Sat 10/17)",
    start:"083000", end:"150000",
    items:"Eclectic collectibles from Dogwood Estate Sales — 213 photos on the listing; specific items not yet itemized in the public listing.",
    cats:["estate","collectibles"],
    link:"https://www.estatesales.net/TN/College-Grove/37046/5069718"},
+
+ {id:11, name:"Moving Sale — Sugar Creek Subdivision, Mount Pleasant", type:"MOVING", star:false,
+   addr:"620 Brookside Dr, Mount Pleasant, TN 38474 (Sugar Creek Subdivision, behind McDonald's)",
+   q:"620+Brookside+Dr,+Mount+Pleasant,+TN+38474",
+   lat:35.549879, lon:-87.201902, approx:false, affluence:48, drive:0,
+   dates:["2026-10-09","2026-10-10"], time:"Fri 8am–6pm, Sat 8am (cancelled if rain)",
+   start:"080000", end:"180000",
+   items:"Moving, must-sell — everything needs to go. Posted as two linked listings by the same seller at the same address.",
+   cats:["moving"],
+   link:"https://www.facebook.com/marketplace/item/1761641998458639/"},
+
+ {id:12, name:"Multifamily Yard Sale — Williamsport Landing, Columbia", type:"NEIGHBORHOOD", star:false,
+   addr:"Williamsport Landing Subdivision, Columbia, TN 38401 (near Whitthorne Middle School; street address not posted)",
+   q:"Williamsport+Landing,+Columbia,+TN+38401",
+   lat:35.615463, lon:-87.078638, approx:true, affluence:58, drive:0,
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 7am–2pm",
+   start:"070000", end:"140000",
+   items:"Whole-subdivision multifamily yard sale in Williamsport Landing, close to Whitthorne Middle School — multiple households, one stop.",
+   cats:["neighborhood","multi-family"],
+   link:"https://www.facebook.com/marketplace/item/1772839200710017/"},
+
+ {id:13, name:"Oakwood Estates Neighborhood Garage Sale, Franklin", type:"NEIGHBORHOOD", star:false,
+   addr:"Oakwood Estates Subdivision, Franklin, TN 37064 (Bowman Rd near Springdale; street address not posted)",
+   q:"Bowman+Rd,+Franklin,+TN+37064",
+   lat:35.912000, lon:-86.875000, approx:true, affluence:85, drive:0,
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat from 8am",
+   start:"080000", end:"150000",
+   items:"Whole-subdivision community garage sale across Oakwood Estates — multiple driveways, one stop in an affluent Franklin pocket.",
+   cats:["neighborhood"],
+   link:"https://www.craigslist.org/view/d/franklin-oakwood-estates-garage-sale/xvoTXTiPgZ8bCB6qMvVAMb"},
+
+ {id:14, name:"Franklin Home & Barn on the Farm Estate Sale — National Estate Company", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37064 (exact address not yet in the public listing — releases day-of; sale continues past this window through 10/18)",
+   q:"Franklin,+TN+37064",
+   lat:35.920000, lon:-86.860000, approx:true, affluence:82, drive:0,
+   dates:["2026-10-16"], time:"Fri 9am–2pm (continues through Sun 10/18)",
+   start:"090000", end:"140000",
+   items:"Home and barn contents from a working farm — National Estate Company's \"transitional estate sales\" format. 753 photos on the listing. Barn-sale signal fits the picker thesis.",
+   cats:["estate","barn","farm"],
+   link:"https://www.estatesales.net/TN/Franklin/37064/5104863"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -657,8 +697,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
     return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-    if(view==='weekend')return '<b>This weekend (10/9-10/11) is the volume stretch.</b> Friday 10/9 opens with six sales at once -- the star Busy Bee Franklin and Dogwood Clovercroft estate sales continuing from Thursday, joined by the new Berenice Denton piano sale, a new garage sale on Durham Manor Drive in Franklin, the Saddle Springs Drive moving sale in Thompson\'s Station, and the Fabulous Fayetteville estate sale. Saturday 10/10 is the biggest day of the run -- seven sales open at once, adding Mr. Gregg\'s Executive Transition Sale and a new Fernwood Lane multi-family garage sale in Columbia. Sunday 10/11 holds the Berenice Denton piano sale\'s final day, while Mr. Gregg\'s continues into Monday.';
-    return '<b>Plan the week.</b> <b>Thu 10/8 (today)</b> -- the Dogwood Clovercroft estate sale and the star Busy Bee Franklin estate sale, both continuing. <b>Fri 10/9</b> -- six sales at once: Clovercroft and Busy Bee continue, joined by the new Berenice Denton piano sale (Franklin), a new garage sale on Durham Manor Drive (Franklin), the Saddle Springs Drive moving sale (Thompson\'s Station), and the Fabulous Fayetteville estate sale. <b>Sat 10/10</b> -- the biggest day: seven sales open, adding Mr. Gregg\'s Executive Transition Sale (Franklin) and a new Fernwood Lane multi-family garage sale (Columbia). <b>Sun 10/11</b> -- the Berenice Denton piano sale closes out; Mr. Gregg\'s continues. <b>Mon 10/12</b> -- Mr. Gregg\'s final day (9am-noon). <b>Tue 10/13</b> -- thin, nothing posted yet. <b>Wed 10/14</b> -- Grasons\' Collector\'s Dream estate sale opens in Columbia, a lifetime-of-collecting sale from a custom home. <b>Thu 10/15</b> -- Grasons continues, joined by the new Eclectic Collector\'s Sale in College Grove (both continue past this window through 10/17).';
+    if(view==='weekend')return '<b>This weekend (10/9-10/11) is the volume stretch.</b> Friday 10/9 opens with nine sales at once -- the star Busy Bee Franklin and Dogwood Clovercroft estate sales, the Berenice Denton piano sale, the Durham Manor Drive garage sale, the Saddle Springs Drive moving sale in Thompson\'s Station, the Fabulous Fayetteville estate sale, the Sugar Creek moving sale in Mount Pleasant, and two neighborhood-wide sweeps -- Williamsport Landing in Columbia and Oakwood Estates in Franklin. Saturday 10/10 is the biggest day of the run -- all nine continue, joined by the new Fernwood Lane multi-family garage sale in Columbia, for eleven sales open at once. Sunday 10/11 holds the Berenice Denton piano sale\'s final day, while Mr. Gregg\'s Executive Transition Sale (Blk Dog, Franklin) opens.';
+    return '<b>Plan the week.</b> <b>Fri 10/9 (today)</b> -- nine sales open at once: the star Busy Bee Franklin and Dogwood Clovercroft estate sales, the Berenice Denton piano sale (Franklin), the Durham Manor Drive garage sale (Franklin), the Saddle Springs Drive moving sale (Thompson\'s Station), the Fabulous Fayetteville estate sale, the Sugar Creek moving sale (Mount Pleasant), and two neighborhood-wide sweeps -- Williamsport Landing (Columbia) and Oakwood Estates (Franklin). <b>Sat 10/10</b> -- the biggest day: all nine continue, plus a new Fernwood Lane multi-family garage sale (Columbia) -- eleven sales open. <b>Sun 10/11</b> -- the Berenice Denton piano sale closes out; Mr. Gregg\'s Executive Transition Sale (Blk Dog, Franklin) opens; the Fayetteville sale closes out too. <b>Mon 10/12</b> -- Mr. Gregg\'s final day (9am-noon). <b>Tue 10/13</b> -- thin, nothing posted yet. <b>Wed 10/14</b> -- Grasons\' Collector\'s Dream estate sale opens in Columbia, a lifetime-of-collecting sale from a custom home. <b>Thu 10/15</b> -- Grasons continues, joined by the Eclectic Collector\'s Sale in College Grove (both continue past this window through 10/17). <b>Fri 10/16</b> -- National Estate Company\'s Franklin Home & Barn on the Farm sale opens, a barn/farm estate sale continuing through 10/18.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -718,9 +758,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached (7-day window, 10/8-10/15): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) reached cleanly on all three pages -- surfaced Clovercroft, Busy Bee, the Berenice Denton piano sale, Mr. Gregg\'s Executive Transition Sale, the Grasons Collector\'s Dream sale, and the new Eclectic Collector\'s Sale in College Grove. EstateSales.org (Columbia cross-check) reached cleanly and corroborated the .net pull, also surfacing the Fabulous Fayetteville Estate Sale (Estate Sales By Sheila). gsalr.com returned a 403 on every fetch attempt this run (persistent bot-block) -- no gsalr-sourced listings. Craigslist (postal 38451, 30mi) redirected correctly but rendered only a single thin, no-date Chapel Hill listing -- not used. Two Tier-2 registry own-sites checked directly -- Bleu Estates (Columbia) showed only a past-dated (9/18-9/20) sale, and Great Scott Estate Sales\' own domain resolved to an unrelated Michigan business -- both held out as stale/mismatched. Facebook Marketplace WAS reached this run (Alex\'s logged-in Chrome, confirmed connected) -- searched garage/estate/yard/moving/neighborhood/community-sale terms across Columbia, Franklin, Spring Hill, and Thompson\'s Station, and opened every promising permalink into its full post body. One genuinely new find with a real street address, Census-geocoded: a garage sale on Durham Manor Drive in Franklin (Fri-Sat 10/9-10/10). Two carryovers were re-confirmed live and upgraded from estimated to exact Census-geocoded coordinates -- the Fernwood Lane multi-family garage sale (Columbia) and the Saddle Springs Drive moving sale (Thompson\'s Station). Several other Facebook candidates were held out per the never-fabricate rule: a Sportsmans Garage Sale repost (Franklin, dated Saturday Oct 3 -- already past), 619 Maynard Lane (Columbia, "Saturday/Sunday" with no month or day given), a Hardison Hills community/fall-craft sale (Franklin, "today" with no date given), a Neighborhood Yard Sale/Multi Family post (Franklin, dated Sept 19 -- already past), and a Community Garage Sale at Adams Preserve (Fairview -- no date given, and outside the Franklin-cap radius regardless). Two Brentwood estate sales (Estate Sales By Sheila\'s architectural-salvage teardown sale and Marigold\'s "General Store" sale, both Brentwood 37027) surfaced on EstateSales.NET but were held out as beyond the Franklin-cap radius this run (roughly 40mi from Culleoka, versus Franklin\'s own ~32mi) -- flagging them here for awareness, not routed. The cached fb-latest.md file (dated 2026-07-03) remains too stale to reuse. The estate company registry\'s Tier-1 companies were covered via the EstateSales.NET pull itself (Dogwood, Busy Bee, Berenice Denton, Blk Dog, Grasons, and Estate Sales By Sheila all appeared there). '
-  +'<b>10 sales this run</b> -- the Oct 8-15 window. Thursday 10/8 (today) is light, just two carryovers -- the star Busy Bee Franklin Estate Sale (88-affluence zip) and the Dogwood Clovercroft estate sale. The week builds through Friday to Saturday 10/10, the volume day with 7 sales open at once. The window\'s final days bring two new finds, both continuing past 10/15: Grasons\' Collector\'s Dream estate sale in Columbia (Wed 10/14) and the Eclectic Collector\'s Sale in College Grove (Thu 10/15). '
-  +'<b>7 of 10 addresses are still approximate</b> (Clovercroft, Busy Bee, the Berenice Denton piano sale, Mr. Gregg\'s Transition Sale, the Fabulous Fayetteville estate sale, Grasons, and the Eclectic Collector\'s Sale all release their street address closer to or on the day of the sale). <b>3 of 10 sales carry exact, Census-geocoded addresses</b> -- 2437 Durham Manor Dr (Franklin), 3028 & 3029 Fernwood Lane (Columbia), and 1151 Saddle Springs Drive (Thompson\'s Station). '
+  'Sources reached (7-day window, 10/9-10/16): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) reached cleanly on all three pages -- corroborated Clovercroft, Busy Bee, the Berenice Denton piano sale, Mr. Gregg\'s Executive Transition Sale, Grasons\' Collector\'s Dream sale, the Eclectic Collector\'s Sale in College Grove, and surfaced the new National Estate Company barn/farm sale opening 10/16. EstateSales.org (Columbia cross-check) reached cleanly and corroborated the .net pull, also confirming the Fabulous Fayetteville Estate Sale (Estate Sales By Sheila) with its exact address. gsalr.com returned a 403/empty response on every fetch attempt this run (persistent bot-block) -- no gsalr-sourced listings. Craigslist (postal 38451, 30mi) redirected correctly and surfaced two listings: a new neighborhood-wide Oakwood Estates garage sale in Franklin (used) and a Chapel Hill yard sale dated 9/18-9/19 (past-dated, dropped). Two Tier-2 registry own-sites were checked directly -- Bleu Estates (Columbia) still shows only a past-dated (9/18-9/20) sale, and Great Scott Estate Sales\' own site showed no current listings on its public pages -- both held out as stale. Facebook Marketplace WAS reached this run (Alex\'s logged-in Chrome, confirmed connected) -- searched garage/estate/yard/moving sale terms across Columbia and Culleoka, and opened every promising permalink into its full post body. Three genuinely new finds with real street addresses, Census-geocoded: a moving sale at 620 Brookside Dr in Mount Pleasant\'s Sugar Creek Subdivision (two linked listings, same seller/address), a multi-family garage sale at 3028 & 3029 Fernwood Lane in Columbia (re-confirmed, matches the prior run\'s carryover), and a neighborhood-wide multifamily sale in Columbia\'s Williamsport Landing subdivision near Whitthorne Middle School (no street number posted -- routed to the school as an approximate anchor). One Facebook candidate was held out per the never-fabricate rule: 619 Maynard Lane in Columbia ("Saturday 10am-5pm, Sunday 11am-4pm" with no month or day given, listed a week ago -- the referenced weekend has likely already passed). A hay-barn sale in Culleoka itself (tractors, antique trucks, Waterford Crystal, vintage quilts -- a strong fit for the picker thesis) was also held out: no date anywhere in the post. The cached fb-latest.md file (dated 2026-07-03) remains too stale to reuse and was not touched. The estate company registry\'s Tier-1 companies were covered via the EstateSales.NET pull itself (Dogwood, Busy Bee, Berenice Denton, Blk Dog, Grasons, National Estate Company, and Estate Sales By Sheila all appeared there). An ongoing Pulaski consignment auction (ammo/firearms/tools, Through The Vine Auctions, running 10/8-10/15) was noted but not routed -- auction format, no address, not an open-house sale. '
+  +'<b>14 sales this run</b> -- the Oct 9-16 window, up from 10 in yesterday\'s run. Friday 10/9 (today) and Saturday 10/10 are the volume days with nine and eleven sales open respectively. The week thins out Tuesday 10/13 (nothing posted yet), then Grasons\' Collector\'s Dream estate sale opens Wednesday 10/14 in Columbia, joined Thursday 10/15 by the Eclectic Collector\'s Sale in College Grove, and the window closes Friday 10/16 with National Estate Company\'s Franklin Home & Barn on the Farm sale. '
+  +'<b>8 of 14 addresses are exact, Census-geocoded</b> -- Busy Bee Franklin (120 Broadley Ct), Clovercroft (4088 Clovercroft Rd), the Berenice Denton piano sale (500 Eden Park Dr), Durham Manor Dr, Fernwood Lane, Saddle Springs Dr, the Fabulous Fayetteville sale (210 Bright Ave), and the Mount Pleasant moving sale (620 Brookside Dr). <b>6 of 14 are still approximate</b> -- Mr. Gregg\'s Transition Sale, Grasons, the Eclectic Collector\'s Sale, the National Estate Co. barn sale (all release day-of or closer to the sale), plus the two neighborhood-wide sweeps (Williamsport Landing and Oakwood Estates), which were posted with a subdivision name but no street number. '
   +'Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
