@@ -515,7 +515,204 @@ var ring=L.circle(HOME,{radius:RING_KM*1000,color:GOLD,weight:1.5,dashArray:'6,6
 var view='today', selectedDay=null, activeCats=[]; /* multi-select chips; empty = All */
 function activeDays(){
   if(view==='today')return [TODAY_ISO];
-      if(view==='weekend')return '<b>This weekend (10/10-10/11) is the volume stretch.</b> Saturday 10/10 (today) is the biggest day of the run -- twelve sales open at once: the star Busy Bee Franklin estate sale (final day, everything 50% off), Dogwood Clovercroft, the Berenice Denton piano sale, the Durham Manor Drive garage sale, Mr. Gregg\'s Executive Transition Sale (Blk Dog, Franklin), the Saddle Springs Drive moving sale, Fernwood Lane, the Fabulous Fayetteville estate sale, the Sugar Creek moving sale in Mount Pleasant, Williamsport Landing, Oakwood Estates, and a new yard sale on Jefferson Drive in Columbia. Sunday 10/11 narrows to three -- the Berenice Denton piano sale\'s final day, Mr. Gregg\'s Executive Transition Sale (which opened today), and the Fabulous Fayetteville estate sale\'s final day.';
+  if(view==='weekend')return WEEKEND;
+  return selectedDay?[selectedDay]:WINDOW;
+}
+
+/* ---------- view toggle ---------- */
+var toggleEl=document.getElementById('toggle');
+function countView(v){
+  var days = v==='today'?[TODAY_ISO]:(v==='weekend'?WEEKEND:WINDOW);
+  var ids={}; days.forEach(function(d){salesOn(d).forEach(function(s){ids[s.id]=1;});});
+  return Object.keys(ids).length;
+}
+document.getElementById('n-today').textContent=countView('today')+' open';
+document.getElementById('n-weekend').textContent=countView('weekend')+' sales';
+document.getElementById('n-week').textContent=countView('week')+' sales';
+[].forEach.call(toggleEl.children,function(b){
+  if(b.dataset.view===view)b.classList.add('on');
+  b.onclick=function(){view=b.dataset.view; selectedDay=null;
+    [].forEach.call(toggleEl.children,function(x){x.classList.remove('on');}); b.classList.add('on');
+    buildStrip(); render();};
+});
+
+/* ---------- day strip ---------- */
+var stripEl=document.getElementById('strip');
+function buildStrip(){
+  stripEl.innerHTML='';
+  WINDOW.forEach(function(isoStr){
+    var d=parseISO(isoStr), c=countOn(isoStr);
+    var el=document.createElement('div');
+    el.className='day'+(c?'':' empty')+(isoStr===TODAY_ISO?' today':'')+(isoStr===selectedDay?' on':'');
+    el.innerHTML='<div class="dn">'+DOW[d.getDay()]+'</div><div class="dd">'+d.getDate()+'</div>'
+      +'<div class="dc">'+(c?c+(c===1?' sale':' sales'):'—')+'</div>';
+    el.onclick=function(){
+      if(!c)return;
+      view='week';
+      selectedDay=(selectedDay===isoStr?null:isoStr);
+      [].forEach.call(toggleEl.children,function(x){x.classList.toggle('on',x.dataset.view==='week');});
+      buildStrip(); render();
+      document.getElementById('cards').scrollIntoView({behavior:'smooth',block:'start'});
+    };
+    stripEl.appendChild(el);
+  });
+}
+
+/* ---------- render ---------- */
+var cardsEl=document.getElementById('cards'), countEl=document.getElementById('count'),
+    emptyEl=document.getElementById('empty'), qEl=document.getElementById('q'),
+    clrEl=document.getElementById('clr'), routeBtn=document.getElementById('routeBtn'),
+    noteEl=document.getElementById('note'), subEl=document.getElementById('sub');
+
+function passesFilter(s){
+  var q=qEl.value.trim().toLowerCase();
+  var catOk=activeCats.length===0||activeCats.some(function(c){return hasCat(s,c);});
+  return catOk&&(q===''||s.hay.indexOf(q)>=0);
+}
+
+/* results mode: any active search/chip searches the WHOLE window, flat list (no per-day clicking) */
+function filterActive(){return qEl.value.trim()!==''||activeCats.length>0;}
+function firstOpen(s){for(var i=0;i<WINDOW.length;i++)if(s.dates.indexOf(WINDOW[i])>=0)return WINDOW[i];return s.dates[0];}
+function datesLabel(s){
+  var ds=s.dates.filter(function(d){return WINDOW.indexOf(d)>=0;}).sort();
+  if(!ds.length)return'';
+  function fmt(x){var d=parseISO(x);return DOW[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate();}
+  return ds.length>1?fmt(ds[0])+' – '+fmt(ds[ds.length-1]):fmt(ds[0]);
+}
+
+/* cat match: tagged in s.cats OR mentioned in the sale's item text (stemmed, so "watches" finds "watch") */
+function hasCat(s,c){
+  if(s.cats.indexOf(c)>=0)return true;
+  var cands=[c];
+  if(c.length>4&&c.slice(-2)==='es')cands.push(c.slice(0,-2));
+  if(c.length>3&&c.slice(-1)==='s')cands.push(c.slice(0,-1));
+  return cands.some(function(w){return w.length>=4&&s.hay.indexOf(w)>=0;});
+}
+
+function render(){
+  var resultsMode=filterActive(); /* search/chips → whole-window flat results, regardless of view/day */
+  var days=resultsMode?WINDOW:activeDays();
+  var grouped=(view!=='today')&&!resultsMode;
+  var q=qEl.value.trim().toLowerCase(); clrEl.style.display=q?'block':'none';
+  cardsEl.innerHTML='';
+  var visibleIds={}, daysWithSales=0;
+
+  subEl.textContent = resultsMode
+    ? 'Search results — every sale this week, all days'
+    : (view==='today'
+    ? dayLabel(TODAY_ISO)+' — what’s open right now'
+    : (view==='weekend' ? 'This weekend — '+WEEKEND.map(function(d){return DOW[parseISO(d).getDay()];}).join(' · ')
+      : (selectedDay? dayLabel(selectedDay)+' — single day' : 'Next 7 days — plan your hunt')));
+
+  // pass 1 — collect what's visible, then rank it ONCE (stop order, best first)
+  var dayLists={};
+  days.forEach(function(isoStr){
+    var open=salesOn(isoStr).filter(passesFilter);
+    dayLists[isoStr]=open;
+    open.forEach(function(s){visibleIds[s.id]=s;});
+  });
+  var routeList=[]; Object.keys(visibleIds).forEach(function(k){routeList.push(visibleIds[k]);});
+  routeList.sort(function(a,b){return b.score-a.score;});
+  var rank={}; routeList.forEach(function(s,i){rank[s.id]=i+1;});
+
+  // pass 2 — render; every card is numbered by its stop rank (matches map pins + route order)
+  if(resultsMode){
+    /* flat, deduped, best-first; each card carries its own dates — no per-day clicking */
+    routeList.forEach(function(s){renderCard(s,firstOpen(s),rank[s.id],true);});
+  } else
+  days.forEach(function(isoStr){
+    var open=dayLists[isoStr];
+    if(grouped){
+      var sec=document.createElement('div'); sec.className='day-sec';
+      var head=document.createElement('div'); head.className='day-head';
+      head.innerHTML='<div class="dh-l">'+dayLabel(isoStr).replace('Today · ','Today — ').replace('Tomorrow · ','Tomorrow — ')+'</div>'
+        +'<div class="dh-r">'+(open.length?open.length+(open.length===1?' sale':' sales'):'—')+'</div>';
+      sec.appendChild(head); cardsEl.appendChild(sec);
+      if(!open.length){
+        var e=document.createElement('div'); e.className='day-empty';
+        e.textContent=(q||activeCats.length)?'No matching sales this day.':'Nothing posted yet — re-check closer to the date.';
+        cardsEl.appendChild(e); return;
+      }
+      daysWithSales++;
+      if(open.length>1) addDayRoute(open);
+      open.forEach(function(s){renderCard(s,isoStr,rank[s.id]);});
+    } else {
+      open.forEach(function(s){renderCard(s,isoStr,rank[s.id]);});
+    }
+  });
+
+  // map: show only currently-visible sales, pins re-numbered by the SAME rank
+  var bounds=[HOME];
+  sales.forEach(function(s){
+    if(visibleIds[s.id]){ s.marker.setIcon(pinIcon(rank[s.id], s.star?GOLD:INK));
+      if(!map.hasLayer(s.marker))s.marker.addTo(map); bounds.push([s.lat,s.lon]); }
+    else if(map.hasLayer(s.marker)) map.removeLayer(s.marker);
+  });
+  if(bounds.length>1)map.fitBounds(bounds,{padding:[34,34],maxZoom:12}); else map.setView(HOME,10);
+
+  // route button: same ranked list
+  routeBtn.href=routeUrl(routeList);
+  routeBtn.style.display=routeList.length>1?'block':(routeList.length===1?'block':'none');
+  routeBtn.textContent=(view==='today'&&!resultsMode)?'Open today’s route in Google Maps'
+    :'Route all '+routeList.length+' visible stop'+(routeList.length===1?'':'s');
+
+  // count + empty
+  var uniq=routeList.length;
+  var scope=resultsMode?'across all days this week':(view==='today'?'today':(view==='weekend'?'this weekend':(selectedDay?dayLabel(selectedDay).toLowerCase():'the next 7 days')));
+  var label=(activeCats.length===0?'':' with '+activeCats.map(titleCase).join(' or '))+(q?' matching “'+qEl.value.trim()+'”':'');
+  countEl.textContent=uniq+' sale'+(uniq===1?'':'s')+label
+    +(grouped&&!selectedDay?' across '+daysWithSales+' day'+(daysWithSales===1?'':'s'):'')+' · '+scope
+    +(uniq>1?' · numbered in stop order, best first':'');
+  emptyEl.style.display=uniq?'none':'block';
+  emptyEl.textContent='No sales'+label+' for '+scope+'. Try another term, switch the view, or check back — the page refreshes daily.';
+
+  // note bar
+  noteEl.innerHTML=noteFor();
+
+  // keep the selected-route bar in sync after every re-render
+  updateSelBar();
+}
+
+function addDayRoute(open){
+  if(open.length<1)return;
+  var a=document.createElement('a'); a.className='day-route ico ico-route'; a.target='_blank'; a.rel='noopener';
+  a.href=routeUrl(open.slice().sort(function(x,y){return y.score-x.score;}));
+  a.textContent=open.length>1?'Route these '+open.length:'Navigate';
+  cardsEl.appendChild(a);
+}
+
+function renderCard(s,isoStr,n,showDates){
+  var c=document.createElement('div'); c.className='card'+(selected.has(s.id)?' sel':''); c.dataset.id=s.id;
+  var numCls=s.star?'num':'num ink';
+  var badge=s.type==="MULTI-FAMILY"?'<span class="badge nb">NEIGHBORHOOD</span>':'<span class="badge">'+s.type+'</span>';
+  var tags=s.cats.map(function(t){return '<span class="tag">'+titleCase(t)+'</span>';}).join('');
+  var when=showDates?' · <b>'+datesLabel(s)+'</b>':'';
+  c.innerHTML=
+    '<h2><span class="'+numCls+'" title="Stop order — best first">'+(n||s.id)+'</span>'+s.name+(s.star?' <span class="star">★</span>':'')+'</h2>'
+    +'<p class="meta">'+badge+s.time+when+'</p>'
+    +'<p class="addr pin-ico">'+s.addr+(s.approx?' <span class="approx">— exact address releases day-of</span>':'')+'</p>'
+    +'<p class="items">'+s.items+'</p>'
+    +'<div class="tags">'+tags+'</div>'
+    +'<div class="btns">'
+    +'<a class="map-btn" href="'+nav(s)+'" target="_blank" rel="noopener">Navigate</a>'
+    +'<a class="cal" href="'+gcal(s,isoStr)+'" target="_blank" rel="noopener">+ Calendar</a>'
+    +'<a class="fb" href="'+s.link+'" target="_blank" rel="noopener">Listing</a>'
+    +'</div>';
+  var st=document.createElement('button'); st.className='sel-toggle'; st.type='button';
+  st.setAttribute('aria-label','Add to route'); st.title='Add to route';
+  st.textContent=selected.has(s.id)?'✓':'+';
+  st.onclick=function(ev){ev.stopPropagation(); toggleSel(s.id);};
+  c.appendChild(st);
+  cardsEl.appendChild(c);
+}
+
+function noteFor(){
+  if(view==='today'){
+    var t=salesOn(TODAY_ISO);
+    if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
+    return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
+  }
+        if(view==='weekend')return '<b>This weekend (10/10-10/11) is the volume stretch.</b> Saturday 10/10 (today) is the biggest day of the run -- twelve sales open at once: the star Busy Bee Franklin estate sale (final day, everything 50% off), Dogwood Clovercroft, the Berenice Denton piano sale, the Durham Manor Drive garage sale, Mr. Gregg\'s Executive Transition Sale (Blk Dog, Franklin), the Saddle Springs Drive moving sale, Fernwood Lane, the Fabulous Fayetteville estate sale, the Sugar Creek moving sale in Mount Pleasant, Williamsport Landing, Oakwood Estates, and a new yard sale on Jefferson Drive in Columbia. Sunday 10/11 narrows to three -- the Berenice Denton piano sale\'s final day, Mr. Gregg\'s Executive Transition Sale (which opened today), and the Fabulous Fayetteville estate sale\'s final day.';
     return '<b>Plan the week.</b> <b>Sat 10/10 (today)</b> -- the biggest day of the run: twelve sales open at once, led by the star Busy Bee Franklin estate sale (final day, 50% off) and a new yard sale on Jefferson Drive in Columbia. <b>Sun 10/11</b> -- three sales close out: the Berenice Denton piano sale, Mr. Gregg\'s Executive Transition Sale, and the Fabulous Fayetteville estate sale. <b>Mon 10/12</b> -- Mr. Gregg\'s final day (9am-noon), the only sale open. <b>Tue 10/13</b> -- thin, nothing posted yet. <b>Wed 10/14</b> -- Grasons\' Collector\'s Dream estate sale opens in Columbia, a lifetime-of-collecting sale from a six-acre custom home. <b>Thu 10/15</b> -- Grasons continues, joined by the Eclectic Collector\'s Sale in College Grove. <b>Fri 10/16</b> -- both continue, joined by National Estate Company\'s Franklin Home & Barn on the Farm sale. <b>Sat 10/17</b> -- all three close out the window.';
 }
 
