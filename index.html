@@ -230,46 +230,51 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-10-08 (Thursday dawn pull, unattended 6am scheduled task) — 7-day window Oct 8-Oct 15.
-   Day counts: Thu 10/8 (today) 2 · Fri 10/9 6 · Sat 10/10 7 (volume day) · Sun 10/11 2 ·
-   Mon 10/12 1 · Tue 10/13 0 · Wed 10/14 1 · Thu 10/15 2.
-   Star pick: the Busy Bee Franklin Estate Sale (37069, 88-affluence zip) — dining/breakfast tables,
-   sofas, adjustable beds, patio furniture, tools, bikes, yard equipment, Thu-Sat 10/8-10/10. Highest
-   affluence score this run, carried forward unchanged. Four carried-forward Franklin estate-company
-   sales (Clovercroft/Dogwood, Busy Bee, Berenice Denton's piano sale, and Blk Dog's "Mr. Gregg's
-   Executive Transition Sale") anchor the back half of the week, all in 82-88 affluence Franklin zips
-   from top-tier corridor companies. The one-day West Main/Sheila sale from the prior run wrapped on
-   10/7 and was dropped. One new Facebook find this run, Census-geocoded: a garage sale on Durham
-   Manor Drive (Franklin, Fri-Sat 10/9-10/10 — home decor, Rae Dunn, holiday decorations). Two
-   carryover Facebook finds — the Fernwood Lane multi-family garage sale (Columbia, Sat 10/10) and
-   the Saddle Springs Drive moving sale (Thompson's Station, Fri-Sat 10/9-10/10 — truck, motorcycle,
-   antiques, man-cave items) — were re-confirmed live and upgraded from estimated to exact
-   Census-geocoded coordinates (the geocoder was reachable this run). One new EstateSales.org find:
-   the Fabulous Fayetteville Estate Sale (Estate Sales By Sheila, Fri 10/9). The window's final two
-   days bring new finds that continue past this window: Grasons' "Collector's Dream" estate sale in
-   Columbia (Wed-Thu 10/14-10/15, continuing through 10/17) and the Eclectic Collector's Sale in
-   College Grove (Dogwood Estate Sales, Thu 10/15, continuing through 10/17).
-   Held out, beyond the Franklin-cap radius this run: two Brentwood 37027 estate sales (Estate Sales
-   By Sheila's architectural-salvage teardown sale and Marigold's "General Store" sale) — roughly
-   40mi from Culleoka, versus Franklin's own ~32mi. Flagged in the Sources footer for Alex's
-   awareness; not routed. Held out per the never-fabricate rule: a Sportsmans Garage Sale repost
-   (Franklin, dated Sat 10/3 — already past), 619 Maynard Lane (Columbia, no month/day given), a
-   Hardison Hills community/fall-craft sale (Franklin, "today" with no date given), a Neighborhood
-   Yard Sale/Multi Family post (Franklin, dated Sept 19 — already past), and a Community Garage Sale
-   at Adams Preserve (Fairview — no date given, also outside the radius).
-   Smoke test (Node script run against the extracted sales array): 10 sales / 0 dup ids / all schema
-   fields present / 0 missing verify links / 0 bad coordinates / 7 approx sales / 3 exact-address
-   sales / 1 star sale / day counts Thu(10/8) 2, Fri(10/9) 6, Sat(10/10) 7, Sun(10/11) 2, Mon(10/12) 1,
-   Tue(10/13) 0, Wed(10/14) 1, Thu(10/15) 2 — PASSED. */
+/* Daily auto-refresh, 2026-10-10 (Saturday dawn pull, unattended 6am scheduled task) — 7-day window Oct 10-Oct 17.
+   15 sales, up from 14 in yesterday's run. Day counts: Sat 10/10 (today, volume day) 12 · Sun 10/11 3 ·
+   Mon 10/12 1 · Tue 10/13 0 · Wed 10/14 1 · Thu 10/15 2 · Fri 10/16 3 · Sat 10/17 3. Star unchanged:
+   Busy Bee Franklin Estate Sale (120 Broadley Ct, 37069, 88-affluence zip) — final day today, everything
+   50% off, re-confirmed via a second independent Facebook repost at the same address. Carried forward
+   unchanged: Clovercroft/Dogwood, the Berenice Denton piano sale, Durham Manor Dr, Mr. Gregg's
+   Executive Transition Sale (Blk Dog), the Saddle Springs Dr moving sale (re-confirmed via a duplicate
+   Facebook posting; seller update notes the truck and mower already sold), Fernwood Lane, the Fabulous
+   Fayetteville Estate Sale, the Sugar Creek/Mount Pleasant moving sale (re-confirmed via a duplicate
+   posting), Williamsport Landing, and Oakwood Estates. Three sales had their forward window extended
+   on primary-source confirmation: Grasons' Collector's Dream (Columbia) now runs Wed-Sat 10/14-10/17
+   per its own detail page; the Eclectic Collector's Sale (College Grove) now runs Thu-Sat 10/15-10/17;
+   National Estate Company's Franklin Home & Barn sale now runs Fri-Sat 10/16-10/17 within this window
+   (continues to Sun 10/18, beyond it). One new Facebook find via Alex's logged-in Chrome (confirmed
+   connected, every promising permalink opened into its full post body): a yard sale at 101 Jefferson
+   Drive, Columbia (corner of Jefferson & Theta Pike), today only — Census-geocoded to the exact corner,
+   though the post gave no specific hours. Held out per never-fabricate: a hay-barn sale in Culleoka
+   (tractors, antique trucks, Waterford Crystal, vintage quilts — still no date anywhere in the post,
+   third run flagging it), a horse-barn sale in Thompson's Station (no date given), a recurring
+   Neighborhood Yard Sale/Multi Family repost in Franklin (confirmed again dated Sept 19 — already
+   past), a Spring Hill estate sale dated Fri 10/2 (already past), and a 1427 Bradshaw Drive yard sale
+   in Columbia with a real address but no date in the post. Sources: EstateSales.NET (Columbia/38401,
+   Spring Hill/37174, Nashville — PRIMARY) and EstateSales.org (Columbia cross-check) both reached
+   cleanly. gsalr.com 403'd on the only attempt this run (persistent bot-block, Chrome browser pane not
+   used for gsalr this run) — no gsalr-sourced listings. Craigslist redirected correctly and surfaced
+   only the already-captured Oakwood Estates listing and a no-date Chapel Hill repost (dropped). Bleu
+   Estates and Great Scott Estate Sales were checked via the EstateSales.NET Columbia page — neither
+   appeared, consistent with recent runs (held out as stale/absent). Facebook reached cleanly via Alex's
+   logged-in Chrome — searched garage/estate/yard/moving/neighborhood/barn-sale terms across Columbia,
+   Culleoka, Spring Hill, Thompson's Station, and Franklin, opening every promising permalink into its
+   full post body; most candidates turned out to duplicate sales already in the set (same address,
+   different listing ID) or lacked a forward date. The cached fb-latest.md (dated 2026-07-03) remains far
+   too stale to reuse, untouched. US Census geocoder was reachable this run via WebFetch — the one new
+   address (101 Jefferson Dr) matched cleanly on the first attempt. Smoke test (Node, extracted array):
+   15 sales / 0 dup ids / all 18 schema fields present / 0 missing verify links / 0 bad coordinates /
+   9 exact / 6 approx / 1 star / day counts match exactly (12/3/1/0/1/2/3/3) — PASSED. */
 var sales = [
 
  {id:1, name:"Franklin Estate Sale — Busy Bee Moving & Estate Sales", type:"ESTATE", star:true,
    addr:"120 Broadley Ct, Franklin, TN 37069",
    q:"120+Broadley+Ct,+Franklin,+TN+37069",
    lat:35.950198, lon:-86.869262, approx:false, affluence:88, drive:0,
-   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8am–3pm",
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8am–3pm — final day Sat, everything 50% off",
    start:"080000", end:"150000",
-   items:"Dining room table, breakfast table, sofas, adjustable beds, dressers, nightstands, end tables, mirrors, lamps, art, patio furniture, kitchen electronics, dishes, stereo equipment, TVs, men's and women's clothing, wicker furniture, tools, bikes, and yard equipment. 690 photos on the listing.",
+   items:"Dining room table, breakfast table, sofas, adjustable beds, dressers, nightstands, end tables, mirrors, lamps, art, patio furniture, kitchen electronics, dishes, stereo equipment, TVs, men's and women's clothing, wicker furniture, tools, bikes, and yard equipment. Final-day Facebook repost confirms Saturday 8am-3pm, everything half off. 690 photos on the listing.",
    cats:["estate","furniture","tools"],
    link:"https://www.estatesales.net/TN/Franklin/37069/5091534"},
 
@@ -277,7 +282,7 @@ var sales = [
    addr:"4088 Clovercroft Rd, Franklin, TN 37067",
    q:"4088+Clovercroft+Rd,+Franklin,+TN+37067",
    lat:35.917509, lon:-86.788748, approx:false, affluence:85, drive:0,
-   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8:30am–3pm",
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8:30am–3pm — final day Saturday",
    start:"083000", end:"150000",
    items:"A farmhouse and guest house full of furniture, glassware, china, household items, and lots of women's clothes. Dogwood Estate Sales — 20+ years, antiques depth, Belle Meade-tenured company reaching into Franklin's affluent Clovercroft area.",
    cats:["estate","furniture","antique"],
@@ -289,7 +294,7 @@ var sales = [
    lat:35.938423, lon:-86.797398, approx:false, affluence:85, drive:0,
    dates:["2026-10-09","2026-10-10","2026-10-11"], time:"Fri–Sat 9am–4pm, Sun 11am–3pm",
    start:"090000", end:"160000",
-   items:"A 1930s butterfly-style baby grand piano headlines the sale, alongside a guitar, Lazy Boy recliners and a sofa, and Ethan Allen nesting tables. Berenice Denton Estate Sales — one of Nashville's oldest and most established estate companies (since 2004), Belle Meade-based.",
+   items:"A 1930s butterfly-style baby grand piano headlines the sale, alongside a Brazilian guitar, a Drexel dining suite (table, six chairs, china cabinet), a bachelor's chest, a glass-top breakfast table with four chairs, a Lazy Boy armchair and sofa, Ethan Allen nesting tables, and holiday items/home decor. Berenice Denton Estate Sales — one of Nashville's oldest and most established estate companies (since 2004), Belle Meade-based.",
    cats:["estate","furniture","antique"],
    link:"https://www.estatesales.net/TN/Franklin/37067/5063418"},
 
@@ -297,7 +302,7 @@ var sales = [
    addr:"2437 Durham Manor Dr, Franklin, TN 37064",
    q:"2437+Durham+Manor+Dr,+Franklin,+TN+37064",
    lat:35.877783, lon:-86.858274, approx:false, affluence:82, drive:0,
-   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8am–2pm",
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 8am–2pm — final day Saturday",
    start:"080000", end:"140000",
    items:"Home decor, holiday decorations, Tupperware, glassware, dishes, Rae Dunn pieces, and women's clothing — set up inside the garage. No early birds; starts sharp at 8am.",
    cats:["decor","kitchen","clothing"],
@@ -317,9 +322,9 @@ var sales = [
    addr:"1151 Saddle Springs Drive, Thompson's Station, TN 37179",
    q:"1151+Saddle+Springs+Drive,+Thompsons+Station,+TN+37179",
    lat:35.796538, lon:-86.756808, approx:false, affluence:75, drive:0,
-   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat from 9am (times vary by day — more items out Saturday)",
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat from 9am — final day Saturday (truck & mower already sold per seller update)",
    start:"090000", end:"160000",
-   items:"2008 Chevy Silverado truck, 2023 Yamaha R7 motorcycle, riding mower with jack, antiques, furniture, collectibles, man-cave items, men's (XL/2XL) and women's clothing, shoes, handbags.",
+   items:"2023 Yamaha R7 motorcycle, riding mower with jack, antiques, furniture, collectibles, man-cave items, men's (XL/2XL) and women's clothing, shoes, handbags. Seller update: the truck and riding mower have already sold.",
    cats:["moving","antique","furniture","vehicles"],
    link:"https://www.facebook.com/marketplace/item/4783559011880035/"},
 
@@ -344,22 +349,22 @@ var sales = [
    link:"https://estatesales.org/estate-sales/tn/fayetteville/37334/fabulous-fayetteville-estate-sale-2465634"},
 
  {id:9, name:"Collector's Dream Estate Sale — Grasons of Nashville, Columbia", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 (exact address not public until 7am Wed 10/14 — a custom-home sale continuing through Sat 10/17, beyond this window)",
+   addr:"Columbia, TN 38401 (exact address not public until 7am Wed 10/14 — a custom-home sale on six acres)",
    q:"Columbia,+TN+38401",
    lat:35.615100, lon:-87.035300, approx:true, affluence:58, drive:0,
-   dates:["2026-10-14","2026-10-15"], time:"Wed–Thu 10am–3pm (continues through Sat 10/17)",
+   dates:["2026-10-14","2026-10-15","2026-10-16","2026-10-17"], time:"Wed 10am–3pm, Thu–Fri 10am–2pm, Sat 9am–2pm",
    start:"100000", end:"150000",
-   items:"\"A lifetime of collecting\" — artwork, vintage rugs, fine furniture, and unique collector pieces from a custom home. 597 photos on the listing.",
+   items:"\"A lifetime of collecting\" — art, antiques, and collectibles filling a six-acre Columbia home that feels like a museum; the collector was also an artist. 603 photos on the listing.",
    cats:["estate","antique","vintage","furniture"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5072139"},
 
  {id:10, name:"Eclectic Collector's Sale — Dogwood Estate Sales, College Grove", type:"ESTATE", star:false,
-   addr:"College Grove, TN 37046 (exact address not yet in the public listing — sale continues through Sat 10/17, beyond this window)",
+   addr:"College Grove, TN 37046 (exact address not public until 9am Wed 10/14)",
    q:"College+Grove,+TN+37046",
    lat:35.763700, lon:-86.811600, approx:true, affluence:70, drive:0,
-   dates:["2026-10-15"], time:"Thu 8:30am–3pm (continues through Sat 10/17)",
+   dates:["2026-10-15","2026-10-16","2026-10-17"], time:"Thu–Sat 8:30am–3pm",
    start:"083000", end:"150000",
-   items:"Eclectic collectibles from Dogwood Estate Sales — 213 photos on the listing; specific items not yet itemized in the public listing.",
+   items:"Eclectic collectibles from Dogwood Estate Sales — 206 photos on the listing; specific items not yet itemized in the public listing.",
    cats:["estate","collectibles"],
    link:"https://www.estatesales.net/TN/College-Grove/37046/5069718"},
 
@@ -367,9 +372,9 @@ var sales = [
    addr:"620 Brookside Dr, Mount Pleasant, TN 38474 (Sugar Creek Subdivision, behind McDonald's)",
    q:"620+Brookside+Dr,+Mount+Pleasant,+TN+38474",
    lat:35.549879, lon:-87.201902, approx:false, affluence:48, drive:0,
-   dates:["2026-10-09","2026-10-10"], time:"Fri 8am–6pm, Sat 8am (cancelled if rain)",
+   dates:["2026-10-09","2026-10-10"], time:"Fri 8am–6pm, Sat 8am (cancelled if rain) — final day Saturday",
    start:"080000", end:"180000",
-   items:"Moving, must-sell — everything needs to go. Posted as two linked listings by the same seller at the same address.",
+   items:"Moving, must-sell — everything needs to go. Posted as two linked listings by the same seller at the same address, both re-confirmed live this run.",
    cats:["moving"],
    link:"https://www.facebook.com/marketplace/item/1761641998458639/"},
 
@@ -377,7 +382,7 @@ var sales = [
    addr:"Williamsport Landing Subdivision, Columbia, TN 38401 (near Whitthorne Middle School; street address not posted)",
    q:"Williamsport+Landing,+Columbia,+TN+38401",
    lat:35.615463, lon:-87.078638, approx:true, affluence:58, drive:0,
-   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 7am–2pm",
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat 7am–2pm — final day Saturday",
    start:"070000", end:"140000",
    items:"Whole-subdivision multifamily yard sale in Williamsport Landing, close to Whitthorne Middle School — multiple households, one stop.",
    cats:["neighborhood","multi-family"],
@@ -387,21 +392,31 @@ var sales = [
    addr:"Oakwood Estates Subdivision, Franklin, TN 37064 (Bowman Rd near Springdale; street address not posted)",
    q:"Bowman+Rd,+Franklin,+TN+37064",
    lat:35.912000, lon:-86.875000, approx:true, affluence:85, drive:0,
-   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat from 8am",
+   dates:["2026-10-09","2026-10-10"], time:"Fri–Sat from 8am — final day Saturday",
    start:"080000", end:"150000",
    items:"Whole-subdivision community garage sale across Oakwood Estates — multiple driveways, one stop in an affluent Franklin pocket.",
    cats:["neighborhood"],
    link:"https://www.craigslist.org/view/d/franklin-oakwood-estates-garage-sale/xvoTXTiPgZ8bCB6qMvVAMb"},
 
  {id:14, name:"Franklin Home & Barn on the Farm Estate Sale — National Estate Company", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 (exact address not yet in the public listing — releases day-of; sale continues past this window through 10/18)",
+   addr:"Franklin, TN 37064 (exact address not public until 9am Thu 10/15; continues past this window through Sun 10/18)",
    q:"Franklin,+TN+37064",
    lat:35.920000, lon:-86.860000, approx:true, affluence:82, drive:0,
-   dates:["2026-10-16"], time:"Fri 9am–2pm (continues through Sun 10/18)",
+   dates:["2026-10-16","2026-10-17"], time:"Fri–Sat 9am–2pm (continues Sun 10/18 9am–3pm, beyond this window)",
    start:"090000", end:"140000",
-   items:"Home and barn contents from a working farm — National Estate Company's \"transitional estate sales\" format. 753 photos on the listing. Barn-sale signal fits the picker thesis.",
+   items:"Home and barn contents from a working farm, slated for teardown — National Estate Company's \"transitional estate sales\" format. 753 photos on the listing. Barn-sale signal fits the picker thesis.",
    cats:["estate","barn","farm"],
    link:"https://www.estatesales.net/TN/Franklin/37064/5104863"},
+
+ {id:15, name:"Yard Sale — 101 Jefferson Drive, Columbia", type:"YARD", star:false,
+   addr:"101 Jefferson Dr, Columbia, TN 38401 (corner of Jefferson & Theta Pike)",
+   q:"101+Jefferson+Dr,+Columbia,+TN+38401",
+   lat:35.639850, lon:-87.027677, approx:false, affluence:58, drive:0,
+   dates:["2026-10-10"], time:"Sat — hours not stated in the post (call ahead to confirm start time)",
+   start:"090000", end:"130000",
+   items:"General yard sale — \"come one come all to the sale of the century,\" per the seller's post. No specific item list given; Census-geocoded to the exact corner address.",
+   cats:["yard"],
+   link:"https://www.facebook.com/marketplace/item/2033241147393948/"},
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -500,205 +515,8 @@ var ring=L.circle(HOME,{radius:RING_KM*1000,color:GOLD,weight:1.5,dashArray:'6,6
 var view='today', selectedDay=null, activeCats=[]; /* multi-select chips; empty = All */
 function activeDays(){
   if(view==='today')return [TODAY_ISO];
-  if(view==='weekend')return WEEKEND;
-  return selectedDay?[selectedDay]:WINDOW;
-}
-
-/* ---------- view toggle ---------- */
-var toggleEl=document.getElementById('toggle');
-function countView(v){
-  var days = v==='today'?[TODAY_ISO]:(v==='weekend'?WEEKEND:WINDOW);
-  var ids={}; days.forEach(function(d){salesOn(d).forEach(function(s){ids[s.id]=1;});});
-  return Object.keys(ids).length;
-}
-document.getElementById('n-today').textContent=countView('today')+' open';
-document.getElementById('n-weekend').textContent=countView('weekend')+' sales';
-document.getElementById('n-week').textContent=countView('week')+' sales';
-[].forEach.call(toggleEl.children,function(b){
-  if(b.dataset.view===view)b.classList.add('on');
-  b.onclick=function(){view=b.dataset.view; selectedDay=null;
-    [].forEach.call(toggleEl.children,function(x){x.classList.remove('on');}); b.classList.add('on');
-    buildStrip(); render();};
-});
-
-/* ---------- day strip ---------- */
-var stripEl=document.getElementById('strip');
-function buildStrip(){
-  stripEl.innerHTML='';
-  WINDOW.forEach(function(isoStr){
-    var d=parseISO(isoStr), c=countOn(isoStr);
-    var el=document.createElement('div');
-    el.className='day'+(c?'':' empty')+(isoStr===TODAY_ISO?' today':'')+(isoStr===selectedDay?' on':'');
-    el.innerHTML='<div class="dn">'+DOW[d.getDay()]+'</div><div class="dd">'+d.getDate()+'</div>'
-      +'<div class="dc">'+(c?c+(c===1?' sale':' sales'):'—')+'</div>';
-    el.onclick=function(){
-      if(!c)return;
-      view='week';
-      selectedDay=(selectedDay===isoStr?null:isoStr);
-      [].forEach.call(toggleEl.children,function(x){x.classList.toggle('on',x.dataset.view==='week');});
-      buildStrip(); render();
-      document.getElementById('cards').scrollIntoView({behavior:'smooth',block:'start'});
-    };
-    stripEl.appendChild(el);
-  });
-}
-
-/* ---------- render ---------- */
-var cardsEl=document.getElementById('cards'), countEl=document.getElementById('count'),
-    emptyEl=document.getElementById('empty'), qEl=document.getElementById('q'),
-    clrEl=document.getElementById('clr'), routeBtn=document.getElementById('routeBtn'),
-    noteEl=document.getElementById('note'), subEl=document.getElementById('sub');
-
-function passesFilter(s){
-  var q=qEl.value.trim().toLowerCase();
-  var catOk=activeCats.length===0||activeCats.some(function(c){return hasCat(s,c);});
-  return catOk&&(q===''||s.hay.indexOf(q)>=0);
-}
-
-/* results mode: any active search/chip searches the WHOLE window, flat list (no per-day clicking) */
-function filterActive(){return qEl.value.trim()!==''||activeCats.length>0;}
-function firstOpen(s){for(var i=0;i<WINDOW.length;i++)if(s.dates.indexOf(WINDOW[i])>=0)return WINDOW[i];return s.dates[0];}
-function datesLabel(s){
-  var ds=s.dates.filter(function(d){return WINDOW.indexOf(d)>=0;}).sort();
-  if(!ds.length)return'';
-  function fmt(x){var d=parseISO(x);return DOW[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate();}
-  return ds.length>1?fmt(ds[0])+' – '+fmt(ds[ds.length-1]):fmt(ds[0]);
-}
-
-/* cat match: tagged in s.cats OR mentioned in the sale's item text (stemmed, so "watches" finds "watch") */
-function hasCat(s,c){
-  if(s.cats.indexOf(c)>=0)return true;
-  var cands=[c];
-  if(c.length>4&&c.slice(-2)==='es')cands.push(c.slice(0,-2));
-  if(c.length>3&&c.slice(-1)==='s')cands.push(c.slice(0,-1));
-  return cands.some(function(w){return w.length>=4&&s.hay.indexOf(w)>=0;});
-}
-
-function render(){
-  var resultsMode=filterActive(); /* search/chips → whole-window flat results, regardless of view/day */
-  var days=resultsMode?WINDOW:activeDays();
-  var grouped=(view!=='today')&&!resultsMode;
-  var q=qEl.value.trim().toLowerCase(); clrEl.style.display=q?'block':'none';
-  cardsEl.innerHTML='';
-  var visibleIds={}, daysWithSales=0;
-
-  subEl.textContent = resultsMode
-    ? 'Search results — every sale this week, all days'
-    : (view==='today'
-    ? dayLabel(TODAY_ISO)+' — what’s open right now'
-    : (view==='weekend' ? 'This weekend — '+WEEKEND.map(function(d){return DOW[parseISO(d).getDay()];}).join(' · ')
-      : (selectedDay? dayLabel(selectedDay)+' — single day' : 'Next 7 days — plan your hunt')));
-
-  // pass 1 — collect what's visible, then rank it ONCE (stop order, best first)
-  var dayLists={};
-  days.forEach(function(isoStr){
-    var open=salesOn(isoStr).filter(passesFilter);
-    dayLists[isoStr]=open;
-    open.forEach(function(s){visibleIds[s.id]=s;});
-  });
-  var routeList=[]; Object.keys(visibleIds).forEach(function(k){routeList.push(visibleIds[k]);});
-  routeList.sort(function(a,b){return b.score-a.score;});
-  var rank={}; routeList.forEach(function(s,i){rank[s.id]=i+1;});
-
-  // pass 2 — render; every card is numbered by its stop rank (matches map pins + route order)
-  if(resultsMode){
-    /* flat, deduped, best-first; each card carries its own dates — no per-day clicking */
-    routeList.forEach(function(s){renderCard(s,firstOpen(s),rank[s.id],true);});
-  } else
-  days.forEach(function(isoStr){
-    var open=dayLists[isoStr];
-    if(grouped){
-      var sec=document.createElement('div'); sec.className='day-sec';
-      var head=document.createElement('div'); head.className='day-head';
-      head.innerHTML='<div class="dh-l">'+dayLabel(isoStr).replace('Today · ','Today — ').replace('Tomorrow · ','Tomorrow — ')+'</div>'
-        +'<div class="dh-r">'+(open.length?open.length+(open.length===1?' sale':' sales'):'—')+'</div>';
-      sec.appendChild(head); cardsEl.appendChild(sec);
-      if(!open.length){
-        var e=document.createElement('div'); e.className='day-empty';
-        e.textContent=(q||activeCats.length)?'No matching sales this day.':'Nothing posted yet — re-check closer to the date.';
-        cardsEl.appendChild(e); return;
-      }
-      daysWithSales++;
-      if(open.length>1) addDayRoute(open);
-      open.forEach(function(s){renderCard(s,isoStr,rank[s.id]);});
-    } else {
-      open.forEach(function(s){renderCard(s,isoStr,rank[s.id]);});
-    }
-  });
-
-  // map: show only currently-visible sales, pins re-numbered by the SAME rank
-  var bounds=[HOME];
-  sales.forEach(function(s){
-    if(visibleIds[s.id]){ s.marker.setIcon(pinIcon(rank[s.id], s.star?GOLD:INK));
-      if(!map.hasLayer(s.marker))s.marker.addTo(map); bounds.push([s.lat,s.lon]); }
-    else if(map.hasLayer(s.marker)) map.removeLayer(s.marker);
-  });
-  if(bounds.length>1)map.fitBounds(bounds,{padding:[34,34],maxZoom:12}); else map.setView(HOME,10);
-
-  // route button: same ranked list
-  routeBtn.href=routeUrl(routeList);
-  routeBtn.style.display=routeList.length>1?'block':(routeList.length===1?'block':'none');
-  routeBtn.textContent=(view==='today'&&!resultsMode)?'Open today’s route in Google Maps'
-    :'Route all '+routeList.length+' visible stop'+(routeList.length===1?'':'s');
-
-  // count + empty
-  var uniq=routeList.length;
-  var scope=resultsMode?'across all days this week':(view==='today'?'today':(view==='weekend'?'this weekend':(selectedDay?dayLabel(selectedDay).toLowerCase():'the next 7 days')));
-  var label=(activeCats.length===0?'':' with '+activeCats.map(titleCase).join(' or '))+(q?' matching “'+qEl.value.trim()+'”':'');
-  countEl.textContent=uniq+' sale'+(uniq===1?'':'s')+label
-    +(grouped&&!selectedDay?' across '+daysWithSales+' day'+(daysWithSales===1?'':'s'):'')+' · '+scope
-    +(uniq>1?' · numbered in stop order, best first':'');
-  emptyEl.style.display=uniq?'none':'block';
-  emptyEl.textContent='No sales'+label+' for '+scope+'. Try another term, switch the view, or check back — the page refreshes daily.';
-
-  // note bar
-  noteEl.innerHTML=noteFor();
-
-  // keep the selected-route bar in sync after every re-render
-  updateSelBar();
-}
-
-function addDayRoute(open){
-  if(open.length<1)return;
-  var a=document.createElement('a'); a.className='day-route ico ico-route'; a.target='_blank'; a.rel='noopener';
-  a.href=routeUrl(open.slice().sort(function(x,y){return y.score-x.score;}));
-  a.textContent=open.length>1?'Route these '+open.length:'Navigate';
-  cardsEl.appendChild(a);
-}
-
-function renderCard(s,isoStr,n,showDates){
-  var c=document.createElement('div'); c.className='card'+(selected.has(s.id)?' sel':''); c.dataset.id=s.id;
-  var numCls=s.star?'num':'num ink';
-  var badge=s.type==="MULTI-FAMILY"?'<span class="badge nb">NEIGHBORHOOD</span>':'<span class="badge">'+s.type+'</span>';
-  var tags=s.cats.map(function(t){return '<span class="tag">'+titleCase(t)+'</span>';}).join('');
-  var when=showDates?' · <b>'+datesLabel(s)+'</b>':'';
-  c.innerHTML=
-    '<h2><span class="'+numCls+'" title="Stop order — best first">'+(n||s.id)+'</span>'+s.name+(s.star?' <span class="star">★</span>':'')+'</h2>'
-    +'<p class="meta">'+badge+s.time+when+'</p>'
-    +'<p class="addr pin-ico">'+s.addr+(s.approx?' <span class="approx">— exact address releases day-of</span>':'')+'</p>'
-    +'<p class="items">'+s.items+'</p>'
-    +'<div class="tags">'+tags+'</div>'
-    +'<div class="btns">'
-    +'<a class="map-btn" href="'+nav(s)+'" target="_blank" rel="noopener">Navigate</a>'
-    +'<a class="cal" href="'+gcal(s,isoStr)+'" target="_blank" rel="noopener">+ Calendar</a>'
-    +'<a class="fb" href="'+s.link+'" target="_blank" rel="noopener">Listing</a>'
-    +'</div>';
-  var st=document.createElement('button'); st.className='sel-toggle'; st.type='button';
-  st.setAttribute('aria-label','Add to route'); st.title='Add to route';
-  st.textContent=selected.has(s.id)?'✓':'+';
-  st.onclick=function(ev){ev.stopPropagation(); toggleSel(s.id);};
-  c.appendChild(st);
-  cardsEl.appendChild(c);
-}
-
-function noteFor(){
-  if(view==='today'){
-    var t=salesOn(TODAY_ISO);
-    if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
-    return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
-  }
-    if(view==='weekend')return '<b>This weekend (10/9-10/11) is the volume stretch.</b> Friday 10/9 opens with nine sales at once -- the star Busy Bee Franklin and Dogwood Clovercroft estate sales, the Berenice Denton piano sale, the Durham Manor Drive garage sale, the Saddle Springs Drive moving sale in Thompson\'s Station, the Fabulous Fayetteville estate sale, the Sugar Creek moving sale in Mount Pleasant, and two neighborhood-wide sweeps -- Williamsport Landing in Columbia and Oakwood Estates in Franklin. Saturday 10/10 is the biggest day of the run -- all nine continue, joined by the new Fernwood Lane multi-family garage sale in Columbia, for eleven sales open at once. Sunday 10/11 holds the Berenice Denton piano sale\'s final day, while Mr. Gregg\'s Executive Transition Sale (Blk Dog, Franklin) opens.';
-    return '<b>Plan the week.</b> <b>Fri 10/9 (today)</b> -- nine sales open at once: the star Busy Bee Franklin and Dogwood Clovercroft estate sales, the Berenice Denton piano sale (Franklin), the Durham Manor Drive garage sale (Franklin), the Saddle Springs Drive moving sale (Thompson\'s Station), the Fabulous Fayetteville estate sale, the Sugar Creek moving sale (Mount Pleasant), and two neighborhood-wide sweeps -- Williamsport Landing (Columbia) and Oakwood Estates (Franklin). <b>Sat 10/10</b> -- the biggest day: all nine continue, plus a new Fernwood Lane multi-family garage sale (Columbia) -- eleven sales open. <b>Sun 10/11</b> -- the Berenice Denton piano sale closes out; Mr. Gregg\'s Executive Transition Sale (Blk Dog, Franklin) opens; the Fayetteville sale closes out too. <b>Mon 10/12</b> -- Mr. Gregg\'s final day (9am-noon). <b>Tue 10/13</b> -- thin, nothing posted yet. <b>Wed 10/14</b> -- Grasons\' Collector\'s Dream estate sale opens in Columbia, a lifetime-of-collecting sale from a custom home. <b>Thu 10/15</b> -- Grasons continues, joined by the Eclectic Collector\'s Sale in College Grove (both continue past this window through 10/17). <b>Fri 10/16</b> -- National Estate Company\'s Franklin Home & Barn on the Farm sale opens, a barn/farm estate sale continuing through 10/18.';
+      if(view==='weekend')return '<b>This weekend (10/10-10/11) is the volume stretch.</b> Saturday 10/10 (today) is the biggest day of the run -- twelve sales open at once: the star Busy Bee Franklin estate sale (final day, everything 50% off), Dogwood Clovercroft, the Berenice Denton piano sale, the Durham Manor Drive garage sale, Mr. Gregg\'s Executive Transition Sale (Blk Dog, Franklin), the Saddle Springs Drive moving sale, Fernwood Lane, the Fabulous Fayetteville estate sale, the Sugar Creek moving sale in Mount Pleasant, Williamsport Landing, Oakwood Estates, and a new yard sale on Jefferson Drive in Columbia. Sunday 10/11 narrows to three -- the Berenice Denton piano sale\'s final day, Mr. Gregg\'s Executive Transition Sale (which opened today), and the Fabulous Fayetteville estate sale\'s final day.';
+    return '<b>Plan the week.</b> <b>Sat 10/10 (today)</b> -- the biggest day of the run: twelve sales open at once, led by the star Busy Bee Franklin estate sale (final day, 50% off) and a new yard sale on Jefferson Drive in Columbia. <b>Sun 10/11</b> -- three sales close out: the Berenice Denton piano sale, Mr. Gregg\'s Executive Transition Sale, and the Fabulous Fayetteville estate sale. <b>Mon 10/12</b> -- Mr. Gregg\'s final day (9am-noon), the only sale open. <b>Tue 10/13</b> -- thin, nothing posted yet. <b>Wed 10/14</b> -- Grasons\' Collector\'s Dream estate sale opens in Columbia, a lifetime-of-collecting sale from a six-acre custom home. <b>Thu 10/15</b> -- Grasons continues, joined by the Eclectic Collector\'s Sale in College Grove. <b>Fri 10/16</b> -- both continue, joined by National Estate Company\'s Franklin Home & Barn on the Farm sale. <b>Sat 10/17</b> -- all three close out the window.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -758,9 +576,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached (7-day window, 10/9-10/16): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) reached cleanly on all three pages -- corroborated Clovercroft, Busy Bee, the Berenice Denton piano sale, Mr. Gregg\'s Executive Transition Sale, Grasons\' Collector\'s Dream sale, the Eclectic Collector\'s Sale in College Grove, and surfaced the new National Estate Company barn/farm sale opening 10/16. EstateSales.org (Columbia cross-check) reached cleanly and corroborated the .net pull, also confirming the Fabulous Fayetteville Estate Sale (Estate Sales By Sheila) with its exact address. gsalr.com returned a 403/empty response on every fetch attempt this run (persistent bot-block) -- no gsalr-sourced listings. Craigslist (postal 38451, 30mi) redirected correctly and surfaced two listings: a new neighborhood-wide Oakwood Estates garage sale in Franklin (used) and a Chapel Hill yard sale dated 9/18-9/19 (past-dated, dropped). Two Tier-2 registry own-sites were checked directly -- Bleu Estates (Columbia) still shows only a past-dated (9/18-9/20) sale, and Great Scott Estate Sales\' own site showed no current listings on its public pages -- both held out as stale. Facebook Marketplace WAS reached this run (Alex\'s logged-in Chrome, confirmed connected) -- searched garage/estate/yard/moving sale terms across Columbia and Culleoka, and opened every promising permalink into its full post body. Three genuinely new finds with real street addresses, Census-geocoded: a moving sale at 620 Brookside Dr in Mount Pleasant\'s Sugar Creek Subdivision (two linked listings, same seller/address), a multi-family garage sale at 3028 & 3029 Fernwood Lane in Columbia (re-confirmed, matches the prior run\'s carryover), and a neighborhood-wide multifamily sale in Columbia\'s Williamsport Landing subdivision near Whitthorne Middle School (no street number posted -- routed to the school as an approximate anchor). One Facebook candidate was held out per the never-fabricate rule: 619 Maynard Lane in Columbia ("Saturday 10am-5pm, Sunday 11am-4pm" with no month or day given, listed a week ago -- the referenced weekend has likely already passed). A hay-barn sale in Culleoka itself (tractors, antique trucks, Waterford Crystal, vintage quilts -- a strong fit for the picker thesis) was also held out: no date anywhere in the post. The cached fb-latest.md file (dated 2026-07-03) remains too stale to reuse and was not touched. The estate company registry\'s Tier-1 companies were covered via the EstateSales.NET pull itself (Dogwood, Busy Bee, Berenice Denton, Blk Dog, Grasons, National Estate Company, and Estate Sales By Sheila all appeared there). An ongoing Pulaski consignment auction (ammo/firearms/tools, Through The Vine Auctions, running 10/8-10/15) was noted but not routed -- auction format, no address, not an open-house sale. '
-  +'<b>14 sales this run</b> -- the Oct 9-16 window, up from 10 in yesterday\'s run. Friday 10/9 (today) and Saturday 10/10 are the volume days with nine and eleven sales open respectively. The week thins out Tuesday 10/13 (nothing posted yet), then Grasons\' Collector\'s Dream estate sale opens Wednesday 10/14 in Columbia, joined Thursday 10/15 by the Eclectic Collector\'s Sale in College Grove, and the window closes Friday 10/16 with National Estate Company\'s Franklin Home & Barn on the Farm sale. '
-  +'<b>8 of 14 addresses are exact, Census-geocoded</b> -- Busy Bee Franklin (120 Broadley Ct), Clovercroft (4088 Clovercroft Rd), the Berenice Denton piano sale (500 Eden Park Dr), Durham Manor Dr, Fernwood Lane, Saddle Springs Dr, the Fabulous Fayetteville sale (210 Bright Ave), and the Mount Pleasant moving sale (620 Brookside Dr). <b>6 of 14 are still approximate</b> -- Mr. Gregg\'s Transition Sale, Grasons, the Eclectic Collector\'s Sale, the National Estate Co. barn sale (all release day-of or closer to the sale), plus the two neighborhood-wide sweeps (Williamsport Landing and Oakwood Estates), which were posted with a subdivision name but no street number. '
+  'Sources reached (7-day window, 10/10-10/17): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) reached cleanly on all three pages -- corroborated Busy Bee, Clovercroft, the Berenice Denton piano sale, Mr. Gregg\'s Executive Transition Sale, Grasons\' Collector\'s Dream sale (confirmed its Wed-Sat 10/14-10/17 window), the Eclectic Collector\'s Sale in College Grove (confirmed Thu-Sat 10/15-10/17), and National Estate Company\'s Franklin Home & Barn sale (confirmed Fri-Sat 10/16-10/17). EstateSales.org (Columbia cross-check) reached cleanly and corroborated the .net pull, also re-confirming the Fabulous Fayetteville Estate Sale with its exact address. gsalr.com 403\'d on the only attempt this run (persistent bot-block) -- no gsalr-sourced listings. Craigslist (postal 38451, 30mi) redirected correctly and surfaced only the already-captured Oakwood Estates listing plus a no-date Chapel Hill repost (dropped). Bleu Estates and Great Scott Estate Sales were checked via the EstateSales.NET Columbia page -- neither appeared, consistent with recent runs. Facebook Marketplace WAS reached this run (Alex\'s logged-in Chrome, confirmed connected) -- searched garage/estate/yard/moving/neighborhood/barn-sale terms across Columbia, Culleoka, Spring Hill, Thompson\'s Station, and Franklin, opening every promising permalink into its full post body. One genuinely new find, Census-geocoded: a yard sale at 101 Jefferson Drive, Columbia (corner of Jefferson & Theta Pike), today only, though the post gave no specific hours. Most other candidates duplicated sales already in the set under a different listing ID -- the Saddle Springs and Sugar Creek moving sales each resurfaced as separate reposts, re-confirming both live -- or lacked a forward date. Held out per the never-fabricate rule: a Culleoka hay-barn sale (tractors, antique trucks, Waterford Crystal, vintage quilts -- no date in the post, third run flagging it), a Thompson\'s Station horse-barn sale (no date given), a recurring Franklin Neighborhood Yard Sale/Multi Family repost (confirmed again dated Sept 19 -- already past), a Spring Hill estate sale dated Fri 10/2 (already past), and a 1427 Bradshaw Drive yard sale in Columbia with a real address but no date. The cached fb-latest.md file (dated 2026-07-03) remains too stale to reuse and was not touched. '
+  +'<b>15 sales this run</b> -- the Oct 10-17 window, up from 14 in yesterday\'s run. Saturday 10/10 (today) is the volume day with twelve sales open. The week thins to three on Sunday, one on Monday, and nothing posted yet for Tuesday, before three estate sales (Grasons\' Collector\'s Dream, the Eclectic Collector\'s Sale, and National Estate Company\'s Franklin Home & Barn sale) carry the back half of the window from Wednesday through Saturday 10/17. '
+  +'<b>9 of 15 addresses are exact, Census-geocoded</b> -- Busy Bee Franklin (120 Broadley Ct), Clovercroft (4088 Clovercroft Rd), the Berenice Denton piano sale (500 Eden Park Dr), Durham Manor Dr, Fernwood Lane, Saddle Springs Dr, the Fabulous Fayetteville sale (210 Bright Ave), the Mount Pleasant moving sale (620 Brookside Dr), and the new Jefferson Drive yard sale in Columbia. <b>6 of 15 are still approximate</b> -- Mr. Gregg\'s Transition Sale, Grasons, the Eclectic Collector\'s Sale, and the National Estate Co. barn sale (all release day-of or closer to the sale), plus the two neighborhood-wide sweeps (Williamsport Landing and Oakwood Estates), which were posted with a subdivision name but no street number. '
   +'Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. '
   +'Always tap <b>Listing</b> to confirm before the drive.';
 
