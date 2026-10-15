@@ -230,169 +230,157 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-10-13 (Tuesday dawn pull, unattended 6am scheduled task) — 7-day window Oct 13-Oct 20.
-   13 sales, up from 8 in the prior run as the window's new Oct 16-17 Franklin/Brentwood/Nashville
-   cluster came into range: Dr. Holloway's tools-and-vintage-menswear sale and a first-time private
-   Westhaven condo sale (both Franklin 37064), Page Estate Sales' by-appointment Brentwood moving sale,
-   a one-day Estate-Sales-By-Sheila pop-up in Brentwood (Thu 10/15), and Estate Greats' Outstanding
-   Multi-Estate Sale in the 12 South corridor (Nashville 37204). The Oak Hill teardown sale (Nashville
-   37220) is on its final day today, Tue 10/13, 50% off, before it rolls off the window at tomorrow's
-   refresh. Carried forward unchanged (still approx — exact address gated behind a release time):
-   Grasons' Collector's Dream (Columbia), the Eclectic Collector's Sale (College Grove), the Marigold
-   "General Store" sale (Brentwood), National Estate Company's Franklin Home & Barn sale, Mr. Gregg's
-   Executive Transition Sale (Blk Dog, Franklin, still showing its 10/16-10/18 date change), the
-   Trillium antique-prints sale, and the star Beautiful Brentwood Estate Sale (K. Kawai baby grand
-   piano). Sources: EstateSales.NET (Columbia/38401, Spring Hill/37174 — 301-redirects into the
-   Nashville-metro pool — Nashville — PRIMARY) reached cleanly across all three pages. EstateSales.org
-   (Columbia cross-check + Nashville cross-check) also reached cleanly and corroborated the .net pull,
-   surfacing the Outstanding Multi-Estate Sale detail page. Estate Company Registry Tier-1 spot-check:
-   Bleu Estates' own-site page (Columbia) was reached and surfaced one 4-day Centerville sale, dropped —
-   Centerville is west of the Franklin-cap radius; Great Scott Estate Sales (Spring Hill) had no current
-   listing. gsalr.com failed on all attempts this run (CLIENT_ERROR, including the days=this_week&list=1
-   form) — no gsalr-sourced rows, a known recurring block. Craigslist's redirected city page rendered
-   only one dateless Chapel Hill repost, dropped. Facebook Marketplace WAS reached this run (Alex's
-   logged-in Chrome, confirmed connected) — searched garage/estate/yard/moving/barn/neighborhood-sale
-   terms across Columbia and opened the most promising permalinks into their full post bodies. No new
-   in-window finds survived: the recurring 319 Balletine St, Pulaski estate sale and "Last Day of
-   Massive Estate Sale" (Franklin, naming only "Saturday") still carry no confirmable date — now
-   flagging on a fifth run. Most other results were dateless or already past (the 101 Jefferson Dr yard
-   sale among them). The cached fb-latest.md file (dated 2026-07-03) remains far too stale to reuse and
-   was not touched. Excluded as past the Franklin-cap radius or off the north-south corridor: Mad Dog's
-   Picker's Paradise (Loretto, ~40mi), Murfreesboro and Nolensville listings, and a Bell Buckle farmhouse
-   sale (~31mi, southeast). Smoke test (Node, extracted array): 13 sales / 0 dup ids / all 18 schema
-   fields present / 0 missing verify links / 0 bad coordinates / 1 exact / 12 approx / 1 star / day
-   counts match exactly (1/1/4/9/11/5/0/0) — PASSED. */
+/* Daily auto-refresh, 2026-10-15 (Thursday dawn pull, unattended 6am scheduled task) — 7-day window Oct 15-Oct 22.
+   11 sales, down from 13 in the prior run as this run explicitly re-applied the strict ~30mi
+   Franklin-cap radius: the Oak Hill teardown sale (Nashville 37220, already past its final day),
+   the star Beautiful Brentwood Estate Sale, the Pop-Up Sale in Brentwood, the Brentwood "General
+   Store" sale, the by-appointment Brentwood moving sale, and the 12 South Nashville multi-estate
+   sale all rolled off — Brentwood/Nashville sit roughly 40mi from Culleoka, past the Franklin cap
+   the last several runs had drifted past. Also held out: a Pulaski consignment auction (Through
+   The Vine Auctions — ammo/firearms/tools, no street address, auction format, consistent with past
+   exclusions of that listing) and a dateless Craigslist Chapel Hill repost (never-fabricate). New
+   finds via Facebook Marketplace (Alex's logged-in Chrome, confirmed connected): a 3-family garage
+   sale on Harlan Road (Columbia — antiques, Harley gear, cast iron, exact address from the post
+   body), a neighborhood-wide multifamily sale in Columbia's Williamsport Landing subdivision
+   (routed to Whitthorne Middle School as the nearest geocoded anchor — Alex's top sale type), a
+   store-closeout yard sale on Clyde Foster Drive (Culleoka), a half-off multi-family sale on Haley
+   Lane (Columbia), and a tool sale on Nickalus Way (Spring Hill) — all five pulled by opening the
+   listing's own permalink and reading the full post body. Held out, no verifiable link found: a
+   "Yard sale Thursday, Friday and Saturday at 4445 Sowell Hollow Rd" listing that gave its address
+   and dates directly in the title, but whose item permalink could not be relocated after the
+   initial sidebar sighting — never-ship-without-a-link rule. Carried forward from the estate-
+   company feeds: Grasons' Collector's Dream (Columbia), the Eclectic Collector's Sale (College
+   Grove), National Estate Company's Franklin Home & Barn sale (this run's star — barn + farm
+   signal), Mr. Gregg's Executive Transition Sale (Blk Dog, Franklin), Dr. Holloway's tools-and-
+   vintage-menswear sale (Franklin), and the Trillium antique-prints sale (Franklin). Sources:
+   EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville — PRIMARY) reached cleanly across
+   all three pages. EstateSales.org (Columbia cross-check) also reached cleanly and corroborated
+   the .net pull. Estate Company Registry Tier-1 spot-check: Great Scott Estate Sales' own domain
+   (greatscottestatesales.com) now resolves to an unrelated Metro Detroit business — dropped,
+   flagging for a registry update; David Jent Realty & Auction's own site blocked the fetch via
+   robots.txt. gsalr.com failed on every attempt this run (CLIENT_ERROR on the Columbia, Spring
+   Hill, and Franklin city pages, including the required days=this_week&list=1 form) — a known
+   recurring block, no gsalr-sourced rows. Craigslist's redirected city page rendered only the one
+   dateless Chapel Hill repost, dropped. Facebook reached cleanly — searched garage/estate/yard/
+   moving/barn/neighborhood/subdivision-sale terms in Columbia, opened every promising permalink
+   into its full post body. The cached fb-latest.md file (dated ~2026-07-03) remains far too stale
+   to reuse and was not touched. US Census geocoder is blocked by the egress proxy from direct
+   curl/device_bash calls but reachable via WebFetch, as in several prior runs — all addresses
+   matched cleanly except Clyde Foster Drive (Culleoka), which the geocoder could not match —
+   approximated to the Culleoka town center. Smoke test (Node, extracted array): 11 sales / 0 dup
+   ids / all 18 schema fields present / 0 missing verify links / 0 bad coordinates / 4 exact / 7
+   approx / 1 star / day counts match exactly (6/7/8/2/0/0/0/0) — PASSED. */
 var sales = [
 
- {id:1, name:"Oak Hill Teardown Sale — Estate Sales By Sheila (final day, 50% off)", type:"ESTATE", star:false,
-   addr:"932 Forest Acres Court, Nashville, TN 37220",
-   q:"932+Forest+Acres+Court,+Nashville,+TN+37220",
-   lat:36.079300, lon:-86.781600, approx:false, affluence:90, drive:0,
-   dates:["2026-10-13"], time:"Final day — Tue 8am–5pm, 50% off",
-   start:"080000", end:"170000",
-   items:"Final-day, 50%-off teardown salvage sale — bricks (patio-ready), a decorative iron gate, cabinets and bookcases, window treatments (curtains and shutters), a fireplace mantel, chandeliers, doors, windows, and mirrors pulled from an Oak Hill home ahead of demolition. Caution: no electricity or water, no bathroom on site, sloped floors, and mold in the basement — a waiver is required to enter. Street parking only, on the home's side, to leave room for emergency vehicles.",
-   cats:["estate","salvage"],
-   link:"https://www.estatesales.net/TN/Nashville/37220/5042463"},
-
- {id:2, name:"Collector's Dream Estate Sale — Grasons of Nashville, Columbia", type:"ESTATE", star:false,
-   addr:"Columbia, TN 38401 (exact address not public until 7am Wed 10/14 — a six-acre custom-home sale)",
-   q:"Columbia,+TN+38401",
-   lat:35.615100, lon:-87.035300, approx:true, affluence:58, drive:0,
-   dates:["2026-10-14","2026-10-15","2026-10-16","2026-10-17"], time:"Wed 10am–3pm, Thu–Fri 10am–2pm, Sat 9am–2pm",
-   start:"090000", end:"150000",
-   items:"\"An Extraordinary Columbia Estate Sale\" — art, antiques, collectibles, and treasures filling a six-acre Columbia home belonging to a lifelong collector who was also a talented artist. 603 photos on the listing.",
+ {id:1, name:"Collector's Dream Estate Sale — Grasons of Nashville, Columbia", type:"ESTATE", star:false,
+   addr:"212 Kippsford Pond Road, Columbia, TN 38401",
+   q:"212+Kippsford+Pond+Road,+Columbia,+TN+38401",
+   lat:35.563878, lon:-87.036003, approx:false, affluence:58, drive:0,
+   dates:["2026-10-15","2026-10-16","2026-10-17"], time:"Thu–Sat 10am–2pm (one source shows a 3pm Saturday close — confirm via Listing)",
+   start:"100000", end:"140000",
+   items:"\"An Extraordinary Columbia Estate Sale\" from Grasons of Nashville — art, antiques, collectibles, and treasures filling a six-acre Columbia home belonging to a lifelong collector and artist. 603 photos on the listing.",
    cats:["estate","antique","vintage","collectibles"],
    link:"https://www.estatesales.net/TN/Columbia/38401/5072139"},
 
- {id:3, name:"Eclectic Collector's Sale — Dogwood Estate Sales, College Grove", type:"ESTATE", star:false,
-   addr:"College Grove, TN 37046 (exact address not public until 9am Wed 10/14)",
+ {id:2, name:"Eclectic Collector's Sale — Dogwood Estate Sales, College Grove", type:"ESTATE", star:false,
+   addr:"College Grove, TN 37046 (exact address not public until day-of)",
    q:"College+Grove,+TN+37046",
    lat:35.763700, lon:-86.811600, approx:true, affluence:70, drive:0,
    dates:["2026-10-15","2026-10-16","2026-10-17"], time:"Thu–Sat 8:30am–3pm",
    start:"083000", end:"150000",
-   items:"Antique and contemporary furniture, Oriental rugs, tools, home decor, household items, and small collectibles from Dogwood Estate Sales — more itemized detail promised closer to the sale date.",
+   items:"\"Dough Bowl on Legs\" eclectic collector's sale — antique and contemporary furniture, Oriental rugs, tools, home decor, household items, and small collectibles.",
    cats:["estate","antique","furniture","collectibles"],
    link:"https://www.estatesales.net/TN/College-Grove/37046/5069718"},
 
- {id:4, name:"\"The General Store\" Brentwood Estate Sale — Marigold Estate Sales", type:"ESTATE", star:false,
-   addr:"Brentwood, TN 37027 (exact address not public until 9am Wed 10/14)",
-   q:"Brentwood,+TN+37027",
-   lat:36.033100, lon:-86.782800, approx:true, affluence:92, drive:0,
-   dates:["2026-10-15","2026-10-16","2026-10-17"], time:"Thu–Fri 9am–3pm, Sat 10am–4pm",
-   start:"090000", end:"160000",
-   items:"General-store-themed merchandise and household goods — \"more photos and info to come\" per the listing. Marigold Estate Sales running the Brentwood affluent-zip cluster.",
-   cats:["estate","furniture"],
-   link:"https://www.estatesales.net/TN/Brentwood/37027/5100804"},
-
- {id:5, name:"Franklin Home & Barn on the Farm Estate Sale — National Estate Company", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 (exact address not public until 9am Thu 10/15)",
+ {id:3, name:"Franklin Home & Barn on the Farm Estate Sale — National Estate Company", type:"ESTATE", star:true,
+   addr:"Franklin, TN 37064 (exact address not public until day-of)",
    q:"Franklin,+TN+37064",
    lat:35.920000, lon:-86.860000, approx:true, affluence:82, drive:0,
-   dates:["2026-10-16","2026-10-17","2026-10-18"], time:"Fri–Sat 9am–2pm, Sun 9am–3pm",
-   start:"090000", end:"150000",
-   items:"Home and barn contents from a working farm slated for demolition — National Estate Company's \"transitional estate sales\" format, covering a large area. Barn-sale signal fits the picker thesis.",
+   dates:["2026-10-16","2026-10-17","2026-10-18"], time:"Fri–Sat 9am–2pm",
+   start:"090000", end:"140000",
+   items:"Home and barn contents from a working farm — National Estate Company's transitional-estate-sale format, 749 photos on the listing. Barn/farm signal fits the picker thesis squarely — this run's top pick.",
    cats:["estate","barn","farm"],
    link:"https://www.estatesales.net/TN/Franklin/37064/5104863"},
 
- {id:6, name:"Mr. Gregg's Executive Transition Sale — Blk Dog Estate Sales, Franklin (date changed)", type:"ESTATE", star:false,
+ {id:4, name:"Mr. Gregg's Executive Transition Sale — Blk Dog Estate Sales, Franklin", type:"ESTATE", star:false,
    addr:"Franklin, TN 37064 (exact address not yet public)",
    q:"Franklin,+TN+37064",
    lat:35.907000, lon:-86.868000, approx:true, affluence:82, drive:0,
-   dates:["2026-10-16","2026-10-17","2026-10-18"], time:"Fri–Sun 10am–3pm — rescheduled from last week's 10/10–10/12 dates",
+   dates:["2026-10-16","2026-10-17","2026-10-18"], time:"Fri–Sun 10am–3pm",
    start:"100000", end:"150000",
-   items:"Yellow sectional sofa, industrial shelving, reclaimed-wood pieces, Canon DSLR gear, KitchenAid mixers, air fryers, stained-glass windows, and a Loom & Leaf by Saatva mattress — \"stylish furniture, pro-level media gear, serious kitchen powerhouses, and uniquely Nashville touches.\" Confirm it's still on before driving — this is its second scheduled window.",
+   items:"Yellow sectional sofa, industrial shelving, reclaimed-wood pieces, Canon DSLR gear, KitchenAid mixers, air fryers, stained-glass windows, and a Loom & Leaf by Saatva mattress — \"stylish furniture, pro-level media gear.\"",
    cats:["estate","furniture","electronics"],
    link:"https://www.estatesales.net/TN/Franklin/37064/5087646"},
 
- {id:7, name:"Antique Prints, Maps & Rare Books Sale — Trillium Antique Prints & Rare Books, Franklin", type:"ESTATE", star:false,
+ {id:5, name:"Tools & Vintage Menswear Estate Sale — Dr. Holloway's Estate Sales, Franklin", type:"ESTATE", star:false,
+   addr:"Franklin, TN 37064 (exact address not public until day-of)",
+   q:"Franklin,+TN+37064",
+   lat:35.912000, lon:-86.865000, approx:true, affluence:82, drive:0,
+   dates:["2026-10-16","2026-10-17"], time:"Fri 8:45am–2:30pm, Sat 8:30am–2:30pm",
+   start:"083000", end:"143000",
+   items:"Well-organized garage tools, Nashville Predators and Titans fan merch, vintage men's clothing, 1980s decor, and a ladies' full-length mink coat.",
+   cats:["tools","vintage"],
+   link:"https://www.estatesales.net/TN/Franklin/37064/5114814"},
+
+ {id:6, name:"Antique Prints, Maps & Rare Books Sale — Trillium Antique Prints & Rare Books, Franklin", type:"ESTATE", star:false,
    addr:"Franklin, TN 37069 (exact address not yet public)",
    q:"Franklin,+TN+37069",
    lat:35.917800, lon:-86.842400, approx:true, affluence:88, drive:0,
    dates:["2026-10-17"], time:"Sat, starts 9am",
    start:"090000", end:"150000",
-   items:"Antique prints, maps, and rare books of natural history and botanicals — includes four Hawaiian fish prints by Bien. Niche picker/collector sale, 120 photos on the listing.",
+   items:"Antique prints, maps, and rare books of natural history and botanicals, including four Hawaiian fish prints by Bien. Niche picker/collector sale, 120 photos.",
    cats:["antique","collectibles"],
    link:"https://www.estatesales.net/TN/Franklin/37069/5109486"},
 
- {id:8, name:"Beautiful Brentwood Estate Sale — Estate Sales By Sheila", type:"ESTATE", star:true,
-   addr:"Brentwood, TN 37027 (exact address not public until 9am Fri 10/16)",
-   q:"Brentwood,+TN+37027",
-   lat:36.033100, lon:-86.782800, approx:true, affluence:92, drive:0,
-   dates:["2026-10-17","2026-10-18"], time:"Sat–Sun 8am–5pm",
+ {id:7, name:"3-Family Garage Sale — Harlan Road, Columbia", type:"GARAGE", star:false,
+   addr:"2339 Harlan Road, Columbia, TN 38401",
+   q:"2339+Harlan+Road,+Columbia,+TN+38401",
+   lat:35.689886, lon:-87.000132, approx:false, affluence:58, drive:0,
+   dates:["2026-10-15","2026-10-16","2026-10-17"], time:"Thu–Sat 7am–1pm",
+   start:"070000", end:"130000",
+   items:"MYRA handbags, antique washboards, antique-booth leftovers, Harley clothes/helmets/boots, grills, cast-iron dutch ovens, Tupperware, a rocker recliner, a lift chair, a table and 4 chairs, antique hand-hooked rugs, holiday items, Fiesta mugs, VHS/DVDs, and enamelware. Cash or Venmo; vendors welcome, no presales.",
+   cats:["multi-family","vintage","antique"],
+   link:"https://www.facebook.com/marketplace/item/1506565844657290/"},
+
+ {id:8, name:"Multifamily Yard Sale — Williamsport Landing Subdivision, Columbia", type:"NEIGHBORHOOD", star:false,
+   addr:"Williamsport Landing Subdivision, Columbia, TN (near Whitthorne Middle School — no street number posted)",
+   q:"915+Lion+Parkway,+Columbia,+TN+38401",
+   lat:35.614568, lon:-87.078892, approx:true, affluence:58, drive:0,
+   dates:["2026-10-16","2026-10-17"], time:"Fri–Sat 7am–2pm",
+   start:"070000", end:"140000",
+   items:"Whole-subdivision multifamily sale in Williamsport Landing, close to Whitthorne Middle School — a neighborhood-wide event, Alex's top sale type. No item list posted yet; routed to the school as the nearest geocoded anchor.",
+   cats:["neighborhood","subdivision","multi-family"],
+   link:"https://www.facebook.com/marketplace/item/1772839200710017/"},
+
+ {id:9, name:"Store Closeout / Yard Sale — Clyde Foster Drive, Culleoka", type:"YARD", star:false,
+   addr:"3186 Clyde Foster Dr, Culleoka, TN 38451",
+   q:"3186+Clyde+Foster+Dr,+Culleoka,+TN+38451",
+   lat:35.454800, lon:-86.903600, approx:true, affluence:55, drive:0,
+   dates:["2026-10-15"], time:"No specific hours posted — confirm via Listing",
    start:"080000", end:"170000",
-   items:"A K. Kawai GS-50 baby grand player piano headlines the sale (offers taken), alongside a dining table and chairs, china hutch, buffet, bedroom furniture, a sofa, side chairs and tables, books, DVDs, china, crystal, Pyrex, Corning Ware, Christmas decor, and hand/garden/power tools.",
-   cats:["estate","furniture","antique","tools"],
-   link:"https://www.estatesales.net/TN/Brentwood/37027/5077458"},
+   items:"Huge store closeout with yard-sale pricing — everything new. No date range or hours beyond \"today\" in the post; confirm via Listing before driving.",
+   cats:["closeout"],
+   link:"https://www.facebook.com/marketplace/item/2208657689700878/"},
 
- {id:9, name:"Pop-Up Sale in Brentwood — Estate Sales By Sheila", type:"ESTATE", star:false,
-   addr:"Brentwood, TN 37027 (exact address not public until 9am Wed 10/14)",
-   q:"Brentwood,+TN+37027",
-   lat:36.033100, lon:-86.782800, approx:true, affluence:92, drive:0,
-   dates:["2026-10-15"], time:"Thu 8am–5pm (one-day pop-up)",
+ {id:10, name:"Multi-Family Yard Sale (Half Off) — Haley Lane, Columbia", type:"YARD", star:false,
+   addr:"4622 Haley Lane, Columbia, TN 38401",
+   q:"4622+Haley+Lane,+Columbia,+TN+38401",
+   lat:35.501423, lon:-87.102818, approx:false, affluence:58, drive:0,
+   dates:["2026-10-15"], time:"No specific date confirmed — prices just dropped; confirm via Listing",
    start:"080000", end:"170000",
-   items:"One-day pop-up — twin beds, a vintage secretary, lamps, clocks, rugs, prints, crystal, linens, mirrors, side tables and chairs, a cedar chest, a pair of children's rockers, a nightstand, Christmas items, a garage refrigerator, cabinets, and kitchenware. Photos and more detail to be posted as the home is sorted.",
-   cats:["estate","vintage","furniture"],
-   link:"https://www.estatesales.net/TN/Brentwood/37027/5115285"},
+   items:"Multi-family yard sale, prices just dropped — everything half off. No forward date confirmed in the listing; confirm via Listing before driving.",
+   cats:["multi-family"],
+   link:"https://www.facebook.com/marketplace/item/2225691908829818/"},
 
- {id:10, name:"Tools & Vintage Menswear Estate Sale — Dr. Holloway's Estate Sales, Franklin", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 (exact address not public until 9am Thu 10/15)",
-   q:"Franklin,+TN+37064",
-   lat:35.912000, lon:-86.865000, approx:true, affluence:82, drive:0,
-   dates:["2026-10-16","2026-10-17"], time:"Fri 8:45am–2:30pm, Sat 8:30am–2:30pm",
-   start:"083000", end:"143000",
-   items:"Well-organized garage tools, Nashville Predators and Tennessee Titans fan merch and clothing, 1980s–1990s-style furniture, vintage men's clothing, 80s decor, and a ladies' full-length mink coat.",
-   cats:["tools","vintage"],
-   link:"https://www.estatesales.net/TN/Franklin/37064/5114814"},
-
- {id:11, name:"Westhaven Estate Sale (Victorian Antiques) — Franklin, privately listed", type:"ESTATE", star:false,
-   addr:"Franklin, TN 37064 — Westhaven condo (exact address not public until 9am Thu 10/15)",
-   q:"Franklin,+TN+37064",
-   lat:35.913000, lon:-86.863000, approx:true, affluence:88, drive:0,
-   dates:["2026-10-16","2026-10-17","2026-10-18"], time:"Fri–Sat 10am–6pm, Sun 10am–4pm",
-   start:"100000", end:"160000",
-   items:"First-time private sale in a Westhaven condo — a Victorian six-shelf whatnot etagere, an antique Victorian iron-and-marble floor lamp, antique stained glass transom, vintage china and glassware, a vintage secretary desk, a French provincial table with six chairs, a bow-front china cabinet, and two like-new twin adjustable beds with memory foam mattresses. Cash or Venmo only; buyer loads purchases.",
-   cats:["antique","vintage","furniture"],
-   link:"https://www.estatesales.net/TN/Franklin/37064/5114433"},
-
- {id:12, name:"Brentwood Moving Sale (By Appointment) — Page Estate Sales", type:"ESTATE", star:false,
-   addr:"Brentwood, TN 37027 — by appointment, text (615) 305-2587 for the address and a visit time",
-   q:"Brentwood,+TN+37027",
-   lat:36.033100, lon:-86.782800, approx:true, affluence:92, drive:0,
-   dates:["2026-10-16","2026-10-17"], time:"Fri–Sat 9am–2pm (text ahead to confirm a visit time)",
-   start:"090000", end:"140000",
-   items:"By-appointment moving sale — cherry wood media display cabinets, a loveseat, two La-Z-Boy recliners, a Waterford Vintage cut-crystal lamp, plus garage and general household items. Cash and cards only, no checks.",
-   cats:["furniture","moving"],
-   link:"https://www.estatesales.net/TN/Brentwood/37027/5103378"},
-
- {id:13, name:"Outstanding Multi-Estate Sale — Estate Greats, Nashville (12 South)", type:"ESTATE", star:false,
-   addr:"Nashville, TN 37204 — 12 South (exact address not public until 9am Thu 10/15)",
-   q:"Nashville,+TN+37204",
-   lat:36.118000, lon:-86.788000, approx:true, affluence:85, drive:0,
-   dates:["2026-10-16","2026-10-17","2026-10-18"], time:"Fri–Sat 9am–3pm, Sun 10am–2pm",
-   start:"090000", end:"150000",
-   items:"Multi-estate sale in the 12 South/Melrose corridor from Estate Greats' certified appraisers — 277 photos posted on the listing; a full item list is \"coming soon.\" Cash, credit/debit, and Venmo accepted; all sales final.",
-   cats:["estate"],
-   link:"https://estatesales.org/estate-sales/tn/nashville/37204/outstanding-multiestate-estate-sale-2465375"}
+ {id:11, name:"Tool Sale — Nickalus Way, Spring Hill", type:"GARAGE", star:false,
+   addr:"7038 Nickalus Way, Spring Hill, TN 37174",
+   q:"7038+Nickalus+Way,+Spring+Hill,+TN+37174",
+   lat:35.703228, lon:-86.909888, approx:false, affluence:70, drive:0,
+   dates:["2026-10-15"], time:"Listed today — no specific hours posted; confirm via Listing",
+   start:"080000", end:"170000",
+   items:"Large tool sale — generator, table saw, miter saw, welder, and more.",
+   cats:["tools"],
+   link:"https://www.facebook.com/marketplace/item/1146734421018171/"}
 
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -688,8 +676,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
     return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-        if(view==='weekend')return '<b>Fri 10/16–Sun 10/18 is the volume stretch.</b> Nine sales open Friday — Grasons\' Collector\'s Dream (Columbia), the Eclectic Collector\'s Sale (College Grove), Marigold\'s "General Store" sale (Brentwood), National Estate Company\'s Franklin Home & Barn sale, Mr. Gregg\'s rescheduled Executive Transition Sale, Dr. Holloway\'s tools-and-vintage-menswear sale, the Westhaven condo antiques sale, Page Estate Sales\' by-appointment Brentwood moving sale, and Estate Greats\' Multi-Estate Sale in 12 South — joined Saturday by the Trillium antique-prints sale and the star Beautiful Brentwood Estate Sale (piano, china, tools) for the week\'s peak of eleven. Sunday thins to five as the Barn sale, Mr. Gregg\'s sale, the Westhaven sale, Estate Greats\' sale, and the star Brentwood sale close out.';
-    return '<b>Plan the week.</b> <b>Tue 10/13 (today)</b> — the Oak Hill teardown sale closes out its final day in Nashville 37220, 50% off. <b>Wed 10/14</b> — Grasons\' Collector\'s Dream estate sale opens in Columbia, a lifetime-of-collecting sale from a six-acre custom home. <b>Thu 10/15</b> — Grasons continues, joined by the Eclectic Collector\'s Sale in College Grove, Marigold\'s "General Store" sale in Brentwood, and a one-day Estate Sales By Sheila pop-up, also in Brentwood. <b>Fri 10/16</b> — the window opens wide: National Estate Company\'s Franklin Home & Barn sale, Mr. Gregg\'s rescheduled Executive Transition Sale, Dr. Holloway\'s tools-and-vintage-menswear sale, the first-time Westhaven condo antiques sale, Page Estate Sales\' by-appointment Brentwood moving sale, and Estate Greats\' Multi-Estate Sale in 12 South all join the three carryovers. <b>Sat 10/17</b> — the volume day: eleven sales open, adding the Trillium antique-prints sale and the star Beautiful Brentwood Estate Sale (a K. Kawai baby grand piano headlines). <b>Sun 10/18</b> — National Estate\'s barn sale, Mr. Gregg\'s sale, the Westhaven sale, Estate Greats\' sale, and the star Brentwood sale close out the window.';
+        if(view==='weekend')return '<b>Fri 10/16\u2013Sun 10/18 is the volume stretch.</b> Seven sales open Friday \u2014 Grasons\' Collector\'s Dream (Columbia), the Eclectic Collector\'s Sale (College Grove), National Estate Company\'s Franklin Home & Barn sale, Mr. Gregg\'s Executive Transition Sale, Dr. Holloway\'s tools-and-vintage-menswear sale, the Harlan Road 3-family garage sale, and the Williamsport Landing neighborhood sale \u2014 joined Saturday by the Trillium antique-prints sale for the week\'s peak of eight. Sunday thins to two as the barn sale and Mr. Gregg\'s sale close out.';
+    return '<b>Plan the week.</b> <b>Thu 10/15 (today)</b> \u2014 six sales are already open: Grasons\' Collector\'s Dream (Columbia) and the Eclectic Collector\'s Sale (College Grove) from the estate feeds, plus four fresh Facebook finds \u2014 the Harlan Road 3-family garage sale, a store-closeout yard sale on Clyde Foster Drive, a half-off multi-family sale on Haley Lane, and a tool sale on Nickalus Way (Spring Hill). <b>Fri 10/16</b> \u2014 National Estate Company\'s Franklin Home & Barn sale, Mr. Gregg\'s Executive Transition Sale, and Dr. Holloway\'s tools-and-vintage-menswear sale open in Franklin, joined by the Williamsport Landing neighborhood-wide multifamily sale in Columbia. <b>Sat 10/17</b> \u2014 the volume day: eight sales open, adding the Trillium antique-prints sale. <b>Sun 10/18</b> \u2014 National Estate\'s barn sale and Mr. Gregg\'s sale close out the window. <b>Mon 10/19 \u2013 Thu 10/22</b> are open on the calendar but nothing is posted yet that far out \u2014 check back as the week fills in.';
 }
 
 /* ---------- select-to-route ---------- */
@@ -749,9 +737,9 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  'Sources reached (7-day window, 10/13-10/20): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) reached cleanly across all three pages -- corroborated Grasons\' Collector\'s Dream sale, the Eclectic Collector\'s Sale, the Marigold "General Store" sale, National Estate Company\'s Franklin Home & Barn sale, Mr. Gregg\'s Executive Transition Sale (still showing its 10/16-10/18 date change), the Trillium antique-prints sale, the Beautiful Brentwood Estate Sale, the Oak Hill teardown sale (final day today), and three new Franklin/Brentwood listings -- Dr. Holloway\'s tools-and-vintage-menswear sale, a first-time private Westhaven condo antiques sale, and Estate Sales By Sheila\'s one-day Brentwood pop-up. EstateSales.org (Columbia cross-check) also reached cleanly and corroborated the .net pull, and surfaced Page Estate Sales\' by-appointment Brentwood moving sale and Estate Greats\' Outstanding Multi-Estate Sale in 12 South. Estate Company Registry Tier-1 spot-check: Bleu Estates\' own-site page (Columbia) surfaced one Centerville sale, dropped as west of the Franklin-cap radius; Great Scott Estate Sales (Spring Hill) had no current listing. gsalr.com failed on every attempt this run (CLIENT_ERROR, including the days=this_week&list=1 form) -- a known recurring block, no gsalr-sourced rows. Craigslist\'s redirected city page rendered only one dateless Chapel Hill repost, dropped. Facebook Marketplace WAS reached this run (Alex\'s logged-in Chrome, confirmed connected) -- searched garage/estate/yard/moving/barn/neighborhood-sale terms across Columbia and opened the most promising permalinks into their full post bodies. No new in-window finds survived: the recurring 319 Balletine St, Pulaski estate sale and "Last Day of Massive Estate Sale" (Franklin, naming only "Saturday") still carry no confirmable date -- now flagging on a fifth run; most other results were dateless or already past. The cached fb-latest.md file (dated 2026-07-03) remains far too stale to reuse and was not touched. Excluded as past the Franklin-cap radius or off-corridor: Mad Dog\'s Picker\'s Paradise (Loretto), Murfreesboro and Nolensville listings, and a Bell Buckle farmhouse sale.'
-  +'<b>13 sales this run</b> -- the Oct 13-20 window, up from 8 in the prior run as the Oct 16-17 Franklin/Brentwood/Nashville cluster came into range. Tuesday 10/13 (today) closes out the Oak Hill teardown sale\'s final day at 50% off. The week stays thin through midweek, then builds through Grasons\' Collector\'s Dream, the Eclectic Collector\'s Sale, Marigold\'s "General Store" sale, and a one-day Sheila pop-up, before Friday adds six more sales at once -- National Estate Company\'s barn sale, Mr. Gregg\'s rescheduled Transition Sale, Dr. Holloway\'s tools sale, the Westhaven condo sale, Page Estate Sales\' by-appointment sale, and Estate Greats\' 12 South multi-estate sale -- peaking at eleven sales on Saturday 10/17 with the star Beautiful Brentwood Estate Sale and the Trillium antique-prints sale.'
-  +'<b>1 of 13 addresses is exact, confirmed via its own detail page</b> -- the Oak Hill teardown sale (932 Forest Acres Court). <b>12 of 13 are still approximate</b> -- all release an exact address day-of or closer to the sale, or never post a street number; several (Mr. Gregg\'s sale, the Brentwood moving sale) require contacting the seller directly for the address.'
+  'Sources reached (7-day window, 10/15-10/22): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) reached cleanly across all three pages -- corroborated Grasons\' Collector\'s Dream sale, the Eclectic Collector\'s Sale, National Estate Company\'s Franklin Home & Barn sale, Mr. Gregg\'s Executive Transition Sale, Dr. Holloway\'s tools-and-vintage-menswear sale, and the Trillium antique-prints sale. EstateSales.org (Columbia cross-check) also reached cleanly and corroborated the .net pull. Estate Company Registry Tier-1 spot-check: Great Scott Estate Sales\' own domain now resolves to an unrelated Metro Detroit business, dropped; David Jent Realty & Auction\'s site blocked the fetch via robots.txt. gsalr.com failed on every attempt this run (CLIENT_ERROR on the Columbia, Spring Hill, and Franklin city pages) -- a known recurring block, no gsalr-sourced rows. Craigslist\'s redirected city page rendered only one dateless Chapel Hill repost, dropped. Facebook Marketplace WAS reached this run (Alex\'s logged-in Chrome, confirmed connected) -- searched garage/estate/yard/moving/neighborhood/subdivision-sale terms across Columbia and opened five promising permalinks into their full post bodies, each yielding a real street address: the Harlan Road 3-family garage sale, the Williamsport Landing neighborhood sale, the Clyde Foster Drive closeout, the Haley Lane multi-family sale, and the Nickalus Way tool sale. One listing -- a Sowell Hollow Road yard sale with its address and dates right in the title -- was held out after its item permalink could not be relocated for a verify link. The cached fb-latest.md file (dated ~2026-07-03) remains far too stale to reuse and was not touched. This run explicitly re-applied the ~30mi Franklin-cap radius, dropping the Brentwood cluster (the star piano sale, the Pop-Up Sale, the "General Store" sale, the by-appointment moving sale) and the Nashville-area Oak Hill teardown and 12 South sales that recent runs had drifted past -- Brentwood/Nashville sit roughly 40mi from Culleoka. Also held out: a Pulaski consignment auction (ammo/firearms/tools, no street address, auction format).'
+  +'<b>11 sales this run</b> -- the Oct 15-22 window, down from 13 in the prior run as the Franklin cap was re-tightened and the Brentwood/Nashville sales rolled off. Today, Thursday 10/15, opens with six sales already running. Friday adds the Franklin estate cluster and the Williamsport Landing neighborhood sale, peaking at eight sales on Saturday 10/17 with the Trillium antique-prints sale. Sunday 10/18 closes out National Estate\'s barn sale and Mr. Gregg\'s sale; Monday through Thursday have nothing posted yet.'
+  +'<b>4 of 11 addresses are exact</b> -- Grasons\' Columbia sale, the Harlan Road garage sale, the Haley Lane sale, and the Nickalus Way tool sale. <b>7 of 11 are approximate</b> -- the four Franklin-area estate-company sales and the College Grove sale (addresses release day-of), the Williamsport Landing neighborhood sale (routed to the nearest school), and the Clyde Foster Drive closeout (no Census match -- pinned to the Culleoka town center).'
   +'Sales can cancel or sell out without updating the listing, and some estate addresses release the day before.'
   +'Always tap <b>Listing</b> to confirm before the drive.';
 /* ---------- home-address picker ---------- */
