@@ -230,58 +230,43 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-10-17 (Saturday pull -- the volume day -- unattended 6am run) -- 7-day
-   window Oct 17-Oct 24, 16 sales, up from 14 in yesterday's run. Three Franklin estate-company
-   sales carried forward unchanged (National Estate Co.'s barn/farm sale -- still the star, Mr.
-   Gregg's Executive Transition Sale, the Westhaven estate sale), all now down to their final two
-   days (today-Sunday) as Friday rolled out of window. Dr. Holloway's tools-and-vintage-menswear
-   sale and Grasons' Collector's Dream (Columbia, now 50% off) both close out today, their last
-   day. The Eclectic Collector's Sale (Dogwood, College Grove) released its exact street address
-   this run (6601 Owen Hill Rd) -- was day-of-only through yesterday, the standing
-   release-day-before caveat playing out as expected -- and also closes out today. Trillium's
-   antique-prints sale is confirmed as a weekly BidSpirit.com online-bidding auction (no in-person
-   walkthrough) -- flagged clearly in the item text this run -- recurring both this Saturday and
-   next (10/17 and 10/24). Dropped: the one-day Lakemont Circle moving/estate sale (Oct 16 only,
-   now past). Carried forward from yesterday's Facebook pull, today being their stated final day,
-   NOT re-verified today since Facebook/Chrome was unreachable this run (the Marketplace category
-   tab opened and loaded fine -- list_tabs and get_current_tab both confirmed it -- but
-   get_page_content errored "Chrome is not running" on every attempt): the Harlan Road 3-family
-   garage sale (Columbia), the Williamsport Landing whole-subdivision sale (Columbia, Alex's top
-   sale type), and the Karis Drive multi-home community sale (Spring Hill). Two new Craigslist
-   finds, each opened into its own full posting for address/date/items: a Duck River Estates
-   whole-community yard sale in Columbia (Whistling Duck Rd -- the Census geocoder had no match
-   for this street, approximated to the Columbia town center) and a Shannon Glen yard sale in
-   Spring Hill (Whitt Drive, no house number posted -- used the posting's own map coordinates).
-   One new find confirmed independently on both EstateSales.NET and EstateSales.org: the Lori
-   Smith Estate Sale (Columbia, address not yet public), opening Friday 10/23 and continuing into
-   Saturday 10/24, both within this window. One new find for the window's last day: Estate Sales
-   By Sheila's "GREAT CHAPEL HILL ESTATE SALE" (10/24-25, address not yet public). Day counts:
-   Sat 10/17 (today, volume day) 14 -- Sun 10/18 3 -- Mon-Thu 10/19-10/22 0 -- Fri 10/23 1 --
-   Sat 10/24 3. Sources: EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY)
-   and EstateSales.org (Columbia cross-check) both reached cleanly, cross-confirming every
-   Franklin/Columbia estate-company sale and surfacing the Lori Smith and Chapel Hill sales.
-   gsalr.com failed on every attempt (CLIENT_ERROR on the Columbia and Spring Hill city pages,
-   the same known recurring block, no gsalr-sourced rows). Craigslist's redirected city page
-   returned five results this run, its best yield in recent runs -- all five opened directly for
-   full address/date/item text; two (Jimmy's Yard Sale and a plain "yard sale" posting) resolved
-   to the same 8600 Horton Hwy, College Grove address already carried from yesterday and were
-   merged into that one row rather than double-counted. Estate Company Registry Tier-1
-   spot-check: Berenice Denton's and BLVD Estate Sales' own sites were reached but list no
-   specific current sales on their public pages (contact-only); Great Scott Estate Sales' domain
-   issue and David Jent's robots.txt block are unchanged from recent runs, both still flagged.
-   Facebook Marketplace was NOT reachable this run for fresh sourcing -- see above; the three
-   carried-forward Facebook sales were kept only because today was already their own
-   previously-confirmed final day, not because they were refreshed. The cached fb-latest.md file
-   (dated ~2026-07-03) remains far too stale to reuse and was not touched. US Census geocoder
-   reachable via WebFetch as usual (blocked from direct device_bash/curl by the egress proxy) --
-   matched cleanly for every address with a street number except the Duck River Estates posting
-   (no match; approximated to the Columbia town center). The ~30mi Franklin-cap radius was
-   applied by zip (Franklin/College Grove/Chapel Hill/Spring Hill/Columbia in;
-   Brentwood/Nashville/Murfreesboro/Nolensville/Shelbyville/Centerville/Bell Buckle/La
-   Vergne/Bon Aqua out), dropping roughly a dozen Nashville-area and outer-ring estate sales
-   despite several having real addresses and strong signal words. Smoke test (Node, extracted
-   array): 16 sales / 0 dup ids / all 18 schema fields present / 0 missing verify links / 0 bad
-   coordinates / 10 exact / 6 approx / 1 star / day counts match exactly (14/3/0/0/0/0/1/3) --
+/* Trove — find the best deals in the best neighborhoods */
+/* Daily auto-refresh, 2026-10-18 (Sunday pull, the day after the volume peak -- unattended 6am
+   run) -- 7-day window Oct 18-Oct 25, 7 sales, down sharply from 16 yesterday. Today closes out
+   four Franklin-area estate sales, all in their final hours: National Estate Company's barn/farm
+   sale (still the star), Mr. Gregg's Executive Transition Sale, and the Westhaven estate sale
+   (all three Franklin, 50%-off/final-day), plus the Eclectic Collector's Sale in College Grove
+   (also final day, confirmed open through today on a fresh Franklin-zip pull). Dropped: every
+   single-day Saturday-only sale now past -- Dr. Holloway's tools-and-menswear sale, Grasons'
+   Collector's Dream, the Harlan Road 3-family garage sale, the Williamsport Landing and Duck
+   River Estates neighborhood sales, the Karis Drive and Shannon Glen community sales, and the
+   Horton Highway and Crutcher Road yard sales -- none had evidence of recurring beyond their one
+   posted Saturday. Carried forward and extended: the Lori Smith Estate Sale (Columbia, address
+   still not public), now confirmed Fri-Sun 10/23-10/25 (added Sunday on a fresh read); the Great
+   Chapel Hill Estate Sale (Estate Sales By Sheila), now confirmed Sat-Sun 10/24-10/25 (added
+   Sunday); and Trillium's recurring weekly online-bidding auction, rolled forward to next
+   Saturday 10/24 only (last week's date dropped). Day counts: Sun 10/18 (today) 4 -- Mon-Thu
+   10/19-10/22 0 -- Fri 10/23 1 -- Sat 10/24 3 -- Sun 10/25 2. Sources: EstateSales.NET
+   (Franklin/37064 + Columbia/38401 + Spring Hill/37174 + Nashville -- PRIMARY) and EstateSales.org
+   (Columbia cross-check) both reached cleanly and corroborated every Franklin/College Grove sale
+   plus both forward-dated finds. gsalr.com failed on every attempt across two city pages
+   (CLIENT_ERROR, the same known recurring block, not retried further). Craigslist failed both as
+   a direct page fetch (renders via JavaScript, no listings in the static HTML) and as its RSS
+   feed (CLIENT_ERROR) -- no Craigslist-sourced rows this run. Facebook Marketplace was NOT
+   reachable this run -- Alex's logged-in Chrome had a Marketplace category tab already open
+   (confirmed via list_tabs), but get_page_content and execute_javascript both errored "Chrome is
+   not running" on every attempt, the same dawn-hours failure seen in yesterday's run; per the
+   skill's never-retry-loop rule, this was not retried further, and the cached fb-latest.md file
+   (dated 2026-07-03, over three months stale) was correctly left untouched rather than reused.
+   Estate Company Registry Tier-1 spot-check: National Estate Company's own site confirmed the
+   Franklin sale's final day and surfaced its Bon Aqua sale (outside the ~30mi Franklin-cap
+   radius, excluded); Bleu Estates' own site matched the Centerville sale already seen on
+   EstateSales.NET (also outside the cap by straight-line distance, excluded); Great Scott Estate
+   Sales' domain still resolves to an unrelated Metro Detroit business (unchanged); Franklin
+   Pickers, Cumberland Estate Sales, Music City Estate Sales (Rockology), and Caring Transitions
+   all show no current sale listings on their own public pages. Smoke test (Node, extracted
+   array): 7 sales / 0 dup ids / all 18 schema fields present / 0 missing verify links / 0 bad
+   coordinates / 4 exact / 3 approx / 1 star / day counts match exactly (4/0/0/0/0/1/3/2) --
    PASSED. */
 var sales = [
   {
@@ -297,13 +282,12 @@ var sales = [
     "affluence": 82,
     "drive": 0,
     "dates": [
-      "2026-10-17",
       "2026-10-18"
     ],
-    "time": "Sat–Sun 9am–2pm",
+    "time": "Sun 9am–3pm (final day, 50% off)",
     "start": "090000",
-    "end": "140000",
-    "items": "Home and barn contents from a working farm — National Estate Company's transitional-estate-sale format, 745 photos on the listing. Barn/farm signal fits the picker thesis squarely — this run's star pick, closing out Sunday.",
+    "end": "150000",
+    "items": "Home and barn contents from a working farm — National Estate Company's transitional-estate-sale format, 745 photos on the listing. Barn/farm signal fits the picker thesis squarely — this run's star pick, and today is the last day (50% off).",
     "cats": [
       "estate",
       "barn",
@@ -324,13 +308,12 @@ var sales = [
     "affluence": 82,
     "drive": 0,
     "dates": [
-      "2026-10-17",
       "2026-10-18"
     ],
-    "time": "Sat–Sun 10am–3pm",
-    "start": "100000",
-    "end": "150000",
-    "items": "Yellow sectional sofa, industrial shelving, reclaimed-wood pieces, Canon DSLR gear, KitchenAid mixers, air fryers, stained-glass windows, and a Loom & Leaf by Saatva mattress. Closing out Sunday.",
+    "time": "Sun 12pm–4pm (final day, 50% off)",
+    "start": "120000",
+    "end": "160000",
+    "items": "Yellow sectional sofa, industrial shelving, reclaimed-wood pieces, Canon DSLR gear, KitchenAid mixers, air fryers, stained-glass windows, and a Loom & Leaf by Saatva mattress. Final day, 50% off.",
     "cats": [
       "estate",
       "furniture",
@@ -340,32 +323,6 @@ var sales = [
   },
   {
     "id": 3,
-    "name": "Tools & Vintage Menswear Estate Sale — Dr. Holloway's Estate Sales, Franklin",
-    "type": "ESTATE",
-    "star": false,
-    "addr": "200 Harris Court, Franklin, TN 37064",
-    "q": "200+Harris+Court,+Franklin,+TN+37064",
-    "lat": 35.934167,
-    "lon": -86.895179,
-    "approx": false,
-    "affluence": 82,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 8:45am–2:30pm (final day)",
-    "start": "084500",
-    "end": "143000",
-    "items": "Tools, Nashville Predators and Titans memorabilia, vintage men's clothing, 1980s decor, and a full-length mink coat. Closes out today.",
-    "cats": [
-      "estate",
-      "tools",
-      "vintage"
-    ],
-    "link": "https://www.estatesales.net/TN/Franklin/37064/5114814"
-  },
-  {
-    "id": 4,
     "name": "Westhaven Estate Sale — Private Listing, Franklin",
     "type": "ESTATE",
     "star": false,
@@ -377,13 +334,12 @@ var sales = [
     "affluence": 82,
     "drive": 0,
     "dates": [
-      "2026-10-17",
       "2026-10-18"
     ],
-    "time": "Sat–Sun 10am–6pm",
+    "time": "Sun 10am–4pm (final day)",
     "start": "100000",
-    "end": "180000",
-    "items": "Private Franklin estate sale featuring a late-19th-century Victorian mahogany etagere and other antiques. Closing out Sunday.",
+    "end": "160000",
+    "items": "Private Franklin estate sale featuring a late-19th-century Victorian mahogany etagere and other antiques. Final day.",
     "cats": [
       "estate",
       "antique"
@@ -391,34 +347,7 @@ var sales = [
     "link": "https://www.estatesales.net/TN/Franklin/37064/5114433"
   },
   {
-    "id": 5,
-    "name": "Collector's Dream Estate Sale — Grasons of Nashville, Columbia",
-    "type": "ESTATE",
-    "star": false,
-    "addr": "212 Kippsford Pond Road, Columbia, TN 38401",
-    "q": "212+Kippsford+Pond+Road,+Columbia,+TN+38401",
-    "lat": 35.563878,
-    "lon": -87.036008,
-    "approx": false,
-    "affluence": 58,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 10am–2pm (50% off, final day)",
-    "start": "100000",
-    "end": "140000",
-    "items": "\"An Extraordinary Columbia Estate Sale\" from Grasons of Nashville — art, antiques, collectibles, and treasures filling a six-acre Columbia home belonging to a lifelong collector and artist. 50% off today, the sale's final day.",
-    "cats": [
-      "estate",
-      "antique",
-      "vintage",
-      "collectibles"
-    ],
-    "link": "https://www.estatesales.net/TN/Columbia/38401/5072139"
-  },
-  {
-    "id": 6,
+    "id": 4,
     "name": "Eclectic Collector's Sale — Dogwood Estate Sales, College Grove",
     "type": "ESTATE",
     "star": false,
@@ -430,12 +359,12 @@ var sales = [
     "affluence": 70,
     "drive": 0,
     "dates": [
-      "2026-10-17"
+      "2026-10-18"
     ],
-    "time": "Sat 8:30am–3pm (final day)",
-    "start": "083000",
-    "end": "150000",
-    "items": "\"Dough Bowl on Legs\" eclectic collector's sale — antique and contemporary furniture, Oriental rugs, tools, home decor, household items, and small collectibles. Exact address released this run (was day-of-only through yesterday); closes out today.",
+    "time": "Sun 9am–4pm (final day)",
+    "start": "090000",
+    "end": "160000",
+    "items": "\"Dough Bowl on Legs\" eclectic collector's sale — antique and contemporary furniture, Oriental rugs, tools, home decor, household items, and small collectibles. Final day.",
     "cats": [
       "estate",
       "antique",
@@ -443,6 +372,57 @@ var sales = [
       "collectibles"
     ],
     "link": "https://www.estatesales.net/TN/College-Grove/37046/5069718"
+  },
+  {
+    "id": 5,
+    "name": "Lori Smith Estate Sale — BLK Dog Estate Sales, Columbia",
+    "type": "ESTATE",
+    "star": false,
+    "addr": "Columbia, TN 38401 (exact address not yet public)",
+    "q": "Columbia,+TN+38401",
+    "lat": 35.563878,
+    "lon": -87.036008,
+    "approx": true,
+    "affluence": 58,
+    "drive": 0,
+    "dates": [
+      "2026-10-23",
+      "2026-10-24",
+      "2026-10-25"
+    ],
+    "time": "Fri–Sun 10am–4pm",
+    "start": "100000",
+    "end": "160000",
+    "items": "General Columbia estate sale, 347 photos on the listing — item list not yet detailed. Opens Friday and runs through Sunday, all within this window.",
+    "cats": [
+      "estate"
+    ],
+    "link": "https://www.estatesales.net/TN/Columbia/38401/5074212"
+  },
+  {
+    "id": 6,
+    "name": "Great Chapel Hill Estate Sale — Estate Sales By Sheila",
+    "type": "ESTATE",
+    "star": false,
+    "addr": "Chapel Hill, TN 37034 (exact address not yet public)",
+    "q": "Chapel+Hill,+TN+37034",
+    "lat": 35.6412,
+    "lon": -86.6981,
+    "approx": true,
+    "affluence": 50,
+    "drive": 0,
+    "dates": [
+      "2026-10-24",
+      "2026-10-25"
+    ],
+    "time": "Sat–Sun 8am–5pm",
+    "start": "080000",
+    "end": "170000",
+    "items": "General estate sale goods from Estate Sales By Sheila — item list not yet detailed. Opens the window's last Saturday and continues Sunday.",
+    "cats": [
+      "estate"
+    ],
+    "link": "https://estatesales.org/estate-sales/tn/chapel-hill/37034/great-chapel-hill-estate-sale-2462654"
   },
   {
     "id": 7,
@@ -457,251 +437,18 @@ var sales = [
     "affluence": 88,
     "drive": 0,
     "dates": [
-      "2026-10-17",
       "2026-10-24"
     ],
-    "time": "Sat (weekly), bidding ends 9am",
+    "time": "Sat, bidding ends 9am",
     "start": "090000",
     "end": "150000",
-    "items": "Antique prints, maps, and rare books of natural history and botanicals, including four Hawaiian fish prints by Bien. Online bidding only (BidSpirit) — no in-person walkthrough; bid via the listing link. Recurring weekly lot, confirmed open this Saturday and again next Saturday.",
+    "items": "Antique prints, maps, and rare books of natural history and botanicals, including four Hawaiian fish prints by Bien. Online bidding only (BidSpirit) — no in-person walkthrough; bid via the listing link. Recurring weekly lot.",
     "cats": [
       "antique",
       "collectibles"
     ],
     "link": "https://www.estatesales.net/TN/Franklin/37069/5109486"
-  },
-  {
-    "id": 8,
-    "name": "3-Family Garage Sale — Harlan Road, Columbia",
-    "type": "GARAGE",
-    "star": false,
-    "addr": "2339 Harlan Road, Columbia, TN 38401",
-    "q": "2339+Harlan+Road,+Columbia,+TN+38401",
-    "lat": 35.690613,
-    "lon": -86.998634,
-    "approx": false,
-    "affluence": 58,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 7am–2pm (final day)",
-    "start": "070000",
-    "end": "150000",
-    "items": "MYRA handbags, cookbooks, Pampered Chef, Longaberger, a rice cooker, antique-booth leftovers, Harley clothes/helmets and size-6 ladies' Harley boots, grills, Tupperware, a rocker recliner, a lift chair, a table and 4 chairs, holiday items, Fiesta mugs, VHS/DVD movies, and enamelware. Cash or Venmo; vendors welcome, no presales. Closes out today — carried forward from yesterday's Facebook pull (today was already its stated final day); not re-verified today, Facebook was unreachable this run.",
-    "cats": [
-      "multi-family",
-      "vintage",
-      "antique"
-    ],
-    "link": "https://www.facebook.com/marketplace/item/1506565844657290/"
-  },
-  {
-    "id": 9,
-    "name": "Multifamily Yard Sale — Williamsport Landing Subdivision, Columbia",
-    "type": "NEIGHBORHOOD",
-    "star": false,
-    "addr": "Williamsport Landing Subdivision, Columbia, TN (near Whitthorne Middle School — no street number posted)",
-    "q": "915+Lion+Parkway,+Columbia,+TN+38401",
-    "lat": 35.614568,
-    "lon": -87.078892,
-    "approx": true,
-    "affluence": 58,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 7am–2pm (final day)",
-    "start": "070000",
-    "end": "140000",
-    "items": "Whole-subdivision multifamily sale in Williamsport Landing, close to Whitthorne Middle School — a neighborhood-wide event, Alex's top sale type. No item list posted. Closes out today — carried forward from yesterday's Facebook pull (today was already its stated final day); not re-verified today, Facebook was unreachable this run.",
-    "cats": [
-      "neighborhood",
-      "subdivision",
-      "multi-family"
-    ],
-    "link": "https://www.facebook.com/marketplace/item/1772839200710017/"
-  },
-  {
-    "id": 10,
-    "name": "Multi-Home Community Yard Sale — Karis Drive, Spring Hill",
-    "type": "NEIGHBORHOOD",
-    "star": false,
-    "addr": "252 Karis Drive, Spring Hill, TN 37174",
-    "q": "252+Karis+Drive,+Spring+Hill,+TN+37174",
-    "lat": 35.714879,
-    "lon": -86.893817,
-    "approx": false,
-    "affluence": 70,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 7am–2pm",
-    "start": "070000",
-    "end": "140000",
-    "items": "Multi-home community yard sale — clothing, home decor, home furnishings, and new & used Lego sets. Carried forward from yesterday's Facebook pull (dated today); not re-verified today, Facebook was unreachable this run.",
-    "cats": [
-      "neighborhood",
-      "multi-family"
-    ],
-    "link": "https://www.facebook.com/marketplace/item/1028428089550268/"
-  },
-  {
-    "id": 11,
-    "name": "Primitives & Picker's Yard Sale — Horton Highway, College Grove",
-    "type": "YARD",
-    "star": false,
-    "addr": "8600 Horton Hwy, College Grove, TN 37046",
-    "q": "8600+Horton+Hwy,+College+Grove,+TN+37046",
-    "lat": 35.787501,
-    "lon": -86.675112,
-    "approx": false,
-    "affluence": 70,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 8am–5pm (final day)",
-    "start": "080000",
-    "end": "170000",
-    "items": "Annual picker's sale — primitives, old tools, a grist mill, Coca-Cola and soda advertising, baseball cards and sports magazines, glassware, books, beer signs, framed advertising, and country-store boxes; ask about a motorcycle. Closes out today.",
-    "cats": [
-      "vintage",
-      "antique",
-      "collectibles",
-      "tools"
-    ],
-    "link": "https://www.craigslist.org/view/d/college-grove-jimmys-yard-sale/rFYspcT5Sf1VEX4GPNUWwR"
-  },
-  {
-    "id": 12,
-    "name": "Vintage & Collectibles Yard Sale — Crutcher Road, Chapel Hill",
-    "type": "YARD",
-    "star": false,
-    "addr": "2158 Crutcher Rd, Chapel Hill, TN 37034",
-    "q": "2158+Crutcher+Rd,+Chapel+Hill,+TN+37034",
-    "lat": 35.65516,
-    "lon": -86.712169,
-    "approx": false,
-    "affluence": 50,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 8am–2pm (final day; end time not posted — confirm via Listing)",
-    "start": "080000",
-    "end": "140000",
-    "items": "Quilts, tablecloths, clocks, collectible plates, a Wheel Horse tractor, vintage Guardian Ware pans, an ice bucket, vintage dishes, a vintage white iron bed, and a Road Runner dish set. Closes out today.",
-    "cats": [
-      "vintage",
-      "antique",
-      "collectibles"
-    ],
-    "link": "https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"
-  },
-  {
-    "id": 13,
-    "name": "Lori Smith Estate Sale — BLK Dog Estate Sales, Columbia",
-    "type": "ESTATE",
-    "star": false,
-    "addr": "Columbia, TN 38401 (exact address not yet public)",
-    "q": "Columbia,+TN+38401",
-    "lat": 35.563878,
-    "lon": -87.036008,
-    "approx": true,
-    "affluence": 58,
-    "drive": 0,
-    "dates": [
-      "2026-10-23",
-      "2026-10-24"
-    ],
-    "time": "Fri–Sat 10am–4pm",
-    "start": "100000",
-    "end": "160000",
-    "items": "General Columbia estate sale, 347 photos on the listing — item list not yet detailed. Opens Friday and continues into Saturday, both within this window.",
-    "cats": [
-      "estate"
-    ],
-    "link": "https://www.estatesales.net/TN/Columbia/38401/5074212"
-  },
-  {
-    "id": 14,
-    "name": "Great Chapel Hill Estate Sale — Estate Sales By Sheila",
-    "type": "ESTATE",
-    "star": false,
-    "addr": "Chapel Hill, TN 37034 (exact address not yet public)",
-    "q": "Chapel+Hill,+TN+37034",
-    "lat": 35.6412,
-    "lon": -86.6981,
-    "approx": true,
-    "affluence": 50,
-    "drive": 0,
-    "dates": [
-      "2026-10-24"
-    ],
-    "time": "Sat 8am–5pm",
-    "start": "080000",
-    "end": "170000",
-    "items": "General estate sale goods from Estate Sales By Sheila — item list not yet detailed. Opens the window's last Saturday.",
-    "cats": [
-      "estate"
-    ],
-    "link": "https://estatesales.org/estate-sales/tn/chapel-hill/37034/great-chapel-hill-estate-sale-2462654"
-  },
-  {
-    "id": 15,
-    "name": "Shannon Glen Yard Sale — Spring Hill",
-    "type": "YARD",
-    "star": false,
-    "addr": "Whitt Drive, Shannon Glen, Spring Hill, TN 37174 (street number not posted)",
-    "q": "Shannon+Glen,+Spring+Hill,+TN+37174",
-    "lat": 35.7173,
-    "lon": -86.9048,
-    "approx": true,
-    "affluence": 70,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 8am (end time not posted — confirm via Listing)",
-    "start": "080000",
-    "end": "140000",
-    "items": "An odd and delightful mix of retro and modern finds — kitchenware, kids' items, clothing, appliances, knickknacks, and miscellaneous odds and ends. New find via Craigslist, opened directly for its full post.",
-    "cats": [
-      "yard",
-      "household"
-    ],
-    "link": "https://www.craigslist.org/view/d/spring-hill-spring-hill-yard-sale/fhrTudTjrNKYPwwSsEXKoT"
-  },
-  {
-    "id": 16,
-    "name": "Community Yard Sale — Duck River Estates, Columbia",
-    "type": "NEIGHBORHOOD",
-    "star": false,
-    "addr": "Whistling Duck Rd, Duck River Estates, Columbia, TN 38401 (street number not posted; address did not match the Census geocoder)",
-    "q": "Duck+River+Estates,+Columbia,+TN+38401",
-    "lat": 35.563878,
-    "lon": -87.036008,
-    "approx": true,
-    "affluence": 58,
-    "drive": 0,
-    "dates": [
-      "2026-10-17"
-    ],
-    "time": "Sat 8am (end time not posted — confirm via Listing)",
-    "start": "080000",
-    "end": "140000",
-    "items": "Huge community sale — furniture, linens, housewares, clothing, purses, home decor, and holiday decor. New find via Craigslist, opened directly for its full post; the posted street (\"Whistling Duck Rd\") didn't match the Census geocoder, approximated to the Columbia town center.",
-    "cats": [
-      "neighborhood",
-      "community",
-      "household",
-      "furniture"
-    ],
-    "link": "https://www.craigslist.org/view/d/columbia-community-yard-sale/2Ftz53NnHFE4s38yegF2dc"
   }
-
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
 function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -996,8 +743,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
     return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-        if(view==='weekend')return "<b>Sat 10/17–Sun 10/18.</b> Saturday is today and the volume peak — fourteen sales, led by the star National Estate Company barn-and-farm sale, Mr. Gregg’s Executive Transition Sale, and the Westhaven estate sale (all three closing out Sunday, Franklin), plus two neighborhood-wide standouts — the Williamsport Landing subdivision sale and the Karis Drive community sale — both closing out today. Also closing out today: Dr. Holloway’s tools-and-vintage-menswear sale, Grasons’ 50%-off Collector’s Dream, the Eclectic Collector’s Sale (address just released), the Harlan Road 3-family garage sale, two new Craigslist finds (Duck River Estates and Shannon Glen), the Horton Highway and Crutcher Road yard sales, and the recurring Trillium online-bidding auction. Sunday narrows to three as the Franklin estate cluster (National Estate Co., Mr. Gregg’s, Westhaven) closes out.";
-    return "<b>Plan the week.</b> <b>Sat 10/17 (today, the volume day)</b> — fourteen sales open at once: the star National Estate Company barn-and-farm sale, Mr. Gregg’s Executive Transition Sale, and the Westhaven estate sale (all three Franklin, all closing out tomorrow), Dr. Holloway’s tools-and-vintage-menswear sale and Grasons’ 50%-off Collector’s Dream (both closing out today), the Eclectic Collector’s Sale (College Grove, address just released, closing out today), two neighborhood-wide sales — Williamsport Landing (Columbia) and Karis Drive (Spring Hill) — both Alex’s favorite sale type, the Harlan Road 3-family garage sale (Columbia), two fresh Craigslist finds (a Duck River Estates community sale in Columbia and a Shannon Glen yard sale in Spring Hill), a primitives-and-Coca-Cola picker’s sale on Horton Highway (College Grove), a vintage-and-quilts sale on Crutcher Road (Chapel Hill), and the recurring Trillium online-bidding auction. <b>Sun 10/18</b> — down to three as the Franklin estate cluster (National Estate Co., Mr. Gregg’s, Westhaven) closes out. <b>Mon 10/19–Thu 10/22</b> — nothing posted yet; check back as the week fills in. <b>Fri 10/23</b> — the Lori Smith Estate Sale opens in Columbia. <b>Sat 10/24</b> — the window’s last day: the Lori Smith sale continues, Trillium’s online auction runs again, and a new Chapel Hill estate sale (Estate Sales By Sheila) opens.";
+        if(view==='weekend')return "<b>Today closes out the Franklin estate cluster.</b> Sun 10/18 (today) — four sales open at once, all in their final hours: the star National Estate Company barn-and-farm sale, Mr. Gregg’s Executive Transition Sale, and the Westhaven estate sale (all three Franklin, 50% off), plus the Eclectic Collector’s Sale in College Grove, also closing out. Nothing posted yet for Monday through Thursday. Next weekend picks back up: Friday 10/23 the Lori Smith Estate Sale opens in Columbia, and Saturday 10/24 brings the Great Chapel Hill Estate Sale and Trillium’s recurring online-bidding auction, with both Lori Smith and Chapel Hill running into Sunday 10/25.";
+    return "<b>Plan the week.</b> <b>Sun 10/18 (today)</b> — four Franklin-area estate sales close out in their final hours: the star National Estate Company barn-and-farm sale, Mr. Gregg’s Executive Transition Sale, and the Westhaven estate sale (all Franklin, 50% off), plus the Eclectic Collector’s Sale in College Grove. <b>Mon 10/19–Thu 10/22</b> — nothing posted yet; check back as the week fills in. <b>Fri 10/23</b> — the Lori Smith Estate Sale opens in Columbia. <b>Sat 10/24</b> — the window’s busiest remaining day: Lori Smith continues, the Great Chapel Hill Estate Sale opens, and Trillium’s online-bidding auction runs again. <b>Sun 10/25</b> — Lori Smith and the Chapel Hill sale both close out the window.";
 }
 
 /* ---------- select-to-route ---------- */
@@ -1057,7 +804,7 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  "Sources reached (7-day window, 10/17-10/24): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) and EstateSales.org (Columbia cross-check) both reached cleanly, cross-confirming every Franklin and Columbia estate-company sale and surfacing two new finds for the window's final days -- the Lori Smith Estate Sale (Columbia) and a new Chapel Hill estate sale (Estate Sales By Sheila). gsalr.com failed on every attempt (CLIENT_ERROR, the same known recurring block). Craigslist's redirected city page returned five results this run -- all five opened directly for full address and item text; two were duplicate postings of the same College Grove picker's sale (Horton Highway) merged into one row, and two were brand-new finds -- a Duck River Estates whole-community yard sale in Columbia and a Shannon Glen yard sale in Spring Hill. Facebook Marketplace was NOT reachable this run -- the Marketplace tab opened and loaded (confirmed via list_tabs/get_current_tab) but page-content extraction errored on every attempt, so no fresh Facebook sourcing. Three sales carried forward from yesterday's Facebook pull (the Harlan Road garage sale, the Williamsport Landing neighborhood sale, and the Karis Drive community sale) were kept because today was already their stated final day from that prior, address-confirmed pull -- not because they were re-verified today. The cached fb-latest.md file (dated ~2026-07-03) remains far too stale to reuse. Estate Company Registry Tier-1 spot-check: Berenice Denton's and BLVD Estate Sales' own sites are reachable but list no current sales publicly; Great Scott Estate Sales' domain issue and David Jent's robots.txt block are unchanged. <b>16 sales this run</b> -- up from 14 yesterday, for the Oct 17-24 window. Saturday 10/17 (today) is the volume day at fourteen. Sunday 10/18 narrows to three as the Franklin estate cluster closes out, and Monday through Thursday (10/19-10/22) are quiet with nothing posted yet. Friday 10/23 and Saturday 10/24 each pick back up as the Lori Smith Estate Sale (Columbia) and a new Chapel Hill sale open. <b>10 of 16 addresses are exact, Census-geocoded</b> -- the three Franklin estate-company sales, Grasons' Columbia sale, the newly-released Eclectic Collector's Sale address, the Harlan Road garage sale, the Karis Drive sale, and the Horton Highway and Crutcher Road yard sales. <b>6 of 16 are still approximate</b> -- Trillium (online-bidding only, no physical address), the Williamsport Landing sale (routed to the nearest school), the Duck River Estates and Shannon Glen Craigslist finds (no street number posted), and the Lori Smith and Chapel Hill sales (addresses not yet public). Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. Always tap <b>Listing</b> to confirm before the drive.";
+  "Sources reached (7-day window, 10/18-10/25): EstateSales.NET (Franklin/37064, Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) and EstateSales.org (Columbia cross-check) both reached cleanly, confirming every Franklin and College Grove estate-company sale and the two forward-dated finds (Lori Smith in Columbia, the Great Chapel Hill sale). gsalr.com failed on every attempt across two city pages (CLIENT_ERROR, the same known recurring block, not retried further). Craigslist failed both as a direct page fetch (the search results render via JavaScript, so no listings appear in the static HTML) and as its RSS feed (CLIENT_ERROR) -- no Craigslist-sourced rows this run. Facebook Marketplace was NOT reachable this run -- Alex's logged-in Chrome had a Marketplace category tab already open (confirmed via list_tabs), but page-content and JavaScript extraction both errored \"Chrome is not running\" on every attempt, the same dawn-hours issue seen in yesterday's run -- no fresh Facebook sourcing, and the cached fb-latest.md file (dated 2026-07-03, over three months stale) remains too old to reuse and was not touched. Estate Company Registry Tier-1 spot-check: National Estate Company's own site confirmed the Franklin sale's final day and surfaced its Bon Aqua sale (outside the ~30mi Franklin-cap radius, excluded); Bleu Estates' own site matched the Centerville sale already seen on EstateSales.NET (also outside the cap by distance, excluded); Great Scott Estate Sales' domain still resolves to an unrelated Metro Detroit business (unchanged); Franklin Pickers, Cumberland Estate Sales, Music City Estate Sales (Rockology), and Caring Transitions all show no current sale listings on their own public pages. <b>7 sales this run</b> -- down sharply from 16 yesterday, because today is the day after Saturday's volume peak (most single/two-day weekend sales have already closed) and three of the five sourcing channels (gsalr, Craigslist, Facebook) came back empty or unreachable. The four sales still open today are all in their final hours (three in Franklin plus one in College Grove, all 50%-off or closing); nothing is posted yet for Monday through Thursday; Friday and the following weekend pick back up with two forward-dated estate sales (Lori Smith in Columbia, Great Chapel Hill) and the recurring Trillium online auction. <b>4 of 7 addresses are exact, Census-geocoded</b> -- the three Franklin estate sales and the Eclectic Collector's Sale in College Grove. <b>3 of 7 are still approximate</b> -- Trillium (online-bidding only, no physical address) and the Lori Smith and Great Chapel Hill sales (addresses not yet public). Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. Always tap <b>Listing</b> to confirm before the drive.";
 /* ---------- home-address picker ---------- */
 var homeLabelEl=document.getElementById('homeLabel'),
     homeEditorEl=document.getElementById('homeEditor'),
