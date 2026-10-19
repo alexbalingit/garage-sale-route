@@ -230,155 +230,173 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-10-18 (Sunday pull, the day after the volume peak -- unattended 6am
-   run) -- 7-day window Oct 18-Oct 25, 7 sales, down sharply from 16 yesterday. Today closes out
-   four Franklin-area estate sales, all in their final hours: National Estate Company's barn/farm
-   sale (still the star), Mr. Gregg's Executive Transition Sale, and the Westhaven estate sale
-   (all three Franklin, 50%-off/final-day), plus the Eclectic Collector's Sale in College Grove
-   (also final day, confirmed open through today on a fresh Franklin-zip pull). Dropped: every
-   single-day Saturday-only sale now past -- Dr. Holloway's tools-and-menswear sale, Grasons'
-   Collector's Dream, the Harlan Road 3-family garage sale, the Williamsport Landing and Duck
-   River Estates neighborhood sales, the Karis Drive and Shannon Glen community sales, and the
-   Horton Highway and Crutcher Road yard sales -- none had evidence of recurring beyond their one
-   posted Saturday. Carried forward and extended: the Lori Smith Estate Sale (Columbia, address
-   still not public), now confirmed Fri-Sun 10/23-10/25 (added Sunday on a fresh read); the Great
-   Chapel Hill Estate Sale (Estate Sales By Sheila), now confirmed Sat-Sun 10/24-10/25 (added
-   Sunday); and Trillium's recurring weekly online-bidding auction, rolled forward to next
-   Saturday 10/24 only (last week's date dropped). Day counts: Sun 10/18 (today) 4 -- Mon-Thu
-   10/19-10/22 0 -- Fri 10/23 1 -- Sat 10/24 3 -- Sun 10/25 2. Sources: EstateSales.NET
-   (Franklin/37064 + Columbia/38401 + Spring Hill/37174 + Nashville -- PRIMARY) and EstateSales.org
-   (Columbia cross-check) both reached cleanly and corroborated every Franklin/College Grove sale
-   plus both forward-dated finds. gsalr.com failed on every attempt across two city pages
-   (CLIENT_ERROR, the same known recurring block, not retried further). Craigslist failed both as
-   a direct page fetch (renders via JavaScript, no listings in the static HTML) and as its RSS
-   feed (CLIENT_ERROR) -- no Craigslist-sourced rows this run. Facebook Marketplace was NOT
-   reachable this run -- Alex's logged-in Chrome had a Marketplace category tab already open
-   (confirmed via list_tabs), but get_page_content and execute_javascript both errored "Chrome is
-   not running" on every attempt, the same dawn-hours failure seen in yesterday's run; per the
-   skill's never-retry-loop rule, this was not retried further, and the cached fb-latest.md file
-   (dated 2026-07-03, over three months stale) was correctly left untouched rather than reused.
-   Estate Company Registry Tier-1 spot-check: National Estate Company's own site confirmed the
-   Franklin sale's final day and surfaced its Bon Aqua sale (outside the ~30mi Franklin-cap
-   radius, excluded); Bleu Estates' own site matched the Centerville sale already seen on
-   EstateSales.NET (also outside the cap by straight-line distance, excluded); Great Scott Estate
-   Sales' domain still resolves to an unrelated Metro Detroit business (unchanged); Franklin
-   Pickers, Cumberland Estate Sales, Music City Estate Sales (Rockology), and Caring Transitions
-   all show no current sale listings on their own public pages. Smoke test (Node, extracted
-   array): 7 sales / 0 dup ids / all 18 schema fields present / 0 missing verify links / 0 bad
-   coordinates / 4 exact / 3 approx / 1 star / day counts match exactly (4/0/0/0/0/1/3/2) --
-   PASSED. */
+/* Daily auto-refresh, 2026-10-19 (Monday pull, the thinnest day of the corridor week --
+   unattended 6am run) -- 7-day window Oct 19-Oct 26, 6 sales, down slightly from 7 yesterday, as
+   expected for a Monday (corridor weekend sales post Wed-Sat, so a Monday pull legitimately
+   looks thin). Dropped: all four Franklin-area estate sales that closed out yesterday (National
+   Estate Company's barn/farm sale, Mr. Gregg's Executive Transition Sale, the Westhaven estate
+   sale, and the Eclectic Collector's Sale in College Grove) -- all confirmed past on a fresh
+   EstateSales.NET/.org pull, none recurring. Carried forward unchanged: the Lori Smith Estate
+   Sale (Columbia, address still not public, Fri-Sun 10/23-10/25) and the Great Chapel Hill
+   Estate Sale (Estate Sales By Sheila, Sat-Sun 10/24-10/25); Trillium's recurring weekly
+   online-bidding auction rolled forward again to this Saturday 10/24. Three new finds this run:
+   the Fabulous Franklin Estate Sale (Estate Sales By Sheila, midcentury Knoll dining set and
+   Turkish rugs, Franklin's top-affluence zip 37069, Mon-Tue 10/26-10/27 -- only 10/26 falls in
+   this window) -- promoted to star on affluence + strong midcentury/designer signal; a new
+   Tier-2 registry find, Tri-Star Estate Sales' "A Lewisburg Estate Sale Adventure" (tools,
+   tractor, vintage advertising, barn-sale energy, Thu-Sat 10/22-10/24); and, via a fresh
+   Craigslist pull, a real-address Lewisburg garage sale at 540 Marian St (Fri-Sat 10/23-10/24,
+   furniture/clothes/shoes/TV, posted 10/18, Census-geocoded cleanly). Held out per
+   never-fabricate/past-dated: a second Craigslist Chapel Hill garage-sale repost at 2158
+   Crutcher Rd (dated 10/16-10/17, already past -- same address flagged recurring in the
+   10/18 History note). Day counts: Mon 10/19 (today) 0 -- Tue 10/20 0 -- Wed 10/21 0 -- Thu
+   10/22 1 -- Fri 10/23 3 -- Sat 10/24 5 -- Sun 10/25 2 -- Mon 10/26 1. Sources: EstateSales.NET
+   (Franklin/37064 + Columbia/38401 + Spring Hill/37174 + Nashville -- PRIMARY) and
+   EstateSales.org (Columbia cross-check) both reached cleanly. gsalr.com failed on every attempt
+   (CLIENT_ERROR, the same known recurring block, not retried further) -- no gsalr-sourced rows.
+   Craigslist's redirected city page returned two results this run (its best yield in several
+   runs) -- the Lewisburg find above (real address, used) and the Chapel Hill repost (past-dated,
+   dropped). Facebook Marketplace was NOT reachable this run -- Chrome's tab-listing and
+   navigation worked cleanly (opened a fresh Marketplace search tab without issue), but
+   get_page_content errored "Chrome is not running" on two consecutive attempts, the same
+   dawn-hours tool-bridge fault seen on 10/17 and 10/18 (now a third straight day) -- per the
+   never-retry-loop rule this was not retried further, and the cached fb-latest.md file (dated
+   2026-07-03, well over three months stale) was correctly left untouched rather than reused.
+   Estate Company Registry Tier-1/Tier-2 spot-check: National Estate Company's own upcoming-sales
+   page confirmed only its already-past Franklin sale and its Bon Aqua sale (outside the ~30mi
+   Franklin-cap radius per this run's explicit instruction, excluded, consistent with the
+   10/18 precedent); Bleu Estates' own site showed only the already-ended Centerville sale (also
+   outside the cap); Great Scott Estate Sales' domain still resolves to an unrelated Metro
+   Detroit business (unchanged). One sale was found but held out on distance: Busy Bee Moving
+   Sales' Brentwood "Fine Furnishings -- Henredon" sale (Oct 22-23, address not yet public) --
+   Census-geocoding the Brentwood town center puts it roughly 38mi from Culleoka, clearly past
+   the ~30mi Franklin cap this run specified (for comparison, a known in-cap Franklin address on
+   Kittrell Rd geocodes to ~28mi); flagged here rather than routed, since prior runs have applied
+   this cap inconsistently to Brentwood addresses. Nolensville (Estate Sales By Sheila's "Over
+   the Top" sale) and Grasons' Antioch cul-de-sac sale were likewise held out as clearly beyond
+   the cap. Smoke test (Node, extracted array): 6 sales / 0 dup ids / all 18 schema fields
+   present / 0 missing verify links / 0 bad coordinates / 1 exact / 5 approx / 1 star / day
+   counts match exactly (0/0/0/1/3/5/2/1) -- PASSED. */
 var sales = [
   {
     "id": 1,
-    "name": "Franklin Home & Barn on the Farm Estate Sale — National Estate Company",
+    "name": "Fabulous Franklin Estate Sale — Estate Sales By Sheila, Franklin",
     "type": "ESTATE",
     "star": true,
-    "addr": "1375 Kittrell Rd, Franklin, TN 37064",
-    "q": "1375+Kittrell+Rd,+Franklin,+TN+37064",
-    "lat": 35.86591,
-    "lon": -86.911347,
-    "approx": false,
-    "affluence": 82,
+    "addr": "Franklin, TN 37069 (exact address releases Sun Oct 25, 9am)",
+    "q": "Franklin,+TN+37069",
+    "lat": 35.9178,
+    "lon": -86.8424,
+    "approx": true,
+    "affluence": 88,
     "drive": 0,
     "dates": [
-      "2026-10-18"
+      "2026-10-26"
     ],
-    "time": "Sun 9am–3pm (final day, 50% off)",
-    "start": "090000",
-    "end": "150000",
-    "items": "Home and barn contents from a working farm — National Estate Company's transitional-estate-sale format, 745 photos on the listing. Barn/farm signal fits the picker thesis squarely — this run's star pick, and today is the last day (50% off).",
+    "time": "Mon 8am–5pm (continues Tue 10/27, 8am–5pm)",
+    "start": "080000",
+    "end": "170000",
+    "items": "Midcentury Knoll dining set (six chairs attributed to Max Pearson) with the matching table, vintage Turkish rugs and original art, Pyrex and midcentury china, art glass and crystal, vintage taxidermy, and a metal advertising stamp sign — Estate Sales By Sheila, in Franklin's highest-affluence zip (37069). This run's star pick on strong midcentury/designer signal.",
     "cats": [
       "estate",
-      "barn",
-      "farm"
+      "midcentury",
+      "designer",
+      "antique",
+      "furniture"
     ],
-    "link": "https://www.estatesales.net/TN/Franklin/37064/5104863"
+    "link": "https://www.estatesales.net/TN/Franklin/37069/5122122"
   },
   {
     "id": 2,
-    "name": "Mr. Gregg's Executive Transition Sale — Blk Dog Estate Sales, Franklin",
+    "name": "Great Chapel Hill Estate Sale — Estate Sales By Sheila",
     "type": "ESTATE",
     "star": false,
-    "addr": "422 Forrest Park Cir, Franklin, TN 37064",
-    "q": "422+Forrest+Park+Cir,+Franklin,+TN+37064",
-    "lat": 35.895587,
-    "lon": -86.834534,
-    "approx": false,
-    "affluence": 82,
+    "addr": "Chapel Hill, TN 37034 (exact address releases Fri Oct 23, 9am)",
+    "q": "Chapel+Hill,+TN+37034",
+    "lat": 35.6412,
+    "lon": -86.6981,
+    "approx": true,
+    "affluence": 50,
     "drive": 0,
     "dates": [
-      "2026-10-18"
+      "2026-10-24",
+      "2026-10-25"
     ],
-    "time": "Sun 12pm–4pm (final day, 50% off)",
-    "start": "120000",
-    "end": "160000",
-    "items": "Yellow sectional sofa, industrial shelving, reclaimed-wood pieces, Canon DSLR gear, KitchenAid mixers, air fryers, stained-glass windows, and a Loom & Leaf by Saatva mattress. Final day, 50% off.",
+    "time": "Sat–Sun 8am–5pm",
+    "start": "080000",
+    "end": "170000",
+    "items": "Barn and outbuilding packed with treasures — a tractor, trailer, and pontoon boat (offers accepted through Sunday), duck decoys, Christmas blow molds, tools, a large air compressor, drill press and saws, plus living/dining furniture, a china hutch, and crystal. Strong barn/farm/tools signal fit, carried forward unchanged from last week's pull.",
     "cats": [
       "estate",
-      "furniture",
-      "electronics"
+      "barn",
+      "farm",
+      "tools",
+      "furniture"
     ],
-    "link": "https://www.estatesales.net/TN/Franklin/37064/5087646"
+    "link": "https://www.estatesales.net/TN/Chapel-Hill/37034/4719744"
   },
   {
     "id": 3,
-    "name": "Westhaven Estate Sale — Private Listing, Franklin",
+    "name": "A Lewisburg Estate Sale Adventure — Tri-Star Estate Sales",
     "type": "ESTATE",
     "star": false,
-    "addr": "118 Front St #203, Franklin, TN 37064",
-    "q": "118+Front+St,+Franklin,+TN+37064",
-    "lat": 35.928545,
-    "lon": -86.921982,
-    "approx": false,
-    "affluence": 82,
+    "addr": "Lewisburg, TN 37091 (exact address releases Wed Oct 21, 9am)",
+    "q": "Lewisburg,+TN+37091",
+    "lat": 35.4484,
+    "lon": -86.7922,
+    "approx": true,
+    "affluence": 45,
     "drive": 0,
     "dates": [
-      "2026-10-18"
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-24"
     ],
-    "time": "Sun 10am–4pm (final day)",
-    "start": "100000",
-    "end": "160000",
-    "items": "Private Franklin estate sale featuring a late-19th-century Victorian mahogany etagere and other antiques. Final day.",
+    "time": "Thu 2pm–6pm · Fri 9am–2pm · Sat 9am–1pm",
+    "start": "090000",
+    "end": "180000",
+    "items": "Tools, a tractor, vintage collectibles and advertising signs, woodworking and workshop gear, hardware shelving, and old soda crates — picker's-paradise barn-sale energy from Tri-Star Estate Sales (Tullahoma), a new Tier-2 corridor find this run.",
     "cats": [
       "estate",
-      "antique"
+      "barn",
+      "tools",
+      "vintage"
     ],
-    "link": "https://www.estatesales.net/TN/Franklin/37064/5114433"
+    "link": "https://www.estatesales.net/TN/Lewisburg/37091/5123262"
   },
   {
     "id": 4,
-    "name": "Eclectic Collector's Sale — Dogwood Estate Sales, College Grove",
-    "type": "ESTATE",
+    "name": "Lewisburg Garage Sale — 540 Marian St",
+    "type": "GARAGE",
     "star": false,
-    "addr": "6601 Owen Hill Rd, College Grove, TN 37046",
-    "q": "6601+Owen+Hill+Rd,+College+Grove,+TN+37046",
-    "lat": 35.788991,
-    "lon": -86.745552,
+    "addr": "540 Marian St, Lewisburg, TN 37091",
+    "q": "540+Marian+St,+Lewisburg,+TN+37091",
+    "lat": 35.447805,
+    "lon": -86.779747,
     "approx": false,
-    "affluence": 70,
+    "affluence": 45,
     "drive": 0,
     "dates": [
-      "2026-10-18"
+      "2026-10-23",
+      "2026-10-24"
     ],
-    "time": "Sun 9am–4pm (final day)",
-    "start": "090000",
-    "end": "160000",
-    "items": "\"Dough Bowl on Legs\" eclectic collector's sale — antique and contemporary furniture, Oriental rugs, tools, home decor, household items, and small collectibles. Final day.",
+    "time": "Fri–Sat, approx. 7am–5pm",
+    "start": "070000",
+    "end": "170000",
+    "items": "Furniture, clothes, shoes, and a TV — straightforward two-day yard sale found via Craigslist, real street address confirmed in the post (posted 10/18).",
     "cats": [
-      "estate",
-      "antique",
       "furniture",
-      "collectibles"
+      "clothing",
+      "electronics"
     ],
-    "link": "https://www.estatesales.net/TN/College-Grove/37046/5069718"
+    "link": "https://www.craigslist.org/view/d/lewisburg-garage-sale-this-friday-and/oPR54h5NhsJcemnHCqFy9L"
   },
   {
     "id": 5,
     "name": "Lori Smith Estate Sale — BLK Dog Estate Sales, Columbia",
     "type": "ESTATE",
     "star": false,
-    "addr": "Columbia, TN 38401 (exact address not yet public)",
+    "addr": "Columbia, TN 38401 (exact address releases Thu Oct 22, 9am)",
     "q": "Columbia,+TN+38401",
     "lat": 35.563878,
     "lon": -87.036008,
@@ -393,39 +411,15 @@ var sales = [
     "time": "Fri–Sun 10am–4pm",
     "start": "100000",
     "end": "160000",
-    "items": "General Columbia estate sale, 347 photos on the listing — item list not yet detailed. Opens Friday and runs through Sunday, all within this window.",
+    "items": "Wooden armoire and a double-stacked hutch, a freestanding 5-tier industrial steel shelving unit, a two-piece rolling tool chest and cabinet set, a vintage Manning-Bowman bench grinder, vintage metal storage chests, and a chest freezer — carried forward unchanged from last week's pull.",
     "cats": [
-      "estate"
+      "estate",
+      "tools"
     ],
     "link": "https://www.estatesales.net/TN/Columbia/38401/5074212"
   },
   {
     "id": 6,
-    "name": "Great Chapel Hill Estate Sale — Estate Sales By Sheila",
-    "type": "ESTATE",
-    "star": false,
-    "addr": "Chapel Hill, TN 37034 (exact address not yet public)",
-    "q": "Chapel+Hill,+TN+37034",
-    "lat": 35.6412,
-    "lon": -86.6981,
-    "approx": true,
-    "affluence": 50,
-    "drive": 0,
-    "dates": [
-      "2026-10-24",
-      "2026-10-25"
-    ],
-    "time": "Sat–Sun 8am–5pm",
-    "start": "080000",
-    "end": "170000",
-    "items": "General estate sale goods from Estate Sales By Sheila — item list not yet detailed. Opens the window's last Saturday and continues Sunday.",
-    "cats": [
-      "estate"
-    ],
-    "link": "https://estatesales.org/estate-sales/tn/chapel-hill/37034/great-chapel-hill-estate-sale-2462654"
-  },
-  {
-    "id": 7,
     "name": "Antique Prints, Maps & Rare Books Sale — Trillium Antique Prints & Rare Books, Franklin",
     "type": "ESTATE",
     "star": false,
@@ -439,15 +433,16 @@ var sales = [
     "dates": [
       "2026-10-24"
     ],
-    "time": "Sat, bidding ends 9am",
+    "time": "Sat, online bidding — check listing for the exact closing time",
     "start": "090000",
-    "end": "150000",
-    "items": "Antique prints, maps, and rare books of natural history and botanicals, including four Hawaiian fish prints by Bien. Online bidding only (BidSpirit) — no in-person walkthrough; bid via the listing link. Recurring weekly lot.",
+    "end": "170000",
+    "items": "Antique prints, maps, and rare natural-history/botanical books, including four Hawaiian fish prints by Bien — online bidding only via BidSpirit, no in-person walkthrough. Recurring weekly lot, rolled forward to this Saturday.",
     "cats": [
       "antique",
-      "collectibles"
+      "collectibles",
+      "books"
     ],
-    "link": "https://www.estatesales.net/TN/Franklin/37069/5109486"
+    "link": "https://www.estatesales.net/TN/Franklin/37069/5119071"
   }
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -743,8 +738,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
     return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-        if(view==='weekend')return "<b>Today closes out the Franklin estate cluster.</b> Sun 10/18 (today) — four sales open at once, all in their final hours: the star National Estate Company barn-and-farm sale, Mr. Gregg’s Executive Transition Sale, and the Westhaven estate sale (all three Franklin, 50% off), plus the Eclectic Collector’s Sale in College Grove, also closing out. Nothing posted yet for Monday through Thursday. Next weekend picks back up: Friday 10/23 the Lori Smith Estate Sale opens in Columbia, and Saturday 10/24 brings the Great Chapel Hill Estate Sale and Trillium’s recurring online-bidding auction, with both Lori Smith and Chapel Hill running into Sunday 10/25.";
-    return "<b>Plan the week.</b> <b>Sun 10/18 (today)</b> — four Franklin-area estate sales close out in their final hours: the star National Estate Company barn-and-farm sale, Mr. Gregg’s Executive Transition Sale, and the Westhaven estate sale (all Franklin, 50% off), plus the Eclectic Collector’s Sale in College Grove. <b>Mon 10/19–Thu 10/22</b> — nothing posted yet; check back as the week fills in. <b>Fri 10/23</b> — the Lori Smith Estate Sale opens in Columbia. <b>Sat 10/24</b> — the window’s busiest remaining day: Lori Smith continues, the Great Chapel Hill Estate Sale opens, and Trillium’s online-bidding auction runs again. <b>Sun 10/25</b> — Lori Smith and the Chapel Hill sale both close out the window.";
+        if(view==='weekend')return "<b>A thin Monday -- nothing posted yet today.</b> The corridor's Franklin-area estate cluster closed out yesterday (National Estate Company's barn/farm sale, Mr. Gregg's sale, Westhaven, and the College Grove Eclectic Collector's Sale all wrapped Sunday). Nothing new is posted Mon-Wed. Thursday 10/22 opens a new Tier-2 find, Tri-Star's Lewisburg estate sale. Friday 10/23 brings the Lori Smith Estate Sale (Columbia) and a real-address Lewisburg garage sale (540 Marian St). Saturday 10/24 is the window's busiest day -- Lori Smith and the Lewisburg finds continue, the Great Chapel Hill Estate Sale opens, and Trillium's online-bidding auction runs again -- with Lori Smith and Chapel Hill both running into Sunday 10/25. The window closes with the star pick: the Fabulous Franklin Estate Sale (midcentury Knoll dining set, Turkish rugs) opening Monday 10/26.";
+    return "<b>Plan the week.</b> <b>Mon 10/19 (today)-Wed 10/21</b> -- nothing posted yet; yesterday's Franklin estate cluster has closed out and the week hasn't filled in. <b>Thu 10/22</b> -- a new Tier-2 find opens: Tri-Star's Lewisburg estate sale adventure (tools, tractor, vintage advertising). <b>Fri 10/23</b> -- the Lori Smith Estate Sale opens in Columbia, and a real-address garage sale opens at 540 Marian St, Lewisburg. <b>Sat 10/24</b> -- the window's busiest day: Lori Smith and the Lewisburg finds continue, the Great Chapel Hill Estate Sale opens, and Trillium's online-bidding auction runs again. <b>Sun 10/25</b> -- Lori Smith and Chapel Hill both close out. <b>Mon 10/26</b> -- this run's star pick opens: the Fabulous Franklin Estate Sale, a midcentury Knoll dining set and Turkish rugs in Franklin's top-affluence zip.";
 }
 
 /* ---------- select-to-route ---------- */
@@ -804,7 +799,7 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  "Sources reached (7-day window, 10/18-10/25): EstateSales.NET (Franklin/37064, Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) and EstateSales.org (Columbia cross-check) both reached cleanly, confirming every Franklin and College Grove estate-company sale and the two forward-dated finds (Lori Smith in Columbia, the Great Chapel Hill sale). gsalr.com failed on every attempt across two city pages (CLIENT_ERROR, the same known recurring block, not retried further). Craigslist failed both as a direct page fetch (the search results render via JavaScript, so no listings appear in the static HTML) and as its RSS feed (CLIENT_ERROR) -- no Craigslist-sourced rows this run. Facebook Marketplace was NOT reachable this run -- Alex's logged-in Chrome had a Marketplace category tab already open (confirmed via list_tabs), but page-content and JavaScript extraction both errored \"Chrome is not running\" on every attempt, the same dawn-hours issue seen in yesterday's run -- no fresh Facebook sourcing, and the cached fb-latest.md file (dated 2026-07-03, over three months stale) remains too old to reuse and was not touched. Estate Company Registry Tier-1 spot-check: National Estate Company's own site confirmed the Franklin sale's final day and surfaced its Bon Aqua sale (outside the ~30mi Franklin-cap radius, excluded); Bleu Estates' own site matched the Centerville sale already seen on EstateSales.NET (also outside the cap by distance, excluded); Great Scott Estate Sales' domain still resolves to an unrelated Metro Detroit business (unchanged); Franklin Pickers, Cumberland Estate Sales, Music City Estate Sales (Rockology), and Caring Transitions all show no current sale listings on their own public pages. <b>7 sales this run</b> -- down sharply from 16 yesterday, because today is the day after Saturday's volume peak (most single/two-day weekend sales have already closed) and three of the five sourcing channels (gsalr, Craigslist, Facebook) came back empty or unreachable. The four sales still open today are all in their final hours (three in Franklin plus one in College Grove, all 50%-off or closing); nothing is posted yet for Monday through Thursday; Friday and the following weekend pick back up with two forward-dated estate sales (Lori Smith in Columbia, Great Chapel Hill) and the recurring Trillium online auction. <b>4 of 7 addresses are exact, Census-geocoded</b> -- the three Franklin estate sales and the Eclectic Collector's Sale in College Grove. <b>3 of 7 are still approximate</b> -- Trillium (online-bidding only, no physical address) and the Lori Smith and Great Chapel Hill sales (addresses not yet public). Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. Always tap <b>Listing</b> to confirm before the drive.";
+  "Sources reached (7-day window, 10/19-10/26): EstateSales.NET (Franklin/37064, Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) and EstateSales.org (Columbia cross-check) both reached cleanly, carrying forward the Lori Smith and Great Chapel Hill finds and surfacing the new Fabulous Franklin Estate Sale (this run's star) and a new Tier-2 registry find, Tri-Star Estate Sales' Lewisburg adventure. gsalr.com failed on every attempt (CLIENT_ERROR, the same known recurring block, not retried further) -- no gsalr-sourced rows. Craigslist's redirected city page returned two results, its best yield in several runs -- a real-address Lewisburg garage sale at 540 Marian St (used) and a Chapel Hill repost dated 10/16-10/17 (already past, dropped). Facebook Marketplace was NOT reachable this run -- Chrome's tab-listing and navigation worked cleanly, opening a fresh Marketplace search tab without issue, but page-content extraction errored \"Chrome is not running\" on two consecutive attempts, the same dawn-hours tool-bridge fault seen on 10/17 and 10/18 (now three straight days) -- not retried further per doctrine, and the cached fb-latest.md file (dated 2026-07-03, well over three months stale) remains too old to reuse and was not touched. Estate Company Registry Tier-1/Tier-2 spot-check: National Estate Company's own site showed only its already-past Franklin sale and its Bon Aqua sale (outside the ~30mi Franklin-cap radius this run specified, excluded); Bleu Estates' own site showed only an already-ended Centerville sale (also outside the cap); Great Scott Estate Sales' domain still resolves to an unrelated Metro Detroit business (unchanged). <b>One sale held out on distance:</b> Busy Bee Moving Sales' Brentwood \"Fine Furnishings -- Henredon\" sale (Oct 22-23) -- Census-geocoding the Brentwood town center puts it roughly 38 miles from Culleoka, past the ~30mi cap this run specified, even though prior runs have sometimes routed similarly-distant Brentwood addresses; flagged here rather than routed, pending its address release. Nolensville and an Antioch cul-de-sac sale were held out for the same reason. <b>6 sales this run</b> -- down slightly from 7 yesterday, exactly as expected for a Monday (corridor weekend sales post Wed-Sat, so a Monday pull legitimately looks thin). <b>1 of 6 addresses is exact, Census-geocoded</b> -- the 540 Marian St garage sale. <b>5 of 6 are still approximate</b> -- three with addresses releasing day-before (Fabulous Franklin, Great Chapel Hill, Lori Smith, Lewisburg Tri-Star) and one online-bidding-only lot with no physical address (Trillium). Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. Always tap <b>Listing</b> to confirm before the drive.";
 /* ---------- home-address picker ---------- */
 var homeLabelEl=document.getElementById('homeLabel'),
     homeEditorEl=document.getElementById('homeEditor'),
