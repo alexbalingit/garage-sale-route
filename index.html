@@ -230,56 +230,57 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-10-20 (Tuesday pull -- a thin corridor day, same tier as Monday --
-   unattended 6am run) -- 7-day window Oct 20-Oct 27, 13 sales, up sharply from 6 yesterday as
-   this run's window first reached into the Wed 10/21-release wave of upcoming Thu-Sat estate
-   sales (most Franklin/Lewisburg estate companies post addresses the day before a Thu start, so
-   a Tue pull catches the whole weekend cluster at once). Carried forward unchanged: the Lori
-   Smith Estate Sale (BLK Dog, Columbia), the Great Chapel Hill Estate Sale (Estate Sales By
-   Sheila), the Lewisburg Estate Sale Adventure (Tri-Star), the 540 Marian St garage sale
-   (Lewisburg), Trillium's recurring weekly online-bidding lot, and the Fabulous Franklin Estate
-   Sale (Estate Sales By Sheila, Mon-Tue 10/26-10/27, now fully in-window for the first time --
-   previously only 10/26 showed). Six new finds this run: Blvd Estate Sales' "Spectacular Four
-   Day Estate Sale on Moran Road" (Franklin 37069 -- designer clothing/furs/LV/majolica/UT
-   memorabilia, the strongest signal pull this run, promoted to star, outranking the previous
-   star Fabulous Franklin on item signal); New Life Estate Sales' "Elvis, Glassware and Sewing
-   Paradise" (Franklin 37064 -- Husqvarna sewing machines, Elvis and Coca-Cola collectibles); a
-   second Tri-Star Lewisburg listing, "At The Golf Course Wonderful Lewisburg Estate Sale";
-   Generations Estate Sales' Westhaven moving sale (1035 Westhaven Blvd, Franklin -- real address,
-   Census-geocoded); a real-address Craigslist Chapel Hill garage sale at 2158 Crutcher Rd
-   (vintage clocks, a Wheel Horse tractor -- this exact address was held out past-dated on 10/19,
-   but the post has since been updated with new dates Oct 23-24, so it is now back in-window and
-   placed); a real-address Craigslist Shelbyville garage sale at 505 Kingree Rd (tools, bikes,
-   ~25mi out, a new town for this skill); and, via Alex's logged-in Chrome, a Facebook Marketplace
-   multi-family yard sale right in Culleoka itself (1112 Mooresville Rd, behind the Mooresville
-   Market -- real street address confirmed in the post body, the closest sale to home this run).
-   Facebook Marketplace WAS reachable this run (three straight prior days of "Chrome is not
-   running" dawn faults did not recur) -- searched garage/neighborhood/estate/barn sale terms
-   across Columbia-tn; most results were either no-date or clearly past-dated (HUGE YARD SALE
-   3884 W Hwy 100 is actually in Centerville, out of radius; Youth Fundraiser Bear Creek Pike and
-   a Lewisburg Yard Sale were both already past; a Columbia "Community Yard Sale" antique-glass
-   find had an ambiguous Fri/Sat reference likely already past and was held out rather than
-   guessed) -- only the Culleoka multi-family sale had a clear forward date and a real address,
-   so it alone was placed; the stale fb-latest.md cache (2026-07-03) was correctly left untouched.
-   Day counts: Tue 10/20 (today) 0 -- Wed 10/21 0 -- Thu 10/22 5 -- Fri 10/23 8 -- Sat 10/24 12
-   (volume day) -- Sun 10/25 5 -- Mon 10/26 1 -- Tue 10/27 1. Sources: EstateSales.NET
-   (Columbia/38401, Spring-Hill/37174, Nashville -- PRIMARY) reached cleanly on all three pulls;
-   EstateSales.org (Columbia cross-check) also reached cleanly. gsalr.com failed on both attempts
-   (CLIENT_ERROR, the same known recurring block, not retried further per doctrine) -- no
-   gsalr-sourced rows again. Craigslist's redirected city page returned three results this run --
-   Lewisburg (carried forward), Chapel Hill (placed, see above), and Shelbyville (new, placed).
-   Estate Company Registry: no individual Tier-1/Tier-2 own-site scan this run (time-boxed daily
-   wrapper) -- coverage came via the EstateSales.NET aggregator pulls, which surfaced Blvd, New
-   Life, Generations, BLK Dog, National Estate Company, and Estate Sales By Sheila listings
-   directly; flagging this as a gap versus the doctrine's "scan Tier-1 own-site every run" step.
-   National Estate Company's Bon Aqua "Hunting, Fishing & Sweet Home Charm" sale was found again
-   (hunting/fishing/barn signal, strong thesis fit) but held out on distance, consistent with the
-   10/19 precedent explicitly excluding this same sale as outside the ~30mi Franklin cap. Nashville
-   proper, Brentwood, Nolensville, Antioch, Smyrna, Hermitage, Gallatin, Hendersonville, Cottontown,
-   Madison, Cookeville, Old Hickory, Monterey, Murfreesboro, Rockvale, and Tullahoma-area listings
-   were all held out as past Franklin / outside the cap. Smoke test (Node, extracted array): 13
-   sales / 0 dup ids / all 18 schema fields present / 0 missing verify links / 0 bad coordinates /
-   5 exact / 8 approx / 1 star / day counts match exactly -- PASSED. */
+/* Daily auto-refresh, 2026-10-21 (Wednesday pull -- unattended 6am run) -- 7-day window
+   Oct 21-Oct 28, 14 sales, up from 13 yesterday on one new real-address find. Carried forward
+   unchanged from yesterday (all estate-company addresses for Thu-Sun still gated behind their
+   "releases after 9am" timers, which fall later today and over the next few days, not yet at
+   this run's 6am pull time): the star pick Blvd Estate Sales' "Spectacular Four Day Estate Sale
+   on Moran Road" (Franklin 37069 -- designer clothing/furs/LV/majolica/UT memorabilia); New Life
+   Estate Sales' "Elvis, Glassware and Sewing Paradise" (Franklin 37064); both Tri-Star Lewisburg
+   estate sales; Generations Estate Sales' real-address Westhaven moving sale (1035 Westhaven
+   Blvd, Franklin); the real-address Craigslist Chapel Hill garage sale (2158 Crutcher Rd) and
+   Lewisburg garage sale (540 Marian St); the real-address Craigslist Shelbyville garage sale
+   (505 Kingree Rd); the Lori Smith Estate Sale (BLK Dog, Columbia); the Great Chapel Hill Estate
+   Sale (Estate Sales By Sheila); Trillium's recurring weekly online-bidding lot; the Facebook-
+   sourced Culleoka multi-family yard sale (1112 Mooresville Rd, behind the Mooresville Market);
+   and the Fabulous Franklin Estate Sale (Estate Sales By Sheila, Mon-Tue 10/26-10/27). One new
+   find this run: a real-address Craigslist yard sale at 308 Edgewood St, Mt. Pleasant -- a
+   four-day run, Wed 10/21 (today) through Sat 10/24 (Saturday hours unconfirmed in the post, so
+   flagged for Alex to confirm) -- space heaters, a 1950s Truetone stereo console, vintage Pyrex
+   Visionware, and truck tires; the closest sale to home this run (~18mi) and the only stop open
+   before Thursday. Facebook Marketplace was UNREACHABLE this run -- four marketplace search tabs
+   (garage/estate/yard sale terms, Columbia-tn and neighborhood-sale terms, Franklin-tn) opened
+   successfully via Control Chrome, but the browser backend then reported "Google Chrome is not
+   running" on every subsequent read attempt (one retry confirmed, not looped further per
+   doctrine -- normal at dawn). The cached fb-latest.md fallback (2026-07-03) is now 3.5 months
+   stale and was correctly left untouched/unused; no fresh Facebook rows this run beyond the
+   Culleoka Mooresville Rd sale carried forward unchanged from an earlier run's live pull (still
+   real-address, still dated Sat 10/24 only, still in-window). Day counts: Wed 10/21 (today) 1 --
+   Thu 10/22 6 -- Fri 10/23 9 -- Sat 10/24 13 (volume day) -- Sun 10/25 5 -- Mon 10/26 1 -- Tue
+   10/27 1 -- Wed 10/28 0. Sources: EstateSales.NET (Columbia/38401, Spring-Hill/37174, Nashville
+   -- PRIMARY) reached cleanly on all three pulls and returned the same corridor-radius listings
+   as yesterday, now one day further into their release windows -- no new estate-company rows
+   beyond the carried-forward set. EstateSales.org (Columbia cross-check) also reached cleanly,
+   consistent with .NET. gsalr.com failed on both attempts (CLIENT_ERROR, the same known
+   recurring block, not retried further per doctrine) -- no gsalr-sourced rows, as usual.
+   Craigslist's redirected city page returned four results this run -- the new Mt. Pleasant find
+   (placed, see above) plus Chapel Hill, Lewisburg, and Shelbyville, all carried forward
+   unchanged. Estate Company Registry: scanned seven Tier-1/Tier-2 own-site calendars this run
+   (Bleu Estates, Great Scott Estate Sales, David Jent Realty, Franklin Pickers, Cumberland
+   Estate Sales, Rockology/Music City Estate Sales, National Estate Company) -- none published a
+   dated, addressed listing on their own site (empty "click to see" pages, a Centerville sale
+   with no stated month, or the page blocked/unreachable); no new registry-sourced rows -- every
+   sale this run still traces back to the EstateSales.NET aggregator or Craigslist. National
+   Estate Company's recurring Bon Aqua "Hunting, Fishing & Sweet Home Charm" sale was seen again
+   on the aggregator pull but held out on distance, consistent with prior runs excluding this
+   same sale as outside the ~30mi Franklin cap; Rockvale, Nolensville, Brentwood, Antioch,
+   Nashville-proper, Smyrna, and Bon Aqua listings were all held out for the same reason. 6 of 14
+   addresses are exact, Census-geocoded (Chapel Hill, Lewisburg 540 Marian St, Shelbyville,
+   Culleoka, Westhaven, and the new Mt. Pleasant find); 8 of 14 are still approximate, most
+   releasing the day before their sale opens. Smoke test (Node, extracted array): 14 sales / 0 dup
+   ids / all 18 schema fields present / 0 missing verify links / 0 bad coordinates / 6 exact / 8
+   approx / 1 star / day counts match exactly --
+   PASSED. */
 var sales = [
   {
     "id": 1,
@@ -293,12 +294,23 @@ var sales = [
     "approx": true,
     "affluence": 88,
     "drive": 0,
-    "dates": ["2026-10-22","2026-10-23","2026-10-24","2026-10-25"],
+    "dates": [
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-24",
+      "2026-10-25"
+    ],
     "time": "Thu–Sat 9am–4pm · Sun 10am–3pm",
     "start": "090000",
     "end": "160000",
     "items": "Designer women's clothing (US 4-10 / Euro 40-44) and furs from St. John, Oscar de la Renta, Louis Vuitton, Doncaster, and Regency Furs Nashville; men's wear from Ralph Lauren, Orvis, and Cabela's; costume jewelry; majolica, a 16-place-setting Cambridge stainless set, University of Tennessee memorabilia, and pink Depression glass (Jeannette Glass Co. 'Floral/Poinsettia'); upholstered spindle-leg armchairs with ottoman — Blvd Estate Sales, Franklin's highest-affluence zip (37069). This run's star pick on strong designer/fur signal.",
-    "cats": ["estate","designer","antique","furniture","collectibles"],
+    "cats": [
+      "estate",
+      "designer",
+      "antique",
+      "furniture",
+      "collectibles"
+    ],
     "link": "https://www.estatesales.net/TN/Franklin/37069/5119860"
   },
   {
@@ -313,12 +325,23 @@ var sales = [
     "approx": true,
     "affluence": 82,
     "drive": 0,
-    "dates": ["2026-10-22","2026-10-23","2026-10-24","2026-10-25"],
+    "dates": [
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-24",
+      "2026-10-25"
+    ],
     "time": "Thu–Sun 10am–4pm",
     "start": "100000",
     "end": "160000",
     "items": "Husqvarna and Husqvarna Viking sewing machines plus other antique and vintage sewing/embroidery machines, vintage glassware, Elvis Presley collectibles, Coca-Cola memorabilia, vintage Christmas décor, and antique furniture — New Life Estate Sales, Franklin 37064, a new Tier-1 registry find this run.",
-    "cats": ["estate","vintage","antique","collectibles","furniture"],
+    "cats": [
+      "estate",
+      "vintage",
+      "antique",
+      "collectibles",
+      "furniture"
+    ],
     "link": "https://www.estatesales.net/TN/Franklin/37064/5126031"
   },
   {
@@ -333,12 +356,21 @@ var sales = [
     "approx": true,
     "affluence": 45,
     "drive": 0,
-    "dates": ["2026-10-22","2026-10-23","2026-10-24"],
+    "dates": [
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-24"
+    ],
     "time": "Thu 3pm–6pm · Fri 9am–2pm · Sat 9am–1pm",
     "start": "090000",
     "end": "180000",
     "items": "Traditional furniture and home furnishings, dishes and glassware, collectibles, sewing supplies, books, tools and garage items, and holiday décor — Tri-Star Estate Sales (Tullahoma), a second new Lewisburg find this run near the golf course.",
-    "cats": ["estate","furniture","tools","collectibles"],
+    "cats": [
+      "estate",
+      "furniture",
+      "tools",
+      "collectibles"
+    ],
     "link": "https://www.estatesales.net/TN/Lewisburg/37091/5126670"
   },
   {
@@ -353,12 +385,21 @@ var sales = [
     "approx": true,
     "affluence": 45,
     "drive": 0,
-    "dates": ["2026-10-22","2026-10-23","2026-10-24"],
+    "dates": [
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-24"
+    ],
     "time": "Thu 2pm–6pm · Fri 9am–2pm · Sat 9am–1pm",
     "start": "090000",
     "end": "180000",
     "items": "Tools, a tractor, vintage collectibles and advertising signs, woodworking and workshop gear, hardware shelving, and old soda crates — Tri-Star Estate Sales (Tullahoma), carried forward from recent runs.",
-    "cats": ["estate","barn","tools","vintage"],
+    "cats": [
+      "estate",
+      "barn",
+      "tools",
+      "vintage"
+    ],
     "link": "https://www.estatesales.net/TN/Lewisburg/37091/5123262"
   },
   {
@@ -373,12 +414,19 @@ var sales = [
     "approx": false,
     "affluence": 82,
     "drive": 0,
-    "dates": ["2026-10-22","2026-10-23","2026-10-24"],
+    "dates": [
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-24"
+    ],
     "time": "Thu–Sat 8am–2pm",
     "start": "080000",
     "end": "140000",
     "items": "A coffee table and other client items sold at Generations Estate Sales' Westhaven-area space — real street address, in Franklin's highest-affluence corridor.",
-    "cats": ["furniture","moving"],
+    "cats": [
+      "furniture",
+      "moving"
+    ],
     "link": "https://www.estatesales.net/TN/Franklin/37064/5125422"
   },
   {
@@ -389,16 +437,24 @@ var sales = [
     "addr": "2158 Crutcher Rd, Chapel Hill, TN 37034",
     "q": "2158+Crutcher+Rd,+Chapel+Hill,+TN+37034",
     "lat": 35.655161,
-    "lon": -86.712170,
+    "lon": -86.71217,
     "approx": false,
     "affluence": 50,
     "drive": 0,
-    "dates": ["2026-10-23","2026-10-24"],
+    "dates": [
+      "2026-10-23",
+      "2026-10-24"
+    ],
     "time": "Fri–Sat, approx. 8am–5pm",
     "start": "080000",
     "end": "170000",
     "items": "Quilts, tablecloths, vintage clocks, collectible plates, a Wheel Horse tractor, vintage Guardian Ware pans, a vintage ice bucket, vintage dishes including a Road Runner set, and a vintage white iron bed — Craigslist find, real street address confirmed in the post.",
-    "cats": ["vintage","collectibles","furniture","tools"],
+    "cats": [
+      "vintage",
+      "collectibles",
+      "furniture",
+      "tools"
+    ],
     "link": "https://www.craigslist.org/view/d/chapel-hill-garage-sale/e5jSwDDNiRhXWfVvvmfSc8"
   },
   {
@@ -413,12 +469,19 @@ var sales = [
     "approx": false,
     "affluence": 45,
     "drive": 0,
-    "dates": ["2026-10-23","2026-10-24"],
+    "dates": [
+      "2026-10-23",
+      "2026-10-24"
+    ],
     "time": "Fri–Sat, approx. 7am–5pm",
     "start": "070000",
     "end": "170000",
     "items": "Furniture, clothes, shoes, and a TV — straightforward two-day yard sale found via Craigslist, real street address confirmed in the post, carried forward unchanged.",
-    "cats": ["furniture","clothing","electronics"],
+    "cats": [
+      "furniture",
+      "clothing",
+      "electronics"
+    ],
     "link": "https://www.craigslist.org/view/d/lewisburg-garage-sale-this-friday-and/oPR54h5NhsJcemnHCqFy9L"
   },
   {
@@ -433,12 +496,19 @@ var sales = [
     "approx": true,
     "affluence": 58,
     "drive": 0,
-    "dates": ["2026-10-23","2026-10-24","2026-10-25"],
+    "dates": [
+      "2026-10-23",
+      "2026-10-24",
+      "2026-10-25"
+    ],
     "time": "Fri–Sun 10am–4pm",
     "start": "100000",
     "end": "160000",
     "items": "Wooden armoire and a double-stacked hutch, a freestanding 5-tier industrial steel shelving unit, a two-piece rolling tool chest and cabinet set, a vintage Manning-Bowman bench grinder, vintage metal storage chests, and a chest freezer — carried forward unchanged.",
-    "cats": ["estate","tools"],
+    "cats": [
+      "estate",
+      "tools"
+    ],
     "link": "https://www.estatesales.net/TN/Columbia/38401/5074212"
   },
   {
@@ -449,16 +519,23 @@ var sales = [
     "addr": "505 Kingree Rd, Shelbyville, TN 37160",
     "q": "505+Kingree+Rd,+Shelbyville,+TN+37160",
     "lat": 35.471179,
-    "lon": -86.452380,
+    "lon": -86.45238,
     "approx": false,
     "affluence": 42,
     "drive": 0,
-    "dates": ["2026-10-24","2026-10-25"],
+    "dates": [
+      "2026-10-24",
+      "2026-10-25"
+    ],
     "time": "Sat–Sun 8am–4pm",
     "start": "080000",
     "end": "160000",
     "items": "Bikes, tools, computer screens, wheelchairs, clothes, and food items — Craigslist find, real street address confirmed in the post.",
-    "cats": ["tools","electronics","clothing"],
+    "cats": [
+      "tools",
+      "electronics",
+      "clothing"
+    ],
     "link": "https://www.craigslist.org/view/d/shelbyville-garage-sale-505-kingree/m4vk7uEonsSvPSktbLJyqn"
   },
   {
@@ -473,12 +550,21 @@ var sales = [
     "approx": true,
     "affluence": 50,
     "drive": 0,
-    "dates": ["2026-10-24","2026-10-25"],
+    "dates": [
+      "2026-10-24",
+      "2026-10-25"
+    ],
     "time": "Sat–Sun 8am–5pm",
     "start": "080000",
     "end": "170000",
     "items": "Barn and outbuilding packed with treasures — a tractor, trailer, and pontoon boat (offers accepted through Sunday), duck decoys, Christmas blow molds, tools, a large air compressor, drill press and saws, plus living/dining furniture, a china hutch, and crystal — carried forward unchanged.",
-    "cats": ["estate","barn","farm","tools","furniture"],
+    "cats": [
+      "estate",
+      "barn",
+      "farm",
+      "tools",
+      "furniture"
+    ],
     "link": "https://www.estatesales.net/TN/Chapel-Hill/37034/4719744"
   },
   {
@@ -493,12 +579,18 @@ var sales = [
     "approx": false,
     "affluence": 55,
     "drive": 0,
-    "dates": ["2026-10-24"],
+    "dates": [
+      "2026-10-24"
+    ],
     "time": "Sat, time not specified in post — check listing before driving",
     "start": "090000",
     "end": "170000",
     "items": "Brand-name clothing (women's XS-XXL, plus men's and kids'), 3D-printed toys, glassware, shoes, household items, and hot dogs on-site — Facebook Marketplace find right in Culleoka, behind the Mooresville Market, real street address confirmed in the post. Closest sale to home this run.",
-    "cats": ["neighborhood","clothing","collectibles"],
+    "cats": [
+      "neighborhood",
+      "clothing",
+      "collectibles"
+    ],
     "link": "https://www.facebook.com/marketplace/item/2380042002534561/"
   },
   {
@@ -513,12 +605,18 @@ var sales = [
     "approx": true,
     "affluence": 88,
     "drive": 0,
-    "dates": ["2026-10-24"],
+    "dates": [
+      "2026-10-24"
+    ],
     "time": "Sat, online bidding — check listing for the exact closing time",
     "start": "090000",
     "end": "170000",
     "items": "Antique prints, maps, and rare natural-history/botanical books, including four Hawaiian fish prints by Bien — online bidding only via BidSpirit, no in-person walkthrough. Recurring weekly lot, carried forward unchanged.",
-    "cats": ["antique","collectibles","books"],
+    "cats": [
+      "antique",
+      "collectibles",
+      "books"
+    ],
     "link": "https://www.estatesales.net/TN/Franklin/37069/5119071"
   },
   {
@@ -533,13 +631,52 @@ var sales = [
     "approx": true,
     "affluence": 88,
     "drive": 0,
-    "dates": ["2026-10-26","2026-10-27"],
+    "dates": [
+      "2026-10-26",
+      "2026-10-27"
+    ],
     "time": "Mon–Tue 8am–5pm",
     "start": "080000",
     "end": "170000",
     "items": "Midcentury Knoll dining set (six chairs attributed to Max Pearson) with the matching table, vintage Turkish rugs and original art, Pyrex and midcentury china, art glass and crystal, vintage taxidermy, and a metal advertising stamp sign — Estate Sales By Sheila, in Franklin's highest-affluence zip (37069). Carried forward; no longer this run's star pick as fresher Franklin finds (Moran Road) outrank it on signal.",
-    "cats": ["estate","midcentury","designer","antique","furniture"],
+    "cats": [
+      "estate",
+      "midcentury",
+      "designer",
+      "antique",
+      "furniture"
+    ],
     "link": "https://www.estatesales.net/TN/Franklin/37069/5122122"
+  },
+  {
+    "id": 14,
+    "name": "Mt. Pleasant Yard Sale — 308 Edgewood St",
+    "type": "YARD",
+    "star": false,
+    "addr": "308 Edgewood St, Mt Pleasant, TN 38474",
+    "q": "308+Edgewood+St,+Mt+Pleasant,+TN+38474",
+    "lat": 35.540525,
+    "lon": -87.216002,
+    "approx": false,
+    "affluence": 45,
+    "drive": 0,
+    "dates": [
+      "2026-10-21",
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-24"
+    ],
+    "time": "Wed–Sat 9am–4pm (Sat hours unconfirmed — confirm before driving)",
+    "start": "090000",
+    "end": "160000",
+    "items": "Space heaters, a new double-barrel wood shop stove and a 20,000 BTU natural gas heater, a twin wood-frame bed and a Serta queen mattress set, five-piece beauty-salon equipment, a 1950s Truetone stereo hi-fi console with records and 45s, a roof-top car luggage rack, four Michelin 275/55-20 tires, vintage Pyrex Visionware and Paula Deen/Pioneer Woman cookware, and a VR gaming system — Craigslist find just outside Culleoka in Mt. Pleasant, real street address, open today — closest sale to home this run and the only one open before Thursday.",
+    "cats": [
+      "furniture",
+      "vintage",
+      "collectibles",
+      "tools"
+    ],
+    "link": "https://www.craigslist.org/view/d/mount-pleasant-annual-indoor-outdoor/3YxupKS5EvFYZsnVDiExMs"
   }
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
@@ -835,8 +972,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
     return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-        if(view==='weekend')return "<b>A thin Tuesday -- nothing posted yet today.</b> Nothing opens Tue-Wed. Thursday 10/22 is when the week breaks open -- five estate sales start at once, led by this run's star pick, Blvd Estate Sales' Moran Road sale in Franklin (designer clothing, furs, majolica), alongside New Life's Elvis/Glassware/Sewing sale, two Tri-Star Lewisburg sales, and the Westhaven moving sale. Friday 10/23 adds four more -- Lori Smith (Columbia), and real-address garage sales in Chapel Hill (2158 Crutcher Rd) and Lewisburg (540 Marian St). Saturday 10/24 is the window's busiest day by far (12 sales) -- everything above continues, plus a new Shelbyville garage sale, the Great Chapel Hill Estate Sale, Trillium's online auction, and a Facebook-sourced multi-family yard sale right in Culleoka. Sunday 10/25 winds down to five carryovers before the window closes with the Fabulous Franklin Estate Sale, Monday-Tuesday 10/26-10/27.";
-    return "<b>Plan the week.</b> <b>Tue 10/20 (today)-Wed 10/21</b> -- nothing posted yet; the week hasn't filled in. <b>Thu 10/22</b> -- the week breaks open: this run's star pick, Blvd Estate Sales' Moran Road sale in Franklin (designer clothing, furs, majolica), plus New Life's Elvis/Glassware/Sewing sale, two Tri-Star Lewisburg estate sales, and the Westhaven moving sale. <b>Fri 10/23</b> -- four more open: the Lori Smith Estate Sale (Columbia), and real-address garage sales in Chapel Hill (2158 Crutcher Rd) and Lewisburg (540 Marian St). <b>Sat 10/24</b> -- the window's busiest day by far, 12 sales running at once, including a new Shelbyville garage sale, the Great Chapel Hill Estate Sale, Trillium's online auction, and a Facebook-sourced multi-family yard sale right in Culleoka (closest stop to home this run). <b>Sun 10/25</b> -- five sales close out. <b>Mon-Tue 10/26-10/27</b> -- the window closes with the carried-forward Fabulous Franklin Estate Sale (midcentury Knoll dining set, Turkish rugs).";
+        if(view==='weekend')return "<b>Mt. Pleasant opens today — the only stop before Thursday.</b> A real-address four-day yard sale at 308 Edgewood St, Mt. Pleasant opened this morning and runs through Saturday (space heaters, a vintage Truetone stereo console, Pyrex). Nothing else opens Wed–Thu, but Thursday 10/22 is when the week breaks open — five more sales start at once, led by this run's star pick, Blvd Estate Sales' Moran Road sale in Franklin (designer clothing, furs, majolica), alongside New Life's Elvis/Glassware/Sewing sale, two Tri-Star Lewisburg sales, and the Westhaven moving sale. Friday 10/23 adds real-address garage sales in Chapel Hill and Lewisburg, plus the Lori Smith Estate Sale in Columbia. Saturday 10/24 is the window's busiest day by far (13 sales) — everything above continues, plus a Shelbyville garage sale, the Great Chapel Hill Estate Sale, Trillium's online auction, and the Culleoka multi-family yard sale. Sunday 10/25 winds down to five carryovers before the window closes with the Fabulous Franklin Estate Sale, Monday–Tuesday 10/26–10/27.";
+    return "<b>Plan the week.</b> <b>Wed 10/21 (today)</b> — only one sale open: a real-address four-day yard sale at 308 Edgewood St, Mt. Pleasant (space heaters, vintage Truetone stereo, Pyrex), the closest stop to home this run. <b>Thu 10/22</b> — the week breaks open: this run's star pick, Blvd Estate Sales' Moran Road sale in Franklin (designer clothing, furs, majolica), plus New Life's Elvis/Glassware/Sewing sale, two Tri-Star Lewisburg estate sales, and the Westhaven moving sale. <b>Fri 10/23</b> — real-address garage sales open in Chapel Hill (2158 Crutcher Rd) and Lewisburg (540 Marian St), plus the Lori Smith Estate Sale in Columbia. <b>Sat 10/24</b> — the window's busiest day by far, 13 sales running at once, including a Shelbyville garage sale, the Great Chapel Hill Estate Sale, Trillium's online auction, and the Culleoka multi-family yard sale (second-closest stop to home). <b>Sun 10/25</b> — five sales close out. <b>Mon–Tue 10/26–10/27</b> — the window closes with the carried-forward Fabulous Franklin Estate Sale (midcentury Knoll dining set, Turkish rugs).";
 }
 
 /* ---------- select-to-route ---------- */
@@ -896,7 +1033,7 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  "Sources reached (7-day window, 10/20-10/27): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) and EstateSales.org (Columbia cross-check) both reached cleanly, carrying forward the Lori Smith, Great Chapel Hill, Lewisburg Tri-Star adventure, 540 Marian St, Trillium, and Fabulous Franklin finds, and surfacing four new estate-company finds: Blvd Estate Sales' Moran Road sale (this run's new star, outranking Fabulous Franklin on designer/fur signal), New Life's Elvis/Glassware/Sewing sale, a second Tri-Star Lewisburg listing, and Generations' real-address Westhaven moving sale. gsalr.com failed on both attempts (CLIENT_ERROR, the same known recurring block, not retried further) -- no gsalr-sourced rows. Craigslist's redirected city page returned three results -- the carried-forward Lewisburg sale, a real-address Chapel Hill garage sale (2158 Crutcher Rd -- held out past-dated on 10/19, now back in-window on updated dates), and a new real-address Shelbyville sale (505 Kingree Rd, ~25mi out). <b>Facebook Marketplace WAS reachable this run</b> via Alex's logged-in Chrome -- garage/neighborhood/estate/barn sale searches across Columbia-tn surfaced mostly no-date or past-dated posts, but one clear hit: a real-address multi-family yard sale at 1112 Mooresville Rd, Culleoka (behind the Mooresville Market) -- the closest stop to home this run; the stale fb-latest.md cache (2026-07-03) was correctly left untouched. Estate Company Registry: no individual Tier-1/Tier-2 own-site scan this run (time-boxed daily wrapper) -- coverage came via the EstateSales.NET aggregator, which already surfaced Blvd, New Life, Generations, BLK Dog, National Estate Company, and Estate Sales By Sheila directly. National Estate Company's Bon Aqua \"Hunting, Fishing & Sweet Home Charm\" sale was found again but <b>held out on distance</b>, consistent with the 10/19 precedent excluding this same sale as outside the ~30mi Franklin cap; Nashville-proper, Brentwood, Nolensville, Antioch, and several further-out towns were held out for the same reason. <b>13 sales this run</b> -- up sharply from 6 yesterday as the window first reached Wednesday's estate-address-release wave. <b>5 of 13 addresses are exact, Census-geocoded</b> -- the Chapel Hill, Lewisburg (540 Marian St), Shelbyville, Culleoka, and Westhaven finds. <b>8 of 13 are still approximate</b>, most releasing the day before their sale opens. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. Always tap <b>Listing</b> to confirm before the drive.";
+  "Sources reached (7-day window, 10/21-10/28): EstateSales.NET (Columbia/38401, Spring Hill/37174, Nashville -- PRIMARY) and EstateSales.org (Columbia cross-check) both reached cleanly, carrying forward every estate-company sale from yesterday's run unchanged -- the Moran Road sale (Blvd, still this run's star), the Elvis/Glassware/Sewing sale (New Life), both Tri-Star Lewisburg sales, the Westhaven moving sale (Generations), the Lori Smith sale (BLK Dog), the Great Chapel Hill sale and Fabulous Franklin sale (both Estate Sales By Sheila), and Trillium's recurring online-bidding lot -- no new estate-company rows this run, as all corridor listings on the aggregator are the same ones one day further into their release windows. gsalr.com failed on both attempts (CLIENT_ERROR, the same known recurring block, not retried further) -- no gsalr-sourced rows. Craigslist's redirected city page returned four results -- a new real-address yard sale at 308 Edgewood St, Mt. Pleasant (placed, open today through Saturday, the closest stop to home this run), plus the carried-forward Chapel Hill (2158 Crutcher Rd), Lewisburg (540 Marian St), and Shelbyville (505 Kingree Rd) garage sales. <b>Facebook Marketplace was unreachable this run</b> -- four Marketplace search tabs opened successfully via Chrome, then every read attempt failed with \"Chrome is not running\" (one retry confirmed, not looped further); the stale fb-latest.md cache (2026-07-03) was correctly left untouched, so no fresh Facebook rows -- the Culleoka multi-family sale (1112 Mooresville Rd) carries forward unchanged from an earlier run's live pull. Estate Company Registry: scanned seven Tier-1/Tier-2 own-site calendars this run (Bleu Estates, Great Scott, David Jent, Franklin Pickers, Cumberland Estate Sales, Rockology, National Estate Company) -- none published a dated, addressed listing on their own site; no new registry-sourced rows. National Estate Company's Bon Aqua \"Hunting, Fishing & Sweet Home Charm\" sale was seen again but <b>held out on distance</b>, consistent with prior runs excluding it as outside the ~30mi Franklin cap; Rockvale, Nolensville, Brentwood, Antioch, Nashville-proper, and Smyrna listings were held out for the same reason. <b>14 sales this run</b> -- up from 13 yesterday on the new Mt. Pleasant find. <b>6 of 14 addresses are exact, Census-geocoded</b> -- Chapel Hill, Lewisburg (540 Marian St), Shelbyville, Culleoka, Westhaven, and the new Mt. Pleasant sale. <b>8 of 14 are still approximate</b>, most releasing the day before their sale opens. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. Always tap <b>Listing</b> to confirm before the drive.";
 /* ---------- home-address picker ---------- */
 var homeLabelEl=document.getElementById('homeLabel'),
     homeEditorEl=document.getElementById('homeEditor'),
