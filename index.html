@@ -230,70 +230,82 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Trove — find the best deals in the best neighborhoods */
-/* Daily auto-refresh, 2026-10-26 (Monday pull -- unattended run) -- 7-day window Oct 26-Nov 2,
-   7 sales, down from 14 in the prior run as all eight of yesterday's final-day sales (the Napa
-   Valley Way vintage-vehicle sale, BLVD's Moran Road sale, New Life's Eastview Elvis/Glassware
-   sale, the Blk Dog Jefferson Dr mega sale, Sheila's Chapel Hill barn sale, the Lewisburg
-   2-family yard sale, the Shelbyville garage sale, and the Spears Lane yard sale) rolled out of
-   the window overnight. All 6 carried-forward sales were re-confirmed live on today's
-   EstateSales.NET pull, same dates: the Van Massey Pulaski living-estate auction (online bidding
-   runs through 11/3, in-home preview Fri 10/30); Estate Sales By Sheila's Fabulous Franklin sale
-   (Tue-Wed 10/27-10/28, midcentury Knoll dining set, taxidermy -- its address has now released:
-   105 Harpeth Hills, Franklin 37069); Busy Bee's Huge Franklin Sale (Thu-Sat 10/29-10/31, a 2015
-   Pathfinder bay boat plus power tools -- this run's star pick, address still releasing Wed
-   10/28); the second Blk Dog Columbia sale "Road Warrior" (Fri-Sun 10/30-11/1, washer/dryer,
-   leather sectional, 55in TV -- address releases Thu 10/29); the Lovely River Rest estate sale in
-   Franklin (Fri-Sun 10/30-11/1, cherry furniture, grandfather clock -- address releases Thu
-   10/29); and Sheila's Fantastic Franklin sale (Sat-Sun 10/31-11/1, cherry rice bed, wrought iron
-   patio set -- address releases Fri 10/30). New this run via EstateSales.NET: Through The Vine
-   Auctions' "October Consignment: Part 2" in Pulaski -- a 568-photo timed/consignment auction
-   closing Thu 10/29; flagged as auction-format, confirm the pickup/viewing window before driving
-   since it may not be an open-house walk-through. gsalr.com failed again on both attempted city
-   pages (Columbia, Franklin -- CLIENT_ERROR, the same recurring block, not retried further per
-   doctrine). Craigslist's redirected city page returned one listing this run -- a dateless Chapel
-   Hill garage sale post -- held out as unroutable without a date. Facebook Marketplace was
-   reachable this run via Chrome -- the category page plus four search-term sweeps
-   (garage/estate/yard/neighborhood sale) across Columbia-tn, 19 promising permalinks opened for
-   their full post bodies; every one was past-dated (mostly 10/15-10/25, including a repeat of the
-   Armstrong Meadows block sale and the Cherry Grove community sale, both now expired) or
-   dateless/stale multi-week "estate sale, check my page" listings -- none were still live and
-   in-window. Matches the standing caveat that a Monday pull legitimately looks thin; corridor
-   weekend posts land Wed-Sat. The fb-latest.md cache (2026-07-03) was checked and correctly
-   dropped as stale by months; Facebook was reachable live instead. Held out on distance, same
-   ~30mi Franklin-cap reason as prior runs: Collector's Estate Sales' Brentwood teardown (Fri-Sun
-   10/29-10/31) and Estate Sales By Sheila's "Great Nashville Pop-Up" (Nashville 37211, Tue
-   10/27) -- both otherwise strong picks, both past Franklin. Estate Company Registry: did not
-   scan the full Tier-1 own-site roster individually this run (time budget went to the live
-   aggregator + Facebook pulls, which already surfaced sales from 3 of the ~20 Tier-1 companies --
-   Blk Dog, Estate Sales By Sheila, Busy Bee); spot-checked Bleu Estates (Tier-2, Columbia-native)
-   directly -- no sale currently posted, just a "check back soon" page; David Jent Realty's own
-   site blocked robots access, not retried. The Census geocoder was unreachable from this sandbox
-   this run (egress blocked); new approximate pins used the same zip-centroid convention as prior
-   runs rather than guessing street-level coordinates. Day counts: Mon 10/26 (today) 0
-   (legitimately thin -- corridor weekday; the Pulaski auction's online bidding window opens today
-   but its visit date is Fri) -- Tue 10/27 1 -- Wed 10/28 1 -- Thu 10/29 2 -- Fri 10/30 4 -- Sat
-   10/31 4 -- Sun 11/1 3 -- Mon 11/2 0.
-   Sources: EstateSales.NET (Columbia/38401, Spring Hill/37174, Franklin/37069, Nashville --
-   PRIMARY) reached cleanly; EstateSales.org (Columbia cross-check) also reached cleanly and
-   corroborated the Franklin and Columbia Sheila/Blk Dog listings. Craigslist's redirected city
-   page returned 1 dateless result, not placed. gsalr.com blocked both attempts (CLIENT_ERROR).
-   Facebook Marketplace reachable via Chrome -- category page + 4 search-term sweeps across
-   Columbia-tn, 19 permalinks opened for full post bodies; 0 were live and in-window. 1 of 7
-   addresses is exact (released today, not yet re-geocoded -- Census API unreachable this run);
-   6 of 7 are still approximate, several releasing exact addresses later this week per the estate
-   companies' own release-time notices.
-   Smoke test (Node, extracted array): 7 sales / 0 dup ids / all 18 schema fields present / 0
-   missing verify links / 0 bad coordinates / 1 exact-address / 6 approx-pin / 1 star / day counts
+/* Daily auto-refresh, 2026-10-27 (Tuesday pull -- unattended run) -- 7-day window Oct 27-Nov 3.
+   12 sales, up from 7 in yesterday's pull: all 7 carried-forward sales re-confirmed live on
+   today's EstateSales.NET/.org pull, same dates -- the Van Massey Pulaski living-estate auction
+   (bidding window now shown running 10/26-11/3, in-home preview still Fri 10/30); Through The
+   Vine's Pulaski consignment auction (closes Thu 10/29); Estate Sales By Sheila's Fabulous
+   Franklin sale (Tue-Wed 10/27-10/28, midcentury Knoll dining set, taxidermy -- its address at
+   105 Harpeth Hills Dr is now geocoded exact via the Census API, replacing the Franklin
+   zip-centroid pin); Busy Bee's Huge Franklin boat sale (Thu-Sat 10/29-10/31, 2015 Pathfinder
+   bay boat -- address still releasing, now expected after 9am Wed 10/28); the second Blk Dog
+   Columbia sale "Road Warrior" (Fri-Sun 10/30-11/1, washer/dryer, leather sectional, 55in TV --
+   address releases Thu 10/29); the Lovely River Rest Franklin estate sale (Fri-Sun 10/30-11/1,
+   cherry furniture, grandfather clock -- address releases Thu 10/29); and Sheila's Fantastic
+   Franklin sale (Sat-Sun 10/31-11/1, cherry rice bed, wrought iron patio set -- address releases
+   Fri 10/30). Five new pickups this run: New Life Estate Sales' "Packed Franklin Estate Sale:
+   Christmas, Collectibles and More" at a now-exact 632 Glencoe Ct, Franklin 37064 (Fri-Sun
+   10/30-11/1, Craftsman/DeWalt tools, Christmas decor, Raggedy Ann dolls -- this run's star pick,
+   on real-address strength + broad appeal); National Estate Company's "Encore Sale -- 75% off" in
+   Franklin 37064 (Sat 10/31 only, stall doors and garden gates left from a prior barn/house sale,
+   address releases Fri 10/30); Trillium Antique Prints & Rare Books in Franklin 37069 (Sat 10/31,
+   a ~120-piece specialty paper/ephemera sale, no address listed); a Facebook-sourced Multi-Family
+   Yard Sale at a real street address, 15807 Columbia Hwy, Lynnville TN (Fri 10/30, 7am --
+   sporting/range gear, photography equipment, vinyl -- the closest sale to home this run, ~8
+   drive-minutes); and a Shelbyville garage sale at 138 56B Longwood Dr (Fri-Sat 10/30-10/31 --
+   the Census geocoder rejected the unit-number format "56B", so it's pinned to the Shelbyville
+   city centroid instead; low photo count, flagged unverified-inventory). Held out on distance,
+   same ~30mi Franklin-cap reason as prior runs: New Life's separate Brentwood estate sale (5208
+   Meadowlake Rd, vintage/glassware/tools), Collector's Estate Sales' Brentwood teardown, Estate
+   Sales By Sheila's "Great Nashville Pop-Up" (76 E Thompson Ln, Nashville 37211 -- ~46mi
+   straight-line), Estate Greats' Crieve Hall/Oak Hill sale (Nashville 37220, address not yet
+   released anyway), and Grasons of Nashville's Donelson Hills liquidation (Nashville 37214) --
+   all four otherwise decent picks, all past Franklin. gsalr.com's city-page list view loaded this
+   run (prior CLIENT_ERROR block cleared) via the logged-in Chrome session rather than a direct
+   fetch -- the direct WebFetch attempts still failed CLIENT_ERROR; 31 deduped listings pulled,
+   most beyond the radius (Hermitage, Mount Juliet, Hendersonville -- not placed). Craigslist's
+   redirected city page returned one listing this run -- a dateless/duplicate Chapel Hill garage
+   sale post -- held out as unroutable without a firm date. Facebook Marketplace reachable via
+   Chrome -- the garage-sale category page plus six search-term sweeps (garage/estate/yard/
+   neighborhood/barn sale across Columbia-tn, Spring Hill-tn and Franklin-tn), 9 promising
+   permalinks opened for their full post bodies; only the Lynnville multi-family sale was still
+   live and in-window with a real street address in the post -- the rest were past-dated (the
+   Rutherford Place/Downs subdivision sale and Carnation Place sale were both "today Oct 24,"
+   the Poplar Creek/Traceside/Stonemeade neighborhood sale was "Oct 3," a Centerville yard sale
+   and a stale 11-week-old Pulaski estate listing had no current date) or open-ended/by-appointment
+   with no date (Pickers Paradise liquidation, Spring Hill "Neighborhood garage sale!"). The
+   fb-latest.md cache (dated 2026-07-03) was checked and correctly dropped as stale by months --
+   Facebook was reachable live instead. Estate Company Registry: spot-checked the two Tier-2
+   corridor-native companies directly -- Bleu Estates (Columbia) still shows only a "check back"
+   page, Great Scott Estate Sales' site returned an unrelated Michigan business listing (likely a
+   lapsed/reassigned domain -- flag for registry cleanup); did not scan the full ~20-company
+   Tier-1 roster individually this run, time budget went to the live aggregator + Facebook pulls,
+   which already surfaced sales from 4 of the ~20 Tier-1 companies (Estate Sales By Sheila, Busy
+   Bee, Blk Dog, New Life, National Estate Company). 3 of 12 addresses are exact (2 via Census
+   geocoder -- 632 Glencoe Ct and 105 Harpeth Hills Dr, both successfully reached this run; 1 via
+   Census geocoder for the Lynnville FB listing); 9 of 12 are still approximate -- 5 Franklin/
+   Columbia/Pulaski estate-company pins awaiting their companies' own release-time address drops,
+   plus the Shelbyville garage sale pinned to city centroid after a failed street-level geocode.
+   Day counts: Tue 10/27 (today) 1 -- Wed 10/28 1 -- Thu 10/29 2 -- Fri 10/30 7 -- Sat 10/31 8 --
+   Sun 11/1 4 -- Mon 11/2 0 -- Tue 11/3 0. Fri-Sat is the window's clear peak, driven by the
+   Franklin estate-company cluster all opening within the same 48 hours.
+   Smoke test (Node, extracted array): 12 sales / 0 dup ids / all 18 schema fields present / 0
+   missing verify links / 0 bad coordinates / 3 exact-address / 9 approx-pin / 1 star / day counts
    match exactly --
    PASSED. */
 var sales = [
-{id:"van-massey-pulaski",name:"Van Massey Auction & Realty",type:"estate",star:false,addr:"Pulaski, TN 38478 (online auction -- address shared with bidders; in-home preview Fri 10/30)",q:"Van Massey Auction Realty living estate auction Pulaski assisted living",lat:35.1948,lon:-87.0353,approx:true,affluence:45,drive:34,dates:["2026-10-30"],time:"preview day (online bidding runs 10/26-11/3)",start:"",end:"",items:"Living estate auction -- seller moved to assisted living; 3BR/2BA brick home full of furniture, oak secretary, vintage glassware & kitchenware. Bid online; preview in person Fri 10/30, pickup Wed 11/4",cats:["estate","auction","furniture","vintage"],link:"https://www.estatesales.net/TN/Pulaski/38478/5112261"},
-{id:"sheila-franklin-fabulous",name:"Estate Sales By Sheila",type:"estate",star:false,addr:"105 Harpeth Hills, Franklin, TN 37069",q:"Estate Sales By Sheila Fabulous Franklin midcentury Knoll Harpeth Hills",lat:35.93,lon:-86.9,approx:true,affluence:88,drive:57,dates:["2026-10-27","2026-10-28"],time:"8am-5pm",start:"8:00 AM",end:"5:00 PM",items:"Midcentury dining table w/ 6 Max Pearson Knoll chairs, vintage Turkish rugs, original art, Pyrex, midcentury china, art glass, crystal, Christmas blow molds, taxidermy",cats:["estate","midcentury","vintage","furniture"],link:"https://www.estatesales.net/TN/Franklin/37069/5122122"},
-{id:"busybee-franklin-boat",name:"Busy Bee Moving Sales",type:"moving",star:true,addr:"Franklin, TN 37064 (exact address releases after 9am Wed 10/28)",q:"Busy Bee Moving Sales Franklin boat power tools",lat:35.93,lon:-86.9,approx:true,affluence:82,drive:57,dates:["2026-10-29","2026-10-30","2026-10-31"],time:"8am-3pm",start:"8:00 AM",end:"3:00 PM",items:"2015 Pathfinder 2200 Tournament Edition bay boat w/ Yamaha 250 outboard, plus furniture, kitchenware, power tools, mirrors, lamps, crystal, silver",cats:["boat","tools","furniture","moving"],link:"https://www.estatesales.net/TN/Franklin/37064/5091579"},
+{id:"sheila-franklin-fabulous",name:"Estate Sales By Sheila",type:"estate",star:false,addr:"105 Harpeth Hills Dr, Franklin, TN 37069",q:"Estate Sales By Sheila Fabulous Franklin midcentury Knoll Harpeth Hills",lat:36.002966,lon:-86.883768,approx:false,affluence:88,drive:57,dates:["2026-10-27","2026-10-28"],time:"8am-5pm",start:"8:00 AM",end:"5:00 PM",items:"Midcentury dining table w/ 6 Max Pearson Knoll chairs, vintage Turkish rugs, original art, Pyrex, midcentury china, art glass, crystal, Christmas blow molds, taxidermy",cats:["estate","midcentury","vintage","furniture"],link:"https://www.estatesales.net/TN/Franklin/37069/5122122"},
+{id:"newlife-franklin-christmas",name:"New Life Estate Sales",type:"estate",star:true,addr:"632 Glencoe Ct, Franklin, TN 37064",q:"New Life Estate Sales Packed Franklin Christmas collectibles tools Glencoe",lat:35.922328,lon:-86.856522,approx:false,affluence:82,drive:57,dates:["2026-10-30","2026-10-31","2026-11-01"],time:"10am-4pm",start:"10:00 AM",end:"4:00 PM",items:"Tons of tools -- Craftsman toolboxes, DeWalt & Black+Decker power tools; large Christmas decor collection w/ dish sets; Raggedy Ann doll collection; vintage glassware & clothing; Fall/Thanksgiving decor",cats:["estate","tools","vintage","furniture"],link:"https://www.estatesales.net/TN/Franklin/37064/5135433"},
+{id:"busybee-franklin-boat",name:"Busy Bee Moving Sales",type:"moving",star:false,addr:"Franklin, TN 37064 (exact address releases after 9am Wed 10/28)",q:"Busy Bee Moving Sales Franklin boat power tools",lat:35.93,lon:-86.9,approx:true,affluence:82,drive:57,dates:["2026-10-29","2026-10-30","2026-10-31"],time:"8am-3pm",start:"8:00 AM",end:"3:00 PM",items:"2015 Pathfinder 2200 Tournament Edition bay boat w/ Yamaha 250 outboard, plus furniture, kitchenware, power tools, mirrors, lamps, crystal, silver",cats:["boat","tools","furniture","moving"],link:"https://www.estatesales.net/TN/Franklin/37064/5091579"},
 {id:"blkdog-columbia-roadwarrior",name:"Blk Dog Estate Sales",type:"estate",star:false,addr:"Columbia, TN 38401 (exact address releases after 9am Thu 10/29)",q:"Blk Dog Estate Sales Columbia Road Warrior",lat:35.6151,lon:-87.0353,approx:true,affluence:58,drive:23,dates:["2026-10-30","2026-10-31","2026-11-01"],time:"10am-4pm",start:"10:00 AM",end:"4:00 PM",items:"Whirlpool Duet front-load washer & dryer, brown leather reclining sectional, 55in Samsung flat screen, electric fireplace console, swivel oak accent chair",cats:["estate","furniture","tools"],link:"https://www.estatesales.net/TN/Columbia/38401/5107902"},
 {id:"sheila-riverrest-franklin",name:"Lovely River Rest Estate Sale",type:"estate",star:false,addr:"Franklin, TN 37069 (exact address releases after 9am Thu 10/29)",q:"Lovely River Rest Estate Sale Franklin cherry furniture",lat:35.93,lon:-86.9,approx:true,affluence:88,drive:57,dates:["2026-10-30","2026-10-31","2026-11-01"],time:"9am-4pm (Sun 10am-2pm)",start:"9:00 AM",end:"4:00 PM",items:"House full -- leather sofa & ottoman, oak dining table w/ 6 chairs, stained glass coffee table, china/curio cabinet, grandfather clock, mid-century dresser, Broyhill sofa, patio furniture",cats:["estate","furniture"],link:"https://www.estatesales.net/TN/Franklin/37069/5132700"},
 {id:"sheila-franklin-fantastic",name:"Estate Sales By Sheila",type:"estate",star:false,addr:"Franklin, TN 37067 (exact address releases after 9am Fri 10/30)",q:"Estate Sales By Sheila Fantastic Franklin cherry rice bed",lat:35.8847,lon:-86.8458,approx:true,affluence:82,drive:52,dates:["2026-10-31","2026-11-01"],time:"8am-4pm (Sun 8am-5pm)",start:"8:00 AM",end:"4:00 PM",items:"Cherry rice bed w/ matching nightstands, cherry dining set & buffet, corner curio cabinet, recliner sofa, sleigh bed, wrought iron patio furniture, Pyrex & cookbooks",cats:["estate","furniture","vintage"],link:"https://www.estatesales.net/TN/Franklin/37067/5132748"},
-{id:"throughthevine-pulaski-oct",name:"Through The Vine Auctions, LLC",type:"estate",star:false,addr:"Pulaski, TN 38478 (timed/consignment auction -- confirm pickup/viewing window via listing)",q:"Through The Vine Auctions October Consignment Pulaski",lat:35.1948,lon:-87.0353,approx:true,affluence:45,drive:34,dates:["2026-10-29"],time:"closes 7pm",start:"",end:"7:00 PM",items:"October Consignment: Part 2 -- 568-photo timed/consignment auction, furniture and general household/collectibles; closes Thu, confirm pickup logistics before driving",cats:["estate","auction","consignment"],link:"https://www.estatesales.net/TN/Pulaski/38478/5133267"}
+{id:"national-franklin-encore",name:"National Estate Company",type:"estate",star:false,addr:"Franklin, TN 37064 (exact address releases after 9am Fri 10/30)",q:"National Estate Company Encore Sale 75 percent off Franklin barn house",lat:35.93,lon:-86.9,approx:true,affluence:82,drive:57,dates:["2026-10-31"],time:"9am-1:30pm",start:"9:00 AM",end:"1:30 PM",items:"Encore to a prior Barn & House Sale, everything at 75% off -- iron/wood stall doors ($75 ea), garden gates (small $20, large $50), plus remaining furniture & decor from the original sale",cats:["estate","furniture","antique"],link:"https://www.estatesales.net/TN/Franklin/37064/5133453"},
+{id:"trillium-franklin-antiqueprints",name:"Trillium Antique Prints & Rare Books",type:"estate",star:false,addr:"Franklin, TN 37069 (no street address listed -- confirm via listing)",q:"Trillium Antique Prints Rare Books Franklin maps",lat:35.93,lon:-86.9,approx:true,affluence:88,drive:57,dates:["2026-10-31"],time:"starts 9am",start:"9:00 AM",end:"",items:"~120 antique prints, maps & rare books -- a specialty paper/ephemera sale, not general household",cats:["antique","collector"],link:"https://www.estatesales.net/TN/Franklin/37069/5128881"},
+{id:"van-massey-pulaski",name:"Van Massey Auction & Realty",type:"estate",star:false,addr:"Pulaski, TN 38478 (online auction -- address shared with bidders; in-home preview Fri 10/30)",q:"Van Massey Auction Realty living estate auction Pulaski assisted living",lat:35.1948,lon:-87.0353,approx:true,affluence:45,drive:34,dates:["2026-10-30"],time:"preview day (online bidding runs 10/26-11/3)",start:"",end:"",items:"Living estate auction -- seller moved to assisted living; 3BR/2BA brick home full of furniture, oak secretary, vintage glassware & kitchenware. Bid online; preview in person Fri 10/30, pickup Wed 11/4",cats:["estate","auction","furniture","vintage"],link:"https://www.estatesales.net/TN/Pulaski/38478/5112261"},
+{id:"throughthevine-pulaski-oct",name:"Through The Vine Auctions, LLC",type:"estate",star:false,addr:"Pulaski, TN 38478 (timed/consignment auction -- confirm pickup/viewing window via listing)",q:"Through The Vine Auctions October Consignment Pulaski",lat:35.1948,lon:-87.0353,approx:true,affluence:45,drive:34,dates:["2026-10-29"],time:"closes 7pm",start:"",end:"7:00 PM",items:"October Consignment: Part 2 -- 568-photo timed/consignment auction, furniture and general household/collectibles; closes Thu, confirm pickup logistics before driving",cats:["estate","auction","consignment"],link:"https://www.estatesales.net/TN/Pulaski/38478/5133267"},
+{id:"fb-lynnville-multifamily",name:"Multi-Family Yard Sale",type:"yard",star:false,addr:"15807 Columbia Hwy, Lynnville, TN 38472",q:"Multi family yard sale Lynnville Columbia Hwy sporting goods photography",lat:35.390772,lon:-87.022527,approx:false,affluence:38,drive:8,dates:["2026-10-30"],time:"starts 7am",start:"7:00 AM",end:"",items:"Women's clothing, patio furniture, guys' sporting/range gear, photography equipment, CDs & vinyl records, books, home decor",cats:["yard","clothing","vinyl"],link:"https://www.facebook.com/marketplace/item/2653181478435203"},
+{id:"shelbyville-longwood-garage",name:"Garage Sale (Longwood Dr)",type:"yard",star:false,addr:"138 56B Longwood Dr, Shelbyville, TN 37160 (street-level geocode failed on the unit number -- pinned to Shelbyville centroid; confirm via listing)",q:"Garage sale Longwood Dr Shelbyville",lat:35.4836,lon:-86.4604,approx:true,affluence:48,drive:43,dates:["2026-10-30","2026-10-31"],time:"8am-3pm",start:"8:00 AM",end:"3:00 PM",items:"General household garage sale -- low photo count (3), inventory not itemized; verify before the drive",cats:["yard"],link:"https://gsalr.com/garage-sale-friday-oct-shelbyville-tn-38982177.html"}
 ];
 /* ---------- date helpers (runtime-aware so the page self-corrects) ---------- */
 function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -588,8 +600,8 @@ function noteFor(){
     if(!t.length)return '<b>Nothing open today.</b> Tap <b>Weekend</b> or <b>Next 7 Days</b> to see what opens starting tomorrow.';
     return '<b>'+t.length+' open today.</b> Tap a card for details, then Navigate.';
   }
-        if(view==='weekend')return "<b>This weekend (Fri–Sun 10/30–11/1) is the window's busiest stretch — 4, 4, then 3 sales a day.</b> Friday brings the Van Massey Pulaski estate auction's in-home preview plus three Franklin/Columbia sales already open since Thursday — this run's star pick Busy Bee's Huge Franklin Sale (a 2015 Pathfinder bay boat), the second Blk Dog Columbia sale \"Road Warrior,\" and the Lovely River Rest Franklin estate sale. Saturday adds Sheila's Fantastic Franklin sale (cherry rice bed) to that same trio. Sunday drops the auction preview but keeps the other four running into their final day.";
-    return "<b>Plan the week.</b> <b>Mon 10/26 (today)</b> — nothing posted yet (legitimately thin, corridor weekday); the Van Massey Pulaski estate auction's online bidding window opens, though its in-person preview isn't until Friday. <b>Tue–Wed 10/27–10/28</b> — just Estate Sales By Sheila's Fabulous Franklin sale (midcentury Knoll dining set, now at a confirmed address on Harpeth Hills). <b>Thu 10/29</b> — this run's star pick, Busy Bee's Huge Franklin boat sale, opens; so does Through The Vine's Pulaski consignment auction (closes that evening). <b>Fri–Sun 10/30–11/1</b> — the window's busiest cluster, 4 sales a day: Busy Bee's boat sale, the second Blk Dog Columbia sale, the Lovely River Rest Franklin estate sale, Sheila's Fantastic Franklin sale, and the Van Massey auction's in-home preview on Friday.";
+        if(view==='weekend')return "<b>This weekend (Fri–Sun 10/30–11/1) is the window's busiest stretch — 7, 8, then 4 sales a day.</b> Friday opens the big Franklin estate-company cluster — this run's star pick, New Life's Packed Franklin Christmas sale (Craftsman/DeWalt tools, Raggedy Ann dolls), plus Busy Bee's Huge Franklin boat sale, the second Blk Dog Columbia sale \"Road Warrior,\" the Lovely River Rest Franklin estate sale, the Van Massey Pulaski auction preview, and two real-address finds — a Lynnville multi-family yard sale just 8 minutes from home, and a Shelbyville garage sale. Saturday adds Sheila's Fantastic Franklin sale, National Estate Company's 75%-off Encore sale, and Trillium's antique prints & rare books to that cluster — the window's peak day. Sunday drops to the four multi-day Franklin/Columbia estate sales running into their final day.";
+    return "<b>Plan the week.</b> <b>Tue 10/27 (today)</b> — just Estate Sales By Sheila's Fabulous Franklin sale (midcentury Knoll dining set, now at a Census-confirmed exact address on Harpeth Hills Dr). <b>Wed 10/28</b> — that sale's final day. <b>Thu 10/29</b> — Busy Bee's Huge Franklin boat sale opens; so does Through The Vine's Pulaski consignment auction (closes that evening). <b>Fri–Sat 10/30–10/31</b> — the window's busiest cluster, 7 then 8 sales a day: this run's star pick New Life's Packed Franklin Christmas sale (now at an exact address), Busy Bee's boat sale, the second Blk Dog Columbia sale, the Lovely River Rest Franklin estate sale, the Van Massey auction's in-home preview, a Lynnville yard sale 8 minutes from home, a Shelbyville garage sale, then Saturday adds Sheila's Fantastic Franklin sale, National Estate Company's Encore sale, and Trillium's antique prints & rare books. <b>Sun 11/1</b> — four Franklin/Columbia estate sales run into their final day. <b>Mon–Tue 11/2–11/3</b> — nothing posted yet.";
 }
 
 
@@ -650,7 +662,7 @@ qEl.addEventListener('input',render);
 clrEl.onclick=function(){qEl.value='';render();qEl.focus();};
 
 document.getElementById('foot').innerHTML=
-  "Sources reached (7-day window, 10/26-11/02): EstateSales.NET (Columbia/38401, Spring Hill/37174, Franklin/37069, Nashville -- PRIMARY) reached cleanly; EstateSales.org (Columbia cross-check) also reached cleanly and corroborated the Franklin and Columbia Sheila/Blk Dog listings. gsalr.com failed on both attempted city pages (Columbia, Franklin -- CLIENT_ERROR, the same recurring block, not retried further). Craigslist's redirected city page returned 1 result this run -- a dateless Chapel Hill garage sale post -- held out as unroutable without a date. <b>Facebook Marketplace was reachable this run</b> -- the category page plus 4 search-term sweeps (garage/estate/yard/neighborhood sale) across Columbia-tn, 19 promising permalinks opened for their full post bodies; <b>none were still live and in-window</b> -- all were past-dated (mostly 10/15-10/25, including a repeat of the Armstrong Meadows block sale and the Cherry Grove community sale, both now expired) or dateless/stale multi-week listings. This matches the standing caveat that a Monday pull legitimately looks thin -- corridor weekend posts land Wed-Sat. Estate Company Registry: did not scan the full Tier-1 own-site roster individually this run -- the live EstateSales.NET/Facebook pulls already surfaced sales from 3 of the ~20 Tier-1 companies (Blk Dog, Estate Sales By Sheila, Busy Bee); spot-checked Bleu Estates (Tier-2, Columbia-native) directly, no sale currently posted; David Jent Realty's own site blocked robots access. Collector's Estate Sales' Brentwood teardown and Estate Sales By Sheila's Nashville pop-up were both held out for the same ~30mi Franklin-cap reason as prior runs. <b>7 sales this run</b> -- down from 14 yesterday as all of that pull's final-day sales rolled out of the window; one new pickup, a Pulaski consignment auction. <b>1 of 7 addresses is exact</b> (released today -- Census geocoder was unreachable from this sandbox this run, so it's still pinned to the Franklin zip-centroid); <b>6 of 7 are still approximate</b>, several releasing exact addresses later this week, per the estate companies' own release-time notices. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. Always tap <b>Listing</b> to confirm before the drive.";
+  "Sources reached (7-day window, 10/27-11/03): EstateSales.NET (Columbia/38401, Spring Hill/37174, Franklin/37069, Nashville -- PRIMARY) reached cleanly; EstateSales.org (Columbia cross-check) also reached cleanly and corroborated the Franklin, Columbia and Pulaski listings. gsalr.com's city-page list view loaded this run via the logged-in Chrome session (direct WebFetch attempts still failed CLIENT_ERROR) -- 31 deduped listings, most beyond the 30mi radius and not placed. Craigslist's redirected city page returned one dateless/duplicate Chapel Hill garage-sale post, held out as unroutable. <b>Facebook Marketplace was reachable this run</b> -- the garage-sale category page plus six search-term sweeps (garage/estate/yard/neighborhood/barn sale) across Columbia-tn, Spring Hill-tn and Franklin-tn, 9 promising permalinks opened for their full post bodies; <b>1 of 9 was still live and in-window</b> with a real street address in the post (the Lynnville multi-family sale) -- the rest were past-dated (Rutherford Place/Downs and Carnation Place were both \"today Oct 24\"; Poplar Creek/Traceside/Stonemeade was \"Oct 3\") or open-ended/by-appointment with no date. The fb-latest.md cache (dated 7/3) was checked and correctly dropped as stale by months. Estate Company Registry: spot-checked the two Tier-2 corridor-native companies -- Bleu Estates (Columbia) shows only a \"check back\" page; Great Scott Estate Sales' own site now resolves to an unrelated Michigan business, flagged for registry cleanup. Did not scan the full ~20-company Tier-1 roster individually this run -- the live aggregator + Facebook pulls already surfaced sales from 4 of them (Estate Sales By Sheila, Busy Bee, Blk Dog, New Life, National Estate Company). New Life's separate Brentwood estate sale, Collector's Estate Sales' Brentwood teardown, Estate Sales By Sheila's Nashville pop-up, Estate Greats' Crieve Hall sale and Grasons of Nashville's Donelson liquidation were all held out for the same ~30mi Franklin-cap reason as prior runs. <b>12 sales this run</b> -- up from 7 yesterday, 5 new pickups. <b>3 of 12 addresses are exact</b> (2 via a successful Census geocoder reach this run -- 632 Glencoe Ct and 105 Harpeth Hills Dr -- plus the Lynnville FB listing); <b>9 of 12 are still approximate</b> -- 5 Franklin/Columbia/Pulaski estate-company pins awaiting release-time address drops, plus a Shelbyville garage sale pinned to city centroid after the Census geocoder rejected its unit-number format. Sales can cancel or sell out without updating the listing, and some estate addresses release the day before. Always tap <b>Listing</b> to confirm before the drive.";
 /* ---------- home-address picker ---------- */
 var homeLabelEl=document.getElementById('homeLabel'),
     homeEditorEl=document.getElementById('homeEditor'),
